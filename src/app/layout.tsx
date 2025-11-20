@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Dashboard, Header } from "./_components-main-page";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +28,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <div className="bg-[url('https://talent.pinebaatars.mn/pinebaatar.png')] bg-cover bg-center">
+          <Header />
+          <div className="max-w-[1440px] flex flex-col justify-center m-auto">
+            <div className="flex gap-6 py-9">
+              <Dashboard />
+              {children}
+            </div>
+          </div>
+        </div>
       </body>
     </html>
   );

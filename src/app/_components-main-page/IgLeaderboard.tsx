@@ -2,7 +2,7 @@ import React from "react";
 
 export const IgLeaderBoard = () => {
   return (
-    <div className="w-100 h-fit bg-blue-950 rounded-xl px-5 py-5  my-10 mx-10">
+    <div className="w-100 h-fit bg-[#092B4F66] shadow-sm rounded-xl px-5 py-5">
       <div className="flex items-center justify-between text-md font-bold text-white">
         <div className="flex gap-1">
           <p className="text-green-700">ılııl</p>

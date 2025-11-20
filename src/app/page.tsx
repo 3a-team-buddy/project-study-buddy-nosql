@@ -4,24 +4,21 @@ import {
   IgLeaderBoard,
   TierMapRewards,
 } from "./_components-main-page";
-import { PagesLayout } from "./_components-main-page/PagesLayout";
 import SeasonalStatistic from "./_components-main-page/SeasonalStatistic";
 
 const HomePage = () => {
   return (
-    <PagesLayout>
-      <div className="w-full h-screen bg-[#d4e1ef66] flex gap-6">
-        <div className="w-[435px] h-fit flex flex-col gap-6">
-          <SeasonalStatistic />
-          <IgLeaderBoard />
-        </div>
-        <div className="w-[575px] h-fit flex flex-col gap-6">
-          <Attendance />
-          <TierMapRewards />
-          <AcademicCalendar />
-        </div>
+    <div className="w-full h-screen flex gap-6">
+      <div className="md:max-w-[435px] h-full flex flex-col gap-6">
+        <SeasonalStatistic />
+        <IgLeaderBoard />
       </div>
-    </PagesLayout>
+      <div className="w-full flex flex-col gap-6">
+        <Attendance />
+        <TierMapRewards />
+        <AcademicCalendar />
+      </div>
+    </div>
   );
 };
 export default HomePage;
