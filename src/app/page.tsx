@@ -2,10 +2,10 @@ import {
   AcademicCalendar,
   Attendance,
   IgLeaderBoard,
-  SeasonalStatistic,
   TierMapRewards,
 } from "./_components-main-page";
 import { PagesLayout } from "./_components-main-page/PagesLayout";
+import SeasonalStatistic from "./_components-main-page/SeasonalStatistic";
 
 const HomePage = () => {
   return (
