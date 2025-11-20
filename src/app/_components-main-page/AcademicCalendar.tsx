@@ -1,8 +1,8 @@
 import React from "react";
 
-import { Secondsvg } from "./svg folder/Secondsvg";
-import { Thirdsvg } from "./svg folder/Thirdsvg";
-import { Firstsvg } from "./svg folder/First-svg";
+import { Secondsvg } from "./svg-folder/Secondsvg";
+import { Thirdsvg } from "./svg-folder/Thirdsvg";
+import { Firstsvg } from "./svg-folder/Firstsvg";
 
 export const AcademicCalendar = () => {
   return (
