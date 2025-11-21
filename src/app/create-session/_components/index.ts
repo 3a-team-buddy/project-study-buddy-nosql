@@ -1,5 +1,5 @@
 export * from "./Sessions";
-export * from "./SessionTitle";
+export * from "./StudySessionTitle";
 export * from "./SessionDescription";
 export * from "./MemberLimit";
 export * from "./DateAndTime";
