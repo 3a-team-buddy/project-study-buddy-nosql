@@ -12,18 +12,19 @@ import {
 } from "@/components/ui/select";
 
 export const SessionType = () => {
-  const [sessionType, setSessionType] = useState<string>("");
+  const [selectedSessionType, setSelectedSessionType] = useState<string>("");
 
-  const handleChangeSessionType = (e: string) => {
-    setSessionType(e);
-    if (e === "tutor-led") console.log("Tutor-led Session");
-    if (e === "self-led") console.log("Self-led Session");
+  const handleChangeSessionType = (value: string) => {
+    setSelectedSessionType(value);
+    if (value === "tutor-led") console.log("Tutor-led Session");
+    if (value === "self-led") console.log("Self-led Session");
   };
 
   return (
     <div className="flex flex-col gap-5">
+      <h3>Session Type</h3>
       <RadioGroup
-        value={sessionType}
+        value={selectedSessionType}
         onValueChange={handleChangeSessionType}
         className="flex justify-between mx-20"
       >
@@ -40,7 +41,7 @@ export const SessionType = () => {
           <Label htmlFor="self-led">Self-led Session</Label>
         </div>
       </RadioGroup>
-      {sessionType === "tutor-led" && (
+      {selectedSessionType === "tutor-led" && (
         <Select>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Please select your tutor" />
