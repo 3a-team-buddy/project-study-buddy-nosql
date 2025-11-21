@@ -9,7 +9,7 @@ import SeasonalStatistic from "./_components-main-page/SeasonalStatistic";
 const HomePage = () => {
   return (
     <div className="w-full h-screen flex gap-6">
-      <div className="md:max-w-[435px] h-full flex flex-col gap-6">
+      <div className="max-w-[435px] w-full h-full flex flex-col gap-6">
         <SeasonalStatistic />
         <IgLeaderBoard />
       </div>
