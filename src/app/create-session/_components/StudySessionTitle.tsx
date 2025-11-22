@@ -7,76 +7,35 @@ import {
 } from "@/components/ui/popover";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { LoaderCircle, TextSearch } from "lucide-react";
-
-export type sweTopicsType = {
-  topicTitle: string;
-};
-
-const sweTopics = [
-  {
-    topicTitle: "useContext",
-    topicDescription:
-      "Context creation, providers, consumption, value updates, re-render behavior, combining with useReducer, performance optimization, avoiding overuse, and debugging provider placement.",
-  },
-  {
-    topicTitle: "JWT Token",
-    topicDescription:
-      "JWT structure, signing algorithms, token storage, security risks, expiration, refresh tokens, authentication flow, verification, and preventing XSS/CSRF attacks.",
-  },
-  {
-    topicTitle: "Express JS",
-    topicDescription:
-      "Routing, middleware, request/response lifecycle, error handling, REST APIs, authentication, validation, security, environment config, async handling, and performance optimization.",
-  },
-  {
-    topicTitle: "Error Handling",
-    topicDescription:
-      "Middleware patterns, try/catch async errors, centralized handlers, logging, validation errors, HTTP status codes, custom messages, async wrappers, and production-safe responses.",
-  },
-];
+import { MockTopicType } from "@/lib/types";
+import { useMockTopic } from "@/app/_hooks/use-mock-topic";
 
 export const StudySessionTitle = () => {
-  const [open, setOpen] = useState<boolean>(false);
-  const [studySessionTitle, setStudySessionTitle] = useState<string>("");
-  const [savedStudyTopics, setSavedStudyTopics] = useState<
-    sweTopicsType[] | null
+  const [studySessionTitleValue, setStudySessionTitleValue] =
+    useState<string>("");
+  const [foundMockTopics, setFoundMockTopics] = useState<
+    MockTopicType[] | null
   >(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [index, setIndex] = useState<number>(-1);
+  const { mockTopics, loading, setLoading } = useMockTopic();
+  console.log({ studySessionTitleValue });
 
-  const handleTitleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    setStudySessionTitle(value);
+    setStudySessionTitleValue(value);
+    setIndex(-1);
     if (value.length === 0) {
       setOpen(false);
-      setSavedStudyTopics(null);
+      setFoundMockTopics(null);
       setLoading(false);
       return;
     }
     setOpen(true);
     setLoading(true);
-    setSavedStudyTopics(sweTopics);
+    setFoundMockTopics(mockTopics);
     setLoading(false);
-  };
-  console.log(studySessionTitle);
-
-  const handleSearchTitle = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (!savedStudyTopics?.length) return;
-    switch (e.key) {
-      case "Enter":
-        e.preventDefault();
-        if (index >= 0 && index < savedStudyTopics.length) {
-          setStudySessionTitle(savedStudyTopics[index].topicTitle);
-        } else if (studySessionTitle.trim()) {
-          setStudySessionTitle(encodeURIComponent(studySessionTitle));
-        }
-        setOpen(false);
-        setStudySessionTitle("");
-        setIndex(-1);
-        break;
-    }
   };
 
   return (
@@ -88,36 +47,43 @@ export const StudySessionTitle = () => {
           <div className="w-full flex items-center">
             <TextSearch className="pl-2" />
             <Input
-              value={studySessionTitle}
-              onChange={handleTitleInputChange}
-              onKeyDown={handleSearchTitle}
+              value={studySessionTitleValue}
+              onChange={handleInputChange}
+              // onKeyDown={handleKeyDown}
+              type="text"
               placeholder="Type here..."
-              className="w-full -ml-6 pl-8"
+              className="w-full -ml-6 pl-8 border-[#323743FF]"
             />
           </div>
         </PopoverTrigger>
+
         <PopoverContent
           onOpenAutoFocus={(e) => e.preventDefault()}
           onCloseAutoFocus={(e) => e.preventDefault()}
           side="bottom"
           align="center"
           sideOffset={2}
-          className="w-[559px] bg-white/90"
+          className="max-w-[559px] w-full bg-[#000000FF]/90 border-[#323743FF] text-[#BDC1CAFF]"
         >
           <div>
             {loading ? (
               <LoaderCircle className="animate-spin" />
             ) : (
-              savedStudyTopics?.map((topic, i) => (
+              foundMockTopics?.map((topic, i) => (
                 <div
+                  key={topic._id}
                   onMouseEnter={() => setIndex(i)}
                   onClick={() => {
+                    setStudySessionTitleValue(topic.mockTitle);
                     setOpen(false);
-                    setStudySessionTitle("");
-                    setIndex(-1);
                   }}
+                  className={
+                    i === index
+                      ? "bg-[#0E1B2EFF] rounded-xs pl-1.5 cursor-pointer"
+                      : ""
+                  }
                 >
-                  {topic.topicTitle}
+                  {topic.mockTitle}
                 </div>
               ))
             )}
