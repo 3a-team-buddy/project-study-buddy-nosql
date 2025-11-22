@@ -20,9 +20,10 @@ export const StudySessionTitle = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [index, setIndex] = useState<number>(-1);
   const { mockTopics, loading, setLoading } = useMockTopic();
-  console.log({ studySessionTitleValue });
 
-  const handleInputChange = async (e: ChangeEvent<HTMLInputElement>) => {
+  const handleStudySessionTitleInputChange = async (
+    e: ChangeEvent<HTMLInputElement>
+  ) => {
     const { value } = e.target;
     setStudySessionTitleValue(value);
     setIndex(-1);
@@ -38,6 +39,29 @@ export const StudySessionTitle = () => {
     setLoading(false);
   };
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (!foundMockTopics?.length) return;
+    switch (e.key) {
+      case "Enter":
+        e.preventDefault();
+        if (index >= 0 && index < foundMockTopics.length) {
+          const selectedMockTopic = foundMockTopics[index].mockTitle;
+          setStudySessionTitleValue(selectedMockTopic);
+        } else if (studySessionTitleValue.trim()) {
+          setStudySessionTitleValue(studySessionTitleValue);
+        }
+        setOpen(false);
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        setIndex((prev) => (prev <= 0 ? foundMockTopics.length - 1 : prev - 1));
+        break;
+      case "ArrowDown":
+        e.preventDefault();
+        setIndex((prev) => (prev >= foundMockTopics.length - 1 ? 0 : prev + 1));
+    }
+  };
+
   return (
     <div className="w-full flex flex-col gap-5">
       <Label>Study Session Title</Label>
@@ -48,8 +72,8 @@ export const StudySessionTitle = () => {
             <TextSearch className="pl-2" />
             <Input
               value={studySessionTitleValue}
-              onChange={handleInputChange}
-              // onKeyDown={handleKeyDown}
+              onChange={handleStudySessionTitleInputChange}
+              onKeyDown={handleKeyDown}
               type="text"
               placeholder="Type here..."
               className="w-full -ml-6 pl-8 border-[#323743FF]"
@@ -63,7 +87,7 @@ export const StudySessionTitle = () => {
           side="bottom"
           align="center"
           sideOffset={2}
-          className="max-w-[559px] w-full bg-[#000000FF]/90 border-[#323743FF] text-[#BDC1CAFF]"
+          className="w-(--radix-popover-trigger-width) bg-[#000000FF]/90 border-[#323743FF] text-[#BDC1CAFF]"
         >
           <div>
             {loading ? (
