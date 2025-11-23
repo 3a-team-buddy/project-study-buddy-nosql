@@ -14,7 +14,7 @@ export default function SeasonalStatistic() {
               className="w-16 h-16 rounded-full object-cover"
             />
             <div>
-              <p className="text-lg font-semibold">Г. Анар</p>
+              <p className="text-lg font-semibold">Name</p>
               <p className="text-sm opacity-70">556XP үлдсэн</p>
             </div>
           </div>
