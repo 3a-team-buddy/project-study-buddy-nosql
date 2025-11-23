@@ -1,36 +1,59 @@
 "use client";
 
+import { Label } from "@/components/ui/label";
 import React, { useState } from "react";
 
-export default function MemberLimit() {
+export default function MemberLimitSelector() {
   const [minMember, setMinMember] = useState(4);
   const [maxMember, setMaxMember] = useState(5);
 
-  return (
-    <div className="flex gap-4">
-      <select
-        className="bg-[#0D203A] border border-white/20 rounded-lg px-3 py-2"
-        value={minMember}
-        onChange={(e) => setMinMember(Number(e.target.value))}
-      >
-        {Array.from({ length: 8 - 4 + 1 }, (_, i) => 4 + i).map((n) => (
-          <option key={n} value={n}>
-            Min: {n}
-          </option>
-        ))}
-      </select>
+  const handleChange = (type: "min" | "max", value: number) => {
+    if (type === "min") setMinMember(value);
+    else setMaxMember(value);
 
-      <select
-        className="bg-[#0D203A] border border-white/20 rounded-lg px-3 py-2"
-        value={maxMember}
-        onChange={(e) => setMaxMember(Number(e.target.value))}
-      >
-        {Array.from({ length: 15 - 5 + 1 }, (_, i) => 5 + i).map((n) => (
-          <option key={n} value={n}>
-            Max: {n}
-          </option>
-        ))}
-      </select>
+    console.log("Min:", type === "min" ? value : minMember);
+    console.log("Max:", type === "max" ? value : maxMember);
+  };
+
+  return (
+    <div className="flex flex-col gap-3 text-white w-full max-w-sm">
+      <Label>Member Limit</Label>
+
+      <div className="flex flex-col gap-3">
+        <select
+          className="
+            bg-[#0F2343] 
+            border-white/2 
+            rounded-lg px-3 py-2 
+            focus:outline-none focus:ring-0
+          "
+          value={minMember}
+          onChange={(e) => handleChange("min", Number(e.target.value))}
+        >
+          {Array.from({ length: 8 - 4 + 1 }, (_, i) => 4 + i).map((n) => (
+            <option key={n} value={n}>
+              Min: {n}
+            </option>
+          ))}
+        </select>
+
+        <select
+          className="
+            bg-[#0F2343] 
+             border-white/2
+            rounded-lg px-3 py-2 
+            focus:outline-none focus:ring-0
+          "
+          value={maxMember}
+          onChange={(e) => handleChange("max", Number(e.target.value))}
+        >
+          {Array.from({ length: 15 - 5 + 1 }, (_, i) => 5 + i).map((n) => (
+            <option key={n} value={n}>
+              Max: {n}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
   );
 }
