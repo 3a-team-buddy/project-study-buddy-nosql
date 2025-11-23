@@ -1,13 +1,13 @@
 import React from "react";
 import {
   DateAndTime,
-  MemberLimit,
   SessionDescription,
   Sessions,
   StudySessionTitle,
   SessionType,
 } from "./_components";
 import { Button } from "@/components/ui/button";
+import MemberLimit from "./_components/MemberLimit";
 
 const CreateSessionPage = () => {
   return (
