@@ -3,15 +3,25 @@
 import { Label } from "@/components/ui/label";
 import React, { useState } from "react";
 
-export default function MemberLimitSelector() {
-  const [minMember, setMinMember] = useState(4);
-  const [maxMember, setMaxMember] = useState(5);
-
-  const handleChange = (type: "min" | "max", value: number) => {
+export default function MemberLimitSelector({
+  minMember,
+  setMinMember,
+  setMaxMember,
+  maxMember,
+}: {
+  minMember: number;
+  setMinMember: (minMember: number) => void;
+  maxMember: number;
+  setMaxMember: (maxMember: number) => void;
+}) {
+  const handleChange1 = (type: "min", value: number) => {
     if (type === "min") setMinMember(value);
-    else setMaxMember(value);
 
     console.log("Min:", type === "min" ? value : minMember);
+  };
+  const handleChange = (type: "max", value: number) => {
+    if (type === "max") setMaxMember(value);
+
     console.log("Max:", type === "max" ? value : maxMember);
   };
 
@@ -28,7 +38,7 @@ export default function MemberLimitSelector() {
             focus:outline-none focus:ring-0
           "
           value={minMember}
-          onChange={(e) => handleChange("min", Number(e.target.value))}
+          onChange={(e) => handleChange1("min", Number(e.target.value))}
         >
           {Array.from({ length: 8 - 4 + 1 }, (_, i) => 4 + i).map((n) => (
             <option key={n} value={n}>
@@ -56,4 +66,7 @@ export default function MemberLimitSelector() {
       </div>
     </div>
   );
+}
+function setMinMember(value: number) {
+  throw new Error("Function not implemented.");
 }

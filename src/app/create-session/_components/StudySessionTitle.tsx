@@ -11,17 +11,19 @@ import { LoaderCircle, TextSearch } from "lucide-react";
 import { MockTopicType } from "@/lib/types";
 import { useMockTopic } from "@/app/_hooks/use-mock-topic";
 
-export const StudySessionTitle = () => {
-  const [studySessionTitleValue, setStudySessionTitleValue] =
-    useState<string>("");
+export const StudySessionTitle = ({
+  studySessionTitleValue,
+  setStudySessionTitleValue,
+}: {
+  studySessionTitleValue: string;
+  setStudySessionTitleValue: (studySessionTitleValue: string) => void;
+}) => {
   const [foundMockTopics, setFoundMockTopics] = useState<
     MockTopicType[] | null
   >(null);
   const [open, setOpen] = useState<boolean>(false);
   const [index, setIndex] = useState<number>(-1);
   const { mockTopics, loading, setLoading } = useMockTopic();
-
-  console.log({ studySessionTitleValue });
 
   const handleStudySessionTitleInputChange = async (
     e: ChangeEvent<HTMLInputElement>

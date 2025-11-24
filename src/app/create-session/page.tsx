@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import {
   DateAndTime,
   SessionDescription,
@@ -10,6 +11,11 @@ import SessionList from "./_components/SessionList";
 import MemberLimit from "./_components/MemberLimit";
 
 const CreateSessionPage = () => {
+  const [studySessionTitleValue, setStudySessionTitleValue] =
+    useState<string>("");
+  const [minMember, setMinMember] = useState<number>(5);
+  const [maxMember, setMaxMember] = useState<number>(5);
+
   return (
     <div className="w-full h-screen text-white flex justify-between mt-[47px] mb-[219px]">
       <div className="max-w-[457px] w-full bg-white/5 flex flex-col gap-5">
@@ -26,10 +32,19 @@ const CreateSessionPage = () => {
             Define the details for your next learning session.
           </div>
         </div>
-        <StudySessionTitle />
+
+        <StudySessionTitle
+          studySessionTitleValue={studySessionTitleValue}
+          setStudySessionTitleValue={setStudySessionTitleValue}
+        />
         <SessionDescription />
         <div className="w-full flex justify-between">
-          <MemberLimit />
+          <MemberLimit
+            minMember={minMember}
+            maxMember={maxMember}
+            setMinMember={setMinMember}
+            setMaxMember={setMaxMember}
+          />
           <DateAndTime />
         </div>
 
