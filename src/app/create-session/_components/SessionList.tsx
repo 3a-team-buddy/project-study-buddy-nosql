@@ -23,15 +23,13 @@ const sessions = [
 
 export default function SessionList() {
   return (
-    <div className="p-4 ">
-      <h2 className="p-2">Sessions</h2>
-
+    <div className="p-4">
       {sessions.map((session) => (
         <div
           key={session.id}
           className="flex justify-between items-center p-4 mb-2 rounded-3xl bg-[linear-gradient(180deg,#1E2648_0%,#122136_100%)] hover:bg-white/10 cursor-pointer"
         >
-          <span className="text-xl font-bold">{session.name}</span>
+          <span className="text-xl text-white font-bold">{session.name}</span>
 
           <div className="flex flex-col align-items-center justify-center ">
             <Button className="rounded-3xl mb-2 bg-[#2563EBFF] hover:[#1d4ed8] gap-1 ">
