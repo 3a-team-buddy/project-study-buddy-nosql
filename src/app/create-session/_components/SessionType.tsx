@@ -1,23 +1,65 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
+import { MockTutorType } from "@/lib/types";
+import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
+
+type SelectedTutorsType = {
+  mockTutorEmail: string;
+};
 
 export const SessionType = () => {
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
+  const [mockTutors, setMockTutors] = useState<MockTutorType[]>([]);
+  const [selectedTutors, setSelectedTutors] = useState<SelectedTutorsType[]>(
+    []
+  );
+  const [tutorLedInputValue, setTutorLedinputValue] = useState<string>("");
 
   const handleChangeSessionType = (value: string) => {
     setSelectedSessionType(value);
     if (value === "tutor-led") console.log("Tutor-led Session");
     if (value === "self-led") console.log("Self-led Session");
+  };
+
+  const getMockTutors = async () => {
+    const result = await fetch("api/mock-datas/create-mock-tutor");
+    const responseData = await result.json();
+    const { mockTutors } = responseData;
+    console.log(mockTutors, "GET data");
+    setMockTutors(mockTutors);
+  };
+
+  useEffect(() => {
+    getMockTutors();
+  }, []);
+
+  const addSelectedTutors = () => {
+    const newSelectedTutors = [
+      ...selectedTutors,
+      {
+        mockTutorEmail: tutorLedInputValue,
+      },
+    ];
+    if (newSelectedTutors) setSelectedTutors(newSelectedTutors);
+    setTutorLedinputValue("");
+  };
+  console.log(selectedTutors);
+
+  const deleteSelectedTutor = (tutor: string) => {
+    console.log({ tutor });
+    console.log(selectedTutors, "aaaaaaa");
+    const remainSelectedTutors = selectedTutors.filter(
+      (selectedTutor) => selectedTutor.mockTutorEmail !== tutor
+    );
+    if (remainSelectedTutors) {
+      setSelectedTutors(remainSelectedTutors);
+    }
+    console.log({ remainSelectedTutors });
   };
 
   return (
@@ -42,25 +84,50 @@ export const SessionType = () => {
         </div>
       </RadioGroup>
       {selectedSessionType === "tutor-led" && (
-        <Select>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Please select your tutor" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="Batmunkh.A@nest.edu.mn">
-              Batmunkh.A@nest.edu.mn
-            </SelectItem>
-            <SelectItem value="erdenetsogt.a@pinecone.mn">
-              erdenetsogt.a@pinecone.mn
-            </SelectItem>
-            <SelectItem value="Lkhagva-Erdene.B@nest.edu.mn">
-              Lkhagva-Erdene.B@nest.edu.mn
-            </SelectItem>
-            <SelectItem value="bilguun.b@nest.edu.mn">
-              bilguun.b@nest.edu.mn
-            </SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="flex justify-between gap-5 ">
+          <input
+            list="tutors"
+            placeholder="Type your tutors here..."
+            className="flex h-9 w-full rounded-md border bg-none px-3 py-2 text-sm border-[#323743FF] ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed
+          disabled:opacity-50"
+            value={tutorLedInputValue}
+            onChange={(e) => setTutorLedinputValue(e.target.value)}
+          />
+          <datalist id="tutors">
+            {mockTutors.map((mockTutor) => (
+              <option key={mockTutor._id} value={mockTutor.mockTutorEmail} />
+            ))}
+          </datalist>
+          <Button
+            variant={"outline"}
+            className="bg-transparent border-[#323743FF] hover:bg-[#FFFFFF14] hover:text-primary-foreground"
+            onClick={addSelectedTutors}
+            disabled={selectedTutors.length > 2}
+          >
+            Add
+          </Button>
+        </div>
+      )}
+      {selectedTutors && (
+        <div>
+          {selectedTutors.map((tutor, index) => {
+            return (
+              <div key={index} className="flex justify-between">
+                <div>{tutor.mockTutorEmail}</div>
+
+                <Button
+                  variant={"ghost"}
+                  className="hover:bg-accent/50"
+                  onClick={() => {
+                    deleteSelectedTutor(tutor.mockTutorEmail);
+                  }}
+                >
+                  x
+                </Button>
+              </div>
+            );
+          })}
+        </div>
       )}
     </div>
   );

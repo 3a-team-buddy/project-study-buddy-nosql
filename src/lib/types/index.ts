@@ -3,3 +3,10 @@ export type MockTopicType = {
   mockTitle: string;
   mockDescription: string;
 };
+
+export type MockTutorType = {
+  _id: string;
+  mockTutorName: string;
+  mockTutorEmail: string;
+  mockTutorImage: string;
+};
