@@ -1,0 +1,27 @@
+import { MockTutor } from "../models/Session";
+import connectDB from "../mongodb";
+import { MockTutorType } from "../types";
+
+export const getAllMockTutors = async () => {
+  try {
+    await connectDB();
+    return await MockTutor.find();
+  } catch (error) {
+    console.error("Error while getting mock tutor!", error);
+  }
+};
+
+export const createMockTutor = async (
+  mockTutorName: string,
+  mockTutorEmail: string,
+  mockTutorImage: string
+) => {
+  await connectDB();
+  const newMockTutor = new MockTutor({
+    mockTutorName,
+    mockTutorEmail,
+    mockTutorImage,
+  });
+  await newMockTutor.save();
+  return newMockTutor;
+};
