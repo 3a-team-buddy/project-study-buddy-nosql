@@ -50,24 +50,16 @@ export const SessionType = () => {
   };
   console.log(selectedTutors);
 
-  const deleteSelectedTutor = (tutor: any) => {
+  const deleteSelectedTutor = (tutor: string) => {
     console.log({ tutor });
     console.log(selectedTutors, "aaaaaaa");
     const remainSelectedTutors = selectedTutors.filter(
       (selectedTutor) => selectedTutor.mockTutorEmail !== tutor
     );
-    // const newSelectedTutors = [
-    //   ...selectedTutors,
-    //   {
-    //     mockTutorEmail: remainSelectedTutors,
-    //   },
-    // ];
     if (remainSelectedTutors) {
       setSelectedTutors(remainSelectedTutors);
     }
     console.log({ remainSelectedTutors });
-    // setSelectedTutors(remainSelectedTutors);
-    // alert(tutor);
   };
 
   return (
@@ -127,7 +119,7 @@ export const SessionType = () => {
                   variant={"ghost"}
                   className="hover:bg-accent/50"
                   onClick={() => {
-                    deleteSelectedTutor(tutor);
+                    deleteSelectedTutor(tutor.mockTutorEmail);
                   }}
                 >
                   x
