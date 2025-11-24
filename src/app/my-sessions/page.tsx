@@ -1,8 +1,10 @@
-import { JoinedSessions } from "./_components/JoinedSession";
-import { MoreSessions } from "./_components/MoreSession";
-import { SessionDetails } from "./_components/SessionInfo";
+import {
+  JoinedSessions,
+  MoreSessions,
+  SessionDetails,
+} from "@/app/my-sessions/_components/Index";
 
-export default function DashboardPage() {
+const MySessionPage = () => {
   return (
     <div className="min-h-screen w-full flex gap-8 px-10 py-10">
       {/* Left side session lists */}
@@ -15,4 +17,5 @@ export default function DashboardPage() {
       <SessionDetails />
     </div>
   );
-}
+};
+export default MySessionPage;
