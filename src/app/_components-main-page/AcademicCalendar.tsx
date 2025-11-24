@@ -1,7 +1,4 @@
 import React from "react";
-import { Firstsvg } from "./svg-folder/Firstsvg";
-import { Secondsvg } from "./svg-folder/Secondsvg";
-import { Thirdsvg } from "./svg-folder/Thirdsvg";
 
 export const AcademicCalendar = () => {
   return (
@@ -27,7 +24,7 @@ export const AcademicCalendar = () => {
           <div className="flex flex-col items-center w-[70px]">
             <p className="pb-3 text-xs text-primary-foreground">06.09</p>
             <div className="bg-[#18BA51] border-2 border-white w-9 h-9 flex items-center justify-center rounded-full">
-              <Firstsvg />
+              <img src="flag.svg" alt="Firstsvg" />
             </div>
             <div className="h-8 w-1 border border-dashed border-black"></div>
             <p className="text-[10px] text-primary-foreground">Хичээл эхлэх</p>
@@ -36,7 +33,7 @@ export const AcademicCalendar = () => {
             <div className="flex flex-col items-center w-20">
               <p className="pb-3 text-xs text-primary-foreground">12.22</p>
               <div className="bg-[#18BA51] border-2 border-white w-9 h-9 flex items-center justify-center rounded-full">
-                <Secondsvg />
+                <img src="card.svg" alt="Secondsvg" />
               </div>
               <div className="h-8 w-1 border border-dashed border-black"></div>
               <p className="text-[10px] text-primary-foreground">
@@ -47,7 +44,7 @@ export const AcademicCalendar = () => {
           <div className="flex flex-col items-center w-20">
             <p className="pb-3 text-xs text-primary-foreground">02.20</p>
             <div className="flex items-center justify-center rounded-full w-9 h-9">
-              <Thirdsvg />
+              <img src="pinelogo.svg" alt="Thirdsvg" />
             </div>
             <div className="h-8 w-1 border border-dashed border-black"></div>
             <p className="text-[10px] text-primary-foreground">Хичээл дуусах</p>
