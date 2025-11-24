@@ -2,11 +2,11 @@ import React from "react";
 import {
   DateAndTime,
   SessionDescription,
-  Sessions,
   StudySessionTitle,
   SessionType,
 } from "./_components";
 import { Button } from "@/components/ui/button";
+import SessionList from "./_components/SessionList";
 import MemberLimit from "./_components/MemberLimit";
 
 const CreateSessionPage = () => {
@@ -14,7 +14,7 @@ const CreateSessionPage = () => {
     <div className="w-full h-screen text-white flex justify-between mt-[47px] mb-[219px]">
       <div className="max-w-[457px] w-full bg-white/5 flex flex-col gap-5">
         <div className="text-4xl leading-10 font-semibold">Sessions</div>
-        <Sessions />
+        <SessionList />
       </div>
 
       <div className="max-w-[621px] w-full h-full px-[31px] py-[70px] flex flex-col gap-5 rounded-[10px] shadow-xs bg-[#0E1B2EFF]">

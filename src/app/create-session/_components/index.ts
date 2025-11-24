@@ -1,4 +1,4 @@
-export * from "./Sessions";
+export * from "./SessionList";
 export * from "./StudySessionTitle";
 export * from "./SessionDescription";
 export * from "./MemberLimit";
