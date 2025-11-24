@@ -18,12 +18,12 @@ const CreateSessionPage = () => {
 
   return (
     <div className="w-full h-screen text-white flex justify-between mt-[47px] mb-[219px]">
-      <div className="max-w-[457px] w-full bg-white/5 flex flex-col gap-5">
-        <div className="text-4xl leading-10 font-semibold">Sessions</div>
+      <div className="max-w-[457px] w-full  flex flex-col gap-8">
+        <span className="font-bold text-5xl pl-5">Session</span>
         <SessionList />
       </div>
 
-      <div className="max-w-[621px] w-full h-full px-[31px] py-[70px] flex flex-col gap-5 rounded-[10px] shadow-xs bg-[#0E1B2EFF]">
+      <div className="max-w-[621px] w-full h-full px-[31px] py-[70px] flex flex-col gap-8 rounded-[10px] shadow-xs bg-[#0E1B2EFF]">
         <div>
           <div className="w-[290px] text-4xl leading-10 font-semibold text-neutral-200">
             Create New Session

@@ -1,7 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { BsLink } from "react-icons/bs";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import React from "react";
+
+import { SessionDetails } from "@/app/my-sessions/_components/Index";
+import { CreateSessionInfoDialog } from "./CreateSessionInfoDialog";
 
 const sessions = [
   {
@@ -29,7 +40,16 @@ export default function SessionList() {
           key={session.id}
           className="flex justify-between items-center p-4 mb-2 rounded-3xl bg-[linear-gradient(180deg,#1E2648_0%,#122136_100%)] hover:bg-white/10 cursor-pointer"
         >
-          <span className="text-xl text-white font-bold">{session.name}</span>
+          <Dialog>
+            <DialogTrigger>
+              <span className="text-xl text-white font-bold">
+                {session.name}
+              </span>
+            </DialogTrigger>
+            <DialogContent className="p-0 bg-transparent">
+              <CreateSessionInfoDialog />
+            </DialogContent>
+          </Dialog>
 
           <div className="flex flex-col align-items-center justify-center ">
             <Button className="rounded-3xl mb-2 bg-[#2563EBFF] hover:[#1d4ed8] gap-1 ">
