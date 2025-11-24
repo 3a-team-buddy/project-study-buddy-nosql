@@ -1,21 +1,18 @@
 "use client";
 import React, { Dispatch, SetStateAction, useState } from "react";
-import {
-  DateAndTime,
-  SessionDescription,
-  StudySessionTitle,
-  SessionType,
-} from "./_components";
+import { DateAndTime, StudySessionTitle, SessionType } from "./_components";
 import { Button } from "@/components/ui/button";
 import SessionList from "./_components/SessionList";
 import MemberLimit from "./_components/MemberLimit";
+import SessionDescription from "./_components/SessionDescription";
 
 const CreateSessionPage = () => {
   const [studySessionTitleValue, setStudySessionTitleValue] =
     useState<string>("");
   const [minMember, setMinMember] = useState<number>(5);
   const [maxMember, setMaxMember] = useState<number>(5);
-
+  const [topicTitle, setTopicTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
   return (
     <div className="w-full h-screen text-white flex justify-between mt-[47px] mb-[219px]">
       <div className="max-w-[457px] w-full  flex flex-col gap-8">
@@ -37,7 +34,12 @@ const CreateSessionPage = () => {
           studySessionTitleValue={studySessionTitleValue}
           setStudySessionTitleValue={setStudySessionTitleValue}
         />
-        <SessionDescription />
+        <SessionDescription
+          topicTitle={topicTitle}
+          setTopicTitle={setTopicTitle}
+          description={description}
+          setDescription={setDescription}
+        />
         <div className="w-full flex justify-between">
           <MemberLimit
             minMember={minMember}
