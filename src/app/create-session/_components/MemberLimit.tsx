@@ -1,9 +1,9 @@
 "use client";
 
 import { Label } from "@/components/ui/label";
-import React, { useState } from "react";
+import React from "react";
 
-export default function MemberLimitSelector({
+export default function MemberLimit({
   minMember,
   setMinMember,
   setMaxMember,
