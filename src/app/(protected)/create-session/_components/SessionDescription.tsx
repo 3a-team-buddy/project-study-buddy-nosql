@@ -1,26 +1,5 @@
+import React, { useState } from "react";
 import { useMockTopic } from "@/app/_hooks/use-mock-topic";
-import React, { useState, useEffect } from "react";
-
-// const availableTopics = [
-//   {
-//     id: 1,
-//     title: "React Hooks Introduction",
-//     description:
-//       "useState, useEffect, useContext зэрэг React Hooks-ын үндсэн ойлголтуудыг судална.",
-//   },
-//   {
-//     id: 2,
-//     title: "Data Structures Study",
-//     description:
-//       "Массив, холбосон жагсаалт, мод, граф зэрэг нийтлэг өгөгдлийн бүтцийг гүнзгий судална.",
-//   },
-//   {
-//     id: 3,
-//     title: "UI/UX Basics Group",
-//     description:
-//       "Хэрэглэгчийн интерфэйс ба хэрэглэгчийн туршлагын үндсэн зарчмуудыг судална.",
-//   },
-// ];
 
 function SessionDescription({
   topicTitle,
@@ -31,12 +10,9 @@ function SessionDescription({
   topicTitle: string;
   setTopicTitle: (topicTitle: string) => void;
   description: string;
-  setDescription: (description: string) => void;
+  setDescription: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const { mockTopics } = useMockTopic();
-  // const [topicTitle, setTopicTitle] = useState("");
-
-  // const [description, setDescription] = useState("");
 
   const handleTopicChange = (event: { target: { value: any } }) => {
     const newTitle = event.target.value;
@@ -48,22 +24,20 @@ function SessionDescription({
 
     if (selectedTopic) {
       setDescription(selectedTopic.mockDescription);
-    } else {
-      setDescription("");
     }
   };
 
   const handleDescriptionChange = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
-    // setDescription(event.target.value);
+    setDescription(event.target.value);
   };
 
   return (
     <div
       style={{
         width: "100%",
-        maxWidth: "500px",
+        maxWidth: "400px",
         margin: "20px",
         padding: "20px",
         border: "1px solid #ccc",
@@ -116,7 +90,7 @@ function SessionDescription({
           style={{
             width: "100%",
             padding: "8px",
-            borderRadius: "1px",
+            borderRadius: "4px",
             border: "1px solid #ccc",
             resize: "vertical",
           }}

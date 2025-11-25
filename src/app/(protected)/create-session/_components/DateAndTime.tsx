@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { CalendarRange, Clock } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
@@ -13,7 +12,17 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function DateAndTime() {
+export function DateAndTime({
+  time,
+  setTime,
+  value,
+  setValue,
+}: {
+  time: string;
+  setTime: (time: string) => void;
+  value: string;
+  setValue: (value: string) => void;
+}) {
   const today = new Date();
   const n2 = new Date();
   const tomorrow = new Date();
@@ -23,8 +32,8 @@ export function DateAndTime() {
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(n2);
   const [month, setMonth] = React.useState<Date | undefined>(date);
-  const [value, setValue] = React.useState(formatDate(date));
-  const [time, setTime] = React.useState<String>("");
+  // const [value, setValue] = React.useState(formatDate(date));
+  // const [time, setTime] = React.useState<String>("");
 
   function formatDate(date: Date | undefined) {
     if (!date) {

@@ -1,6 +1,11 @@
 "use client";
 import React, { Dispatch, SetStateAction, useState } from "react";
-import { DateAndTime, StudySessionTitle, SessionType } from "./_components";
+import {
+  DateAndTime,
+  StudySessionTitle,
+  SessionType,
+  SelectedTutorsType,
+} from "./_components";
 import { Button } from "@/components/ui/button";
 import SessionList from "./_components/SessionList";
 import MemberLimit from "./_components/MemberLimit";
@@ -13,6 +18,12 @@ const CreateSessionPage = () => {
   const [maxMember, setMaxMember] = useState<number>(5);
   const [topicTitle, setTopicTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [selectedSessionType, setSelectedSessionType] = useState<string>("");
+  const [selectedTutors, setSelectedTutors] = useState<SelectedTutorsType[]>(
+    []
+  );
+  const [value, setValue] = React.useState(Date);
+  const [time, setTime] = React.useState<string>("");
   return (
     <div className="w-full h-screen text-white flex justify-between mt-[47px] mb-[219px]">
       <div className="max-w-[457px] w-full  flex flex-col gap-8">
@@ -47,10 +58,20 @@ const CreateSessionPage = () => {
             setMinMember={setMinMember}
             setMaxMember={setMaxMember}
           />
-          <DateAndTime />
+          <DateAndTime
+            time={time}
+            setTime={setTime}
+            value={value}
+            setValue={setValue}
+          />
         </div>
 
-        <SessionType />
+        <SessionType
+          selectedSessionType={selectedSessionType}
+          setSelectedSessionType={setSelectedSessionType}
+          selectedTutors={selectedTutors}
+          setSelectedTutors={setSelectedTutors}
+        />
         <Button className="w-full h-[46px] rounded-full bg-[#2563EB] hover:bg-[#1d4ed8]">
           Create Session
         </Button>
