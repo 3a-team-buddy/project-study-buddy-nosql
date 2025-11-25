@@ -1,3 +1,4 @@
+import React from "react";
 import { SessionCard } from "./SessionCard";
 
 const joinedMock = [
