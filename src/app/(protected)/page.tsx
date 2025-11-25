@@ -3,8 +3,8 @@ import {
   Attendance,
   IgLeaderBoard,
   TierMapRewards,
-} from "./_components-main-page";
-import SeasonalStatistic from "./_components-main-page/SeasonalStatistic";
+} from "../_components-main-page";
+import SeasonalStatistic from "../_components-main-page/SeasonalStatistic";
 
 const HomePage = () => {
   return (

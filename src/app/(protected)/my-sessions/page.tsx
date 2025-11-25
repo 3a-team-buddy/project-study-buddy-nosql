@@ -1,8 +1,6 @@
-import {
-  JoinedSessions,
-  MoreSessions,
-  SessionDetails,
-} from "@/app/my-sessions/_components/Index";
+import { JoinedSessions } from "./_components/JoinedSession";
+import { MoreSessions } from "./_components/MoreSession";
+import { SessionDetails } from "./_components/SessionDetails";
 
 const MySessionPage = () => {
   return (
