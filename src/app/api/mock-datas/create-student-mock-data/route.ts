@@ -1,35 +1,36 @@
-import { Mongoose, Schema } from "mongoose";
+import {
+  createMockStudent,
+  getAllMockStudets,
+} from "@/lib/services/student-service";
 import { NextRequest, NextResponse } from "next/server";
-
-//model
 export async function POST(request: NextRequest) {
-  const mongoose = require("mongoose");
+  try {
+    const body = await request.json();
 
-  const body = await request.json();
+    const { studentClerckId, studentName, studentImage, studentEmail } = body;
+    console.log({ studentClerckId, studentName, studentImage, studentEmail });
+    const studentbuddy = await createMockStudent(
+      studentClerckId,
+      studentName,
+      studentImage,
+      studentEmail
+    );
 
-  const { studentMockId, studentMockEmail, studentMockImage, studentMockName } =
-    body;
-
-  const studentSchema = new Schema({
-    clerckId: { type: String, required: true },
-
-    name: { type: String },
-
-    email: { type: String, required: true },
-
-    image: { type: String },
-  });
-
-  const Student = mongoose.model("Student", studentSchema);
-
-  const createStudent = new Student({
-    id: studentMockId,
-    name: studentMockName,
-    email: studentMockEmail,
-    image: studentMockImage,
-  });
-
-  await createStudent.save();
-
-  return NextResponse.json({});
+    if (!studentbuddy) {
+      return NextResponse.json({ message: "Failed " }, { status: 400 });
+    }
+    return NextResponse.json({ message: "successfully" }, { status: 200 });
+  } catch (error) {
+    console.error("Error!", error);
+    return NextResponse.json({ message: " error " }, { status: 500 });
+  }
 }
+export const GET = async () => {
+  const student = await getAllMockStudets();
+  console.log({ student });
+
+  return NextResponse.json(
+    { message: "Getting tutors data", student },
+    { status: 200 }
+  );
+};

@@ -7,15 +7,12 @@ type studentSchemaType = {
   image: string;
 };
 
-const studentSchema = new Schema({
-  clerckId: { type: String, required: true },
-
+const StudentMockSchema = new Schema({
+  clerckId: { type: String },
   name: { type: String },
-
-  email: { type: String, required: true },
-
+  email: { type: String },
   image: { type: String },
 });
 export const StudentMock =
-  mongoose.models.Student ||
-  mongoose.model<studentSchemaType>("StudentMockData", studentSchema);
+  mongoose.models.StudentMock ||
+  mongoose.model<studentSchemaType>("StudentMock", StudentMockSchema);

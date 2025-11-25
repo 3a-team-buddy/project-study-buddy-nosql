@@ -10,3 +10,11 @@ export type MockTutorType = {
   mockTutorEmail: string;
   mockTutorImage: string;
 };
+
+export type StudentMockType = {
+  _id: string;
+  clerckId: string;
+  mockStudentName: string;
+  mockStudentImage: string;
+  mockStudentEmail: string;
+};
