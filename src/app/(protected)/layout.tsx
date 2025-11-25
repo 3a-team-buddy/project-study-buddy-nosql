@@ -25,7 +25,7 @@ export default function RootLayout({
     if (!user) return;
     const createUser = async () => {
       try {
-        await axios.post("/api/clerk-users", {
+        await axios.post("/api/", {
           clerkId: user.id,
           email: user.primaryEmailAddress?.emailAddress,
           name: user.fullName,

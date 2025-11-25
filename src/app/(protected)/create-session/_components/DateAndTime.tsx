@@ -71,6 +71,7 @@ export function DateAndTime() {
   React.useEffect(() => {
     isWorkingDay;
     console.log({ workday });
+    console.log({ time });
   }, [value]);
 
   return (
@@ -165,12 +166,13 @@ export function DateAndTime() {
               <div className="flex flex-col justify-center">
                 {weekday.map((day, index) => {
                   return (
-                    <div
+                    <button
+                      onClick={() => setTime(day.time)}
                       key={index}
                       className="text-white text-[14px] px-2 py-1 "
                     >
                       {day.time}
-                    </div>
+                    </button>
                   );
                 })}
               </div>
@@ -179,12 +181,13 @@ export function DateAndTime() {
                 <div className="flex flex-col justify-center">
                   {workday.map((day, index) => {
                     return (
-                      <div
+                      <button
+                        onClick={() => setTime(day.time)}
                         key={index}
-                        className="hover:text-white text-[14px] px-2 py-1  text-neutral-400"
+                        className="text-white text-[14px] px-2 py-1 "
                       >
                         {day.time}
-                      </div>
+                      </button>
                     );
                   })}
                 </div>
