@@ -22,7 +22,8 @@ const CreateSessionPage = () => {
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorsType[]>(
     []
   );
-
+  const [value, setValue] = React.useState(Date);
+  const [time, setTime] = React.useState<string>("");
   return (
     <div className="w-full h-screen text-white flex justify-between mt-[47px] mb-[219px]">
       <div className="max-w-[457px] w-full  flex flex-col gap-8">
@@ -57,7 +58,12 @@ const CreateSessionPage = () => {
             setMinMember={setMinMember}
             setMaxMember={setMaxMember}
           />
-          <DateAndTime />
+          <DateAndTime
+            time={time}
+            setTime={setTime}
+            value={value}
+            setValue={setValue}
+          />
         </div>
 
         <SessionType
