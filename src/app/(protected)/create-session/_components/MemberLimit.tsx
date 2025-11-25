@@ -29,7 +29,7 @@ export default function MemberLimit({
     <div className="flex flex-col gap-3 text-white w-full max-w-sm">
       <Label>Member Limit</Label>
 
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-5 mx-4 ">
         <select
           className="
             bg-[#0F2343] 

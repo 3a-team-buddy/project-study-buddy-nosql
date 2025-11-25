@@ -1,24 +1,6 @@
 import React, { useState } from "react";
 import { useMockTopic } from "@/app/_hooks/use-mock-topic";
 
-// const availableTopics = [
-//   {
-//     id: 1,
-//     title: 'React Hooks Introduction',
-//     description: 'useState, useEffect, useContext зэрэг React Hooks-ын үндсэн ойлголтуудыг судална.'
-//   },
-//   {
-//     id: 2,
-//     title: 'Data Structures Study',
-//     description: 'Массив, холбосон жагсаалт, мод, граф зэрэг нийтлэг өгөгдлийн бүтцийг гүнзгий судална.'
-//   },
-//   {
-//     id: 3,
-//     title: 'UI/UX Basics Group',
-//     description: 'Хэрэглэгчийн интерфэйс ба хэрэглэгчийн туршлагын үндсэн зарчмуудыг судална.'
-//   }
-// ];
-
 function SessionDescription({
   topicTitle,
   setTopicTitle,
@@ -28,12 +10,9 @@ function SessionDescription({
   topicTitle: string;
   setTopicTitle: (topicTitle: string) => void;
   description: string;
-  setDescription: (description: string) => void;
+  setDescription: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const { mockTopics } = useMockTopic();
-  // const [topicTitle, setTopicTitle] = useState('');
-
-  // const [description, setDescription] = useState('');
 
   const handleTopicChange = (event: { target: { value: any } }) => {
     const newTitle = event.target.value;
