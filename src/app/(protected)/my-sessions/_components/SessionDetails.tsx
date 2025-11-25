@@ -3,7 +3,7 @@ import { ParticipantsList } from "./ParticipantsList";
 
 export const SessionDetails = () => {
   return (
-    <div className="w-[480px] rounded-xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl">
+    <div className="max-w-[480px] w-full rounded-xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl">
       <h2 className="text-2xl font-semibold text-white mb-4">
         Advanced UI/UX Design Principles
       </h2>

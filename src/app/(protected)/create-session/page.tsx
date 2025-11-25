@@ -25,16 +25,16 @@ const CreateSessionPage = () => {
   const [value, setValue] = React.useState(Date);
   const [time, setTime] = React.useState<string>("");
   return (
-    <div className="w-full h-screen text-white flex justify-between mt-[47px] mb-[219px]">
-      <div className="max-w-[457px] w-full  flex flex-col gap-8">
+    <div className="w-full h-screen text-white flex gap-8 px-10 py-10">
+      <div className="flex-1 flex-col gap-8">
         <span className="font-bold text-5xl pl-5">Session</span>
         <SessionList />
       </div>
 
-      <div className="max-w-[621px] w-full h-full px-[31px] py-[70px] flex flex-col gap-8 rounded-[10px] shadow-xs bg-[#0E1B2EFF]">
+      <div className="max-w-[480px] w-full h-full px-[31px] py-[70px] flex flex-col gap-8 rounded-[10px] shadow-xs bg-[#0E1B2EFF]">
         <div>
           <div className="w-[290px] text-4xl leading-10 font-semibold text-neutral-200">
-            Create New Session
+            Create New Study Session
           </div>
           <div className="text-sm leading-5 text-[#BDC1CAFF]">
             Define the details for your next learning session.

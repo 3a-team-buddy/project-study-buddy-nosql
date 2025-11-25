@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useMockTopic } from "@/app/_hooks/use-mock-topic";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 
 function SessionDescription({
   topicTitle,
@@ -14,7 +16,7 @@ function SessionDescription({
 }) {
   const { mockTopics } = useMockTopic();
 
-  const handleTopicChange = (event: { target: { value: any } }) => {
+  const handleTopicChange = (event: { target: { value: string } }) => {
     const newTitle = event.target.value;
     setTopicTitle(newTitle);
 
@@ -34,17 +36,8 @@ function SessionDescription({
   };
 
   return (
-    <div
-      style={{
-        width: "100%",
-        maxWidth: "400px",
-        margin: "20px",
-        padding: "20px",
-        border: "1px solid #ccc",
-        borderRadius: "8px",
-      }}
-    >
-      <h3>Create New Session</h3>
+    <div className="w-full">
+      <div></div>
 
       <div style={{ marginBottom: "15px" }}>
         <label
@@ -53,7 +46,7 @@ function SessionDescription({
         >
           Topic Title
         </label>
-        <input
+        <Input
           id="topic-input"
           type="text"
           list="topic-suggestions"
@@ -82,11 +75,11 @@ function SessionDescription({
         >
           Description
         </label>
-        <textarea
+        <Textarea
           id="description-textarea"
           value={description}
           onChange={handleDescriptionChange}
-          placeholder="Сэшний талаар дэлгэрэнгүй бичнэ үү..."
+          placeholder="Сэдвийн талаар дэлгэрэнгүй бичнэ үү..."
           style={{
             width: "100%",
             padding: "8px",
@@ -101,3 +94,12 @@ function SessionDescription({
 }
 
 export default SessionDescription;
+
+// style={{
+//   width: "100%",
+//   maxWidth: "400px",
+//   margin: "20px",
+//   padding: "20px",
+//   border: "1px solid #ccc",
+//   borderRadius: "8px",
+// }}
