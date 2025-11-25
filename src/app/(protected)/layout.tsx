@@ -55,6 +55,17 @@ export default function RootLayout({
 
       if (!response.ok) {
         alert("Failed to create mock topic!");
+      try {
+        await axios.post("/api/", {
+          clerkId: user.id,
+          email: user.primaryEmailAddress?.emailAddress,
+          name: user.fullName,
+        });
+        const result = await axios.get("/api/users");
+        // console.log(result, "get requesttttttt");
+        // console.log(result.data.users);
+      } catch (err) {
+        console.error(err);
       }
     };
     createUser();
