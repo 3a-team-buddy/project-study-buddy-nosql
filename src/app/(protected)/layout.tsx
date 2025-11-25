@@ -22,19 +22,38 @@ export default function RootLayout({
   }, [isLoaded, user]);
 
   useEffect(() => {
+    console.log({ user });
     if (!user) return;
     const createUser = async () => {
-      try {
-        await axios.post("/api/", {
-          clerkId: user.id,
-          email: user.primaryEmailAddress?.emailAddress,
-          name: user.fullName,
-        });
-        const result = await axios.get("/api/users");
-        // console.log(result, "get requesttttttt");
-        // console.log(result.data.users);
-      } catch (err) {
-        console.error(err);
+      if (!user.id) {
+        alert("id");
+      }
+      if (!user.emailAddresses[0].emailAddress) {
+        alert("email");
+      }
+      if (!user.primaryEmailAddress?.emailAddress) {
+        alert("email 2");
+      }
+      if (!user.fullName) {
+        alert("fullname");
+      }
+      if (!user.imageUrl) {
+        alert("IMAGE");
+      }
+
+      const response = await fetch("api/mock-datas/create-student-mock-data", {
+        method: "POST",
+        headers: { "Context-Type": "application/json" },
+        body: JSON.stringify({
+          studentClerckId: user.id,
+          studentEmail: user.primaryEmailAddress?.emailAddress,
+          studentName: user.fullName,
+          studentImage: user.imageUrl,
+        }),
+      });
+
+      if (!response.ok) {
+        alert("Failed to create mock topic!");
       }
     };
     createUser();

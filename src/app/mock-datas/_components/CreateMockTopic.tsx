@@ -17,27 +17,20 @@ export const CreateMockTopic = ({
   const [mockTitle, setMockTitle] = useState<string>("");
   const [mockDescription, setMockDescription] = useState<string>("");
 
-  console.log({ mockTitle });
-  console.log({ mockDescription });
-
   const createMockTopic = async () => {
     if (!mockTitle || !mockDescription) {
       toast.warning("All fields are required!");
       return;
     }
-
     setLoading(true);
-
     const response = await fetch("api/mock-datas/create-mock-topic", {
       method: "POST",
       headers: { "Context-Type": "application/json" },
       body: JSON.stringify({ mockTitle, mockDescription }),
     });
-
     if (!response.ok) {
       toast.error("Failed to create mock topic!");
     }
-
     toast.success("Mock topic created successfully");
     setMockTitle("");
     setMockDescription("");

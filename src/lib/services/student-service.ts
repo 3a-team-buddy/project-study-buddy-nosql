@@ -1,27 +1,35 @@
 import { StudentMock } from "../models/StudentMock";
 import connectDB from "../mongodb";
-import { MockTutorType } from "../types";
 
-export const getAllMockTutors = async () => {
+export const getAllMockStudets = async () => {
   try {
     await connectDB();
     return await StudentMock.find();
   } catch (error) {
-    console.error("Error while getting mock tutor!", error);
+    console.error("Error while getting mock student data!", error);
   }
 };
 
-export const createMockTutor = async (
-  mockTutorName: string,
-  mockTutorEmail: string,
-  mockTutorImage: string
+export const createMockStudent = async (
+  studentImage: string,
+  studentEmail: string,
+  studentName: string,
+  studentClerckId: string
 ) => {
   await connectDB();
-  const newMockTutor = new StudentMock({
-    mockTutorName,
-    mockTutorEmail,
-    mockTutorImage,
+
+  const unistudent = await StudentMock.findById(studentClerckId);
+  // dahij harah -->aldaa tai bgaa
+  // if (unistudent) {
+  //   return;
+  // }
+
+  const mockStudent = new StudentMock({
+    clerckId: studentClerckId,
+    name: studentName,
+    image: studentImage,
+    email: studentEmail,
   });
-  await newMockTutor.save();
-  return newMockTutor;
+  await mockStudent.save();
+  return mockStudent;
 };
