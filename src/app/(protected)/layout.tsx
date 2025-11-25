@@ -51,6 +51,7 @@ export default function RootLayout({
           studentImage: user.imageUrl,
         }),
       });
+      // clerck id
 
       if (!response.ok) {
         alert("Failed to create mock topic!");
