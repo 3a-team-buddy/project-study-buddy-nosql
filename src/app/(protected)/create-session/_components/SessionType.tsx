@@ -1,23 +1,32 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 import { MockTutorType } from "@/lib/types";
 import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
 
-type SelectedTutorsType = {
+export type SelectedTutorsType = {
   mockTutorEmail: string;
 };
 
-export const SessionType = () => {
-  const [selectedSessionType, setSelectedSessionType] = useState<string>("");
+export const SessionType = ({
+  selectedSessionType,
+  setSelectedSessionType,
+  selectedTutors,
+  setSelectedTutors,
+}: {
+  selectedSessionType: string;
+  setSelectedSessionType: (selectedSessionType: string) => void;
+  selectedTutors: SelectedTutorsType[];
+  setSelectedTutors: Dispatch<React.SetStateAction<SelectedTutorsType[]>>;
+}) => {
+  // const [selectedSessionType, setSelectedSessionType] = useState<string>("");
   const [mockTutors, setMockTutors] = useState<MockTutorType[]>([]);
-  const [selectedTutors, setSelectedTutors] = useState<SelectedTutorsType[]>(
-    []
-  );
+  // const [selectedTutors, setSelectedTutors] = useState<SelectedTutorsType[]>(
+  //   []
+  // );
   const [tutorLedInputValue, setTutorLedinputValue] = useState<string>("");
 
   const handleChangeSessionType = (value: string) => {
@@ -54,7 +63,8 @@ export const SessionType = () => {
     console.log({ tutor });
     console.log(selectedTutors, "aaaaaaa");
     const remainSelectedTutors = selectedTutors.filter(
-      (selectedTutor) => selectedTutor.mockTutorEmail !== tutor
+      (selectedTutor: { mockTutorEmail: string }) =>
+        selectedTutor.mockTutorEmail !== tutor
     );
     if (remainSelectedTutors) {
       setSelectedTutors(remainSelectedTutors);
