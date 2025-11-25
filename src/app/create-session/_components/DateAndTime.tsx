@@ -1,14 +1,8 @@
 "use client";
 
 import * as React from "react";
-import {
-  CalendarDays,
-  CalendarRange,
-  ChevronDown,
-  ChevronDownIcon,
-  Clock,
-} from "lucide-react";
-import { CalendarIcon } from "lucide-react";
+import { CalendarRange, Clock } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
@@ -58,15 +52,7 @@ export function DateAndTime() {
     { time: "17:00" },
     { time: "18:00" },
   ];
-  // React.useEffect(() => {
-  //   function isWorkingDay(date: Date) {
-  //     const day = date.getDay();
-  //     const isWeekend = 0 || 6;
-  //     if (day === isWeekend) {
-  //       setIsWeekend(true);
-  //     }
-  //   }
-  // }, [value]);
+
   function isWorkingDay(date: Date) {
     const day = date.getDay();
 
@@ -78,10 +64,7 @@ export function DateAndTime() {
       setIsWeekend(false);
     }
   }
-  //12-4-amraltiin udur 45min *2
-  //1-6-ajiiln udur session
-  //{#0F2343}
-  //border-[#323743FF]
+
   const workday = schedule.filter((schedule) => schedule.time >= "13:00");
   const weekday = schedule.filter((schedule) => schedule.time <= "16:00");
 
