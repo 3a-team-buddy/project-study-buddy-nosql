@@ -80,6 +80,8 @@ export function DateAndTime({
   React.useEffect(() => {
     isWorkingDay;
     console.log({ workday });
+    console.log({ value });
+    console.log({ time });
   }, [value]);
 
   return (
