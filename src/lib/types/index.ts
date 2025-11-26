@@ -13,10 +13,10 @@ export type MockTutorType = {
 
 export type StudentMockType = {
   _id: string;
-  clerckId: string;
-  mockStudentName: string;
-  mockStudentImage: string;
-  mockStudentEmail: string;
+  clerkId: string;
+  name: string;
+  email: string;
+  image: string;
 };
 
 export type SelectedTutorType = {

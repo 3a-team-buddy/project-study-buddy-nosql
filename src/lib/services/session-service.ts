@@ -1,13 +1,13 @@
-import { MockTutor } from "../models/Session";
+import { MockTutor } from "../models/MockTutor";
 import connectDB from "../mongodb";
 import { MockTutorType } from "../types";
 
 export const getAllMockTutors = async () => {
   try {
     await connectDB();
-    return await MockTutor.find();
+    return await MockTutor.find().select("-__v");
   } catch (error) {
-    console.error("Error while getting mock tutor!", error);
+    console.error("Error while getting mock tutors data!", error);
   }
 };
 
@@ -17,6 +17,7 @@ export const createMockTutor = async (
   mockTutorImage: string
 ) => {
   await connectDB();
+
   const newMockTutor = new MockTutor({
     mockTutorName,
     mockTutorEmail,
