@@ -1,18 +1,21 @@
 import mongoose, { Schema } from "mongoose";
 
 type StudentMockSchemaType = {
-  clerkId: string;
-  name: string;
-  email: string;
-  image: string;
+  studentClerkId: string;
+  studentEmail: string;
+  studentName: string;
+  studentImage: string;
 };
 
-const StudentMockSchema = new Schema({
-  clerkId: { type: String, unique: true },
-  name: { type: String },
-  email: { type: String, unique: true },
-  image: { type: String },
-});
+const StudentMockSchema = new Schema(
+  {
+    studentClerkId: { type: String, required: true },
+    studentEmail: { type: String, required: true },
+    studentName: { type: String },
+    studentImage: { type: String },
+  },
+  { timestamps: true }
+);
 export const StudentMock =
   mongoose.models.StudentMock ||
   mongoose.model<StudentMockSchemaType>("StudentMock", StudentMockSchema);

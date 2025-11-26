@@ -11,23 +11,25 @@ export const getAllMockStudets = async () => {
 };
 
 export const createMockStudent = async (
-  studentImage: string,
+  studentClerkId: string,
   studentEmail: string,
   studentName: string,
-  studentClerkId: string
+  studentImage: string
 ) => {
   await connectDB();
 
-  const foundStudent = await StudentMock.findOne({ clerkId: studentClerkId });
+  const foundStudent = await StudentMock.findOne({
+    studentClerkId,
+  });
   if (foundStudent) {
     return null;
   }
 
   const mockStudent = new StudentMock({
-    clerkId: studentClerkId,
-    name: studentName,
-    image: studentImage,
-    email: studentEmail,
+    studentClerkId,
+    studentEmail,
+    studentName,
+    studentImage,
   });
 
   await mockStudent.save();

@@ -3,18 +3,19 @@ import {
   getAllMockStudets,
 } from "@/lib/services/student-service";
 import { NextRequest, NextResponse } from "next/server";
+import { currentUser } from "@clerk/nextjs/server";
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { studentClerkId, studentName, studentImage, studentEmail } = body;
-    console.log({ studentClerkId, studentName, studentImage, studentEmail });
+    const { studentClerkId, studentEmail, studentName, studentImage } = body;
+    console.log({ studentClerkId, studentEmail, studentName, studentImage });
 
     const studentBuddyMockDB = await createMockStudent(
       studentClerkId,
+      studentEmail,
       studentName,
-      studentImage,
-      studentEmail
+      studentImage
     );
 
     if (!studentBuddyMockDB) {
