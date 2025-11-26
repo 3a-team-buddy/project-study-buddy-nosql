@@ -1,18 +1,15 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import React, { Dispatch, useState } from "react";
+import { Button, Label, Textarea } from "@/components/ui";
 import { LoaderCircle } from "lucide-react";
-import React, { useState } from "react";
 import { toast } from "sonner";
 
 export const CreateMockTutor = ({
   setLoading,
   loading,
 }: {
-  setLoading: (loading: boolean) => void;
+  setLoading: Dispatch<React.SetStateAction<boolean>>;
   loading: boolean;
 }) => {
   const [mockTutorName, setMockTutorName] = useState<string>("");
@@ -27,7 +24,7 @@ export const CreateMockTutor = ({
     setLoading(true);
     const response = await fetch("api/mock-datas/create-mock-tutor", {
       method: "POST",
-      headers: { "Context-Type": "application/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ mockTutorName, mockTutorEmail, mockTutorImage }),
     });
     if (!response.ok) {

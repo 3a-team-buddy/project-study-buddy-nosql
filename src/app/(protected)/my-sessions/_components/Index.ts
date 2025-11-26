@@ -1,5 +1,7 @@
-export * from "./MoreSession";
-export * from "./JoinedSession";
+export * from "./JoinedSessions";
+export * from "./MoreSessions";
 export * from "./SessionDetails";
-export * from "./ParticipantItem";
+export * from "./SessionCard";
 export * from "./ParticipantsList";
+
+export * from "./ParticipantItem";

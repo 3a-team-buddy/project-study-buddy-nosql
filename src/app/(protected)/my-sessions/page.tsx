@@ -1,14 +1,17 @@
-import { JoinedSessions } from "./_components/JoinedSession";
-import { MoreSessions } from "./_components/MoreSession";
+import React from "react";
+import { JoinedSessions } from "./_components/JoinedSessions";
+import { MoreSessions } from "./_components/MoreSessions";
 import { SessionDetails } from "./_components/SessionDetails";
 
 const MySessionPage = () => {
   return (
-    <div className="min-h-screen w-full flex gap-8 px-10 py-10">
+    <div className="w-full min-h-screen flex gap-8 p-10">
       {/* Left side session lists */}
       <div className="flex-1">
-        <JoinedSessions />
-        <MoreSessions />
+        <div className="flex flex-col gap-15">
+          <JoinedSessions />
+          <MoreSessions />
+        </div>
       </div>
 
       {/* Right panel */}

@@ -1,9 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import React, { Dispatch, useState } from "react";
+import { Label, Textarea, Button } from "@/components/ui";
 import { toast } from "sonner";
 import { LoaderCircle } from "lucide-react";
 
@@ -11,7 +9,7 @@ export const CreateMockTopic = ({
   setLoading,
   loading,
 }: {
-  setLoading: (loading: boolean) => void;
+  setLoading: Dispatch<React.SetStateAction<boolean>>;
   loading: boolean;
 }) => {
   const [mockTitle, setMockTitle] = useState<string>("");
@@ -25,7 +23,7 @@ export const CreateMockTopic = ({
     setLoading(true);
     const response = await fetch("api/mock-datas/create-mock-topic", {
       method: "POST",
-      headers: { "Context-Type": "application/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ mockTitle, mockDescription }),
     });
     if (!response.ok) {

@@ -18,3 +18,7 @@ export type StudentMockType = {
   mockStudentImage: string;
   mockStudentEmail: string;
 };
+
+export type SelectedTutorType = {
+  mockTutorEmail: string;
+};

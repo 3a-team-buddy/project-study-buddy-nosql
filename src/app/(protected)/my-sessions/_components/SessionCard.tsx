@@ -1,3 +1,4 @@
+import React from "react";
 import { FiLink } from "react-icons/fi";
 
 interface SessionCardProps {

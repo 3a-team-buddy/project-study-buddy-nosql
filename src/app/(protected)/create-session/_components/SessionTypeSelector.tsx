@@ -1,51 +1,33 @@
 "use client";
 
-import React, { Dispatch, useEffect, useState } from "react";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import React, { Dispatch, useState } from "react";
+import { SelectedTutorType } from "@/lib/types";
+import {
+  Button,
+  Input,
+  Label,
+  RadioGroup,
+  RadioGroupItem,
+} from "@/components/ui";
+import { useMockTutor } from "@/app/_hooks/use-mock-tutor";
 
-import { MockTutorType } from "@/lib/types";
-import { Button } from "@/components/ui/button";
-
-export type SelectedTutorsType = {
-  mockTutorEmail: string;
-};
-
-export const SessionType = ({
+export const SessionTypeSelector = ({
   selectedSessionType,
   setSelectedSessionType,
   selectedTutors,
   setSelectedTutors,
 }: {
   selectedSessionType: string;
-  setSelectedSessionType: (selectedSessionType: string) => void;
-  selectedTutors: SelectedTutorsType[];
-  setSelectedTutors: Dispatch<React.SetStateAction<SelectedTutorsType[]>>;
+  setSelectedSessionType: Dispatch<React.SetStateAction<string>>;
+  selectedTutors: SelectedTutorType[];
+  setSelectedTutors: Dispatch<React.SetStateAction<SelectedTutorType[]>>;
 }) => {
-  // const [selectedSessionType, setSelectedSessionType] = useState<string>("");
-  const [mockTutors, setMockTutors] = useState<MockTutorType[]>([]);
-  // const [selectedTutors, setSelectedTutors] = useState<SelectedTutorsType[]>(
-  //   []
-  // );
-  const [tutorLedInputValue, setTutorLedinputValue] = useState<string>("");
+  const { mockTutors } = useMockTutor();
+  const [tutorLedInputValue, setTutorLedInputValue] = useState<string>("");
 
   const handleChangeSessionType = (value: string) => {
     setSelectedSessionType(value);
-    if (value === "tutor-led") console.log("Tutor-led Session");
-    if (value === "self-led") console.log("Self-led Session");
   };
-
-  const getMockTutors = async () => {
-    const result = await fetch("api/mock-datas/create-mock-tutor");
-    const responseData = await result.json();
-    const { mockTutors } = responseData;
-    console.log(mockTutors, "GET data");
-    setMockTutors(mockTutors);
-  };
-
-  useEffect(() => {
-    getMockTutors();
-  }, []);
 
   const addSelectedTutors = () => {
     const newSelectedTutors = [
@@ -55,9 +37,8 @@ export const SessionType = ({
       },
     ];
     if (newSelectedTutors) setSelectedTutors(newSelectedTutors);
-    setTutorLedinputValue("");
+    setTutorLedInputValue("");
   };
-  console.log(selectedTutors);
 
   const deleteSelectedTutor = (tutor: string) => {
     console.log({ tutor });
@@ -74,7 +55,7 @@ export const SessionType = ({
 
   return (
     <div className="flex flex-col gap-5">
-      <h3>Session Type</h3>
+      <Label>Session Type</Label>
       <RadioGroup
         value={selectedSessionType}
         onValueChange={handleChangeSessionType}
@@ -86,22 +67,23 @@ export const SessionType = ({
             id="tutor-led"
             className="bg-white"
           />
-          <Label htmlFor="tutor-led">Tutor-led Session</Label>
+          <Label htmlFor="tutor-led">Tutor-led</Label>
         </div>
         <div className="flex items-center space-x-2">
           <RadioGroupItem value="self-led" id="self-led" className="bg-white" />
-          <Label htmlFor="self-led">Self-led Session</Label>
+          <Label htmlFor="self-led">Self-led</Label>
         </div>
       </RadioGroup>
+
       {selectedSessionType === "tutor-led" && (
-        <div className="flex justify-between gap-5 ">
-          <input
+        <div className="flex justify-between gap-3">
+          <Input
             list="tutors"
             placeholder="Type your tutors here..."
-            className="flex h-9 w-full rounded-md border bg-none px-3 py-2 text-sm border-[#323743FF] ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed
+            className="border bg-none px-3 py-2 text-sm border-[#323743FF] ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed
           disabled:opacity-50"
             value={tutorLedInputValue}
-            onChange={(e) => setTutorLedinputValue(e.target.value)}
+            onChange={(e) => setTutorLedInputValue(e.target.value)}
           />
           <datalist id="tutors">
             {mockTutors.map((mockTutor) => (

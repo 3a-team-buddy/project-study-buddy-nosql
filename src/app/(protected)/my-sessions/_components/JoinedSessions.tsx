@@ -1,3 +1,4 @@
+import React from "react";
 import { SessionCard } from "./SessionCard";
 
 const joinedMock = [
@@ -10,15 +11,17 @@ const joinedMock = [
 export const JoinedSessions = () => {
   return (
     <div className="flex flex-col gap-3">
-      <h2 className="text-2xl text-white mb-2">Joined sessions</h2>
+      <h2 className="text-2xl text-white">Joined sessions</h2>
 
-      {joinedMock.map((session, i) => (
-        <SessionCard
-          key={i}
-          name={session.name}
-          status={session.status as "accepted" | "waiting"}
-        />
-      ))}
+      <div className="flex flex-col gap-3">
+        {joinedMock.map((session, i) => (
+          <SessionCard
+            key={i}
+            name={session.name}
+            status={session.status as "accepted" | "waiting"}
+          />
+        ))}
+      </div>
     </div>
   );
 };

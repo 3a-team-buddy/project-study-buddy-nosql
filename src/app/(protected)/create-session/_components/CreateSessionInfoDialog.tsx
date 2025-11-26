@@ -1,5 +1,6 @@
-import { ParticipantsList } from "@/app/(protected)/my-sessions/_components/ParticipantsList";
+import React from "react";
 import { FiCalendar, FiClock, FiUser } from "react-icons/fi";
+import { ParticipantsList } from "../../my-sessions/_components/ParticipantsList";
 
 export const CreateSessionInfoDialog = () => {
   return (

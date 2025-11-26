@@ -1,9 +1,11 @@
+import React from "react";
 import { FiCalendar, FiClock, FiUser } from "react-icons/fi";
 import { ParticipantsList } from "./ParticipantsList";
+import { Button } from "@/components/ui/button";
 
 export const SessionDetails = () => {
   return (
-    <div className="w-[480px] rounded-xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl">
+    <div className="max-w-[480px] rounded-xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl">
       <h2 className="text-2xl font-semibold text-white mb-4">
         Advanced UI/UX Design Principles
       </h2>
@@ -28,9 +30,9 @@ export const SessionDetails = () => {
 
       <ParticipantsList />
 
-      <button className="w-full mt-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg">
+      <Button variant={"destructive"} className="w-full  mt-6">
         Leave Session
-      </button>
+      </Button>
     </div>
   );
 };
