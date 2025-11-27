@@ -2,8 +2,14 @@ import React from "react";
 import { FiCalendar, FiClock, FiUser } from "react-icons/fi";
 import { ParticipantsList } from "./ParticipantsList";
 import { Button } from "@/components/ui/button";
+import { CreateSessionType } from "@/lib/types";
+import { JoinedSessionParticipantsList } from "./JoinedSessionParticipantsList";
 
-export const SessionDetails = () => {
+export const JoinedSessionDetails = ({
+  session,
+}: {
+  session: CreateSessionType;
+}) => {
   return (
     <div className="max-w-[480px] rounded-xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl">
       <h2 className="text-2xl font-semibold text-white mb-4">
@@ -28,7 +34,7 @@ export const SessionDetails = () => {
         </p>
       </div>
 
-      <ParticipantsList />
+      <JoinedSessionParticipantsList session={session} />
 
       <Button variant={"destructive"} className="w-full  mt-6">
         Leave Session
