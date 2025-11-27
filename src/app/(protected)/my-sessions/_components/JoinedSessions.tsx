@@ -1,5 +1,5 @@
-import React from "react";
-import { SessionCard } from "./SessionCard";
+import React, { useState } from "react";
+import JoinedSessionCard from "./JoinedSessionCard";
 
 const joinedMock = [
   { name: "Session Name", status: "accepted" },
@@ -15,10 +15,11 @@ export const JoinedSessions = () => {
 
       <div className="flex flex-col gap-3">
         {joinedMock.map((session, i) => (
-          <SessionCard
+          <JoinedSessionCard
             key={i}
             name={session.name}
             status={session.status as "accepted" | "waiting"}
+            i={i}
           />
         ))}
       </div>

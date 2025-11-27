@@ -5,12 +5,12 @@ import { useSession } from "@/app/_hooks/use-session";
 import { useUser } from "@clerk/nextjs";
 import { CreateSessionType } from "@/lib/types";
 
-export const ParticipantsList = ({
+export const JoinedSessionParticipantsList = ({
   session,
 }: {
   session: CreateSessionType;
 }) => {
-  const { allSessions } = useSession();
+  //   const { allSessions } = useSession();
   const { user } = useUser();
 
   return (
