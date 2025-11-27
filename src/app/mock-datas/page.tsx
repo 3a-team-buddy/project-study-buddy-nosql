@@ -17,6 +17,8 @@ const MockDatasPage = () => {
       <CreateMockTutor setLoading={setLoading} loading={loading} />
 
       <CreateMockStudent setLoading={setLoading} loading={loading} />
+
+      <div>Test</div>
     </div>
   );
 };
