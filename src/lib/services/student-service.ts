@@ -6,30 +6,32 @@ export const getAllMockStudets = async () => {
     await connectDB();
     return await StudentMock.find();
   } catch (error) {
-    console.error("Error while getting mock student data!", error);
+    console.error("Error while getting students mock datas!", error);
   }
 };
 
 export const createMockStudent = async (
-  studentImage: string,
+  studentClerkId: string,
   studentEmail: string,
   studentName: string,
-  studentClerckId: string
+  studentImage: string
 ) => {
   await connectDB();
 
-  const unistudent = await StudentMock.findById(studentClerckId);
-  // dahij harah -->aldaa tai bgaa
-  // if (unistudent) {
-  //   return;
-  // }
+  const foundStudent = await StudentMock.findOne({
+    studentClerkId,
+  });
+  if (foundStudent) {
+    return null;
+  }
 
   const mockStudent = new StudentMock({
-    clerckId: studentClerckId,
-    name: studentName,
-    image: studentImage,
-    email: studentEmail,
+    studentClerkId,
+    studentEmail,
+    studentName,
+    studentImage,
   });
+
   await mockStudent.save();
   return mockStudent;
 };

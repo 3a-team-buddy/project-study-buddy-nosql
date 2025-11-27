@@ -1,9 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import React, { Dispatch, useState } from "react";
+import { Label, Textarea, Button } from "@/components/ui";
 import { toast } from "sonner";
 import { LoaderCircle } from "lucide-react";
 
@@ -11,21 +9,16 @@ export const CreateMockStudent = ({
   setLoading,
   loading,
 }: {
-  setLoading: (loading: boolean) => void;
+  setLoading: Dispatch<React.SetStateAction<boolean>>;
   loading: boolean;
 }) => {
   const [studentName, setStudentName] = useState<string>("");
   const [studentEmail, setStudentEmail] = useState<string>("");
   const [studentImage, setStudentImage] = useState<string>("");
-  const [studentClerckId, setStudentClerckId] = useState<string>("");
-
-  console.log({ studentName });
-  console.log({ studentClerckId });
-  console.log({ studentEmail });
-  console.log({ studentImage });
+  const [studentClerkId, setStudentClerkId] = useState<string>("");
 
   const createMockTopic = async () => {
-    if (!studentClerckId || !studentImage || !studentName || !studentEmail) {
+    if (!studentClerkId || !studentImage || !studentName || !studentEmail) {
       toast.warning("All fields are required!");
       return;
     }
@@ -34,9 +27,9 @@ export const CreateMockStudent = ({
 
     const response = await fetch("api/mock-datas/create-student-mock-data", {
       method: "POST",
-      headers: { "Context-Type": "application/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        studentClerckId,
+        studentClerkId,
         studentName,
         studentImage,
         studentEmail,
@@ -50,7 +43,7 @@ export const CreateMockStudent = ({
     toast.success("Mock topic created successfully");
     setStudentName("");
     setStudentEmail("");
-    setStudentClerckId("");
+    setStudentClerkId("");
     setStudentImage("");
     setLoading(false);
   };
@@ -59,7 +52,7 @@ export const CreateMockStudent = ({
     <div>
       <div className="flex flex-col gap-4">
         <div className="text-xl leading-6 font-semibold">
-          Study Session Title and Description Mock Data Maker
+          Student Mock Data Maker
         </div>
 
         <div className="flex flex-col gap-1">
@@ -92,12 +85,12 @@ export const CreateMockStudent = ({
         </div>
 
         <div className="flex flex-col gap-1">
-          <Label>Student ClerckID </Label>
+          <Label>Student ClerckID</Label>
           <Textarea
             className="text-black "
-            value={studentClerckId}
-            onChange={(e) => setStudentClerckId(e.target.value)}
-            placeholder="Type clerck id  here..."
+            value={studentClerkId}
+            onChange={(e) => setStudentClerkId(e.target.value)}
+            placeholder="Type clerk id here..."
           />
         </div>
 

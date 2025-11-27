@@ -6,9 +6,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { mockTitle, mockDescription } = body;
 
-    //   console.log({ mockTitle });
-    //   console.log({ mockDescription });
-
     if (!mockTitle || !mockDescription) {
       return NextResponse.json(
         { message: "All fields are required!" },
@@ -35,6 +32,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         message: "Server error while creating mock topic!",
+        error,
       },
       { status: 500 }
     );

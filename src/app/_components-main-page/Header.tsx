@@ -1,7 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Circle, Flame, LucideBell, LucideHistory } from "lucide-react";
-import { FaUser } from "react-icons/fa6";
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
 
@@ -47,10 +46,7 @@ export const Header = () => {
           <Button size={"sm"} className="bg-gray-800 rounded-full">
             <LucideBell className="text-zinc-500 fill-current" />
           </Button>
-          {/* <Button size={"sm"} className="bg-gray-800 rounded-full"> */}
-          {/* <FaUser className="text-zinc-500" /> */}
           <UserButton />
-          {/* </Button> */}
         </div>
       </div>
     </header>

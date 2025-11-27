@@ -1,3 +1,4 @@
+import React from "react";
 import { ParticipantItem } from "./ParticipantItem";
 
 const participants = [

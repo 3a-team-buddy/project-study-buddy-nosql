@@ -11,10 +11,11 @@ export async function POST(request: NextRequest) {
 
     if (!mockTutorName || !mockTutorEmail || !mockTutorImage) {
       return NextResponse.json(
-        { message: "All field are required!" },
+        { message: "All fields are required!" },
         { status: 400 }
       );
     }
+
     const mockSessionTutor = await createMockTutor(
       mockTutorName,
       mockTutorEmail,
@@ -34,7 +35,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Error while creating mock tutor!", error);
     return NextResponse.json(
-      { message: "Server error while creating mock tutor!" },
+      { message: "Server error while creating mock tutor!", error },
       { status: 500 }
     );
   }
