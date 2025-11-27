@@ -5,7 +5,7 @@ import { Dashboard, Header } from "../_components-main-page";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+// import axios from "axios";
 import { Spinner } from "@/components/ui/spinner";
 import { UserResource } from "@clerk/shared/index-wiEBPMmH";
 import { toast } from "sonner";

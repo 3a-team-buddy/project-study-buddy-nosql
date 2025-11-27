@@ -1,8 +1,9 @@
 "use client";
+
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui";
 import { SelectedTutorType } from "@/lib/types";
 import { useUser } from "@clerk/nextjs";
-import React, { use, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export const CreateBtn = ({
@@ -26,7 +27,7 @@ export const CreateBtn = ({
 }) => {
   const [creatorId, setCreatorId] = useState<string>("");
   const { user } = useUser();
-  console.log({ user });
+
   useEffect(() => {
     if (user) {
       setCreatorId(user.id);
@@ -47,6 +48,7 @@ export const CreateBtn = ({
       toast.warning("All fields are required!");
       return;
     }
+
     const response = await fetch("api/create-new-session", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -59,13 +61,15 @@ export const CreateBtn = ({
         time,
         selectedSessionType,
         creatorId,
+        selectedTutors,
       }),
     });
-    console.log({ response });
+
     if (!response.ok) {
       toast.error("Failed to create session!");
     }
-    toast.success("Mock tutor created successfully");
+
+    toast.success("New session created successfully");
   };
   return (
     <div>
