@@ -1,6 +1,6 @@
 import React from "react";
 interface ParticipantProps {
-  name: string;
+  name: string | null | undefined;
 }
 
 export const ParticipantItem: React.FC<ParticipantProps> = ({ name }) => {

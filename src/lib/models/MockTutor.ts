@@ -1,12 +1,12 @@
 import mongoose, { Schema } from "mongoose";
 
-type MockTutorSchemaType = {
+export type MockTutorSchemaType = {
   mockTutorName: string;
   mockTutorEmail: string;
   mockTutorImage: string;
 };
 
-const MockTutorSchema = new Schema({
+export const MockTutorSchema = new Schema({
   mockTutorName: { type: String, required: true },
   mockTutorEmail: { type: String, required: true },
   mockTutorImage: { type: String, required: true },
