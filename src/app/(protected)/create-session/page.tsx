@@ -105,7 +105,7 @@ const CreateSessionPage = () => {
           size={"lg"}
           className="w-full rounded-full bg-[#2563EB] hover:bg-[#1d4ed8]"
         >
-          Create Session
+          Create
         </Button>
         <JoinedTutors selectedTutors={selectedTutors} />
       </div>

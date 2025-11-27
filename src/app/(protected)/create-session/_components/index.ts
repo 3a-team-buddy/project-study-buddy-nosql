@@ -1,5 +1,4 @@
 export * from "./SessionList";
-export * from "./StudySessionTitle";
 export * from "./StudySessionTitleAndDescription";
 export * from "./MemberLimitSelector";
 export * from "./DateAndTimePicker";
