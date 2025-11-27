@@ -6,6 +6,7 @@ import {
   MemberLimitSelector,
   DateAndTimePicker,
   SessionTypeSelector,
+  JoinedTutors,
 } from "./_components";
 import { Button } from "@/components/ui/button";
 import { SelectedTutorType } from "@/lib/types";
@@ -95,6 +96,7 @@ const CreateSessionPage = () => {
         >
           Create Session
         </Button>
+        <JoinedTutors selectedTutors={selectedTutors} />
       </div>
     </div>
   );
