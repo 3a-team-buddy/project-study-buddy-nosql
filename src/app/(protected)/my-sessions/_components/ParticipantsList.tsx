@@ -1,22 +1,24 @@
 import React from "react";
 import { ParticipantItem } from "./ParticipantItem";
+import { useSession } from "@/app/_hooks/use-session";
+import { useUser } from "@clerk/nextjs";
+import { CreateSessionType } from "@/lib/types";
 
-const participants = [
-  { name: "Alice Johnson" },
-  { name: "Bob Smith" },
-  { name: "Charlie Brown" },
-  { name: "Diana Prince" },
-  { name: "Diana Prince" },
-];
+export const ParticipantsList = ({
+  session,
+}: {
+  session: CreateSessionType;
+}) => {
+  const { allSessions } = useSession();
+  const { user } = useUser();
 
-export const ParticipantsList = () => {
   return (
     <div className="mt-6">
       <h3 className="text-white font-semibold mb-3">Participants</h3>
 
       <div className="flex flex-col gap-3">
-        {participants.map((p, i) => (
-          <ParticipantItem key={i} name={p.name} />
+        {allSessions.map((session) => (
+          <ParticipantItem key={session._id} name={user?.firstName} />
         ))}
       </div>
     </div>

@@ -22,3 +22,15 @@ export type StudentMockType = {
 export type SelectedTutorType = {
   mockTutorEmail: string;
 };
+
+export type CreateSessionType = {
+  _id: string;
+  sessionTopicTitle: string;
+  description: string;
+  minMember: number;
+  maxMember: number;
+  value: string;
+  time: string;
+  selectedSessionType: string;
+  creatorId: string;
+};

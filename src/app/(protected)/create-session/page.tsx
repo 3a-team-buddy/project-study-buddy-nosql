@@ -10,6 +10,7 @@ import {
 } from "./_components";
 import { Button } from "@/components/ui/button";
 import { SelectedTutorType } from "@/lib/types";
+import { CreateBtn } from "./_components/CreateBtn";
 
 const CreateSessionPage = () => {
   const [sessionTopicTitle, setSessionTopicTitle] = useState<string>("");
@@ -89,6 +90,16 @@ const CreateSessionPage = () => {
           setSelectedSessionType={setSelectedSessionType}
           selectedTutors={selectedTutors}
           setSelectedTutors={setSelectedTutors}
+        />
+        <CreateBtn
+          sessionTopicTitle={sessionTopicTitle}
+          description={description}
+          minMember={minMember}
+          maxMember={maxMember}
+          value={value}
+          time={time}
+          selectedSessionType={selectedSessionType}
+          selectedTutors={selectedTutors}
         />
         <Button
           size={"lg"}
