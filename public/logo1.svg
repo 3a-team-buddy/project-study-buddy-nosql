@@ -1,0 +1,16 @@
+<img
+  data-locked="false"
+  alt="Sticker spin"
+  loading="lazy"
+  width="130"
+  height="130"
+  decoding="async"
+  data-nimg="1"
+  class="aspect-square rounded-xl object-cover data-[locked=true]:opacity-50 data-[locked=true]:grayscale"
+  srcset="
+    /_next/image?url=https%3A%2F%2Fpub-484fddb2ef2146b4b0466a1e883f492b.r2.dev%2Fsticker.png&amp;w=256&amp;q=75 1x,
+    /_next/image?url=https%3A%2F%2Fpub-484fddb2ef2146b4b0466a1e883f492b.r2.dev%2Fsticker.png&amp;w=384&amp;q=75 2x
+  "
+  src="/_next/image?url=https%3A%2F%2Fpub-484fddb2ef2146b4b0466a1e883f492b.r2.dev%2Fsticker.png&amp;w=384&amp;q=75"
+  style="color: transparent"
+/>
