@@ -1,7 +1,7 @@
 import {
   createMockTutor,
   getAllMockTutors,
-} from "@/lib/services/session-service";
+} from "@/lib/services/mock-tutor-service";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {

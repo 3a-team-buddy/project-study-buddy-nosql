@@ -2,7 +2,6 @@ import {
   createNewSession,
   getAllSessions,
 } from "@/lib/services/create-session-service";
-import { error } from "console";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -45,14 +44,16 @@ export async function POST(request: NextRequest) {
       selectedSessionType,
       creatorId
     );
+
     if (!sessionCreator) {
       return NextResponse.json(
         { message: "Failed to create session!" },
         { status: 500 }
       );
     }
+
     return NextResponse.json(
-      { message: "Session created successfully" },
+      { message: "New session created successfully" },
       { status: 200 }
     );
   } catch (error) {

@@ -10,7 +10,7 @@ export const useMockTopic = () => {
   const getMockTopics = async () => {
     setLoading(true);
 
-    const response = await fetch("api/mock-datas/mock-topics");
+    const response = await fetch("api/mock-datas/create-mock-topic");
     const { data } = await response.json();
     setMockTopics(data);
     setLoading(false);

@@ -63,11 +63,12 @@ export const CreateBtn = ({
         creatorId,
       }),
     });
-    console.log({ response });
+
     if (!response.ok) {
       toast.error("Failed to create session!");
     }
-    toast.success("Mock tutor created successfully");
+
+    toast.success("New session created successfully");
   };
   return (
     <div>
