@@ -1,6 +1,7 @@
 "use client";
-import { CreateSessionType } from "@/lib/types";
+
 import { useEffect, useState } from "react";
+import { CreateSessionType } from "@/lib/types";
 
 export const useSession = () => {
   const [allSessions, setAllSessions] = useState<CreateSessionType[]>([]);
@@ -11,13 +12,10 @@ export const useSession = () => {
     const result = await fetch("api/create-new-session");
     const { data } = await result.json();
 
-    console.log({ data });
-
     if (!result.ok) {
-      alert("ALDAA");
+      alert("No sessions found!");
     }
-    // const { data } = responseData;
-    console.log({ result });
+
     setAllSessions(data);
   };
 

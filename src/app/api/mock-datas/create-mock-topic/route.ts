@@ -48,7 +48,7 @@ export async function GET() {
 
     if (!mockTopics) {
       return NextResponse.json(
-        { message: "No mock datas found!" },
+        { message: "No mock topics data found!" },
         { status: 404 }
       );
     }

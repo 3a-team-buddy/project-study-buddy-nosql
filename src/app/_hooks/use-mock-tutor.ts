@@ -8,10 +8,9 @@ export const useMockTutor = () => {
 
   const getMockTutors = async () => {
     const result = await fetch("api/mock-datas/create-mock-tutor");
-    const responseData = await result.json();
-    const { mockTutors } = responseData;
-    console.log(mockTutors, "GET data");
-    setMockTutors(mockTutors);
+    const { data } = await result.json();
+
+    setMockTutors(data);
   };
 
   useEffect(() => {

@@ -61,6 +61,7 @@ export const CreateBtn = ({
         time,
         selectedSessionType,
         creatorId,
+        selectedTutors,
       }),
     });
 

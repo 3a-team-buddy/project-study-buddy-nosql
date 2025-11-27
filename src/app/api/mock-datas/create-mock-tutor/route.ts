@@ -43,10 +43,13 @@ export async function POST(request: NextRequest) {
 
 export const GET = async () => {
   const mockTutors = await getAllMockTutors();
-  console.log({ mockTutors });
 
-  return NextResponse.json(
-    { message: "Getting tutors data", mockTutors },
-    { status: 200 }
-  );
+  if (!mockTutors) {
+    return NextResponse.json(
+      { message: "No mock tutors data found!" },
+      { status: 404 }
+    );
+  }
+
+  return NextResponse.json({ data: mockTutors }, { status: 200 });
 };

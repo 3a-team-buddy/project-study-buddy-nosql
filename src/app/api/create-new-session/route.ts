@@ -2,6 +2,7 @@ import {
   createNewSession,
   getAllSessions,
 } from "@/lib/services/create-session-service";
+import { createTutorPriorityList } from "@/lib/services/tutor-priority-service";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -16,8 +17,19 @@ export async function POST(request: NextRequest) {
       time,
       selectedSessionType,
       creatorId,
+      selectedTutors,
     } = body;
-
+    console.log({
+      sessionTopicTitle,
+      description,
+      minMember,
+      maxMember,
+      value,
+      time,
+      selectedSessionType,
+      creatorId,
+      selectedTutors,
+    });
     if (
       !sessionTopicTitle ||
       !description ||
@@ -26,7 +38,8 @@ export async function POST(request: NextRequest) {
       !value ||
       !time ||
       !selectedSessionType ||
-      !creatorId
+      !creatorId ||
+      !selectedTutors
     ) {
       return NextResponse.json(
         { message: "All fields are required!" },
@@ -48,6 +61,17 @@ export async function POST(request: NextRequest) {
     if (!sessionCreator) {
       return NextResponse.json(
         { message: "Failed to create session!" },
+        { status: 500 }
+      );
+    }
+
+    const tutorPriorityList = await createTutorPriorityList(selectedTutors);
+
+    if (!tutorPriorityList) {
+      return NextResponse.json(
+        {
+          message: "Failed to create tutor priority list!",
+        },
         { status: 500 }
       );
     }
