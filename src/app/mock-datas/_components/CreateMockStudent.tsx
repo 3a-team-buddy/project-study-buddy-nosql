@@ -1,5 +1,4 @@
 "use client";
-
 import React, { Dispatch, useState } from "react";
 import { Label, Textarea, Button } from "@/components/ui";
 import { toast } from "sonner";
@@ -17,7 +16,7 @@ export const CreateMockStudent = ({
   const [studentImage, setStudentImage] = useState<string>("");
   const [studentClerkId, setStudentClerkId] = useState<string>("");
 
-  const createMockTopic = async () => {
+  const createMockStudents = async () => {
     if (!studentClerkId || !studentImage || !studentName || !studentEmail) {
       toast.warning("All fields are required!");
       return;
@@ -95,7 +94,7 @@ export const CreateMockStudent = ({
         </div>
 
         <Button
-          onClick={createMockTopic}
+          onClick={createMockStudents}
           className="w-full bg-[#2563EB] hover:bg-[#1d4ed8]"
         >
           {loading && <LoaderCircle className="animate-spin" />}{" "}
