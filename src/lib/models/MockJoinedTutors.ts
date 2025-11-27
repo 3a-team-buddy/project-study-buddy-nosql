@@ -1,9 +1,9 @@
 import mongoose, { Schema } from "mongoose";
 
 type MockJoinedTutorSchemaType = {
-  mockTutorName: string;
-  mockTutorEmail: string;
-  mockTutorImage: string;
+  mockJoinedTutorSessionId: string;
+  mockJoinedTutorStatus: string;
+  mockJoinedTutorInbvitationStatus: string;
 };
 
 const MockJoinedTutorSchema = new Schema({
