@@ -4,34 +4,23 @@ import connectDB from "../mongodb";
 import { SelectedTutorType } from "../types";
 
 export const createSessionSelectedTutor = async (
-  selectedTutor: SelectedTutorType
+  selectedTutor: SelectedTutorType,
+  createdSessionId: string
 ) => {
   await connectDB();
 
-  const foundTutorId = await MockTutor.find(
+  const tutorEmail = selectedTutor.mockTutorEmail;
+  const foundTutorId = await MockTutor.findOne(
     {
-      mockTutorEmail: { $in: selectedTutor.mockTutorEmail },
+      mockTutorEmail: tutorEmail,
     },
     "_id"
   );
-
-  const newSessionSelectedTutor = new SessionSelectedTutor(foundTutorId);
+  console.log({ foundTutorId }, "founIDDDD");
+  console.log({ createdSessionId }, "SESSID");
+  const newSessionSelectedTutor = new SessionSelectedTutor([
+    { foundTutorId: foundTutorId._id, createdSessionId },
+  ]);
   await newSessionSelectedTutor.save();
   return newSessionSelectedTutor;
 };
-// selectedTutors.map(async (selectedTutor: any) => {
-//   await createSessionSelectedTutor(selectedTutor);
-// });
-// {
-//   selectedTutors: [
-//     { mockTutorEmail: "erdenetsogt.a@pinecone.mn" },
-//     { mockTutorEmail: "Lkhagva-Erdene.B@nest.edu.mn" },
-//     { mockTutorEmail: "bilguun.b@nest.edu.mn" },
-//   ];
-// }
-// const foundPriorityTutors = await MockTutor.find(
-//   {
-//     mockTutorEmail: { $in: emails },
-//   },
-//   "_id"
-// ).lean();

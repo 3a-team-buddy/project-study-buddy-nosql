@@ -1,22 +1,15 @@
 import mongoose, { Schema } from "mongoose";
 
 type SessionSelectedTutorSchemaType = {
-  sessionId: string;
-  tutorId: string;
+  foundTutorId: string;
+  createdSessionId: string;
   invitationStatus: string;
 };
 
-export const SessionSelectedTutorSchema = new Schema(
+const SessionSelectedTutorSchema = new Schema(
   {
-    sessionId: { type: Schema.ObjectId, ref: "Session", required: true },
-    tutorId: [
-      {
-        type: Schema.ObjectId,
-        ref: "Tutor",
-        required: true,
-      },
-    ],
-
+    foundTutorId: { type: Schema.ObjectId, ref: "MockTutor" },
+    createdSessionId: { type: Schema.ObjectId, ref: "Session" },
     invitationStatus: {
       type: String,
       enum: ["WAITING", "SEND", "ACCEPT", "DECLINE"],

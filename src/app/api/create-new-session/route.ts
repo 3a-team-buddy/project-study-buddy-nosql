@@ -1,16 +1,13 @@
-import { Session } from "@/lib/models/Session";
-import connectDB from "@/lib/mongodb";
 import {
   createNewSession,
   getAllSessions,
 } from "@/lib/services/create-session-service";
 import { createSessionSelectedTutor } from "@/lib/services/session-selected-tutor";
+import { SelectedTutorType } from "@/lib/types";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    await connectDB();
-
     const body = await request.json();
     const {
       sessionTopicTitle,
@@ -60,14 +57,14 @@ export async function POST(request: NextRequest) {
     }
 
     const createdSessionId: string = sessionCreator._id;
+
+    // console.log({ createdSessionId }, "endsession");
+    // console.log({ selectedTutors }, "endtutors");
     await Promise.all(
-      selectedTutors.map((selectedTutor) => {
+      selectedTutors.map(async (selectedTutor: SelectedTutorType) => {
         await createSessionSelectedTutor(selectedTutor, createdSessionId);
       })
     );
-    selectedTutors.map(async (selectedTutor: any) => {
-      await createSessionSelectedTutor(selectedTutor, createdSessionId);
-    });
 
     return NextResponse.json(
       { message: "New session created successfully" },
