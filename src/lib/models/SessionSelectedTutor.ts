@@ -1,28 +1,22 @@
 import mongoose, { Schema } from "mongoose";
 
-type TutorPriorityListSchemaType = {
+type SessionSelectedTutorSchemaType = {
   sessionId: string;
-  foundPriorityTutorIds: string[];
-  status: string;
+  tutorId: string;
   invitationStatus: string;
 };
 
-export const TutorPriorityListSchema = new Schema(
+export const SessionSelectedTutorSchema = new Schema(
   {
     sessionId: { type: Schema.ObjectId, ref: "Session", required: true },
-    foundPriorityTutorIds: [
+    tutorId: [
       {
         type: Schema.ObjectId,
         ref: "Tutor",
         required: true,
       },
     ],
-    status: {
-      type: String,
-      enum: ["PREFERRED"],
-      default: "PREFERRED",
-      required: true,
-    },
+
     invitationStatus: {
       type: String,
       enum: ["WAITING", "SEND", "ACCEPT", "DECLINE"],
@@ -33,9 +27,9 @@ export const TutorPriorityListSchema = new Schema(
   { timestamps: true }
 );
 
-export const TutorPriorityList =
-  mongoose.models.TutorPriorityList ||
-  mongoose.model<TutorPriorityListSchemaType>(
-    "TutorPriorityList",
-    TutorPriorityListSchema
+export const SessionSelectedTutor =
+  mongoose.models.SessionSelectedTutor ||
+  mongoose.model<SessionSelectedTutorSchemaType>(
+    "SessionSelectedTutor",
+    SessionSelectedTutorSchema
   );

@@ -1,12 +1,16 @@
+import { Session } from "@/lib/models/Session";
+import connectDB from "@/lib/mongodb";
 import {
   createNewSession,
   getAllSessions,
 } from "@/lib/services/create-session-service";
-import { createTutorPriorityList } from "@/lib/services/tutor-priority-service";
+import { createSessionSelectedTutor } from "@/lib/services/session-selected-tutor";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
+    await connectDB();
+
     const body = await request.json();
     const {
       sessionTopicTitle,
@@ -19,17 +23,7 @@ export async function POST(request: NextRequest) {
       creatorId,
       selectedTutors,
     } = body;
-    console.log({
-      sessionTopicTitle,
-      description,
-      minMember,
-      maxMember,
-      value,
-      time,
-      selectedSessionType,
-      creatorId,
-      selectedTutors,
-    });
+
     if (
       !sessionTopicTitle ||
       !description ||
@@ -65,16 +59,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const tutorPriorityList = await createTutorPriorityList(selectedTutors);
+    const createdSessionId: string = sessionCreator._id;
 
-    if (!tutorPriorityList) {
-      return NextResponse.json(
-        {
-          message: "Failed to create tutor priority list!",
-        },
-        { status: 500 }
-      );
-    }
+    selectedTutors.map(async (selectedTutor: any) => {
+      await createSessionSelectedTutor(selectedTutor, createdSessionId);
+    });
 
     return NextResponse.json(
       { message: "New session created successfully" },
