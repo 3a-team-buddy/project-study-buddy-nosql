@@ -1,4 +1,5 @@
-import React from "react";
+"use cLient";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { BsFillPeopleFill, BsLink } from "react-icons/bs";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
@@ -7,8 +8,31 @@ import { useSession } from "@/app/_hooks/use-session";
 import { DialogTitle } from "@radix-ui/react-dialog";
 
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-export const SessionList = () => {
+import { toast } from "sonner";
+type SessionListProps = {
+  userId: string;
+};
+export const SessionList = (userId: SessionListProps) => {
   const { allSessions } = useSession();
+
+  async function sendTutorEmail(session1: string) {
+    const joinedStudentSessionId = session1;
+
+    const response = await fetch("api/mock-datas/joined-students", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId,
+        joinedStudentSessionId,
+      }),
+    });
+    // console.log({ joinedStudentClerckId });
+
+    if (!response.ok) {
+      toast.error("Failed to create joined student");
+    }
+    toast.success("successfully");
+  }
   return (
     <div className="flex flex-col gap-3">
       <h2 className="text-2xl leading-7 text-white">Sessions</h2>
@@ -35,7 +59,13 @@ export const SessionList = () => {
             </Dialog>
 
             <div className="flex flex-col align-items-center justify-center gap-2">
-              <Button className="rounded-3xl bg-[#2563EBFF] hover:[#1d4ed8] gap-1 cursor-pointer">
+              <Button
+                onClick={() => {
+                  const session1 = session._id;
+                  sendTutorEmail(session1);
+                }}
+                className="rounded-3xl bg-[#2563EBFF] hover:[#1d4ed8] gap-1 cursor-pointer"
+              >
                 <BsFillPeopleFill />
                 1/{session.maxMember}
                 <p>JOIN</p>

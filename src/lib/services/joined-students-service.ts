@@ -1,36 +1,21 @@
-import { MockJoinedTutor } from "../models/MockJoinedTutors";
-import { MockTutor } from "../models/MockTutor";
+import { MockJoinedStudent } from "../models/MockJoinedStudent";
+import { StudentMock } from "../models/StudentMock";
 import connectDB from "../mongodb";
 
-export const getAllJoinedTutors = async () => {
-  try {
-    await connectDB();
-    return await MockTutor.find();
-  } catch (error) {
-    console.error("Error", error);
-  }
-};
-
-export const createJoinedStudents = async (
-  mockJoinedTutorsId: string[]
-  //   mockJoinedTutorSessionId: string,
-  //   mockJoinedTutorStatus: string,
-  //   mockJoinedTutorInbvitationStatus: string
+export const CreateAllJoinedStudent = async (
+  studentClerkId: string,
+  joinedStudentSessionId: string
 ) => {
   await connectDB();
+  const studentId = await StudentMock.findOne({
+    studentClerkId: studentClerkId,
+  }).select("_id");
 
-  const foundTutor = await MockJoinedTutor.findOne({});
-  if (foundTutor) {
-    return null;
-  }
-
-  const mockStudent = new MockJoinedTutor({
-    mockJoinedTutorsId,
-    // mockJoinedTutorSessionId,
-    // mockJoinedTutorStatus,
-    // mockJoinedTutorInbvitationStatus,
+  console.log({ studentId });
+  const JoinedStudent = new MockJoinedStudent({
+    studentId,
+    joinedStudentSessionId,
   });
-
-  await mockStudent.save();
-  return mockStudent;
+  await JoinedStudent.save();
+  return JoinedStudent;
 };
