@@ -1,53 +1,63 @@
 "use client";
-
-import React, { useState } from "react";
-import { JoinedSessions } from "./_components/JoinedSessions";
-import { MoreSessions } from "./_components/MoreSessions";
 import { useSession } from "@/app/_hooks/use-session";
+import React, { useState } from "react";
+import JoinedSessionCard from "./_components/JoinedSessionCard";
+import MoreSessions from "./_components/MoreSessions";
+import { DetailJoinedSession } from "./_components/DetailJoinedSession";
 
-const MySessionPage = () => {
-  const [clicked, setCLicked] = useState(false);
+const page = () => {
   const { allSessions } = useSession();
+  const [selectedSessionId, setSelectedSessionId] = useState<string>("");
+
+  const filteredSession = allSessions.filter(
+    (session) => session._id === selectedSessionId
+  );
+
+  const handleSessionId = (sessionId: string) => {
+    setSelectedSessionId(sessionId);
+  };
+
   return (
-    <div className="flex gap-8">
-      <div className="flex flex-col gap-3">
-        {allSessions.map((el) => (
-          <div className="flex justify-between">
-            <div
-              onClick={() => {
-                setCLicked(true);
-              }}
-              className="bg-white rounded-full"
-            >
-              <div>{el.sessionTopicTitle}</div>
-            </div>
-
-            {clicked && el._id ? (
-              <div className="bg-red-400">{el.time}</div>
-            ) : (
-              ""
-            )}
+    <div className="w-full min-h-screen flex gap-8 p-10 text-white">
+      <div className="flex-1">
+        <div className="flex flex-col gap-10">
+          <div className="flex flex-col gap-3">
+            <h2 className="text-2xl text-white">Joined sessions</h2>
+            {allSessions.map((session) => (
+              <div key={session._id}>
+                <JoinedSessionCard
+                  session={session}
+                  handleSessionId={() => handleSessionId(session._id)}
+                />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>{" "}
-      <div className="w-full min-h-screen p-10">
-        {/* Left side session lists */}
-        <div className="flex-1">
-          <div className="flex flex-col gap-15">
-            <JoinedSessions />
-
+          <div>
             <MoreSessions />
           </div>
         </div>
-        {allSessions.map((session) => (
-          <div key={session._id}>
-            {/* Right panel */}
-            {/* <SessionDetails session={session} /> */}
-          </div>
-        ))}
       </div>
-      <div className="w-[600px] rounded-xl bg-[#0E1B2EFF] shadow-xl"></div>
+
+      <div className="max-w-[480px] w-full">
+        {filteredSession.length > 0 ? (
+          <div>
+            {filteredSession.map((session) => (
+              <div key={session._id}>
+                <DetailJoinedSession session={session} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="max-w-[480px] rounded-xl px-8 bg-[#0E1B2EFF] shadow-xl h-200 flex items-center justify-center">
+            <h2 className="text-md font-semibold text-white mb-4">
+              {" "}
+              Please choose your session to check the details.
+            </h2>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
-export default MySessionPage;
+
+export default page;

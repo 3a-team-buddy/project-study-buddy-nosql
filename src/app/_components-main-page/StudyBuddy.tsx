@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { Panda } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -20,7 +21,7 @@ export const StudyBuddy = ({ open }: { open: boolean }) => {
             onClick={() => router.push("/my-sessions")}
             className="bg-transparent justify-start ml-2 px-2 py-1.5 text-muted-foreground hover:text-primary-foreground cursor-pointer"
           >
-            ʕ•ᴥ•ʔ My Buddies
+            <Panda /> My Buddies
           </Button>
         </div>
       )}

@@ -33,4 +33,5 @@ export type CreateSessionType = {
   time: string;
   selectedSessionType: string;
   creatorId: string;
+  status: string;
 };

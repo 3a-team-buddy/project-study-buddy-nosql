@@ -1,13 +1,15 @@
-import { MoreSessionCard } from "./MoreSessionCard";
+import React from "react";
+import MoreSessionCard from "./MoreSessionCard";
 
-export const MoreSessions = () => {
+const MoreSessions = () => {
   return (
-    <div className="flex flex-col gap-3">
-      <h2 className="text-2xl text-white">More sessions to join</h2>
-
-      <div>
+    <div>
+      <div className="flex flex-col gap-3">
+        <h2 className="text-2xl text-white">More sessions to join</h2>
         <MoreSessionCard />
       </div>
     </div>
   );
 };
+
+export default MoreSessions;
