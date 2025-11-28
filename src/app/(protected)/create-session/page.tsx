@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   SessionList,
   StudySessionTitleAndDescription,
@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { SelectedTutorType } from "@/lib/types";
 import { CreateBtn } from "./_components/CreateBtn";
+import { useUser } from "@clerk/nextjs";
 
 const CreateSessionPage = () => {
   const [sessionTopicTitle, setSessionTopicTitle] = useState<string>("");
@@ -25,6 +26,14 @@ const CreateSessionPage = () => {
   const [time, setTime] = useState<string>("");
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
+  const [userId, setUserId] = useState<string>("");
+  const { user } = useUser();
+  console.log({ userId });
+  useEffect(() => {
+    if (user) {
+      setUserId(user.id);
+    }
+  }, [user]);
 
   function formatDate(date: Date | undefined) {
     if (!date) {
@@ -43,12 +52,12 @@ const CreateSessionPage = () => {
   console.log({ value });
   console.log({ time });
   console.log({ selectedSessionType });
-  console.log({ selectedTutors });
+  console.log("hhhhhhhhhhhh", userId);
 
   return (
     <div className="w-full min-h-screen text-white flex gap-8 p-10">
       <div className="flex-1">
-        <SessionList />
+        <SessionList userId={userId} />
       </div>
 
       <div className="max-w-[480px] w-full flex flex-col gap-8 rounded-xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl">
@@ -107,7 +116,7 @@ const CreateSessionPage = () => {
         >
           JOINED STUDENTS
         </Button>
-        <JoinedStudents selectedTutors={selectedTutors} />
+        <JoinedStudents />
       </div>
     </div>
   );
