@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import {
   SessionList,
@@ -6,11 +7,9 @@ import {
   MemberLimitSelector,
   DateAndTimePicker,
   SessionTypeSelector,
-  JoinedStudents,
+  CreateSessionBtn,
 } from "./_components";
-import { Button } from "@/components/ui/button";
 import { SelectedTutorType } from "@/lib/types";
-import { CreateBtn } from "./_components/CreateBtn";
 import { useUser } from "@clerk/nextjs";
 
 const CreateSessionPage = () => {
@@ -28,7 +27,7 @@ const CreateSessionPage = () => {
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
   const [userId, setUserId] = useState<string>("");
   const { user } = useUser();
-  console.log({ userId });
+
   useEffect(() => {
     if (user) {
       setUserId(user.id);
@@ -93,14 +92,13 @@ const CreateSessionPage = () => {
             formatDate={formatDate}
           />
         </div>
-
         <SessionTypeSelector
           selectedSessionType={selectedSessionType}
           setSelectedSessionType={setSelectedSessionType}
           selectedTutors={selectedTutors}
           setSelectedTutors={setSelectedTutors}
         />
-        <CreateBtn
+        <CreateSessionBtn
           sessionTopicTitle={sessionTopicTitle}
           description={description}
           minMember={minMember}
@@ -109,14 +107,10 @@ const CreateSessionPage = () => {
           time={time}
           selectedSessionType={selectedSessionType}
           selectedTutors={selectedTutors}
+          userId={userId}
         />
-        <Button
-          size={"lg"}
-          className="w-full rounded-full bg-[#2563EB] hover:bg-[#1d4ed8]"
-        >
-          JOINED STUDENTS
-        </Button>
-        <JoinedStudents />
+
+        {/* <JoinedStudents /> */}
       </div>
     </div>
   );

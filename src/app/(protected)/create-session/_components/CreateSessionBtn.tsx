@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui";
 import { SelectedTutorType } from "@/lib/types";
-import { useUser } from "@clerk/nextjs";
 import { toast } from "sonner";
 
-export const CreateBtn = ({
+export const CreateSessionBtn = ({
   sessionTopicTitle,
   description,
   minMember,
@@ -15,6 +14,7 @@ export const CreateBtn = ({
   time,
   selectedSessionType,
   selectedTutors,
+  userId,
 }: {
   sessionTopicTitle: string;
   description: string;
@@ -24,16 +24,8 @@ export const CreateBtn = ({
   time: string;
   selectedSessionType: string;
   selectedTutors: SelectedTutorType[];
+  userId: string;
 }) => {
-  const [creatorId, setCreatorId] = useState<string>("");
-  const { user } = useUser();
-
-  useEffect(() => {
-    if (user) {
-      setCreatorId(user.id);
-    }
-  }, [user]);
-
   const createSession = async () => {
     if (
       !sessionTopicTitle ||
@@ -43,7 +35,8 @@ export const CreateBtn = ({
       !value ||
       !time ||
       !selectedSessionType ||
-      !selectedTutors
+      !selectedTutors ||
+      !userId
     ) {
       toast.warning("All fields are required!");
       return;
@@ -60,7 +53,7 @@ export const CreateBtn = ({
         value,
         time,
         selectedSessionType,
-        creatorId,
+        creatorId: userId,
         selectedTutors,
       }),
     });

@@ -5,3 +5,4 @@ export * from "./label";
 export * from "./popover";
 export * from "./textarea";
 export * from "./radio-group";
+export * from "./dialog";

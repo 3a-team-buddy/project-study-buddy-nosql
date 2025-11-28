@@ -58,13 +58,13 @@ export async function POST(request: NextRequest) {
 
     const createdSessionId: string = sessionCreator._id;
 
-    // console.log({ createdSessionId }, "endsession");
-    // console.log({ selectedTutors }, "endtutors");
-    await Promise.all(
-      selectedTutors.map(async (selectedTutor: SelectedTutorType) => {
-        await createSessionSelectedTutor(selectedTutor, createdSessionId);
-      })
-    );
+    // await Promise.all(
+    //   selectedTutors.map(async (selectedTutor: SelectedTutorType) => {
+    //     await createSessionSelectedTutor(selectedTutor, createdSessionId);
+    //   })
+    // );
+
+    await createSessionSelectedTutor(selectedTutors, createdSessionId);
 
     return NextResponse.json(
       { message: "New session created successfully" },

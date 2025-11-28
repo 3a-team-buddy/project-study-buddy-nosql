@@ -1,14 +1,18 @@
 "use cLient";
 import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  DialogTitle,
+} from "@/components/ui";
 import { BsFillPeopleFill, BsLink } from "react-icons/bs";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CreateSessionInfoDialog } from "./CreateSessionInfoDialog";
 import { useSession } from "@/app/_hooks/use-session";
-import { DialogTitle } from "@radix-ui/react-dialog";
-
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { toast } from "sonner";
+
 type SessionListProps = {
   userId: string;
 };
