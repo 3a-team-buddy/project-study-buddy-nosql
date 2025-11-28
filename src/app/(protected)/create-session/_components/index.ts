@@ -4,4 +4,4 @@ export * from "./MemberLimitSelector";
 export * from "./DateAndTimePicker";
 export * from "./SessionTypeSelector";
 export * from "./CreateBtn";
-export * from "./JoinedTutors";
+export * from "./JoinedStudents";
