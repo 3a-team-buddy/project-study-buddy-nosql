@@ -1,67 +1,50 @@
 "use client";
+
+import { useSession } from "@/app/_hooks/use-session";
+import { CreateSessionType } from "@/lib/types";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FiLink } from "react-icons/fi";
-import { JoinedSessionDetails } from "./JoinedSessionDetails";
-import { SideJoinedSessionDetail } from "./SideJoinedSessionDetail";
 
-interface SessionCardProps {
-  name: string;
-  members?: number;
-  status?: "accepted" | "waiting" | null;
-  showJoin?: boolean;
-  i: number;
-}
-
-// export const SessionCard: React.FC<SessionCardProps> = ({
-//   name,
-//   members,
-//   status,
-//   showJoin = false,
-// }) => {
-
-const JoinedSessionCard: React.FC<SessionCardProps> = ({
-  name,
-  members,
-  status,
-  showJoin = false,
-  i,
+const JoinedSessionCard = ({
+  session,
+  handleSessionId,
+}: {
+  session: CreateSessionType;
+  handleSessionId: () => void;
 }) => {
-  const [clicked, setCLicked] = useState<boolean>(false);
-
+  const { allSessions } = useSession();
+  const router = useRouter();
+  // const [clicked, setClicked] = useState<boolean>(false);
   return (
-    <div className="flex gap-8">
-      <div
-        onClick={() => {
-          setCLicked(true), alert(i);
-        }}
-        className="w-full rounded-xl px-6 py-4 bg-linear-to-b from-[#1E2648] to-[#122136] flex justify-between items-center"
-      >
-        <h3 className="text-white font-semibold">{name}</h3>
+    <div className="flex flex-col gap-3 hover:cursor-pointer">
+      <div key={session._id}>
+        <div
+          // onClick={() => {
+          //   setClicked(true);
+          // }}
+          className="w-full rounded-xl px-6 py-4 bg-linear-to-b from-[#1E2648] to-[#122136] flex gap-3 justify-between items-center"
+        >
+          <h3 onClick={handleSessionId} className="text-white font-semibold">
+            {session.sessionTopicTitle}
+          </h3>
 
-        <div className="flex items-center gap-4">
-          {showJoin && (
-            <button className="text-xs bg-blue-600 text-white px-2 py-1 rounded-md">
-              {members} JOIN
+          <div className="flex items-center gap-4">
+            <button className="flex items-center text-sm text-blue-300 hover:text-blue-400">
+              <FiLink className="mr-1" /> invite
             </button>
-          )}
-
-          <button className="flex items-center text-sm text-blue-300 hover:text-blue-400">
-            <FiLink className="mr-1" /> invite
-          </button>
-
-          {status && (
-            <span
-              className={`text-xs ${
-                status === "accepted" ? "text-green-400" : "text-orange-300"
-              }`}
-            >
-              {status}
-            </span>
-          )}
+            {session.status && (
+              <span
+                className={`text-xs ${
+                  status === "accepted" ? "text-green-400" : "text-orange-300"
+                }`}
+              >
+                {session.status}
+              </span>
+            )}
+          </div>
         </div>
       </div>
-      {clicked && <SideJoinedSessionDetail i={i} />}
-      {/* <JoinedSessionDetails session={session} /> */}
     </div>
   );
 };

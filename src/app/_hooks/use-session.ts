@@ -9,7 +9,7 @@ export const useSession = () => {
   console.log({ allSessions });
 
   const getSessions = async () => {
-    const result = await fetch("api/create-new-session");
+    const result = await fetch("/api/create-new-session");
     const { data } = await result.json();
 
     if (!result.ok) {
