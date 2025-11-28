@@ -34,7 +34,7 @@ export const CreateBtn = ({
     }
   }, [user]);
 
-  const CreateSession = async () => {
+  const createSession = async () => {
     if (
       !sessionTopicTitle ||
       !description ||
@@ -76,7 +76,7 @@ export const CreateBtn = ({
       <Button
         size={"lg"}
         className="w-full rounded-full bg-[#2563EB] hover:bg-[#1d4ed8]"
-        onClick={CreateSession}
+        onClick={createSession}
       >
         Create Session
       </Button>
