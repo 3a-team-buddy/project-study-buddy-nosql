@@ -6,7 +6,7 @@ import {
   MemberLimitSelector,
   DateAndTimePicker,
   SessionTypeSelector,
-  JoinedTutors,
+  JoinedStudents,
 } from "./_components";
 import { Button } from "@/components/ui/button";
 import { SelectedTutorType } from "@/lib/types";
@@ -105,9 +105,9 @@ const CreateSessionPage = () => {
           size={"lg"}
           className="w-full rounded-full bg-[#2563EB] hover:bg-[#1d4ed8]"
         >
-          Create
+          JOINED STUDENTS
         </Button>
-        <JoinedTutors selectedTutors={selectedTutors} />
+        <JoinedStudents selectedTutors={selectedTutors} />
       </div>
     </div>
   );

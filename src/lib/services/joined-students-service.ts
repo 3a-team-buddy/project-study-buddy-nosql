@@ -11,7 +11,7 @@ export const getAllJoinedTutors = async () => {
   }
 };
 
-export const createMockJoinedTutors = async (
+export const createJoinedStudents = async (
   mockJoinedTutorsId: string[]
   //   mockJoinedTutorSessionId: string,
   //   mockJoinedTutorStatus: string,

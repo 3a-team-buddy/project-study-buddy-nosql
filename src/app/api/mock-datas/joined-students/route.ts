@@ -1,4 +1,4 @@
-import { createMockJoinedTutors } from "@/lib/services/joined-tutors-service";
+import { createJoinedStudents } from "@/lib/services/joined-students-service";
 import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -6,5 +6,5 @@ export async function POST(request: NextRequest) {
   const { selectedTutors } = body;
   console.log({ selectedTutors });
   //createMockStudent
-  const joinedTutorsMockDB = await createMockJoinedTutors(selectedTutors);
+  const joinedTutorsMockDB = await createJoinedStudents(selectedTutors);
 }
