@@ -60,7 +60,11 @@ export async function POST(request: NextRequest) {
     }
 
     const createdSessionId: string = sessionCreator._id;
-
+    await Promise.all(
+      selectedTutors.map((selectedTutor) => {
+        await createSessionSelectedTutor(selectedTutor, createdSessionId);
+      })
+    );
     selectedTutors.map(async (selectedTutor: any) => {
       await createSessionSelectedTutor(selectedTutor, createdSessionId);
     });
