@@ -1,7 +1,7 @@
 import {
   createMockStudent,
   getAllMockStudets,
-} from "@/lib/services/student-service";
+} from "@/lib/services/mock-student-service";
 import { NextRequest, NextResponse } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
 

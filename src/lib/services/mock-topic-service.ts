@@ -1,6 +1,5 @@
 import { MockTopic } from "../models/MockTopic";
 import connectDB from "../mongodb";
-import { MockTopicType } from "../types";
 
 export const getAllMockTopics = async () => {
   try {

@@ -1,11 +1,9 @@
 "use client";
 
-import { Toaster } from "@/components/ui/sonner";
-import { Dashboard, Header } from "../_components-main-page";
 import { useEffect, useState } from "react";
+import { Dashboard, Header } from "../_components-main-page";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-// import axios from "axios";
 import { Spinner } from "@/components/ui/spinner";
 import { UserResource } from "@clerk/shared/index-wiEBPMmH";
 import { toast } from "sonner";
@@ -70,6 +68,7 @@ export default function RootLayout({
       </div>
     );
   }
+
   return (
     <div className="bg-[url('https://talent.pinebaatars.mn/pinebaatar.png')] bg-cover bg-center">
       <Header />
@@ -77,7 +76,6 @@ export default function RootLayout({
         <div className="flex gap-6 py-9">
           <Dashboard />
           {children}
-          <Toaster position="top-center" />
         </div>
       </div>
     </div>

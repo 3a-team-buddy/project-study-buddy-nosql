@@ -1,10 +1,18 @@
+import { NextRequest, NextResponse } from "next/server";
 import {
   createNewSession,
   getAllSessions,
 } from "@/lib/services/create-session-service";
-import { createSessionSelectedTutor } from "@/lib/services/session-selected-tutor";
-import { SelectedTutorType } from "@/lib/types";
-import { NextRequest, NextResponse } from "next/server";
+import { createSelectedTutor } from "@/lib/services/selected-tutors-service";
+
+export async function GET() {
+  const allSessions = await getAllSessions();
+  console.log({ allSessions });
+  if (!allSessions) {
+    return NextResponse.json({ error: "No Sessions" }, { status: 404 });
+  }
+  return NextResponse.json({ data: allSessions });
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -56,15 +64,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const createdSessionId: string = sessionCreator._id;
+    const createdSessionId = sessionCreator._id;
+    const createdSessionType = sessionCreator.selectedSessionType;
 
-    // await Promise.all(
-    //   selectedTutors.map(async (selectedTutor: SelectedTutorType) => {
-    //     await createSessionSelectedTutor(selectedTutor, createdSessionId);
-    //   })
-    // );
-
-    await createSessionSelectedTutor(selectedTutors, createdSessionId);
+    if (createdSessionType === "tutor-led") {
+      await createSelectedTutor(selectedTutors, createdSessionId);
+    }
 
     return NextResponse.json(
       { message: "New session created successfully" },
@@ -77,16 +82,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-export async function GET() {
-  const allSessions = await getAllSessions();
-
-  if (!allSessions) {
-    return NextResponse.json({ error: "No Sessions" }, { status: 404 });
-  }
-  return NextResponse.json(
-    { message: "Getting sessions data", data: allSessions },
-    { status: 200 }
-  );
 }

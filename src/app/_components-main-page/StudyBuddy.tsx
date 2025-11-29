@@ -1,8 +1,9 @@
 "use client";
-import { Button } from "@/components/ui/button";
+
+import React from "react";
+import { Button } from "@/components/ui";
 import { Panda } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React from "react";
 
 export const StudyBuddy = ({ open }: { open: boolean }) => {
   const router = useRouter();
@@ -15,13 +16,14 @@ export const StudyBuddy = ({ open }: { open: boolean }) => {
             onClick={() => router.push("/create-session")}
             className="bg-transparent justify-start ml-2 px-2 py-1.5 text-muted-foreground hover:text-primary-foreground cursor-pointer"
           >
-            Create Buddy
+            Create Study Buddy
           </Button>
           <Button
             onClick={() => router.push("/my-sessions")}
             className="bg-transparent justify-start ml-2 px-2 py-1.5 text-muted-foreground hover:text-primary-foreground cursor-pointer"
           >
-            <Panda /> My Buddies
+            <Panda />
+            My Study Buddies
           </Button>
         </div>
       )}

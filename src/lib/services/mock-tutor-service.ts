@@ -1,10 +1,10 @@
 import { MockTutor } from "../models/MockTutor";
 import connectDB from "../mongodb";
-import { MockTutorType } from "../types";
 
 export const getAllMockTutors = async () => {
   try {
     await connectDB();
+
     return await MockTutor.find().select("-__v");
   } catch (error) {
     console.error("Error while getting mock tutors data!", error);
@@ -23,6 +23,7 @@ export const createMockTutor = async (
     mockTutorEmail,
     mockTutorImage,
   });
+
   await newMockTutor.save();
   return newMockTutor;
 };

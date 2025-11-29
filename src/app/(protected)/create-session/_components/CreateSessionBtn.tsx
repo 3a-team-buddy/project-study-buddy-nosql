@@ -1,13 +1,15 @@
 "use client";
 
-import React from "react";
+import React, { Dispatch } from "react";
 import { Button } from "@/components/ui";
 import { SelectedTutorType } from "@/lib/types";
 import { toast } from "sonner";
 
 export const CreateSessionBtn = ({
   sessionTopicTitle,
+  setSessionTopicTitle,
   description,
+  setDescription,
   minMember,
   maxMember,
   value,
@@ -17,7 +19,9 @@ export const CreateSessionBtn = ({
   userId,
 }: {
   sessionTopicTitle: string;
+  setSessionTopicTitle: Dispatch<React.SetStateAction<string>>;
   description: string;
+  setDescription: Dispatch<React.SetStateAction<string>>;
   minMember: number;
   maxMember: number;
   value: string;
@@ -59,20 +63,21 @@ export const CreateSessionBtn = ({
     });
 
     if (!response.ok) {
-      toast.error("Failed to create session!");
+      toast.error("Failed to create study session!");
     }
 
-    toast.success("New session created successfully");
+    toast.success("Study session created successfully");
+    setSessionTopicTitle("");
+    setDescription("");
   };
+
   return (
-    <div>
-      <Button
-        size={"lg"}
-        className="w-full rounded-full bg-[#2563EB] hover:bg-[#1d4ed8]"
-        onClick={createSession}
-      >
-        Create Session
-      </Button>
-    </div>
+    <Button
+      size={"lg"}
+      onClick={createSession}
+      className="w-full rounded-full bg-[#2563EB] hover:bg-[#1d4ed8] cursor-pointer"
+    >
+      Create Session
+    </Button>
   );
 };

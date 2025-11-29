@@ -1,6 +1,11 @@
 import { Session } from "../models/Session";
 import connectDB from "../mongodb";
 
+export const getAllSessions = async () => {
+  await connectDB();
+  return await Session.find().select("-__v");
+};
+
 export const createNewSession = async (
   sessionTopicTitle: string,
   description: string,
@@ -25,9 +30,4 @@ export const createNewSession = async (
 
   await newSession.save();
   return newSession;
-};
-
-export const getAllSessions = async () => {
-  await connectDB();
-  return await Session.find();
 };
