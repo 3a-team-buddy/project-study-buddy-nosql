@@ -1,18 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  createNewSession,
-  getAllSessions,
-} from "@/lib/services/create-session-service";
+import { createNewSession } from "@/lib/services/create-session-service";
 import { createSelectedTutor } from "@/lib/services/selected-tutors-service";
-
-export async function GET() {
-  const allSessions = await getAllSessions();
-  console.log({ allSessions });
-  if (!allSessions) {
-    return NextResponse.json({ error: "No Sessions" }, { status: 404 });
-  }
-  return NextResponse.json({ data: allSessions });
-}
 
 export async function POST(request: NextRequest) {
   try {

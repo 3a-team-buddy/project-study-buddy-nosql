@@ -1,22 +1,13 @@
 "use cLient";
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-  DialogTitle,
-} from "@/components/ui";
-import { BsFillPeopleFill, BsLink } from "react-icons/bs";
-import { CreateSessionInfoDialog } from "./CreateSessionInfoDialog";
-import { useSession } from "@/app/_hooks/use-session";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { toast } from "sonner";
 
-type SessionListProps = {
-  userId: string;
-};
-export const SessionList = (userId: SessionListProps) => {
+import React, { useEffect } from "react";
+import { Button } from "@/components/ui";
+import { BsFillPeopleFill, BsLink } from "react-icons/bs";
+import { useSession } from "@/app/_hooks/use-session";
+import { toast } from "sonner";
+import { SessionInfoDialog } from "@/app/(protected)/create-session/_components";
+
+export const SessionList = ({ userId }: { userId: string }) => {
   const { allSessions } = useSession();
 
   async function sendTutorEmail(session1: string) {
@@ -37,9 +28,10 @@ export const SessionList = (userId: SessionListProps) => {
     }
     toast.success("successfully");
   }
+
   return (
     <div className="flex flex-col gap-3">
-      <h2 className="text-2xl leading-7 text-white">Sessions</h2>
+      <h2 className="text-2xl leading-7 font-semibold">Sessions</h2>
 
       <div className="flex flex-col gap-3">
         {allSessions.map((session) => (
@@ -47,20 +39,7 @@ export const SessionList = (userId: SessionListProps) => {
             key={session._id}
             className="flex justify-between items-center p-4 rounded-3xl bg-[linear-gradient(180deg,#1E2648_0%,#122136_100%)] hover:bg-white/10"
           >
-            <Dialog>
-              <DialogTrigger>
-                <span className="text-xl text-white font-bold cursor-pointer">
-                  {session.sessionTopicTitle}
-                </span>
-              </DialogTrigger>
-
-              <DialogContent className="p-0 bg-transparent">
-                <VisuallyHidden>
-                  <DialogTitle />
-                </VisuallyHidden>
-                <CreateSessionInfoDialog session={session} />
-              </DialogContent>
-            </Dialog>
+            <SessionInfoDialog session={session} />
 
             <div className="flex flex-col align-items-center justify-center gap-2">
               <Button

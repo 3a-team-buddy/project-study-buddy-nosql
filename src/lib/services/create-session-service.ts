@@ -3,6 +3,7 @@ import connectDB from "../mongodb";
 
 export const getAllSessions = async () => {
   await connectDB();
+
   return await Session.find().select("-__v");
 };
 

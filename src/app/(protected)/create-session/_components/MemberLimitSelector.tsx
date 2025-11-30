@@ -21,13 +21,13 @@ export const MemberLimitSelector = ({
     }
   };
   return (
-    <div className="w-full flex flex-col gap-5 text-white">
+    <div className="w-full flex flex-col gap-5">
       <div className="flex flex-col gap-3">
         <Label>Minimum Member</Label>
         <select
           value={minMember}
           onChange={(e) => setMinMember(Number(e.target.value))}
-          className="bg-black/50 border border-border/20 rounded-md px-3 py-2 focus:outline-none focus:ring-0"
+          className="bg-black/50 border border-border/20 rounded-md text-sm text-white/80 px-3 py-2 focus:outline-none focus:ring-0"
         >
           <option value="0" disabled className="bg-black">
             Select members
@@ -46,7 +46,7 @@ export const MemberLimitSelector = ({
         <select
           value={maxMember}
           onChange={maxMemberHandler}
-          className="bg-black/50 border border-border/20 rounded-md px-3 py-2 focus:outline-none focus:ring-0"
+          className="bg-black/50 border border-border/20 rounded-md text-sm text-white/80 px-3 py-2 focus:outline-none focus:ring-0"
         >
           <option value="0" disabled className="bg-black">
             Select members

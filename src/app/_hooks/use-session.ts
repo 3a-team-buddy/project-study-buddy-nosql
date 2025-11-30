@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { CreateSessionType } from "@/lib/types";
+import { toast } from "sonner";
 
 export const useSession = () => {
   const [allSessions, setAllSessions] = useState<CreateSessionType[]>([]);
@@ -9,11 +10,11 @@ export const useSession = () => {
   console.log({ allSessions });
 
   const getSessions = async () => {
-    const result = await fetch("/api/create-new-session");
+    const result = await fetch("/api/get-sessions");
     const { data } = await result.json();
 
     if (!result.ok) {
-      alert("No sessions found!");
+      toast.error("No sessions found!");
     }
 
     setAllSessions(data);
@@ -23,5 +24,5 @@ export const useSession = () => {
     getSessions();
   }, []);
 
-  return { allSessions };
+  return { allSessions, reFetchSessions: getSessions };
 };

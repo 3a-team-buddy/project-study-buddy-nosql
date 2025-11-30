@@ -10,7 +10,7 @@ import {
 import React, { useState } from "react";
 import { FiLink } from "react-icons/fi";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { CreateSessionInfoDialog } from "@/app/(protected)/create-session/_components/CreateSessionInfoDialog";
+import { CreateSessionInfoDialog } from "@/app/(protected)/create-session/_components/SessionInfoDialog";
 
 interface SessionCardProps {
   showJoin?: boolean;
