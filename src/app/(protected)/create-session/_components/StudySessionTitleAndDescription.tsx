@@ -35,7 +35,7 @@ export const StudySessionTitleAndDescription = ({
   return (
     <div className="w-full flex flex-col gap-8">
       <div className="flex flex-col gap-3">
-        <Label htmlFor="topic-title-input">Study Session Title</Label>
+        <Label htmlFor="topic-title-input">Session Title</Label>
         <Input
           id="topic-title-input"
           type="text"
@@ -43,7 +43,7 @@ export const StudySessionTitleAndDescription = ({
           value={sessionTopicTitle}
           onChange={handleSessionTopicTitleChange}
           placeholder="Сэдвээ оруулна уу..."
-          className="border border-border/20 bg-black text-white/80"
+          className="border-border/20 bg-black/50 text-white/80"
         />
 
         <datalist id="mock-topic-suggestions">
@@ -60,7 +60,7 @@ export const StudySessionTitleAndDescription = ({
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Сэдвийн талаар товч бичнэ үү..."
-          className="min-h-20 border border-border/20 bg-black text-white/80"
+          className="min-h-20 border-border/20 bg-black/50 text-white/80"
         />
       </div>
     </div>

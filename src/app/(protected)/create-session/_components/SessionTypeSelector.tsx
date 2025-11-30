@@ -51,12 +51,12 @@ export const SessionTypeSelector = ({
   };
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-3">
       <Label>Session Type</Label>
       <RadioGroup
         value={selectedSessionType}
         onValueChange={handleChangeSessionType}
-        className="flex justify-between mx-20"
+        className="flex justify-around"
       >
         <div className="flex items-center space-x-2">
           <RadioGroupItem
@@ -73,12 +73,12 @@ export const SessionTypeSelector = ({
       </RadioGroup>
 
       {selectedSessionType === "tutor-led" && (
-        <div className=" flex flex-col gap-0.5">
+        <div className="flex flex-col gap-0.5">
           <div className="flex justify-between gap-3">
             <Input
               list="tutors"
               placeholder="Type your tutors here..."
-              className="border bg-none px-3 py-2 text-sm border-[#323743FF] ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed
+              className="border-border/20 bg-black/50 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed
           disabled:opacity-50"
               value={tutorLedInputValue}
               onChange={(e) => setTutorLedInputValue(e.target.value)}
