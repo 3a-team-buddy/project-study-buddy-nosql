@@ -1,3 +1,4 @@
+import Ably from "ably";
 import { NextRequest, NextResponse } from "next/server";
 import { createNewSession } from "@/lib/services/create-session-service";
 import { createSelectedTutor } from "@/lib/services/selected-tutors-service";
@@ -59,8 +60,13 @@ export async function POST(request: NextRequest) {
       await createSelectedTutor(selectedTutors, createdSessionId);
     }
 
+    const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
+    const channel = ably.channels.get("sessions");
+
+    await channel.publish("session-created", sessionCreator);
+
     return NextResponse.json(
-      { message: "New session created successfully" },
+      { message: "New session created successfully", data: sessionCreator },
       { status: 200 }
     );
   } catch (error) {

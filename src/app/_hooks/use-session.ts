@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { CreateSessionType } from "@/lib/types";
 import { toast } from "sonner";
+import Ably from "ably";
 
 export const useSession = () => {
   const [allSessions, setAllSessions] = useState<CreateSessionType[]>([]);
@@ -22,7 +23,31 @@ export const useSession = () => {
 
   useEffect(() => {
     getSessions();
+
+    const ably = new Ably.Realtime({
+      key: process.env.NEXT_PUBLIC_ABLY_API_KEY,
+    });
+
+    const channel = ably.channels.get("sessions");
+
+    const handleMessage = (message: any) => {
+      if (message.name !== "session-created") return;
+      if (!message.data) return;
+
+      setAllSessions((prev) => {
+        if (prev.some((session) => session._id === message.data._id))
+          return prev;
+        return [message.data, ...prev];
+      });
+    };
+
+    channel.subscribe("session-created", handleMessage);
+
+    return () => {
+      channel.unsubscribe("session-created", handleMessage);
+      ably.close();
+    };
   }, []);
 
-  return { allSessions, reFetchSessions: getSessions };
+  return { allSessions };
 };

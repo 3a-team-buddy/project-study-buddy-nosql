@@ -145,7 +145,7 @@ export const DateAndTimePicker = ({
       </>
 
       <div className="flex flex-col gap-3">
-        <Label htmlFor="time-picker">Session start time</Label>
+        <Label htmlFor="time-picker">Start time</Label>
         <div className="absolute"></div>
         <Popover open={isOpen} onOpenChange={setIsOpen}>
           <PopoverTrigger asChild>
