@@ -108,8 +108,6 @@ const CreateSessionPage = () => {
           selectedTutors={selectedTutors}
           userId={userId}
         />
-
-        {/* <JoinedStudents /> */}
       </div>
     </div>
   );

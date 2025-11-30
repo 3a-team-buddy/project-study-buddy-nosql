@@ -6,28 +6,31 @@ import { BsFillPeopleFill, BsLink } from "react-icons/bs";
 import { useSession } from "@/app/_hooks/use-session";
 import { toast } from "sonner";
 import { SessionInfoDialog } from "@/app/(protected)/create-session/_components";
+import { useJoinedStudents } from "@/app/_hooks/use-joined-students";
 
 export const SessionList = ({ userId }: { userId: string }) => {
   const { allSessions } = useSession();
+  const { allJoinedStudents } = useJoinedStudents();
 
-  // const saveJoinedStudentHandler = async (sessionId: string) => {
-  //   const response = await fetch("api/mock-datas/joined-students", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({
-  //       clerkId: userId,
-  //       sessionId,
-  //     }),
-  //   });
-  //   // console.log({ joinedStudentClerckId });
+  const joinedStudentHandler = async (sessionId: string) => {
+    const response = await fetch("api/joined-students", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        studentClerkId: userId,
+        sessionId,
+      }),
+    });
+    console.log({ userId });
+    console.log({ sessionId });
 
-  //   if (!response.ok) {
-  //     toast.error("Failed to join the session");
-  //   }
-  //   toast.success(
-  //     "You have successfully joined the session, View your joined session on My Study Buddies"
-  //   );
-  // };
+    if (!response.ok) {
+      toast.error("Failed to join the session");
+    }
+    toast.success(
+      "You have successfully joined the session, View your joined session on My Study Buddies"
+    );
+  };
 
   return (
     <div className="flex flex-col gap-3">
@@ -43,14 +46,14 @@ export const SessionList = ({ userId }: { userId: string }) => {
 
             <div className="flex flex-col justify-center gap-2">
               <Button
-                // onClick={() => {
-                //   saveJoinedStudentHandler(session._id);
-                // }}
+                onClick={() => {
+                  joinedStudentHandler(session._id);
+                }}
                 className="rounded-full bg-[#2563EB] hover:bg-[#1d4ed8] gap-1 cursor-pointer text-white/80 hover:text-white"
               >
                 <BsFillPeopleFill />
                 <div>
-                  {1}
+                  {allJoinedStudents.length}
                   <span>/{session.maxMember}</span>
                 </div>
                 <div>JOIN</div>

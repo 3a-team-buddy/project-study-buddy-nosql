@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CreateSessionType } from "@/lib/types";
 import { toast } from "sonner";
 import Ably from "ably";
@@ -15,7 +15,7 @@ export const useSession = () => {
     const { data } = await result.json();
 
     if (!result.ok) {
-      toast.error("No sessions found!");
+      toast.error("No sessions!");
     }
 
     setAllSessions(data);

@@ -1,5 +1,5 @@
-import { Session } from "../models/Session";
 import connectDB from "../mongodb";
+import { Session } from "../models/Session";
 
 export const getAllSessions = async () => {
   await connectDB();

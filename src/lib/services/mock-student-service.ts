@@ -1,5 +1,5 @@
-import { StudentMock } from "../models/StudentMock";
 import connectDB from "../mongodb";
+import { StudentMock } from "../models/StudentMock";
 
 export const getAllMockStudets = async () => {
   try {

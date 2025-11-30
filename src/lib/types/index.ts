@@ -35,3 +35,9 @@ export type CreateSessionType = {
   creatorId: string;
   status: string;
 };
+
+export type JoinedStudentType = {
+  _id: string;
+  studentId: string;
+  sessionId: string;
+};
