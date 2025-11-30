@@ -11,7 +11,9 @@ export const CreateSessionBtn = ({
   description,
   setDescription,
   minMember,
+  setMinMember,
   maxMember,
+  setMaxMember,
   value,
   time,
   selectedSessionType,
@@ -23,7 +25,9 @@ export const CreateSessionBtn = ({
   description: string;
   setDescription: Dispatch<React.SetStateAction<string>>;
   minMember: number;
+  setMinMember: Dispatch<React.SetStateAction<number>>;
   maxMember: number;
+  setMaxMember: Dispatch<React.SetStateAction<number>>;
   value: string;
   time: string;
   selectedSessionType: string;
@@ -69,6 +73,8 @@ export const CreateSessionBtn = ({
     toast.success("Study session created successfully");
     setSessionTopicTitle("");
     setDescription("");
+    setMinMember(0);
+    setMaxMember(0);
   };
 
   return (

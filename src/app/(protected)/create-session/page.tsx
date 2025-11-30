@@ -16,8 +16,8 @@ import { useUser } from "@clerk/nextjs";
 const CreateSessionPage = () => {
   const [sessionTopicTitle, setSessionTopicTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [minMember, setMinMember] = useState<number>(5);
-  const [maxMember, setMaxMember] = useState<number>(5);
+  const [minMember, setMinMember] = useState<number>(0);
+  const [maxMember, setMaxMember] = useState<number>(0);
   const today = new Date();
   const n2 = new Date();
   n2.setDate(today.getDate() + 2);
@@ -45,8 +45,7 @@ const CreateSessionPage = () => {
       year: "numeric",
     });
   }
-  console.log({ minMember });
-  console.log({ maxMember });
+
   console.log({ value });
   console.log({ time });
   console.log({ selectedSessionType });
@@ -98,7 +97,9 @@ const CreateSessionPage = () => {
           description={description}
           setDescription={setDescription}
           minMember={minMember}
+          setMinMember={setMinMember}
           maxMember={maxMember}
+          setMaxMember={setMaxMember}
           value={value}
           time={time}
           selectedSessionType={selectedSessionType}
