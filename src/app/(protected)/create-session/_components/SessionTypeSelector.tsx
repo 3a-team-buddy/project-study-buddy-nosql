@@ -49,6 +49,14 @@ export const SessionTypeSelector = ({
       setSelectedTutors(remainedSelectedTutors);
     }
   };
+  const handleSelfLedMode = () => {
+    setSelectedTutors([]);
+  };
+
+  const notChosenTutors = selectedTutors.map((tutor) => tutor.mockTutorEmail);
+  const avalaibleTutors = mockTutors.filter(
+    (tutor) => !notChosenTutors.includes(tutor.mockTutorEmail)
+  );
 
   return (
     <div className="flex flex-col gap-3">
@@ -66,7 +74,10 @@ export const SessionTypeSelector = ({
           />
           <Label htmlFor="tutor-led">Tutor-led</Label>
         </div>
-        <div className="flex items-center space-x-2">
+        <div
+          className="flex items-center space-x-2"
+          onClick={handleSelfLedMode}
+        >
           <RadioGroupItem value="self-led" id="self-led" className="bg-white" />
           <Label htmlFor="self-led">Self-led</Label>
         </div>
@@ -85,14 +96,14 @@ export const SessionTypeSelector = ({
             />
 
             <datalist id="tutors">
-              {mockTutors.map((mockTutor) => (
-                <option key={mockTutor._id} value={mockTutor.mockTutorEmail} />
+              {avalaibleTutors.map((tutor) => (
+                <option key={tutor._id} value={tutor.mockTutorEmail} />
               ))}
             </datalist>
             <Button
               variant={"outline"}
               onClick={addSelectedTutors}
-              disabled={selectedTutors.length > 2}
+              disabled={selectedTutors.length > 2 || !tutorLedInputValue}
               className="bg-transparent border-border/20 text-white/80 hover:bg-accent/50 hover:text-white"
             >
               Add
