@@ -4,17 +4,6 @@ import {
   getAllJoinedStudents,
 } from "@/lib/services/joined-students-service";
 
-export async function GET() {
-  const allJoinedStudents = await getAllJoinedStudents();
-  console.log({ allJoinedStudents });
-
-  if (!allJoinedStudents) {
-    return NextResponse.json({ error: "No joined students" }, { status: 404 });
-  }
-
-  return NextResponse.json({ data: allJoinedStudents });
-}
-
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -41,7 +30,7 @@ export async function POST(request: NextRequest) {
       );
     }
     return NextResponse.json(
-      { message: "Student joined successfully" },
+      { data: joinedStudentDB, message: "Student joined successfully" },
       { status: 200 }
     );
   } catch (error) {
@@ -55,3 +44,13 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+// export async function GET() {
+//   const allJoinedStudents = await getAllJoinedStudents();
+
+//   if (!allJoinedStudents) {
+//     return NextResponse.json({ error: "No joined students" }, { status: 404 });
+//   }
+
+//   return NextResponse.json(allJoinedStudents);
+// }

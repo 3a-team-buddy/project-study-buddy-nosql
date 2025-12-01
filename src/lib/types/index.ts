@@ -15,7 +15,7 @@ export type StudentMockType = {
   _id: string;
   studentClerkId: string;
   studentEmail: string;
-  emstudentNameail: string;
+  studentName: string;
   studentImage: string;
 };
 
@@ -34,10 +34,11 @@ export type CreateSessionType = {
   selectedSessionType: string;
   creatorId: string;
   status: string;
+  studentCount: number;
 };
 
 export type JoinedStudentType = {
   _id: string;
-  studentId: string;
+  studentId: StudentMockType;
   sessionId: string;
 };

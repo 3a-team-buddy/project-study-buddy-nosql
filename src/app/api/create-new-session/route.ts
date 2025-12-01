@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
       selectedSessionType,
       creatorId,
       selectedTutors,
+      studentsCount,
     } = body;
 
     if (
@@ -44,7 +45,8 @@ export async function POST(request: NextRequest) {
       value,
       time,
       selectedSessionType,
-      creatorId
+      creatorId,
+      studentsCount
     );
 
     if (!createdSession) {
@@ -59,6 +61,7 @@ export async function POST(request: NextRequest) {
     const firstJoinedStudentClerkId = createdSession.creatorId;
     // console.log({ firstJoinedStudentClerkId });
     // console.log({ createdSessionId });
+    console.log({ createdSession });
 
     if (createdSessionType === "tutor-led") {
       await createSelectedTutor(selectedTutors, createdSessionId);

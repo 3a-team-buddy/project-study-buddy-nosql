@@ -1,30 +1,30 @@
-"use client";
+// "use client";
 
-import { useEffect, useState } from "react";
-import { JoinedStudentType } from "@/lib/types";
-import { toast } from "sonner";
+// import { useEffect, useState } from "react";
+// import { JoinedStudentType } from "@/lib/types";
+// import { toast } from "sonner";
 
-export const useJoinedStudents = () => {
-  const [allJoinedStudents, setAllJoinedStudents] = useState<
-    JoinedStudentType[]
-  >([]);
+// export const useJoinedStudents = () => {
+//   const [allJoinedStudents, setAllJoinedStudents] = useState<
+//     JoinedStudentType[]
+//   >([]);
 
-  console.log({ allJoinedStudents });
+//   console.log({ allJoinedStudents });
 
-  const getJoinedStudents = async () => {
-    const response = await fetch("/api/joined-students");
-    const { data } = await response.json();
+//   const getJoinedStudents = async () => {
+//     const response = await fetch("/api/joined-students");
+//     const { data } = await response.json();
 
-    if (!response.ok) {
-      toast.error("No joined students!");
-    }
+//     if (!response.ok) {
+//       toast.error("No joined students!");
+//     }
 
-    setAllJoinedStudents(data);
-  };
+//     setAllJoinedStudents(data);
+//   };
 
-  useEffect(() => {
-    getJoinedStudents();
-  }, []);
+//   useEffect(() => {
+//     getJoinedStudents();
+//   }, []);
 
-  return { allJoinedStudents };
-};
+//   return { allJoinedStudents };
+// };

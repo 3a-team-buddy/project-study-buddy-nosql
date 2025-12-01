@@ -1,16 +1,25 @@
 "use cLient";
 
-import React from "react";
+import React, { Dispatch } from "react";
 import { Button } from "@/components/ui";
 import { BsFillPeopleFill, BsLink } from "react-icons/bs";
 import { useSession } from "@/app/_hooks/use-session";
 import { toast } from "sonner";
 import { SessionInfoDialog } from "@/app/(protected)/create-session/_components";
-import { useJoinedStudents } from "@/app/_hooks/use-joined-students";
+import { useRouter } from "next/navigation";
 
-export const SessionList = ({ userId }: { userId: string }) => {
+export const SessionList = ({
+  userId,
+  maxMember,
+  setMaxMember,
+}: {
+  userId: string;
+  maxMember: number;
+  setMaxMember: Dispatch<React.SetStateAction<number>>;
+}) => {
   const { allSessions } = useSession();
-  const { allJoinedStudents } = useJoinedStudents();
+  const allllJoinedStudent = 5;
+  const router = useRouter();
 
   const joinedStudentHandler = async (sessionId: string) => {
     const response = await fetch("api/joined-students", {
@@ -21,8 +30,6 @@ export const SessionList = ({ userId }: { userId: string }) => {
         sessionId,
       }),
     });
-    console.log({ userId });
-    console.log({ sessionId });
 
     if (!response.ok) {
       toast.error("Failed to join the session");
@@ -30,7 +37,10 @@ export const SessionList = ({ userId }: { userId: string }) => {
     toast.success(
       "You have successfully joined the session, View your joined session on My Study Buddies"
     );
+    router.push("/my-sessions");
   };
+
+  console.log({ allSessions });
 
   return (
     <div className="flex flex-col gap-3">
@@ -46,6 +56,7 @@ export const SessionList = ({ userId }: { userId: string }) => {
 
             <div className="flex flex-col justify-center gap-2">
               <Button
+                disabled={allSessions.length === 10}
                 onClick={() => {
                   joinedStudentHandler(session._id);
                 }}
@@ -53,7 +64,7 @@ export const SessionList = ({ userId }: { userId: string }) => {
               >
                 <BsFillPeopleFill />
                 <div>
-                  {allJoinedStudents.length}
+                  <span>{allSessions.length}</span>
                   <span>/{session.maxMember}</span>
                 </div>
                 <div>JOIN</div>
