@@ -1,20 +1,28 @@
+"use client";
+
 import React from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui";
 import { Circle, Flame, LucideBell, LucideHistory } from "lucide-react";
-import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 export const Header = () => {
+  const router = useRouter();
+
   return (
     <header className="bg-[#01051B] ">
       <div className="max-w-[1440px] flex items-center justify-between m-auto px-3 py-3">
         <div className="flex gap-6 items-center">
-          <Link href={"/"}>
+          <div onClick={() => router.push("/")} className="cursor-pointer">
             <img src="/pineconeIcon.svg" alt="pinecone icon" />
-          </Link>
+          </div>
 
           <div className="flex gap-2">
-            <Button size={"lg"} className="bg-transparent px-4">
+            <Button
+              onClick={() => router.push("/")}
+              size={"lg"}
+              className="bg-transparent px-4 cursor-pointer"
+            >
               Нүүр
             </Button>
             <Button size={"lg"} className="bg-transparent px-4">

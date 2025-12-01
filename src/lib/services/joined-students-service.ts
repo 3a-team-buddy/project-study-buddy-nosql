@@ -1,21 +1,30 @@
-import { MockJoinedStudent } from "../models/MockJoinedStudent";
-import { StudentMock } from "../models/StudentMock";
 import connectDB from "../mongodb";
+import { JoinedStudent } from "../models/JoinedStudent";
+import { StudentMock } from "../models/StudentMock";
 
-export const CreateAllJoinedStudent = async (
+export const getAllJoinedStudents = async () => {
+  await connectDB();
+
+  return await JoinedStudent.find().select("-__v");
+};
+
+export const createJoinedStudent = async (
   studentClerkId: string,
-  joinedStudentSessionId: string
+  sessionId: string
 ) => {
   await connectDB();
+
   const studentId = await StudentMock.findOne({
     studentClerkId: studentClerkId,
   }).select("_id");
 
-  console.log({ studentId });
-  const JoinedStudent = new MockJoinedStudent({
+  // console.log({ studentId });
+  // console.log({ sessionId });
+
+  const joinedStudent = new JoinedStudent({
     studentId,
-    joinedStudentSessionId,
+    sessionId,
   });
-  await JoinedStudent.save();
-  return JoinedStudent;
+  await joinedStudent.save();
+  return joinedStudent;
 };

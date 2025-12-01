@@ -1,7 +1,4 @@
 "use client";
-
-import Image from "next/image";
-
 interface TierCardProps {
   image: string;
   tier: number;

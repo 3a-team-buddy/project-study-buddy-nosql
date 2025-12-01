@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import {
   SessionList,
@@ -6,18 +7,17 @@ import {
   MemberLimitSelector,
   DateAndTimePicker,
   SessionTypeSelector,
-  JoinedStudents,
+  CreateSessionBtn,
+  CreateSessionHeading,
 } from "./_components";
-import { Button } from "@/components/ui/button";
 import { SelectedTutorType } from "@/lib/types";
-import { CreateBtn } from "./_components/CreateBtn";
 import { useUser } from "@clerk/nextjs";
 
 const CreateSessionPage = () => {
   const [sessionTopicTitle, setSessionTopicTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [minMember, setMinMember] = useState<number>(5);
-  const [maxMember, setMaxMember] = useState<number>(5);
+  const [minMember, setMinMember] = useState<number>(0);
+  const [maxMember, setMaxMember] = useState<number>(0);
   const today = new Date();
   const n2 = new Date();
   n2.setDate(today.getDate() + 2);
@@ -28,7 +28,7 @@ const CreateSessionPage = () => {
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
   const [userId, setUserId] = useState<string>("");
   const { user } = useUser();
-  console.log({ userId });
+
   useEffect(() => {
     if (user) {
       setUserId(user.id);
@@ -45,14 +45,14 @@ const CreateSessionPage = () => {
       year: "numeric",
     });
   }
-  console.log({ sessionTopicTitle });
-  console.log({ description });
+
   console.log({ minMember });
   console.log({ maxMember });
   console.log({ value });
   console.log({ time });
   console.log({ selectedSessionType });
-  console.log("hhhhhhhhhhhh", userId);
+  console.log({ selectedTutors });
+  console.log({ userId });
 
   return (
     <div className="w-full min-h-screen text-white flex gap-8 p-10">
@@ -60,22 +60,16 @@ const CreateSessionPage = () => {
         <SessionList userId={userId} />
       </div>
 
-      <div className="max-w-[480px] w-full flex flex-col gap-8 rounded-xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl">
-        <div className="flex flex-col gap-1">
-          <div className="text-2xl leading-7 font-semibold text-white">
-            Create New Session
-          </div>
-          <div className="text-sm leading-5 text-muted-foreground">
-            Define the details for your next learning session.
-          </div>
-        </div>
+      <div className="max-w-[480px] w-full flex flex-col gap-8 rounded-2xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl">
+        <CreateSessionHeading />
+
         <StudySessionTitleAndDescription
           sessionTopicTitle={sessionTopicTitle}
           setSessionTopicTitle={setSessionTopicTitle}
           description={description}
           setDescription={setDescription}
         />
-        <div className="w-full flex gap-4">
+        <div className="w-full flex gap-8">
           <MemberLimitSelector
             minMember={minMember}
             setMinMember={setMinMember}
@@ -93,30 +87,27 @@ const CreateSessionPage = () => {
             formatDate={formatDate}
           />
         </div>
-
         <SessionTypeSelector
           selectedSessionType={selectedSessionType}
           setSelectedSessionType={setSelectedSessionType}
           selectedTutors={selectedTutors}
           setSelectedTutors={setSelectedTutors}
         />
-        <CreateBtn
+        <CreateSessionBtn
           sessionTopicTitle={sessionTopicTitle}
+          setSessionTopicTitle={setSessionTopicTitle}
           description={description}
+          setDescription={setDescription}
           minMember={minMember}
+          setMinMember={setMinMember}
           maxMember={maxMember}
+          setMaxMember={setMaxMember}
           value={value}
           time={time}
           selectedSessionType={selectedSessionType}
           selectedTutors={selectedTutors}
+          userId={userId}
         />
-        <Button
-          size={"lg"}
-          className="w-full rounded-full bg-[#2563EB] hover:bg-[#1d4ed8]"
-        >
-          JOINED STUDENTS
-        </Button>
-        <JoinedStudents />
       </div>
     </div>
   );

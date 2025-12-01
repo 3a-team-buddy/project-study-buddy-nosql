@@ -1,10 +1,8 @@
-import {
-  createNewSession,
-  getAllSessions,
-} from "@/lib/services/create-session-service";
-import { createSessionSelectedTutor } from "@/lib/services/session-selected-tutor";
-import { SelectedTutorType } from "@/lib/types";
+import Ably from "ably";
 import { NextRequest, NextResponse } from "next/server";
+import { createNewSession } from "@/lib/services/create-session-service";
+import { createSelectedTutor } from "@/lib/services/selected-tutors-service";
+import { CreateJoinedStudent } from "@/lib/services/joined-students-service";
 
 export async function POST(request: NextRequest) {
   try {
@@ -38,7 +36,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const sessionCreator = await createNewSession(
+    const createdSession = await createNewSession(
       sessionTopicTitle,
       description,
       minMember,
@@ -49,25 +47,34 @@ export async function POST(request: NextRequest) {
       creatorId
     );
 
-    if (!sessionCreator) {
+    if (!createdSession) {
       return NextResponse.json(
         { message: "Failed to create session!" },
         { status: 500 }
       );
     }
 
-    const createdSessionId: string = sessionCreator._id;
+    const createdSessionId = createdSession._id;
+    const createdSessionType = createdSession.selectedSessionType;
+    const firstJoinedStudentClerkId = createdSession.creatorId;
+    // console.log({ firstJoinedStudentClerkId });
+    // console.log({ createdSessionId });
 
-    // console.log({ createdSessionId }, "endsession");
-    // console.log({ selectedTutors }, "endtutors");
-    await Promise.all(
-      selectedTutors.map(async (selectedTutor: SelectedTutorType) => {
-        await createSessionSelectedTutor(selectedTutor, createdSessionId);
-      })
-    );
+    if (createdSessionType === "tutor-led") {
+      await createSelectedTutor(selectedTutors, createdSessionId);
+    }
+
+    if (createdSession) {
+      await CreateJoinedStudent(firstJoinedStudentClerkId, createdSessionId);
+    }
+
+    const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
+    const channel = ably.channels.get("sessions");
+
+    await channel.publish("session-created", createdSession);
 
     return NextResponse.json(
-      { message: "New session created successfully" },
+      { message: "New session created successfully", data: createdSession },
       { status: 200 }
     );
   } catch (error) {
@@ -77,16 +84,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-export async function GET() {
-  const allSessions = await getAllSessions();
-
-  if (!allSessions) {
-    return NextResponse.json({ error: "No Sessions" }, { status: 404 });
-  }
-  return NextResponse.json(
-    { message: "Getting sessions data", data: allSessions },
-    { status: 200 }
-  );
 }

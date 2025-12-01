@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
@@ -6,6 +7,7 @@ import { StudyBuddy } from "./StudyBuddy";
 
 export const Dashboard = () => {
   const [open, setOpen] = useState<boolean>(false);
+
   const handleMenuItem = (item: string) => {
     if (item === "Study Buddy") {
       setOpen(!open);
@@ -29,7 +31,7 @@ export const Dashboard = () => {
             key={item}
             onClick={() => handleMenuItem(item)}
             size={"sm"}
-            className="bg-transparent px-2 justify-between"
+            className="bg-transparent px-2 justify-between cursor-pointer"
           >
             {item}
             {item !== "Home" && <ChevronDown />}
