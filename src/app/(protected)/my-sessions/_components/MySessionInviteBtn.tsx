@@ -14,10 +14,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { BsLink } from "react-icons/bs";
+import { FiLink } from "react-icons/fi";
 import { toast } from "sonner";
 
-export function InviteBtnDialog() {
+export function MySessionInviteBtn() {
   const [emailInputValue, setEmailInputValue] = useState<string>("");
 
   const handleInviteToast = () => {
@@ -28,10 +28,9 @@ export function InviteBtnDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="rounded-full bg-[#2563EB17] hover:bg-[#2563EB33] gap-1 font-bold text-[#1d4ed8] hover:text-[#2563EB] cursor-pointer">
-          <BsLink />
-          <div>Invite</div>
-        </Button>
+        <button className="flex items-center text-sm text-blue-300 hover:text-blue-400">
+          <FiLink className="mr-1" /> invite
+        </button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
