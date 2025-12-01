@@ -49,6 +49,7 @@ export const SessionTypeSelector = ({
       setSelectedTutors(remainedSelectedTutors);
     }
   };
+
   const handleSelfLedMode = () => {
     setSelectedTutors([]);
   };
@@ -104,7 +105,7 @@ export const SessionTypeSelector = ({
               variant={"outline"}
               onClick={addSelectedTutors}
               disabled={selectedTutors.length > 2 || !tutorLedInputValue}
-              className="bg-transparent border-border/20 text-white/80 hover:bg-accent/50 hover:text-white"
+              className="bg-transparent hover:bg-accent/50 border-border/20 text-white/80 hover:text-white"
             >
               Add
             </Button>

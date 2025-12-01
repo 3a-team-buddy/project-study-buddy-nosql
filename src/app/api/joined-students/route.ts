@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  createJoinedStudent,
-  getAllJoinedStudents,
-} from "@/lib/services/joined-students-service";
+import { createJoinedStudent } from "@/lib/services/joined-students-service";
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,11 +27,11 @@ export async function POST(request: NextRequest) {
       );
     }
     return NextResponse.json(
-      { data: joinedStudentDB, message: "Student joined successfully" },
+      { data: joinedStudentDB, message: "Joined successfully" },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error while the student was joining the session!", error);
+    console.error("Error while joining the session!", error);
     return NextResponse.json(
       {
         message: "Unable to join session due to a server error!",

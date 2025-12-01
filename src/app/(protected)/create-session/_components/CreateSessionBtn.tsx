@@ -23,7 +23,7 @@ export const CreateSessionBtn = ({
   selectedTutors,
   setSelectedTutors,
   userId,
-  studentsCount,
+  studentCount,
 }: {
   sessionTopicTitle: string;
   setSessionTopicTitle: Dispatch<React.SetStateAction<string>>;
@@ -42,7 +42,7 @@ export const CreateSessionBtn = ({
   selectedTutors: SelectedTutorType[];
   setSelectedTutors: Dispatch<React.SetStateAction<SelectedTutorType[]>>;
   userId: string;
-  studentsCount: number | "";
+  studentCount: number[];
 }) => {
   const createSession = async () => {
     if (
@@ -60,7 +60,7 @@ export const CreateSessionBtn = ({
       return;
     }
 
-    const response = await fetch("api/create-new-session", {
+    const response = await fetch("/api/create-new-session", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -73,7 +73,7 @@ export const CreateSessionBtn = ({
         selectedSessionType,
         creatorId: userId,
         selectedTutors,
-        studentsCount,
+        studentCount,
       }),
     });
 

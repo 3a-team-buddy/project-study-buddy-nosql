@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  createJoinedStudent,
-  getAllJoinedStudents,
-} from "@/lib/services/joined-students-service";
+import { getAllJoinedStudents } from "@/lib/services/joined-students-service";
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,30 +7,23 @@ export async function POST(request: NextRequest) {
     const { sessionId } = body;
 
     if (!sessionId) {
-      return NextResponse.json(
-        { message: "Error to get joined students of the selected session!" },
-        { status: 400 }
-      );
+      return NextResponse.json({ message: "No session id!" }, { status: 404 });
     }
 
     const joinedStudentsDB = await getAllJoinedStudents(sessionId);
 
     if (!joinedStudentsDB) {
       return NextResponse.json(
-        { message: "Failed to get joined students of the selected session!" },
+        { message: "Failed to get joined students!" },
         { status: 500 }
       );
     }
     return NextResponse.json({ data: joinedStudentsDB }, { status: 200 });
   } catch (error) {
-    console.error(
-      "Error while getting the student that joined the session!",
-      error
-    );
+    console.error("Error while getting joined students!", error);
     return NextResponse.json(
       {
-        message:
-          "Unable to get joined students of the session due to a server error!",
+        message: "Unable to get joined students due to a server error!",
         error,
       },
       { status: 500 }

@@ -6,3 +6,4 @@ export * from "./popover";
 export * from "./textarea";
 export * from "./radio-group";
 export * from "./dialog";
+export * from "./skeleton";
