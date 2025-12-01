@@ -10,3 +10,4 @@ export * from "./SessionInfoDialogContent";
 export * from "./SessionList";
 export * from "./SessionTypeSelector";
 export * from "./StudySessionTitleAndDescription";
+export * from "./InviteBtnDialog";

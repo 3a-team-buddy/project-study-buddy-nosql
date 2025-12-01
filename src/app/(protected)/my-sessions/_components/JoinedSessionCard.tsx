@@ -5,6 +5,7 @@ import { CreateSessionType } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { FiLink } from "react-icons/fi";
+import { MySessionInviteBtn } from "./MySessionInviteBtn";
 
 const JoinedSessionCard = ({
   session,
@@ -24,9 +25,7 @@ const JoinedSessionCard = ({
           </h3>
 
           <div className="flex items-center gap-4">
-            <button className="flex items-center text-sm text-blue-300 hover:text-blue-400">
-              <FiLink className="mr-1" /> invite
-            </button>
+            <MySessionInviteBtn />
             {session.status && (
               <span
                 className={`text-xs ${

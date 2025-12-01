@@ -1,11 +1,26 @@
 "use cLient";
 
-import React, { Dispatch, useState } from "react";
-import { Button } from "@/components/ui";
+import React, { Dispatch } from "react";
+import {
+  Button,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  Input,
+  Label,
+} from "@/components/ui";
 import { BsFillPeopleFill, BsLink } from "react-icons/bs";
 import { useSession } from "@/app/_hooks/use-session";
 import { toast } from "sonner";
-import { SessionInfoDialog } from "@/app/(protected)/create-session/_components";
+import {
+  InviteBtnDialog,
+  SessionInfoDialog,
+} from "@/app/(protected)/create-session/_components";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -78,11 +93,7 @@ export const SessionList = ({
                     </div>
                     <div>JOIN</div>
                   </Button>
-
-                  <Button className="rounded-full bg-[#2563EB17] hover:bg-[#2563EB33] gap-1 font-bold text-[#1d4ed8] hover:text-[#2563EB] cursor-pointer">
-                    <BsLink />
-                    <div>Invite</div>
-                  </Button>
+                  <InviteBtnDialog />
                 </div>
               </div>
             ))}

@@ -12,6 +12,7 @@ import { FiLink } from "react-icons/fi";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { SessionInfoDialog } from "@/app/(protected)/create-session/_components/SessionInfoDialog";
 import { Skeleton } from "@/components/ui/skeleton";
+import { MySessionInviteBtn } from "./MySessionInviteBtn";
 
 interface SessionCardProps {
   showJoin?: boolean;
@@ -56,9 +57,7 @@ const MoreSessionCard: React.FC<SessionCardProps> = ({ showJoin = false }) => {
                       1/{session.maxMember} JOIN
                     </button>
                   )}
-                  <button className="flex items-center text-sm text-blue-300 hover:text-blue-400">
-                    <FiLink className="mr-1" /> invite
-                  </button>
+                  <MySessionInviteBtn />
                 </div>
               </div>
             </div>
