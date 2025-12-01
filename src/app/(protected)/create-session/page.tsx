@@ -107,6 +107,8 @@ const CreateSessionPage = () => {
           selectedSessionType={selectedSessionType}
           selectedTutors={selectedTutors}
           userId={userId}
+          setSelectedSessionType={setSelectedSessionType}
+          setSelectedTutors={setSelectedTutors}
         />
       </div>
     </div>
