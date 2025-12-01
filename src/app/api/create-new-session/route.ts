@@ -2,7 +2,7 @@ import Ably from "ably";
 import { NextRequest, NextResponse } from "next/server";
 import { createNewSession } from "@/lib/services/create-session-service";
 import { createSelectedTutor } from "@/lib/services/selected-tutors-service";
-import { CreateJoinedStudent } from "@/lib/services/joined-students-service";
+import { createJoinedStudent } from "@/lib/services/joined-students-service";
 
 export async function POST(request: NextRequest) {
   try {
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (createdSession) {
-      await CreateJoinedStudent(firstJoinedStudentClerkId, createdSessionId);
+      await createJoinedStudent(firstJoinedStudentClerkId, createdSessionId);
     }
 
     const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
