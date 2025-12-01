@@ -2,10 +2,12 @@ import connectDB from "../mongodb";
 import { JoinedStudent } from "../models/JoinedStudent";
 import { StudentMock } from "../models/StudentMock";
 
-export const getAllJoinedStudents = async () => {
+export const getAllJoinedStudents = async (sessionId: string) => {
   await connectDB();
 
-  return await JoinedStudent.find().select("-__v");
+  return await JoinedStudent.find({ sessionId: { $in: sessionId } })
+    .populate("studentId")
+    .select("-__v");
 };
 
 export const createJoinedStudent = async (
@@ -28,3 +30,9 @@ export const createJoinedStudent = async (
   await joinedStudent.save();
   return joinedStudent;
 };
+
+// export const getAllJoinedStudents = async () => {
+//   await connectDB();
+
+//   return await JoinedStudent.find().select("-__v");
+// };

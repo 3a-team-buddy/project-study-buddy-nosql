@@ -1,6 +1,6 @@
 import React from "react";
 
-import { CreateSessionType } from "@/lib/types";
+import { CreateSessionType, JoinedStudentType } from "@/lib/types";
 import { Button, Dialog, DialogTrigger } from "@/components/ui";
 import { SessionInfoDialogContent } from "@/app/(protected)/create-session/_components";
 
