@@ -24,7 +24,7 @@ export const useSession = () => {
   useEffect(() => {
     getSessions();
 
-    const channel = ablyClient.channels.get("sessions");
+    const channel = ablyClient.channels.get("updatedSession");
 
     const handleMessage = (message: any) => {
       if (message.name !== "session-created") return;

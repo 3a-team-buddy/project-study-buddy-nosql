@@ -28,7 +28,7 @@ const CreateSessionPage = () => {
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
   const [userId, setUserId] = useState<string>("");
   const { user } = useUser();
-  const [studentsCount, setStudentsCount] = useState<number | "">("");
+  const [studentCount, setStudentCount] = useState<number[]>([]);
 
   useEffect(() => {
     if (user) {
@@ -54,16 +54,12 @@ const CreateSessionPage = () => {
   console.log({ selectedSessionType });
   console.log({ selectedTutors });
   console.log({ userId });
-  console.log({ studentsCount });
+  console.log({ studentCount });
 
   return (
-    <div className="w-full min-h-screen text-white flex gap-8 p-10">
+    <div className="w-full min-h-screen text-white flex gap-8 py-10">
       <div className="flex-1">
-        <SessionList
-          userId={userId}
-          maxMember={maxMember}
-          setMaxMember={setMaxMember}
-        />
+        <SessionList userId={userId} />
       </div>
 
       <div className="max-w-[480px] w-full flex flex-col gap-8 rounded-2xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl">
@@ -117,7 +113,7 @@ const CreateSessionPage = () => {
           userId={userId}
           setSelectedSessionType={setSelectedSessionType}
           setSelectedTutors={setSelectedTutors}
-          studentsCount={studentsCount}
+          studentCount={studentCount}
         />
       </div>
     </div>

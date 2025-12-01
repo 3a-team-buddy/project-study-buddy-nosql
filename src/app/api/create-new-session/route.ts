@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
       selectedSessionType,
       creatorId,
       selectedTutors,
-      studentsCount,
+      studentCount,
     } = body;
 
     if (
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
       time,
       selectedSessionType,
       creatorId,
-      studentsCount
+      studentCount
     );
 
     if (!createdSession) {
@@ -64,20 +64,21 @@ export async function POST(request: NextRequest) {
     console.log({ createdSession });
 
     if (createdSessionType === "tutor-led") {
-      await createSelectedTutor(selectedTutors, createdSessionId);
+      await createSelectedTutor(selectedTutors, createdSessionId); // tutor tus tusdaa uusgeh - array-aar bish
     }
 
-    if (createdSession) {
-      await createJoinedStudent(firstJoinedStudentClerkId, createdSessionId);
-    }
+    const { updatedSession } = await createJoinedStudent(
+      firstJoinedStudentClerkId,
+      createdSessionId
+    );
 
     const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
     const channel = ably.channels.get("sessions");
 
-    await channel.publish("session-created", createdSession);
+    await channel.publish("session-created", updatedSession);
 
     return NextResponse.json(
-      { message: "New session created successfully", data: createdSession },
+      { message: "New session created successfully", data: updatedSession },
       { status: 200 }
     );
   } catch (error) {

@@ -23,7 +23,7 @@ export const CreateSessionBtn = ({
   selectedTutors,
   setSelectedTutors,
   userId,
-  studentsCount,
+  studentCount,
 }: {
   sessionTopicTitle: string;
   setSessionTopicTitle: Dispatch<React.SetStateAction<string>>;
@@ -42,7 +42,7 @@ export const CreateSessionBtn = ({
   selectedTutors: SelectedTutorType[];
   setSelectedTutors: Dispatch<React.SetStateAction<SelectedTutorType[]>>;
   userId: string;
-  studentsCount: number | "";
+  studentCount: number[];
 }) => {
   const createSession = async () => {
     if (
@@ -73,7 +73,7 @@ export const CreateSessionBtn = ({
         selectedSessionType,
         creatorId: userId,
         selectedTutors,
-        studentsCount,
+        studentCount,
       }),
     });
 

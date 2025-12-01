@@ -10,7 +10,7 @@ type SessionSchemaType = {
   selectedSessionType: string;
   status: string;
   creatorId: string;
-  studentCount: number;
+  studentsCount: number;
 };
 
 const SessionSchema = new Schema({
@@ -28,7 +28,7 @@ const SessionSchema = new Schema({
     required: true,
   },
   creatorId: { type: String, required: true },
-  studentCount: { type: [Number, String], required: true },
+  studentCount: [{ type: Schema.ObjectId, ref: "StudentMock", default: [] }],
 });
 
 export const Session =

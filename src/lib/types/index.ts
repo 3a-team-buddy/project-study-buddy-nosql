@@ -34,7 +34,7 @@ export type CreateSessionType = {
   selectedSessionType: string;
   creatorId: string;
   status: string;
-  studentCount: number;
+  studentCount: string[];
 };
 
 export type JoinedStudentType = {
