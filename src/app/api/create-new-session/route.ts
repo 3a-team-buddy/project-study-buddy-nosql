@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
     const firstJoinedStudentClerkId = createdSession.creatorId;
     // console.log({ firstJoinedStudentClerkId });
     // console.log({ createdSessionId });
-    console.log({ createdSession });
+    // console.log({ createdSession });
 
     if (createdSessionType === "tutor-led") {
       await createSelectedTutor(selectedTutors, createdSessionId); // tutor tus tusdaa uusgeh

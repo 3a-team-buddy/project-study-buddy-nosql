@@ -1,6 +1,6 @@
 "use cLient";
 
-import React, { Dispatch } from "react";
+import React from "react";
 import { Button, Skeleton } from "@/components/ui";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { useSession } from "@/app/_hooks/use-session";
@@ -30,14 +30,12 @@ export const SessionList = ({ userId }: { userId: string }) => {
     }
     toast.success(
       <>
-        "You have successfully joined the session. <br /> View your joined
-        session on My Study Buddies"
+        You have successfully joined the session. <br /> View your joined
+        session on My Study Buddies.
       </>
     );
     // router.push("/my-sessions");
   };
-
-  // console.log({ allSessions });
 
   return (
     <div className="flex flex-col gap-3">

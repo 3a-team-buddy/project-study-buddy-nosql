@@ -41,13 +41,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
-// export async function GET() {
-//   const allJoinedStudents = await getAllJoinedStudents();
-
-//   if (!allJoinedStudents) {
-//     return NextResponse.json({ error: "No joined students" }, { status: 404 });
-//   }
-
-//   return NextResponse.json(allJoinedStudents);
-// }
