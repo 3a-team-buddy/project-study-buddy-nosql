@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { CreateSessionType } from "@/lib/types";
 import { toast } from "sonner";
-import Ably from "ably";
+import { ablyClient } from "@/lib/ably";
 
 export const useSession = () => {
   const [allSessions, setAllSessions] = useState<CreateSessionType[]>([]);
@@ -24,11 +24,7 @@ export const useSession = () => {
   useEffect(() => {
     getSessions();
 
-    const ably = new Ably.Realtime({
-      key: process.env.NEXT_PUBLIC_ABLY_API_KEY,
-    });
-
-    const channel = ably.channels.get("sessions");
+    const channel = ablyClient.channels.get("sessions");
 
     const handleMessage = (message: any) => {
       if (message.name !== "session-created") return;
@@ -45,7 +41,6 @@ export const useSession = () => {
 
     return () => {
       channel.unsubscribe("session-created", handleMessage);
-      ably.close();
     };
   }, []);
 

@@ -19,17 +19,16 @@ export const CreateSessionBtn = ({
   time,
   setTime,
   selectedSessionType,
-  selectedTutors,
-  userId,
   setSelectedSessionType,
+  selectedTutors,
   setSelectedTutors,
+  userId,
   studentsCount,
 }: {
   sessionTopicTitle: string;
   setSessionTopicTitle: Dispatch<React.SetStateAction<string>>;
   description: string;
   setDescription: Dispatch<React.SetStateAction<string>>;
-  setSelectedSessionType: Dispatch<React.SetStateAction<string>>;
   minMember: number;
   setMinMember: Dispatch<React.SetStateAction<number>>;
   maxMember: number;
@@ -39,10 +38,11 @@ export const CreateSessionBtn = ({
   time: string;
   setTime: Dispatch<React.SetStateAction<string>>;
   selectedSessionType: string;
+  setSelectedSessionType: Dispatch<React.SetStateAction<string>>;
   selectedTutors: SelectedTutorType[];
   setSelectedTutors: Dispatch<React.SetStateAction<SelectedTutorType[]>>;
   userId: string;
-  studentsCount: number;
+  studentsCount: number | "";
 }) => {
   const createSession = async () => {
     if (
