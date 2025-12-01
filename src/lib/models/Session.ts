@@ -28,7 +28,7 @@ const SessionSchema = new Schema({
     required: true,
   },
   creatorId: { type: String, required: true },
-  studentCount: { type: Number },
+  studentCount: { type: [Number, String], required: true },
 });
 
 export const Session =

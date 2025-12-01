@@ -28,7 +28,7 @@ const CreateSessionPage = () => {
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
   const [userId, setUserId] = useState<string>("");
   const { user } = useUser();
-  const [studentsCount, setStudentsCount] = useState<number>(1);
+  const [studentsCount, setStudentsCount] = useState<number | "">("");
 
   useEffect(() => {
     if (user) {
@@ -54,6 +54,7 @@ const CreateSessionPage = () => {
   console.log({ selectedSessionType });
   console.log({ selectedTutors });
   console.log({ userId });
+  console.log({ studentsCount });
 
   return (
     <div className="w-full min-h-screen text-white flex gap-8 p-10">
