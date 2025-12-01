@@ -1,4 +1,7 @@
 "use client";
+
+import Image from "next/image";
+
 interface TierCardProps {
   image: string;
   tier: number;
@@ -8,7 +11,7 @@ interface TierCardProps {
 export const TierCard = ({ image, tier, locked = false }: TierCardProps) => {
   return (
     <div className="relative w-28 h-28 flex justify-center items-center border border-[#2563EB99] rounded-xl bg-[#0e2644]">
-      <img
+      <Image
         src={image}
         alt="Tier reward"
         width={80}

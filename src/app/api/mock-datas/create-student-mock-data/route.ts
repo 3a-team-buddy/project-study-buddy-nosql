@@ -3,7 +3,6 @@ import {
   getAllMockStudets,
 } from "@/lib/services/mock-student-service";
 import { NextRequest, NextResponse } from "next/server";
-import { currentUser } from "@clerk/nextjs/server";
 
 export async function POST(request: NextRequest) {
   try {

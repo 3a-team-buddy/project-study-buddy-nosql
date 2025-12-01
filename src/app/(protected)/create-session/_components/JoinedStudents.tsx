@@ -4,7 +4,7 @@ import { toast } from "sonner";
 
 export function JoinedStudents() {
   const { user } = useUser();
-  const [studentClerckId, setStudentClerckId] = useState<String>("");
+  const [studentClerckId, setStudentClerckId] = useState<string>("");
   useEffect(() => {
     if (user) {
       setStudentClerckId(user.id);

@@ -5,7 +5,7 @@ import JoinedSessionCard from "./_components/JoinedSessionCard";
 import MoreSessions from "./_components/MoreSessions";
 import { DetailJoinedSession } from "./_components/DetailJoinedSession";
 
-const page = () => {
+const MySessionPage = () => {
   const { allSessions } = useSession();
   const [selectedSessionId, setSelectedSessionId] = useState<string>("");
 
@@ -60,4 +60,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default MySessionPage;
