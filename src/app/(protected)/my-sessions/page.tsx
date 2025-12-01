@@ -4,9 +4,10 @@ import React, { useState } from "react";
 import JoinedSessionCard from "./_components/JoinedSessionCard";
 import MoreSessions from "./_components/MoreSessions";
 import { DetailJoinedSession } from "./_components/DetailJoinedSession";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const MySessionPage = () => {
-  const { allSessions } = useSession();
+  const { allSessions, isLoading } = useSession();
   const [selectedSessionId, setSelectedSessionId] = useState<string>("");
 
   const filteredSession = allSessions.filter(
@@ -23,14 +24,27 @@ const MySessionPage = () => {
         <div className="flex flex-col gap-10">
           <div className="flex flex-col gap-3">
             <h2 className="text-2xl text-white">Joined sessions</h2>
-            {allSessions.map((session) => (
-              <div key={session._id}>
-                <JoinedSessionCard
-                  session={session}
-                  handleSessionId={() => handleSessionId(session._id)}
-                />
+            {isLoading ? (
+              <div className="flex flex-col gap-3">
+                {[1, 2, 3].map((i) => (
+                  <Skeleton
+                    key={i}
+                    className="max-w-138 h-14 rounded-xl opacity-10"
+                  />
+                ))}
               </div>
-            ))}
+            ) : (
+              <div className="flex flex-col gap-3">
+                {allSessions.map((session) => (
+                  <div key={session._id}>
+                    <JoinedSessionCard
+                      session={session}
+                      handleSessionId={() => handleSessionId(session._id)}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <div>
             <MoreSessions />

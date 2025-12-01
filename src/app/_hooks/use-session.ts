@@ -7,10 +7,12 @@ import { ablyClient } from "@/lib/ably";
 
 export const useSession = () => {
   const [allSessions, setAllSessions] = useState<CreateSessionType[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   console.log({ allSessions });
 
   const getSessions = async () => {
+    setIsLoading(true);
     const result = await fetch("/api/get-sessions");
     const { data } = await result.json();
 
@@ -19,6 +21,7 @@ export const useSession = () => {
     }
 
     setAllSessions(data);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -44,5 +47,5 @@ export const useSession = () => {
     };
   }, []);
 
-  return { allSessions };
+  return { allSessions, isLoading };
 };
