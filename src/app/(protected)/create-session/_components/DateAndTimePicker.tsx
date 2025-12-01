@@ -52,7 +52,6 @@ export const DateAndTimePicker = ({
     { time: "15:00" },
     { time: "16:00" },
     { time: "17:00" },
-    { time: "18:00" },
   ];
 
   function isWorkingDay(date: Date) {
@@ -79,86 +78,83 @@ export const DateAndTimePicker = ({
 
   return (
     <div className="w-full flex flex-col gap-5">
-      <>
-        <div className="flex flex-col gap-3">
-          <Label>Date</Label>
-          <div className="relative flex gap-2">
-            <Input
-              id="date"
-              value={value}
-              placeholder={formatDate(today)}
-              className="w-full h-10 rounded-full text-white border-[#000000FF] bg-black hover:text-neutral-200"
-              onChange={(e) => {
-                const date = new Date(e.target.value);
-                setValue(e.target.value);
-                if (isValidDate(date)) {
-                  setDate(date);
-                  setMonth(date);
-                }
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "ArrowDown") {
-                  e.preventDefault();
-                  setOpen(true);
-                }
-              }}
-            />
-            <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  id="date-picker"
-                  variant="ghost"
-                  className="absolute hover:text-neutral-200 hover:bg-black top-1/2 right-2 size-6 -translate-y-1/2 text-white"
-                >
-                  <>
-                    <CalendarRange />
-                  </>
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent
-                className="w-auto overflow-hidden p-0 bg-[black] text-white "
-                align="end"
-                alignOffset={-8}
-                sideOffset={10}
+      <div className="flex flex-col gap-3">
+        <Label>Date</Label>
+        <div className="relative flex gap-2">
+          <Input
+            id="date"
+            value={value}
+            placeholder="Өдрөө сонгоно уу"
+            onChange={(e) => {
+              const date = new Date(e.target.value);
+              setValue(e.target.value);
+              if (isValidDate(date)) {
+                setDate(date);
+                setMonth(date);
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "ArrowDown") {
+                e.preventDefault();
+                setOpen(true);
+              }
+            }}
+            className="border-border/20 bg-black/50 hover:bg-black text-white/80 hover:text-white"
+          />
+          <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                id="date-picker"
+                variant="ghost"
+                className="absolute hover:bg-black top-1/2 right-2 size-6 -translate-y-1/2 text-white/80 hover:text-white"
               >
-                <Calendar
-                  className="bg-[#0F2343] "
-                  disabled={(day) => day < tomorrow}
-                  mode="single"
-                  selected={date}
-                  captionLayout="dropdown"
-                  month={month}
-                  onMonthChange={setMonth}
-                  onSelect={(date) => {
-                    setDate(date);
-                    setValue(formatDate(date));
-                    setOpen(false);
-                    if (date !== undefined) {
-                      isWorkingDay(date);
-                    }
-                  }}
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
+                <>
+                  <CalendarRange />
+                </>
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent
+              className="w-auto overflow-hidden p-0 bg-[black] text-white "
+              align="end"
+              alignOffset={-8}
+              sideOffset={10}
+            >
+              <Calendar
+                className="bg-[#0F2343] "
+                disabled={(day) => day < tomorrow}
+                mode="single"
+                selected={date}
+                captionLayout="dropdown"
+                month={month}
+                onMonthChange={setMonth}
+                onSelect={(date) => {
+                  setDate(date);
+                  setValue(formatDate(date));
+                  setOpen(false);
+                  if (date !== undefined) {
+                    isWorkingDay(date);
+                  }
+                }}
+              />
+            </PopoverContent>
+          </Popover>
         </div>
-      </>
+      </div>
 
       <div className="flex flex-col gap-3">
         <Label htmlFor="time-picker">Start time</Label>
-        <div className="absolute"></div>
         <Popover open={isOpen} onOpenChange={setIsOpen}>
           <PopoverTrigger asChild>
             <Button
-              className="w-full h-10 rounded-full text-white flex justify-between items-center hover border-[#000000FF] bg-black hover:bg-black hover:text-neutral-200"
               variant="outline"
+              className="justify-between border-border/20 bg-black/50 hover:bg-black text-white/80 hover:text-white"
             >
               {time ? (
                 <div className="flex items-center gap-2">{time}</div>
               ) : (
-                <>13:00 </>
+                <div className="text-muted-foreground">Цаг сонгоно уу...</div>
               )}
-              <Clock className="hover:bg-black text-white hover:text-neutral-200" />
+              <Clock />
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-fit h-fit py-5 px-5 rounded-[26px] border-[#323743FF] bg-black">
