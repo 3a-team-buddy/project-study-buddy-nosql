@@ -10,7 +10,7 @@ export const ParticipantsList = ({
   session: CreateSessionType;
 }) => {
   const [joinedStudents, setJoinedStudents] = useState<JoinedStudentType[]>([]);
-  console.log({ joinedStudents });
+  // console.log({ joinedStudents });
 
   const getSelectedSessionJoinedStudents = async () => {
     const result = await fetch("api/get-joined-students", {
@@ -37,13 +37,13 @@ export const ParticipantsList = ({
     <div className="flex flex-col gap-2">
       <h3 className="text-base text-white font-semibold">Participants</h3>
 
-      <div className="flex gap-3 items-center">
-        <div className="text-sm text-gray-300 flex flex-col gap-2">
+      <div className="flex gap-2 items-center">
+        <div className="text-sm text-white/60 flex flex-col gap-2">
           {joinedStudents.map((joinedStudent) => (
             <div key={joinedStudent._id} className="flex gap-2 items-center">
               <img
                 src={joinedStudent.studentId.studentImage}
-                className="w-6 h-6 rounded-full bg-gray-300"
+                className="w-6 h-6 rounded-full bg-slate-900"
                 alt=""
               />
               <div>{joinedStudent.studentId.studentName}</div>

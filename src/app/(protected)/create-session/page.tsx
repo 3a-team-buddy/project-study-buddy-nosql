@@ -47,8 +47,6 @@ const CreateSessionPage = () => {
     });
   }
 
-  console.log({ minMember });
-  console.log({ maxMember });
   console.log({ value });
   console.log({ time });
   console.log({ selectedSessionType });

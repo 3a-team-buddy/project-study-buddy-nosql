@@ -99,14 +99,14 @@ export const DateAndTimePicker = ({
                 setOpen(true);
               }
             }}
-            className="border-border/20 bg-black/50 hover:bg-black text-white/80 hover:text-white"
+            className="border-border/20 bg-black/50 hover:bg-black text-white/80"
           />
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button
                 id="date-picker"
                 variant="ghost"
-                className="absolute hover:bg-black top-1/2 right-2 size-6 -translate-y-1/2 text-white/80 hover:text-white"
+                className="absolute hover:bg-black top-1/2 right-2 size-6 -translate-y-1/2 text-white/80"
               >
                 <>
                   <CalendarRange />
@@ -114,7 +114,7 @@ export const DateAndTimePicker = ({
               </Button>
             </PopoverTrigger>
             <PopoverContent
-              className="w-auto overflow-hidden p-0 bg-[black] text-white "
+              className="w-auto overflow-hidden p-0 bg-black text-white "
               align="end"
               alignOffset={-8}
               sideOffset={10}

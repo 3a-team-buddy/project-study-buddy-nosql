@@ -43,7 +43,7 @@ export const StudySessionTitleAndDescription = ({
           value={sessionTopicTitle}
           onChange={handleSessionTopicTitleChange}
           placeholder="Сэдвээ оруулна уу..."
-          className="border-border/20 bg-black/50 text-white/80"
+          className="border-border/20 bg-black/50 hover:bg-black text-white/80"
         />
 
         <datalist id="mock-topic-suggestions">
@@ -60,7 +60,7 @@ export const StudySessionTitleAndDescription = ({
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Сэдвийн талаар товч бичнэ үү..."
-          className="min-h-20 border-border/20 bg-black/50 text-white/80"
+          className="min-h-20 border-border/20 bg-black/50 hover:bg-black text-white/80"
         />
       </div>
     </div>

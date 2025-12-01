@@ -1,6 +1,6 @@
 "use cLient";
 
-import React, { Dispatch } from "react";
+import React from "react";
 import { Button } from "@/components/ui";
 import { BsFillPeopleFill, BsLink } from "react-icons/bs";
 import { useSession } from "@/app/_hooks/use-session";
@@ -26,12 +26,15 @@ export const SessionList = ({ userId }: { userId: string }) => {
       toast.error("Failed to join the session");
     }
     toast.success(
-      "You have successfully joined the session, View your joined session on My Study Buddies"
+      <>
+        You have successfully joined the session.
+        <br /> View your joined session on My Study Buddies.
+      </>
     );
     // router.push("/my-sessions");
   };
 
-  console.log({ allSessions });
+  // console.log({ allSessions });
 
   return (
     <div className="flex flex-col gap-3">
@@ -41,7 +44,7 @@ export const SessionList = ({ userId }: { userId: string }) => {
         {allSessions.map((session) => (
           <div
             key={session._id}
-            className="flex justify-between items-center p-4 rounded-3xl bg-[linear-gradient(180deg,#1E2648_0%,#122136_100%)] hover:bg-white/10"
+            className="flex justify-between items-center p-4 rounded-2xl bg-[linear-gradient(180deg,#1E2648FF_0%,#122136FF_100%)]"
           >
             <SessionInfoDialog session={session} />
 
@@ -51,7 +54,7 @@ export const SessionList = ({ userId }: { userId: string }) => {
                 onClick={() => {
                   joinedStudentHandler(session._id);
                 }}
-                className="rounded-full bg-[#2563EB] hover:bg-[#1d4ed8] gap-1 cursor-pointer text-white/80 hover:text-white disabled:bg-gray-600 disabled:cursor-not-allowed disabled:hover:bg-gray-600 disabled:hover:text-white/80"
+                className="rounded-full bg-[#2563EB] hover:bg-[#1d4ed8] gap-1 cursor-pointer text-white/80 hover:text-white disabled:cursor-not-allowed disabled:bg-white/40  disabled:hover:bg-white/40"
               >
                 <BsFillPeopleFill />
                 <div>
@@ -61,7 +64,7 @@ export const SessionList = ({ userId }: { userId: string }) => {
                 <div>JOIN</div>
               </Button>
 
-              <Button className="rounded-full bg-[#2563EB17] hover:bg-[#2563EB33] gap-1 font-bold text-[#1d4ed8] hover:text-[#2563EB] cursor-pointer">
+              <Button className="rounded-full bg-[#2563EB17] hover:bg-[#2563EB33] gap-1 cursor-pointer font-bold text-[#1d4ed8] hover:text-[#2563EB]">
                 <BsLink />
                 <div>Invite</div>
               </Button>
