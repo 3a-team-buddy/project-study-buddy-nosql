@@ -21,7 +21,7 @@ const CreateSessionPage = () => {
   const today = new Date();
   const n2 = new Date();
   n2.setDate(today.getDate() + 2);
-  const [date, setDate] = useState<Date | undefined>(n2);
+  const [date, setDate] = useState<Date | undefined>();
   const [value, setValue] = useState(formatDate(date));
   const [time, setTime] = useState<string>("");
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
@@ -103,7 +103,9 @@ const CreateSessionPage = () => {
           maxMember={maxMember}
           setMaxMember={setMaxMember}
           value={value}
+          setValue={setValue}
           time={time}
+          setTime={setTime}
           selectedSessionType={selectedSessionType}
           selectedTutors={selectedTutors}
           userId={userId}

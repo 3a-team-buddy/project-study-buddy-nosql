@@ -15,7 +15,9 @@ export const CreateSessionBtn = ({
   maxMember,
   setMaxMember,
   value,
+  setValue,
   time,
+  setTime,
   selectedSessionType,
   selectedTutors,
   userId,
@@ -32,7 +34,9 @@ export const CreateSessionBtn = ({
   maxMember: number;
   setMaxMember: Dispatch<React.SetStateAction<number>>;
   value: string;
+  setValue: Dispatch<React.SetStateAction<string>>;
   time: string;
+  setTime: Dispatch<React.SetStateAction<string>>;
   selectedSessionType: string;
   selectedTutors: SelectedTutorType[];
   setSelectedTutors: Dispatch<React.SetStateAction<SelectedTutorType[]>>;
@@ -79,6 +83,8 @@ export const CreateSessionBtn = ({
     setDescription("");
     setMinMember(0);
     setMaxMember(0);
+    setValue("");
+    setTime("");
     setSelectedSessionType("");
     setSelectedTutors([]);
   };
