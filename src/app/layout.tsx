@@ -28,8 +28,9 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[url('https://talent.pinebaatars.mn/pinebaatar.png')] bg-cover bg-center`}
         >
+          <header className="flex justify-end items-center p-4 gap-4 h-16"></header>
           {children}
           <Toaster position="top-center" />
         </body>
