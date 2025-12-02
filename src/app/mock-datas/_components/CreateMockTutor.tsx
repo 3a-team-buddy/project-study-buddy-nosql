@@ -18,7 +18,7 @@ export const CreateMockTutor = ({
 
   const createMockTutor = async () => {
     if (!mockTutorName || !mockTutorEmail || !mockTutorImage) {
-      toast.warning("All fields are required!");
+      toast.warning();
       return;
     }
     setLoading(true);

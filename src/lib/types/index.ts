@@ -42,3 +42,11 @@ export type JoinedStudentType = {
   studentId: StudentMockType;
   sessionId: string;
 };
+
+export type MockUserType = {
+  _id: string;
+  mockUserName: string;
+  mockUserEmail: string;
+  mockUserImage: string;
+  mockUserStatus: string;
+};
