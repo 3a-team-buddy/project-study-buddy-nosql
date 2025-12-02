@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
     // console.log({ createdSession });
 
     if (createdSessionType === "tutor-led") {
-      await createSelectedTutor(selectedTutors, createdSessionId); // tutor tus tusdaa uusgeh
+      await createSelectedTutor(selectedTutors, createdSessionId);
     }
 
     const { updatedSession } = await createJoinedStudent(

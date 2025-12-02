@@ -40,7 +40,7 @@ export const JoinBtn = ({
     // alert(selectedTutorsEmails);
   };
 
-  // anhnaasaaa email-g l yavulah
+  // anhnaasaaa email-g l yavulah?
   const getAllSelectedTutors = async () => {
     const response = await fetch("/api/get-selected-tutors", {
       method: "POST",
@@ -61,16 +61,14 @@ export const JoinBtn = ({
   }, []);
 
   const selectedTutorsEmails = selectedTutorsDB.map(
-    (tutor) => tutor.tutorId.mockTutorEmail
+    (tutor) => tutor.tutorId.mockUserEmail
   );
 
-  console.log({ selectedTutorsEmails });
-
-  console.log(
-    session.minMember,
-    session.studentCount.length,
-    "minMember studentCountlength"
-  );
+  // console.log(
+  //   session.minMember,
+  //   session.studentCount.length,
+  //   "minMember studentCountlength"
+  // );
 
   const sendEmail = async () => {
     await fetch("/api/send-invite", {
@@ -86,7 +84,9 @@ export const JoinBtn = ({
 
   useEffect(() => {
     if (!emailSent && session.minMember === session.studentCount.length) {
-      toast(session.sessionTopicTitle);
+      toast.success("Email sent to selected tutors", {
+        description: session.sessionTopicTitle,
+      });
       sendEmail();
       setEmailSent(true);
     }
@@ -105,7 +105,7 @@ export const JoinBtn = ({
         {session.studentCount.length}
         <span>/{session.maxMember}</span>
       </div>
-      <div>JOINTEST</div>
+      <div>JOIN</div>
     </Button>
   );
 };

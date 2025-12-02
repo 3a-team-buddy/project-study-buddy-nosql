@@ -4,23 +4,23 @@ export type MockTopicType = {
   mockDescription: string;
 };
 
-export type MockTutorType = {
-  _id: string;
-  mockTutorName: string;
-  mockTutorEmail: string;
-  mockTutorImage: string;
-};
+// export type MockTutorType = {
+//   _id: string;
+//   mockTutorName: string;
+//   mockTutorEmail: string;
+//   mockTutorImage: string;
+// };
 
-export type StudentMockType = {
-  _id: string;
-  studentClerkId: string;
-  studentEmail: string;
-  studentName: string;
-  studentImage: string;
-};
+// export type StudentMockType = {
+//   _id: string;
+//   studentClerkId: string;
+//   studentEmail: string;
+//   studentName: string;
+//   studentImage: string;
+// };
 
 export type SelectedTutorType = {
-  mockTutorEmail: string;
+  mockUserEmail: string;
 };
 
 export type CreateSessionType = {
@@ -39,12 +39,13 @@ export type CreateSessionType = {
 
 export type JoinedStudentType = {
   _id: string;
-  studentId: StudentMockType;
+  studentId: MockUserType;
   sessionId: string;
 };
 
 export type MockUserType = {
   _id: string;
+  mockUserClerkId?: string;
   mockUserName: string;
   mockUserEmail: string;
   mockUserImage: string;
@@ -53,7 +54,7 @@ export type MockUserType = {
 
 export type SelectedTutorDBType = {
   _id: string;
-  tutorId: MockTutorType;
+  tutorId: MockUserType;
   createdSessionId: string;
   invitationStatus: string;
 };

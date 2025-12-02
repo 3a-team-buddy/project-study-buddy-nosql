@@ -1,7 +1,7 @@
 import connectDB from "../mongodb";
-import { MockTutor } from "../models/MockTutor";
 import { SelectedTutor } from "../models/SelectedTutor";
 import { SelectedTutorType } from "../types";
+import { MockUser } from "../models/MockUser";
 
 export const getAllSelectedTutors = async (sessionId: string) => {
   await connectDB();
@@ -20,12 +20,12 @@ export const createSelectedTutor = async (
   await connectDB();
 
   const tutorsEmail = selectedTutors.map(
-    (selectedTutor) => selectedTutor.mockTutorEmail
+    (selectedTutor) => selectedTutor.mockUserEmail
   );
 
-  const foundTutors = await MockTutor.find(
+  const foundTutors = await MockUser.find(
     {
-      mockTutorEmail: { $in: tutorsEmail },
+      mockUserEmail: { $in: tutorsEmail },
     },
     "_id"
   );

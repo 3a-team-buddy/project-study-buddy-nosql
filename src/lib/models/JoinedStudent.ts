@@ -9,7 +9,7 @@ const JoinedStudentSchema = new Schema(
   {
     studentId: {
       type: Schema.ObjectId,
-      ref: "StudentMock",
+      ref: "MockUser",
     },
     sessionId: {
       type: Schema.ObjectId,

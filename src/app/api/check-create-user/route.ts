@@ -51,10 +51,10 @@ export const POST = async () => {
 
   if (!mockUser) {
     return NextResponse.json(
-      { message: "Failed to save mock user!" },
+      { message: "Failed to create or fetch user!" },
       { status: 500 }
     );
   }
 
-  return NextResponse.json({ result });
+  return NextResponse.json({ data: mockUser.userClerkId });
 };

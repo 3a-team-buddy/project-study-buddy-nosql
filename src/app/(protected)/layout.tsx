@@ -13,16 +13,15 @@ export default function RootLayout({
 }>) {
   const { user, isLoaded } = useUser();
   const { getToken } = useAuth();
-
   const router = useRouter();
   console.log({ user });
 
   // auth hiigeed daraa ni save hiij bga
   // POST huselt yavad be-ees butsaj clerk data-g avch user bgag shalgah eseh
-  async function saveUser() {
+  async function createSaveUser() {
     const token = await getToken();
 
-    fetch("/api/check-create-user", {
+    await fetch("/api/check-create-user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -32,17 +31,13 @@ export default function RootLayout({
   }
 
   useEffect(() => {
-    saveUser();
+    createSaveUser();
   }, []);
 
   useEffect(() => {
     if (isLoaded && !user) {
       router.push("/login");
     }
-
-    // if (isLoaded && user) {
-    //   saveStudentData(user);
-    // }
   }, [isLoaded, user]);
 
   if (!isLoaded) {
@@ -97,3 +92,7 @@ export default function RootLayout({
 //     setLoading(false);
 //   }
 // };
+
+// if (isLoaded && user) {
+//   saveStudentData(user);
+// }

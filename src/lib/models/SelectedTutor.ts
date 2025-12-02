@@ -8,7 +8,7 @@ type SelectedTutorSchemaType = {
 
 const SelectedTutorSchema = new Schema(
   {
-    tutorId: { type: Schema.ObjectId, ref: "MockTutor" },
+    tutorId: { type: Schema.ObjectId, ref: "MockUser" },
     createdSessionId: { type: Schema.ObjectId, ref: "Session" },
     invitationStatus: {
       type: String,
