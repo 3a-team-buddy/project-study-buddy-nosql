@@ -1,16 +1,39 @@
 "use client";
 
-import { useSession } from "@/app/_hooks/use-session";
 import { Button } from "@/components/ui";
-import { CreateSessionType } from "@/lib/types";
-import React from "react";
+import { CreateSessionType, JoinedStudentType } from "@/lib/types";
+import { useUser } from "@clerk/nextjs";
+import React, { useEffect, useState } from "react";
 import { FiCalendar, FiClock, FiUser } from "react-icons/fi";
+import { toast } from "sonner";
 
 export const DetailJoinedSession = ({
   session,
 }: {
   session: CreateSessionType;
 }) => {
+  const { user } = useUser();
+  // const [remainingJoinedStudents, setRemainingJoinedStudents] =
+  useState<JoinedStudentType>();
+  console.log({ user });
+
+  async function handleLeaveSession(studentClerkId: string, sessionId: string) {
+    // try {
+    const result = await fetch(
+      `/api/joined-students?student=${studentClerkId}&session=${sessionId}`,
+      // `/api/joined-students/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (!result.ok) {
+      toast.error("Failed to leave session");
+    }
+
+    const { data } = await result.json();
+  }
+
   return (
     <div className="w-full rounded-xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl">
       <div>
@@ -39,7 +62,12 @@ export const DetailJoinedSession = ({
           </p>
         </div>
 
-        <Button variant={"destructive"} className="w-full  mt-6">
+        <Button
+          variant={"destructive"}
+          className="w-full  mt-6"
+          onClick={() => handleLeaveSession(user?.id!, session._id)}
+          // onClick={() => handleLeaveSession(user?.id!)}
+        >
           Leave Session
         </Button>
       </div>
