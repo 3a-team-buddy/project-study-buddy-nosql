@@ -52,7 +52,6 @@ const CreateSessionPage = () => {
   console.log({ selectedSessionType });
   console.log({ selectedTutors });
   console.log({ userId });
-  console.log({ studentCount });
 
   return (
     <div className="w-full min-h-screen text-white flex gap-8 p-10">
