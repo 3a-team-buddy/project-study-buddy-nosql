@@ -1,5 +1,4 @@
 import connectDB from "../mongodb";
-import mongoose from "mongoose";
 import { MockTutor } from "../models/MockTutor";
 import { SelectedTutor } from "../models/SelectedTutor";
 import { SelectedTutorType } from "../types";
@@ -21,16 +20,15 @@ export const createSelectedTutor = async (
     "_id"
   );
 
-  const tutors = foundTutors.map((tutor) => ({
-    tutorId: tutor._id,
-    invitationStatus: "WAITING",
-  }));
+  const createdSelectedTutor = await Promise.all(
+    foundTutors.map((tutor) =>
+      SelectedTutor.create({
+        tutorId: tutor._id,
+        createdSessionId,
+        invitationStatus: "WAITING",
+      })
+    )
+  );
 
-  const newSelectedTutors = new SelectedTutor({
-    tutors,
-    createdSessionId: new mongoose.Types.ObjectId(createdSessionId),
-  });
-
-  await newSelectedTutors.save();
-  return newSelectedTutors;
+  return createdSelectedTutor;
 };
