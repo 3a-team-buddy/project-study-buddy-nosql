@@ -1,27 +1,24 @@
 import { leaveJoinedSession } from "@/lib/services/leave-joined-session";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function DELETE(request: NextRequest) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
-    const searchParams = request.nextUrl.searchParams;
-
-    const studentClerkId = searchParams.get("student");
-    const sessionId = searchParams.get("session");
+    const studentClerkId = params.id;
 
     // const body = await request.json();
     // const { studentClerkId, sessionId } = body;
 
-    if (!studentClerkId || !sessionId) {
+    if (!studentClerkId) {
       return NextResponse.json(
-        { message: "studentClerkId and sessionId required" },
+        { message: "Student ID is required" },
         { status: 400 }
       );
     }
 
-    const { leaveSession } = await leaveJoinedSession(
-      studentClerkId,
-      sessionId
-    );
+    const { leaveSession } = await leaveJoinedSession(studentClerkId);
 
     if (!leaveSession) {
       return NextResponse.json(

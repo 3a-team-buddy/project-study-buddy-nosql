@@ -1,15 +1,11 @@
 import { JoinedStudent } from "../models/JoinedStudent";
 import connectDB from "../mongodb";
 
-export const leaveJoinedSession = async (
-  studentId: string,
-  sessionId: string
-) => {
+export const leaveJoinedSession = async (studentClerkId: string) => {
   await connectDB();
 
   const leaveSession = await JoinedStudent.findByIdAndDelete({
-    studentId,
-    sessionId,
+    studentId: studentClerkId,
   });
 
   return { leaveSession };
