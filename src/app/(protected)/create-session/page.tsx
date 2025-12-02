@@ -47,9 +47,9 @@ const CreateSessionPage = () => {
       year: "numeric",
     });
   }
-  async function createProduct() {
+  async function Product() {
     const token = await getToken();
-    fetch("/src/app/api/get-joined-students", {
+    fetch("/api/products", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -57,7 +57,9 @@ const CreateSessionPage = () => {
       },
     });
   }
-
+  useEffect(() => {
+    Product();
+  }, []);
   console.log({ value });
   console.log({ time });
   console.log({ selectedSessionType });

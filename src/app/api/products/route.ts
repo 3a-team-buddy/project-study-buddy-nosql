@@ -9,10 +9,10 @@ async function checkAuth() {
     return false;
   }
   try {
-    const { sub, role } = await verifyToken(authToken, {
+    const { sub, email, pic, fullname } = await verifyToken(authToken, {
       secretKey: process.env.CLERK_SECRET_KEY,
     });
-    console.log({ role });
+    console.log({ email, pic, fullname });
     return sub;
   } catch (e) {
     console.log(e);
@@ -20,9 +20,10 @@ async function checkAuth() {
   }
 }
 export const POST = async () => {
-  const userId = await checkAuth();
-  if (!userId) {
+  const userIdcheck = await checkAuth();
+  console.log({ userIdcheck });
+  if (!userIdcheck) {
     return Response.json({}, { status: 401 });
   }
-  return Response.json({ userId });
+  return Response.json({ userIdcheck });
 };
