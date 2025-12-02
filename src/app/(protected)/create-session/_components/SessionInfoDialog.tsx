@@ -14,7 +14,7 @@ export const SessionInfoDialog = ({
       <DialogTrigger asChild>
         <Button
           variant={"ghost"}
-          className="text-xl text-white/80 font-semibold hover:bg-accent/20 hover:text-white cursor-pointer rounded-full"
+          className="text-xl text-white/80 font-semibold hover:bg-accent/5 hover:text-white cursor-pointer rounded-full"
         >
           {session.sessionTopicTitle}
         </Button>

@@ -1,6 +1,7 @@
 import connectDB from "../mongodb";
 import { JoinedStudent } from "../models/JoinedStudent";
 import { StudentMock } from "../models/StudentMock";
+import { Session } from "../models/Session";
 
 export const getAllJoinedStudents = async (sessionId: string) => {
   await connectDB();
@@ -28,11 +29,14 @@ export const createJoinedStudent = async (
     sessionId,
   });
   await joinedStudent.save();
-  return joinedStudent;
+
+  const updatedSession = await Session.findByIdAndUpdate(
+    sessionId,
+    {
+      $push: { studentCount: studentId },
+    },
+    { new: true }
+  );
+
+  return { joinedStudent, updatedSession };
 };
-
-// export const getAllJoinedStudents = async () => {
-//   await connectDB();
-
-//   return await JoinedStudent.find().select("-__v");
-// };

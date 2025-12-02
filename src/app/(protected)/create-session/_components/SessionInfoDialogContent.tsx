@@ -23,7 +23,7 @@ export const SessionInfoDialogContent = ({
           <DialogTitle className="text-2xl leading-7">
             {session.sessionTopicTitle}
           </DialogTitle>
-          <DialogDescription className="text-gray-300">
+          <DialogDescription className="text-white/60">
             {session.description}
           </DialogDescription>
         </DialogHeader>

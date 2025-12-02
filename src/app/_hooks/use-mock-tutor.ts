@@ -7,7 +7,7 @@ export const useMockTutor = () => {
   const [mockTutors, setMockTutors] = useState<MockTutorType[]>([]);
 
   const getMockTutors = async () => {
-    const result = await fetch("api/mock-datas/create-mock-tutor");
+    const result = await fetch("/api/mock-datas/create-mock-tutor");
     const { data } = await result.json();
 
     setMockTutors(data);

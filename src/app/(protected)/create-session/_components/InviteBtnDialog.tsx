@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -10,10 +10,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useState } from "react";
+  Button,
+  Input,
+  Label,
+} from "@/components/ui";
 import { BsLink } from "react-icons/bs";
 import { toast } from "sonner";
 
@@ -28,7 +28,7 @@ export function InviteBtnDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="rounded-full bg-[#2563EB17] hover:bg-[#2563EB33] gap-1 font-bold text-[#1d4ed8] hover:text-[#2563EB] cursor-pointer">
+        <Button className="rounded-full bg-[#2563EB17] hover:bg-[#2563EB33] gap-1 cursor-pointer font-bold text-[#1d4ed8] hover:text-[#2563EB]">
           <BsLink />
           <div>Invite</div>
         </Button>
@@ -43,7 +43,7 @@ export function InviteBtnDialog() {
         <div className="flex items-center gap-2">
           <div className="grid flex-1 gap-5">
             <div className="grid flex-1 gap-2">
-              <Label htmlFor="link" className="text-sm">
+              <Label htmlFor="email" className="text-sm">
                 Email
               </Label>
               <Input

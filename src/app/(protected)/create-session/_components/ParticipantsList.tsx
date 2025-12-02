@@ -13,7 +13,7 @@ export const ParticipantsList = ({
   console.log({ joinedStudents });
 
   const getSelectedSessionJoinedStudents = async () => {
-    const result = await fetch("api/get-joined-students", {
+    const result = await fetch("/api/get-joined-students", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -22,14 +22,11 @@ export const ParticipantsList = ({
     });
 
     if (!result.ok) {
-      toast.error("Failed to join the session");
+      toast.error("Failed to get joined students");
     }
 
     const { data } = await result.json();
     setJoinedStudents(data);
-    toast.success(
-      "You have successfully joined the session, View your joined session on My Study Buddies"
-    );
   };
 
   useEffect(() => {
@@ -40,19 +37,19 @@ export const ParticipantsList = ({
     <div className="flex flex-col gap-2">
       <h3 className="text-base text-white font-semibold">Participants</h3>
 
-      <div className="flex gap-3 items-center">
-        <div className="text-sm text-gray-300 flex flex-col gap-3">
+      <div className="flex gap-2 items-center">
+        <div className="text-sm text-white/60 flex flex-col gap-2">
           {joinedStudents.map((joinedStudent) => (
-            <div key={joinedStudent._id} className="flex gap-3 items-center">
+            <div key={joinedStudent._id} className="flex gap-2 items-center">
               <img
                 src={joinedStudent.studentId.studentImage}
-                className="w-6 h-6 rounded-full bg-gray-300"
+                className="w-6 h-6 rounded-full bg-slate-900"
+                alt=""
               />
               <div>{joinedStudent.studentId.studentName}</div>
             </div>
           ))}
         </div>
-        {/* session-d joined hiisen students info orj ireh */}
       </div>
     </div>
   );

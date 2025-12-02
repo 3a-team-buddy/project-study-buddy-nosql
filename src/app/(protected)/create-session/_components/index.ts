@@ -1,7 +1,6 @@
 export * from "./CreateSessionBtn";
 export * from "./CreateSessionHeading";
 export * from "./DateAndTimePicker";
-export * from "./JoinedStudents";
 export * from "./MemberLimitSelector";
 export * from "./ParticipantsList";
 export * from "./SessionDetails";
