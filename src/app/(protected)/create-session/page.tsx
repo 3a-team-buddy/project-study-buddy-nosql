@@ -11,7 +11,7 @@ import {
   CreateSessionHeading,
 } from "./_components";
 import { SelectedTutorType } from "@/lib/types";
-import { useUser } from "@clerk/nextjs";
+import { useUser, useAuth } from "@clerk/nextjs";
 
 const CreateSessionPage = () => {
   const [sessionTopicTitle, setSessionTopicTitle] = useState<string>("");
@@ -28,6 +28,7 @@ const CreateSessionPage = () => {
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
   const [userId, setUserId] = useState<string>("");
   const { user } = useUser();
+  const { getToken } = useAuth();
   const [studentCount, setStudentCount] = useState<number[]>([]);
 
   useEffect(() => {
@@ -46,7 +47,19 @@ const CreateSessionPage = () => {
       year: "numeric",
     });
   }
-
+  async function Product() {
+    const token = await getToken();
+    fetch("/api/products", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
+  useEffect(() => {
+    Product();
+  }, []);
   console.log({ value });
   console.log({ time });
   console.log({ selectedSessionType });
