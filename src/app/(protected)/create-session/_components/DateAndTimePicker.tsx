@@ -114,7 +114,7 @@ export const DateAndTimePicker = ({
               </Button>
             </PopoverTrigger>
             <PopoverContent
-              className="w-auto overflow-hidden p-0 bg-[black] text-white "
+              className="w-auto overflow-hidden p-0 bg-[black] text-white"
               align="end"
               alignOffset={-8}
               sideOffset={10}

@@ -7,6 +7,7 @@ import { useSession } from "@/app/_hooks/use-session";
 import { toast } from "sonner";
 import {
   InviteBtnDialog,
+  JoinBtn,
   SessionInfoDialog,
 } from "@/app/(protected)/create-session/_components";
 import { useRouter } from "next/navigation";
@@ -76,6 +77,8 @@ export const SessionList = ({ userId }: { userId: string }) => {
                   </div>
                   <div>JOIN</div>
                 </Button>
+
+                <JoinBtn session={session} userId={userId} />
 
                 <InviteBtnDialog />
               </div>

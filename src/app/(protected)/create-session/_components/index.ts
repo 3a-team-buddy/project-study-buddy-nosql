@@ -1,6 +1,8 @@
 export * from "./CreateSessionBtn";
 export * from "./CreateSessionHeading";
 export * from "./DateAndTimePicker";
+export * from "./InviteBtnDialog";
+export * from "./JoinBtn";
 export * from "./MemberLimitSelector";
 export * from "./ParticipantsList";
 export * from "./SessionDetails";
@@ -9,4 +11,3 @@ export * from "./SessionInfoDialogContent";
 export * from "./SessionList";
 export * from "./SessionTypeSelector";
 export * from "./StudySessionTitleAndDescription";
-export * from "./InviteBtnDialog";
