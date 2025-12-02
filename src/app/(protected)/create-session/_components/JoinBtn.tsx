@@ -86,7 +86,7 @@ export const JoinBtn = ({
 
   useEffect(() => {
     if (!emailSent && session.minMember === session.studentCount.length) {
-      alert(session.sessionTopicTitle);
+      toast(session.sessionTopicTitle);
       sendEmail();
       setEmailSent(true);
     }
