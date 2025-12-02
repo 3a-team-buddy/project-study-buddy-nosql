@@ -3,6 +3,16 @@ import { MockTutor } from "../models/MockTutor";
 import { SelectedTutor } from "../models/SelectedTutor";
 import { SelectedTutorType } from "../types";
 
+export const getAllSelectedTutors = async (sessionId: string) => {
+  await connectDB();
+
+  return await SelectedTutor.find({
+    createdSessionId: { $in: sessionId },
+  })
+    .populate("tutorId")
+    .select("-__v");
+};
+
 export const createSelectedTutor = async (
   selectedTutors: SelectedTutorType[],
   createdSessionId: string

@@ -22,7 +22,7 @@ export const ParticipantsList = ({
     });
 
     if (!result.ok) {
-      toast.error("Failed to get joined students");
+      toast.error("Failed to get joined students!");
     }
 
     const { data } = await result.json();

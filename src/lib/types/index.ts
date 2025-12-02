@@ -50,3 +50,10 @@ export type MockUserType = {
   mockUserImage: string;
   mockUserStatus: string;
 };
+
+export type SelectedTutorDBType = {
+  _id: string;
+  tutorId: MockTutorType;
+  createdSessionId: string;
+  invitationStatus: string;
+};
