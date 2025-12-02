@@ -47,6 +47,7 @@ const CreateSessionPage = () => {
       year: "numeric",
     });
   }
+
   async function Product() {
     const token = await getToken();
     fetch("/api/products", {
