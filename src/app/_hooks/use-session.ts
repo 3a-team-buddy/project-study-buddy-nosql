@@ -29,7 +29,7 @@ export const useSession = () => {
 
     const channel = ablyClient.channels.get("sessions");
 
-    const handleMessage = (message: any) => {
+    const handleCreated = (message: any) => {
       if (message.name !== "session-created") return;
       if (!message.data) return;
 
@@ -40,10 +40,29 @@ export const useSession = () => {
       });
     };
 
-    channel.subscribe("session-created", handleMessage);
+    const handleJoined = (message: any) => {
+      if (message.name !== "session-joined") return;
+      if (!message.data) return;
+      const { sessionId, studentClerkId } = message.data;
+
+      setAllSessions((prev) =>
+        prev.map((session) =>
+          session._id === sessionId
+            ? {
+                ...session,
+                studentCount: [...session.studentCount, studentClerkId],
+              }
+            : session
+        )
+      );
+    };
+
+    channel.subscribe("session-created", handleCreated);
+    channel.subscribe("session-joined", handleJoined);
 
     return () => {
-      channel.unsubscribe("session-created", handleMessage);
+      channel.unsubscribe("session-created", handleCreated);
+      channel.unsubscribe("session-joined", handleJoined);
     };
   }, []);
 
