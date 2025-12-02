@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createJoinedStudent } from "@/lib/services/joined-students-service";
+import Ably from "ably";
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,19 +16,25 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const joinedStudentDB = await createJoinedStudent(
+    const { updatedSession } = await createJoinedStudent(
       studentClerkId,
       sessionId
     );
 
-    if (!joinedStudentDB) {
+    if (!updatedSession) {
       return NextResponse.json(
         { message: "Failed to join the session!" },
         { status: 500 }
       );
     }
+
+    const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
+    const channel = ably.channels.get("sessions");
+
+    await channel.publish("session-joined", { sessionId, studentClerkId });
+
     return NextResponse.json(
-      { data: joinedStudentDB, message: "Joined successfully" },
+      { data: updatedSession, message: "Joined successfully" },
       { status: 200 }
     );
   } catch (error) {
