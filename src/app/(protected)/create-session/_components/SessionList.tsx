@@ -15,6 +15,8 @@ export const SessionList = ({ userId }: { userId: string }) => {
   const { allSessions, isLoading } = useSession();
   const router = useRouter();
 
+  // join btn darahad nemdeg shud haragdah
+
   const joinedStudentHandler = async (sessionId: string) => {
     const response = await fetch("/api/joined-students", {
       method: "POST",
