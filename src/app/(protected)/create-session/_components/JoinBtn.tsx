@@ -64,13 +64,13 @@ export const JoinBtn = ({
     (tutor) => tutor.tutorId.mockUserEmail
   );
 
-  // console.log(
-  //   session.minMember,
-  //   session.studentCount.length,
-  //   "minMember studentCountlength"
-  // );
+  console.log(
+    session.minMember,
+    session.studentCount.length,
+    "minMember studentCountlength"
+  );
 
-  const sendEmail = async () => {
+  const sendEmailToTutor = async () => {
     await fetch("/api/send-invite", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -83,11 +83,15 @@ export const JoinBtn = ({
   };
 
   useEffect(() => {
-    if (!emailSent && session.minMember === session.studentCount.length) {
+    if (
+      !emailSent &&
+      session.minMember === session.studentCount.length &&
+      session.selectedSessionType === "tutor-led"
+    ) {
       toast.success("Email sent to selected tutors", {
         description: session.sessionTopicTitle,
       });
-      sendEmail();
+      sendEmailToTutor();
       setEmailSent(true);
     }
   }, [session.minMember, session.studentCount.length, emailSent]);
