@@ -5,6 +5,7 @@ import JoinedSessionCard from "./_components/JoinedSessionCard";
 import MoreSessions from "./_components/MoreSessions";
 import { DetailJoinedSession } from "./_components/DetailJoinedSession";
 import { Skeleton } from "@/components/ui/skeleton";
+import CreatedSessions from "./_components/CreatedSessions";
 import { useJoinedSession } from "@/app/_hooks/use-joined-sessions";
 import { SessionList } from "../create-session/_components";
 import { useUser } from "@clerk/nextjs";
@@ -34,8 +35,15 @@ const MySessionPage = () => {
     <div className="w-full min-h-screen flex gap-8 p-10 text-white">
       <div className="flex-1">
         <div className="flex flex-col gap-10">
+          <div>
+            <h2 className="text-2xl text-white">CreatedSessions</h2>
+
+            <CreatedSessions />
+          </div>
+
           <div className="flex flex-col gap-3">
             <h2 className="text-2xl text-white">Joined sessions</h2>
+
             {isLoading ? (
               <div className="flex flex-col gap-3">
                 {[1, 2, 3].map((i) => (
