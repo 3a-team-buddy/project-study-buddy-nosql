@@ -10,5 +10,7 @@ export * from "./SessionDetails";
 export * from "./SessionInfoDialog";
 export * from "./SessionInfoDialogContent";
 export * from "./SessionList";
+export * from "./SessionListSkeleton";
+
 export * from "./SessionTypeSelector";
 export * from "./StudySessionTitleAndDescription";

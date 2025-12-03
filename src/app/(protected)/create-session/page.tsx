@@ -59,7 +59,7 @@ const CreateSessionPage = () => {
   return (
     <div className="w-full min-h-screen text-white flex gap-8 p-10">
       <div className="flex-1">
-        <SessionList userId={userId} />
+        <SessionList token={token} />
       </div>
 
       <div className="max-w-[480px] w-full flex flex-col gap-8 rounded-2xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl">

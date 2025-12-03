@@ -7,9 +7,7 @@ import Link from "next/link";
 import { CreateSessionType } from "@/lib/types";
 
 export default function CreatedSession() {
-  const { user } = useUser();
   const { getToken } = useAuth();
-
   const [createdSessions, setCreatedSessions] = useState<CreateSessionType[]>(
     []
   );
@@ -40,7 +38,7 @@ export default function CreatedSession() {
 
   return (
     <div className="space-y-4">
-      {createdSessions.map((session) => (
+      {/* {createdSessions.map((session) => (
         <div>
           <div>{session.sessionTopicTitle}</div>
         </div>
@@ -80,7 +78,7 @@ export default function CreatedSession() {
             )}
           </div>
         );
-      })}
+      })} */}
     </div>
   );
 }

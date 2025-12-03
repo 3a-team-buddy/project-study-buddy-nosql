@@ -16,7 +16,7 @@ export const createNewSession = async (
   time: string,
   selectedSessionType: string,
   creatorId: string,
-  studentsCount: number | ""
+  studentCount: number | ""
 ) => {
   await connectDB();
   const newSession = new Session({
@@ -28,7 +28,7 @@ export const createNewSession = async (
     time,
     selectedSessionType,
     creatorId,
-    studentsCount,
+    studentCount,
   });
 
   await newSession.save();

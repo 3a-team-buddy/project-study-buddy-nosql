@@ -36,7 +36,9 @@ const MySessionPage = () => {
       <div className="flex-1">
         <div className="flex flex-col gap-10">
           <div>
-            <h2 className="text-2xl text-white">CreatedSessions</h2>
+            <h2 className="text-2xl text-white font-semibold">
+              Created Sessions
+            </h2>
 
             <CreatedSessions />
           </div>
@@ -66,6 +68,7 @@ const MySessionPage = () => {
               </div>
             )}
           </div>
+
           <div>
             <MoreSessions />
           </div>
@@ -84,7 +87,6 @@ const MySessionPage = () => {
         ) : (
           <div className="max-w-[480px] rounded-xl px-8 bg-[#0E1B2EFF] shadow-xl h-200 flex items-center justify-center">
             <h2 className="text-md font-semibold text-white mb-4">
-              {" "}
               Please choose your session to check the details.
             </h2>
           </div>

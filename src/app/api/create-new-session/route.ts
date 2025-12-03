@@ -6,14 +6,14 @@ import { createJoinedStudent } from "@/lib/services/joined-students-service";
 import { checkAuth } from "../check-create-user/route";
 
 export async function POST(request: NextRequest) {
-  const result = await checkAuth();
-
-  if (!result) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  }
-  const { userClerkId } = result;
-
   try {
+    const result = await checkAuth();
+
+    if (!result) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+    const { userClerkId } = result;
+
     const body = await request.json();
     const {
       sessionTopicTitle,
@@ -65,8 +65,6 @@ export async function POST(request: NextRequest) {
     const createdSessionId = createdSession._id;
     const createdSessionType = createdSession.selectedSessionType;
     const firstJoinedStudentClerkId = createdSession.creatorId;
-    // console.log({ firstJoinedStudentClerkId });
-    // console.log({ createdSessionId });
     // console.log({ createdSession });
 
     if (createdSessionType === "tutor-led") {
@@ -84,7 +82,7 @@ export async function POST(request: NextRequest) {
     await channel.publish("session-created", updatedSession);
 
     return NextResponse.json(
-      { message: "New session created successfully", data: updatedSession },
+      { message: "New session created successfully" },
       { status: 200 }
     );
   } catch (error) {

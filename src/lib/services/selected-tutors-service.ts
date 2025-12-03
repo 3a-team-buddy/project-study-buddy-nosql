@@ -7,10 +7,11 @@ export const getAllSelectedTutors = async (sessionId: string) => {
   await connectDB();
 
   return await SelectedTutor.find({
-    createdSessionId: { $in: sessionId },
+    createdSessionId: sessionId,
   })
-    .populate("tutorId")
-    .select("-__v");
+    .populate("tutorId", "mockUserEmail -_id")
+    .select("tutorId -_id")
+    .lean();
 };
 
 export const createSelectedTutor = async (

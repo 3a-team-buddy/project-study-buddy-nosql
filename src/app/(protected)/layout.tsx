@@ -17,21 +17,24 @@ export default function RootLayout({
 
   // auth hiigeed daraa ni save hiij bga
   // POST huselt yavad be-ees butsaj clerk data-g avch user bgag shalgah eseh
-  async function createCheckUser() {
-    const token = await getToken();
-
-    await fetch("/api/check-create-user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  }
-
   useEffect(() => {
+    if (!isLoaded) return;
+    if (!user) return;
+
+    async function createCheckUser() {
+      const token = await getToken();
+
+      await fetch("/api/check-create-user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
+
     createCheckUser();
-  }, []);
+  }, [isLoaded, user]);
 
   useEffect(() => {
     if (isLoaded && !user) {

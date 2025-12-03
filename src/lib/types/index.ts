@@ -11,8 +11,6 @@ export type SelectedTutorType = {
 };
 
 export type CreateSessionType = {
-  joinedStudents: any;
-  title: ReactNode;
   _id: string;
   sessionTopicTitle: string;
   description: string;
@@ -28,10 +26,13 @@ export type CreateSessionType = {
   updatedAt: string;
 };
 
+// joinedStudents: any;
+// title: ReactNode;
+
 export type JoinedStudentType = {
   _id: string;
   studentId: MockUserType;
-  sessionId: string;
+  sessionId: CreateSessionType;
 };
 
 export type MockUserType = {
@@ -46,7 +47,7 @@ export type MockUserType = {
 export type SelectedTutorDBType = {
   _id: string;
   tutorId: MockUserType;
-  createdSessionId: string;
+  createdSessionId: CreateSessionType;
   invitationStatus: string;
 };
 export type SelectedStudentType = {

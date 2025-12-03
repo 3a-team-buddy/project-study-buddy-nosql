@@ -1,15 +1,15 @@
 "use cLient";
 
 import React from "react";
-import { Skeleton } from "@/components/ui";
 import { useSession } from "@/app/_hooks/use-session";
 import {
   InviteBtnDialog,
   JoinBtn,
   SessionInfoDialog,
+  SessionListSkeleton,
 } from "@/app/(protected)/create-session/_components";
 
-export const SessionList = ({ userId }: { userId: string }) => {
+export const SessionList = ({ token }: { token: string }) => {
   const { allSessions, isLoading } = useSession();
 
   return (
@@ -17,14 +17,7 @@ export const SessionList = ({ userId }: { userId: string }) => {
       <h2 className="text-2xl leading-7 font-semibold">Sessions</h2>
 
       {isLoading ? (
-        <div className="flex flex-col gap-3">
-          {[1, 2, 3].map((i) => (
-            <Skeleton
-              key={i}
-              className="max-w-138 h-17 rounded-2xl opacity-10"
-            />
-          ))}
-        </div>
+        <SessionListSkeleton />
       ) : (
         <div className="flex flex-col gap-3">
           {allSessions.map((session) => (
@@ -34,8 +27,8 @@ export const SessionList = ({ userId }: { userId: string }) => {
             >
               <SessionInfoDialog session={session} />
 
-              <div className="flex justify-center gap-2">
-                <JoinBtn session={session} userId={userId} />
+              <div className="flex items-center justify-center gap-2">
+                <JoinBtn session={session} token={token} />
 
                 <InviteBtnDialog />
               </div>

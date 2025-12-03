@@ -7,12 +7,12 @@ import { toast } from "sonner";
 
 export const JoinBtn = ({
   session,
-  userId,
+  token,
 }: {
   session: CreateSessionType;
-  userId: string;
+  token: string;
 }) => {
-  const [selectedTutorsDB, setSelectedTutorsDB] = useState<
+  const [selectedTutorsEmails, setSelectedTutorsEmails] = useState<
     SelectedTutorDBType[]
   >([]);
   const [emailSent, setEmailSent] = useState(false);
@@ -20,9 +20,11 @@ export const JoinBtn = ({
   const joinedStudentHandler = async (sessionId: string) => {
     const response = await fetch("/api/joined-students", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
-        studentClerkId: userId,
         sessionId,
       }),
     });
@@ -37,11 +39,9 @@ export const JoinBtn = ({
       </>
     );
     // router.push("/my-sessions");
-    // alert(selectedTutorsEmails);
   };
 
-  // anhnaasaaa email-g l yavulah?
-  const getAllSelectedTutors = async () => {
+  const getAllSelectedTutorsEmails = async () => {
     const response = await fetch("/api/get-selected-tutors", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -49,34 +49,32 @@ export const JoinBtn = ({
     });
 
     if (!response) {
-      toast.error("Failed to get selected tutors!");
+      toast.error("Failed to get selected tutors email!");
     }
 
     const { data } = await response.json();
-    setSelectedTutorsDB(data);
+    setSelectedTutorsEmails(data);
   };
 
   useEffect(() => {
-    getAllSelectedTutors();
+    getAllSelectedTutorsEmails();
   }, []);
 
-  const selectedTutorsEmails = selectedTutorsDB.map(
+  const tutorsEmails = selectedTutorsEmails.map(
     (tutor) => tutor.tutorId.mockUserEmail
   );
-  console.log({ selectedTutorsEmails });
-  console.log(
-    session.minMember,
-    session.studentCount.length,
-    "minMember studentCountlength"
-  );
 
-  const sendEmailToTutor = async () => {
+  // console.log(
+  //   session.minMember,
+  //   session.studentCount.length,
+  // );
+
+  const sendEmailToTutors = async () => {
     await fetch("/api/send-invite", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        recipients: selectedTutorsEmails,
-        sessionTitle: session.sessionTopicTitle,
+        recipients: tutorsEmails,
         sessionId: session._id,
       }),
     });
@@ -91,7 +89,7 @@ export const JoinBtn = ({
       toast.success("Email sent to selected tutors", {
         description: session.sessionTopicTitle,
       });
-      sendEmailToTutor();
+      sendEmailToTutors();
       setEmailSent(true);
     }
   }, [session.minMember, session.studentCount.length, emailSent]);
