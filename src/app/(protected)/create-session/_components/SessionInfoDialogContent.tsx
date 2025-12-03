@@ -18,21 +18,19 @@ export const SessionInfoDialogContent = ({
   session: CreateSessionType;
 }) => {
   return (
-    <div>
-      <DialogContent className="px-8 py-6 gap-10 bg-gray-700 border-0 rounded-2xl text-white">
-        <DialogHeader>
-          <DialogTitle className="text-2xl leading-7">
-            {session.sessionTopicTitle}
-          </DialogTitle>
-          <DialogDescription className="text-white/60">
-            {session.description}
-          </DialogDescription>
-        </DialogHeader>
+    <DialogContent className="px-8 py-6 gap-10 bg-gray-700 border-0 rounded-2xl text-white">
+      <DialogHeader>
+        <DialogTitle className="text-2xl leading-7">
+          {session.sessionTopicTitle}
+        </DialogTitle>
+        <DialogDescription className="text-white/60">
+          {session.description}
+        </DialogDescription>
+      </DialogHeader>
 
-        <SessionDetails session={session} />
+      <SessionDetails session={session} />
 
-        <ParticipantsList session={session} />
-      </DialogContent>
-    </div>
+      <ParticipantsList session={session} />
+    </DialogContent>
   );
 };

@@ -4,21 +4,6 @@ export type MockTopicType = {
   mockDescription: string;
 };
 
-// export type MockTutorType = {
-//   _id: string;
-//   mockTutorName: string;
-//   mockTutorEmail: string;
-//   mockTutorImage: string;
-// };
-
-// export type StudentMockType = {
-//   _id: string;
-//   studentClerkId: string;
-//   studentEmail: string;
-//   studentName: string;
-//   studentImage: string;
-// };
-
 export type SelectedTutorType = {
   mockUserEmail: string;
 };
@@ -57,4 +42,7 @@ export type SelectedTutorDBType = {
   tutorId: MockUserType;
   createdSessionId: string;
   invitationStatus: string;
+};
+export type SelectedStudentType = {
+  email: string;
 };

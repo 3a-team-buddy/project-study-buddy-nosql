@@ -63,7 +63,7 @@ export const JoinBtn = ({
   const selectedTutorsEmails = selectedTutorsDB.map(
     (tutor) => tutor.tutorId.mockUserEmail
   );
-
+  console.log({ selectedTutorsEmails });
   console.log(
     session.minMember,
     session.studentCount.length,
