@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export type MockTopicType = {
   _id: string;
   mockTitle: string;
@@ -24,6 +26,8 @@ export type SelectedTutorType = {
 };
 
 export type CreateSessionType = {
+  joinedStudents: any;
+  title: ReactNode;
   _id: string;
   sessionTopicTitle: string;
   description: string;
@@ -35,6 +39,8 @@ export type CreateSessionType = {
   creatorId: string;
   status: string;
   studentCount: number[];
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type JoinedStudentType = {

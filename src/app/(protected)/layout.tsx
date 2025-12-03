@@ -5,6 +5,7 @@ import { Dashboard, Header } from "../_components-main-page";
 import { useUser, useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/ui/spinner";
+import { SessionProvider } from "next-auth/react";
 
 export default function RootLayout({
   children,
@@ -49,15 +50,17 @@ export default function RootLayout({
   }
 
   return (
-    <div className="bg-[url('https://talent.pinebaatars.mn/pinebaatar.png')] bg-cover bg-center">
-      <Header />
-      <div className="max-w-[1440px] flex flex-col justify-center m-auto">
-        <div className="flex gap-6 py-9">
-          <Dashboard />
-          {children}
+    <SessionProvider>
+      <div className="bg-[url('https://talent.pinebaatars.mn/pinebaatar.png')] bg-cover bg-center">
+        <Header />
+        <div className="max-w-[1440px] flex flex-col justify-center m-auto">
+          <div className="flex gap-6 py-9">
+            <Dashboard />
+            {children}
+          </div>
         </div>
       </div>
-    </div>
+    </SessionProvider>
   );
 }
 // const saveStudentData = async (user: UserResource) => {

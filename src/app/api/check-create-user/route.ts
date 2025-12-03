@@ -3,6 +3,7 @@ import { verifyToken } from "@clerk/backend";
 import { NextResponse } from "next/server";
 import { createMockUser } from "@/lib/services/mock-user-service";
 import { MockUser } from "@/lib/models/MockUser";
+import connectDB from "@/lib/mongodb";
 
 export async function checkAuth() {
   const headersList = await headers();
@@ -26,6 +27,7 @@ export async function checkAuth() {
 }
 
 export const POST = async () => {
+  await connectDB();
   const result = await checkAuth();
 
   if (!result) {
