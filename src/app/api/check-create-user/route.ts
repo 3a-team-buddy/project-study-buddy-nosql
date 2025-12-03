@@ -40,7 +40,7 @@ export const POST = async () => {
   const status = role || "STUDENT";
 
   let mockUser = await MockUser.findOne({ mockUserClerkId: userClerkId });
-
+  console.log({ mockUser });
   if (!mockUser) {
     mockUser = await createMockUser(
       userClerkId as string,

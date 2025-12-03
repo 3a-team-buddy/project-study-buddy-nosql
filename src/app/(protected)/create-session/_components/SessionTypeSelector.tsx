@@ -36,7 +36,9 @@ export const SessionTypeSelector = ({
         mockUserEmail: tutorLedInputValue,
       },
     ];
-    if (newSelectedTutors) setSelectedTutors(newSelectedTutors);
+    if (newSelectedTutors) {
+      setSelectedTutors(newSelectedTutors);
+    }
     setTutorLedInputValue("");
   };
 
