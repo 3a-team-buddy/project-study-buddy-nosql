@@ -3,6 +3,7 @@ import { verifyToken } from "@clerk/backend";
 import { NextResponse } from "next/server";
 import { createMockUser } from "@/lib/services/mock-user-service";
 import { MockUser } from "@/lib/models/MockUser";
+import connectDB from "@/lib/mongodb";
 
 export async function checkAuth() {
   const headersList = await headers();
@@ -26,13 +27,14 @@ export async function checkAuth() {
 }
 
 export const POST = async () => {
+  await connectDB();
   const result = await checkAuth();
 
   if (!result) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
   const { userClerkId, fullname, email, pic, role } = result;
-  //   console.log({ userClerkId, fullname, email, pic, role });
+  console.log({ userClerkId, fullname, email, pic, role });
   // shineer login hiisen suragch db hadgalah, ali hediin bval hadgalahgui
 
   const status = role || "STUDENT";

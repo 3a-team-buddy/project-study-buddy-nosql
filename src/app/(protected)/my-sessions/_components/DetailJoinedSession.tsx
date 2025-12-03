@@ -3,6 +3,7 @@
 import { useSession } from "@/app/_hooks/use-session";
 import { Button } from "@/components/ui";
 import { CreateSessionType } from "@/lib/types";
+import { useAuth } from "@clerk/nextjs";
 import React from "react";
 import { FiCalendar, FiClock, FiUser } from "react-icons/fi";
 
@@ -11,6 +12,20 @@ export const DetailJoinedSession = ({
 }: {
   session: CreateSessionType;
 }) => {
+  const { getToken } = useAuth();
+
+  async function leaveSession(id: string) {
+    const token = await getToken();
+
+    await fetch(`/api/create-new-session/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
+
   return (
     <div className="w-full rounded-xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl">
       <div>
@@ -39,7 +54,11 @@ export const DetailJoinedSession = ({
           </p>
         </div>
 
-        <Button variant={"destructive"} className="w-full  mt-6">
+        <Button
+          variant={"destructive"}
+          className="w-full  mt-6"
+          onClick={() => leaveSession(session._id)}
+        >
           Leave Session
         </Button>
       </div>
