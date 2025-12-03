@@ -29,9 +29,11 @@ export const useSession = () => {
 
     const channel = ablyClient.channels.get("sessions");
 
-    const handleCreated = (message: any) => {
+    const handleCreated = async (message: any) => {
       if (message.name !== "session-created") return;
       if (!message.data) return;
+
+      await getSessions();
 
       setAllSessions((prev) => {
         if (prev.some((session) => session._id === message.data._id))

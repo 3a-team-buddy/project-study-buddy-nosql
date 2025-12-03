@@ -4,7 +4,7 @@ import { Session } from "../models/Session";
 export const getAllSessions = async () => {
   await connectDB();
 
-  return await Session.find().select("-__v");
+  return await Session.find().select("-__v").sort({ createdAt: -1 });
 };
 
 export const createNewSession = async (
