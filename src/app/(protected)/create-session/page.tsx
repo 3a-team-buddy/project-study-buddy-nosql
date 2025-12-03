@@ -26,16 +26,21 @@ const CreateSessionPage = () => {
   const [time, setTime] = useState<string>("");
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
-  const [userId, setUserId] = useState<string>("");
-  const { user } = useUser();
-  const { getToken } = useAuth();
   const [studentCount, setStudentCount] = useState<number[]>([]);
+  const [userId, setUserId] = useState<string>(""); // ustgah
+  const { user } = useUser(); //ustgah
+  const { getToken } = useAuth();
+  const [token, setToken] = useState<string>("");
 
   useEffect(() => {
-    if (user) {
-      setUserId(user.id);
-    }
-  }, [user]);
+    const fetchToken = async () => {
+      const token = await getToken();
+      if (token) {
+        setToken(token);
+      }
+    };
+    fetchToken();
+  }, []);
 
   function formatDate(date: Date | undefined) {
     if (!date) {
@@ -50,7 +55,6 @@ const CreateSessionPage = () => {
 
   console.log({ value });
   console.log({ time });
-  console.log({ userId });
 
   return (
     <div className="w-full min-h-screen text-white flex gap-8 p-10">
@@ -108,8 +112,8 @@ const CreateSessionPage = () => {
           setSelectedSessionType={setSelectedSessionType}
           selectedTutors={selectedTutors}
           setSelectedTutors={setSelectedTutors}
-          userId={userId}
           studentCount={studentCount}
+          token={token}
         />
       </div>
     </div>

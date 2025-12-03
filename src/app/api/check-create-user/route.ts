@@ -15,11 +15,14 @@ export async function checkAuth() {
   }
 
   try {
-    const { sub, fullname, email, pic, role } = await verifyToken(authToken, {
-      secretKey: process.env.CLERK_SECRET_KEY,
-    });
+    const { sub, fullName, email, imageUrl, role } = await verifyToken(
+      authToken,
+      {
+        secretKey: process.env.CLERK_SECRET_KEY,
+      }
+    );
 
-    return { userClerkId: sub, fullname, email, pic, role };
+    return { userClerkId: sub, fullName, email, imageUrl, role };
   } catch (e) {
     console.error(e);
     return false;
@@ -33,23 +36,22 @@ export const POST = async () => {
   if (!result) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
-  const { userClerkId, fullname, email, pic, role } = result;
-  console.log({ userClerkId, fullname, email, pic, role });
-  // shineer login hiisen suragch db hadgalah, ali hediin bval hadgalahgui
+  const { userClerkId, fullName, email, imageUrl, role } = result;
+  // console.log({ userClerkId, fullName, email, imageUrl, role });
 
   const status = role || "STUDENT";
 
   let mockUser = await MockUser.findOne({ mockUserClerkId: userClerkId });
-  console.log({ mockUser });
   if (!mockUser) {
     mockUser = await createMockUser(
       userClerkId as string,
-      fullname as string,
+      fullName as string,
       email as string,
-      pic as string,
+      imageUrl as string,
       status as string
     );
   }
+  console.log({ mockUser });
 
   if (!mockUser) {
     return NextResponse.json(

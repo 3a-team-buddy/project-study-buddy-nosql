@@ -3,8 +3,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { createNewSession } from "@/lib/services/create-session-service";
 import { createSelectedTutor } from "@/lib/services/selected-tutors-service";
 import { createJoinedStudent } from "@/lib/services/joined-students-service";
+import { checkAuth } from "../check-create-user/route";
 
 export async function POST(request: NextRequest) {
+  const result = await checkAuth();
+
+  if (!result) {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  }
+  const { userClerkId } = result;
+
   try {
     const body = await request.json();
     const {
@@ -15,7 +23,6 @@ export async function POST(request: NextRequest) {
       value,
       time,
       selectedSessionType,
-      creatorId,
       selectedTutors,
       studentCount,
     } = body;
@@ -28,7 +35,6 @@ export async function POST(request: NextRequest) {
       !value ||
       !time ||
       !selectedSessionType ||
-      !creatorId ||
       !selectedTutors
     ) {
       return NextResponse.json(
@@ -45,7 +51,7 @@ export async function POST(request: NextRequest) {
       value,
       time,
       selectedSessionType,
-      creatorId,
+      userClerkId,
       studentCount
     );
 
