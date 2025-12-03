@@ -87,10 +87,10 @@ export const DateAndTimePicker = ({
     (schedule) => schedule.time <= "16:00"
   );
   const [empty, setEmpty] = useState(false);
-
+  useEffect(() => {}, [date]);
   useEffect(() => {
     if (date) isWorkingDay(date);
-    if (value === "") {
+    if (!value || date === undefined) {
       setValue(formatDate(today));
     }
     if (workday.length === 0 || weekday.length === 0) {
