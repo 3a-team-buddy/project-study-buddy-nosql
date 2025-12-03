@@ -9,7 +9,7 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from "@/components/ui";
-import { useMockTutor } from "@/app/_hooks/use-mock-tutor";
+import { useTeacher } from "@/app/_hooks/use-teacher";
 
 export const SessionTypeSelector = ({
   selectedSessionType,
@@ -22,8 +22,8 @@ export const SessionTypeSelector = ({
   selectedTutors: SelectedTutorType[];
   setSelectedTutors: Dispatch<React.SetStateAction<SelectedTutorType[]>>;
 }) => {
-  const { mockTutors } = useMockTutor();
   const [tutorLedInputValue, setTutorLedInputValue] = useState<string>("");
+  const { teachers } = useTeacher();
 
   const handleChangeSessionType = (value: string) => {
     setSelectedSessionType(value);
@@ -33,7 +33,7 @@ export const SessionTypeSelector = ({
     const newSelectedTutors = [
       ...selectedTutors,
       {
-        mockTutorEmail: tutorLedInputValue,
+        mockUserEmail: tutorLedInputValue,
       },
     ];
     if (newSelectedTutors) setSelectedTutors(newSelectedTutors);
@@ -42,9 +42,10 @@ export const SessionTypeSelector = ({
 
   const deleteSelectedTutor = (tutorEmail: string) => {
     const remainedSelectedTutors = selectedTutors.filter(
-      (selectedTutor: { mockTutorEmail: string }) =>
-        selectedTutor.mockTutorEmail !== tutorEmail
+      (selectedTutor: { mockUserEmail: string }) =>
+        selectedTutor.mockUserEmail !== tutorEmail
     );
+
     if (remainedSelectedTutors) {
       setSelectedTutors(remainedSelectedTutors);
     }
@@ -54,9 +55,9 @@ export const SessionTypeSelector = ({
     setSelectedTutors([]);
   };
 
-  const notChosenTutors = selectedTutors.map((tutor) => tutor.mockTutorEmail);
-  const avalaibleTutors = mockTutors.filter(
-    (tutor) => !notChosenTutors.includes(tutor.mockTutorEmail)
+  const notChosenTutors = selectedTutors.map((tutor) => tutor.mockUserEmail);
+  const avalaibleTeachers = teachers.filter(
+    (teacher) => !notChosenTutors.includes(teacher.mockUserEmail)
   );
 
   return (
@@ -97,8 +98,8 @@ export const SessionTypeSelector = ({
             />
 
             <datalist id="tutors">
-              {avalaibleTutors.map((tutor) => (
-                <option key={tutor._id} value={tutor.mockTutorEmail} />
+              {avalaibleTeachers.map((teacher) => (
+                <option key={teacher._id} value={teacher.mockUserEmail} />
               ))}
             </datalist>
             <Button
@@ -123,13 +124,13 @@ export const SessionTypeSelector = ({
             return (
               <div key={index} className="flex justify-between items-center">
                 <Label className="text-white/80 font-normal">
-                  {tutor.mockTutorEmail}
+                  {tutor.mockUserEmail}
                 </Label>
 
                 <Button
                   variant={"ghost"}
                   onClick={() => {
-                    deleteSelectedTutor(tutor.mockTutorEmail);
+                    deleteSelectedTutor(tutor.mockUserEmail);
                   }}
                   className="hover:bg-accent/50 text-white/80"
                 >

@@ -1,21 +1,21 @@
-"use client";
+// "use client";
 
-import { useEffect, useState } from "react";
-import { MockTutorType } from "@/lib/types";
+// import { useEffect, useState } from "react";
+// import { MockTutorType } from "@/lib/types";
 
-export const useMockTutor = () => {
-  const [mockTutors, setMockTutors] = useState<MockTutorType[]>([]);
+// export const useMockTutor = () => {
+//   const [mockTutors, setMockTutors] = useState<MockTutorType[]>([]);
 
-  const getMockTutors = async () => {
-    const result = await fetch("/api/mock-datas/create-mock-tutor");
-    const { data } = await result.json();
+//   const getMockTutors = async () => {
+//     const result = await fetch("/api/mock-datas/create-mock-tutor");
+//     const { data } = await result.json();
 
-    setMockTutors(data);
-  };
+//     setMockTutors(data);
+//   };
 
-  useEffect(() => {
-    getMockTutors();
-  }, []);
+//   useEffect(() => {
+//     getMockTutors();
+//   }, []);
 
-  return { mockTutors };
-};
+//   return { mockTutors };
+// };

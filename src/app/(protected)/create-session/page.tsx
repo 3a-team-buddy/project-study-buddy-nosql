@@ -47,23 +47,9 @@ const CreateSessionPage = () => {
       year: "numeric",
     });
   }
-  async function Product() {
-    const token = await getToken();
-    fetch("/api/products", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  }
-  useEffect(() => {
-    Product();
-  }, []);
+
   console.log({ value });
   console.log({ time });
-  console.log({ selectedSessionType });
-  console.log({ selectedTutors });
   console.log({ userId });
 
   return (

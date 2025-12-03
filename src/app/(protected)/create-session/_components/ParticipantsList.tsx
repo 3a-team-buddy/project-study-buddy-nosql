@@ -42,11 +42,11 @@ export const ParticipantsList = ({
           {joinedStudents.map((joinedStudent) => (
             <div key={joinedStudent._id} className="flex gap-2 items-center">
               <img
-                src={joinedStudent.studentId.studentImage}
+                src={joinedStudent.studentId.mockUserImage}
                 className="w-6 h-6 rounded-full bg-slate-900"
                 alt=""
               />
-              <div>{joinedStudent.studentId.studentName}</div>
+              <div>{joinedStudent.studentId.mockUserName}</div>
             </div>
           ))}
         </div>

@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
 export type MockUserSchemaType = {
+  mockUserClerkId?: string;
   mockUserName: string;
   mockUserEmail: string;
   mockUserImage: string;
@@ -8,6 +9,7 @@ export type MockUserSchemaType = {
 };
 
 export const MockUserSchema = new Schema({
+  mockUserClerkId: { type: String, required: false },
   mockUserName: { type: String, required: true },
   mockUserEmail: { type: String, required: true },
   mockUserImage: { type: String, required: true },

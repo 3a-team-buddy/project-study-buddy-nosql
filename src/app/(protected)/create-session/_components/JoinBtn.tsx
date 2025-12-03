@@ -40,7 +40,7 @@ export const JoinBtn = ({
     // alert(selectedTutorsEmails);
   };
 
-  // anhnaasaaa email-g l yavulah
+  // anhnaasaaa email-g l yavulah?
   const getAllSelectedTutors = async () => {
     const response = await fetch("/api/get-selected-tutors", {
       method: "POST",
@@ -61,10 +61,8 @@ export const JoinBtn = ({
   }, []);
 
   const selectedTutorsEmails = selectedTutorsDB.map(
-    (tutor) => tutor.tutorId.mockTutorEmail
+    (tutor) => tutor.tutorId.mockUserEmail
   );
-
-  console.log({ selectedTutorsEmails });
 
   console.log(
     session.minMember,
@@ -72,7 +70,7 @@ export const JoinBtn = ({
     "minMember studentCountlength"
   );
 
-  const sendEmail = async () => {
+  const sendEmailToTutor = async () => {
     await fetch("/api/send-invite", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -85,9 +83,15 @@ export const JoinBtn = ({
   };
 
   useEffect(() => {
-    if (!emailSent && session.minMember === session.studentCount.length) {
-      alert(session.sessionTopicTitle);
-      sendEmail();
+    if (
+      !emailSent &&
+      session.minMember === session.studentCount.length &&
+      session.selectedSessionType === "tutor-led"
+    ) {
+      toast.success("Email sent to selected tutors", {
+        description: session.sessionTopicTitle,
+      });
+      sendEmailToTutor();
       setEmailSent(true);
     }
   }, [session.minMember, session.studentCount.length, emailSent]);
@@ -105,7 +109,7 @@ export const JoinBtn = ({
         {session.studentCount.length}
         <span>/{session.maxMember}</span>
       </div>
-      <div>JOINTEST</div>
+      <div>JOIN</div>
     </Button>
   );
 };
