@@ -34,6 +34,8 @@ export const DateAndTimePicker = ({
 }) => {
   const tomorrow = new Date();
   const { allSessions, isLoading } = useSession();
+  const [disabledValue, setDisabledValue] = useState(formatDate(date));
+
   tomorrow.setDate(today.getDate() + 1);
   const [isWeekend, setIsWeekend] = useState(false);
   const [open, setOpen] = useState(false);
@@ -88,11 +90,19 @@ export const DateAndTimePicker = ({
 
   useEffect(() => {
     if (date) isWorkingDay(date);
+    if (value === "") {
+      setValue(formatDate(today));
+    }
     if (workday.length === 0 || weekday.length === 0) {
-      return setEmpty(true);
+      return setEmpty(true), setDisabledValue(value);
+    } else if (workday.length !== 0 || weekday.length !== 0) {
+      setEmpty(false);
     }
   }, [value, date]);
-
+  console.log({ workday });
+  console.log({ weekday });
+  console.log({ empty });
+  console.log({ disabledValue });
   return (
     <div className="w-full flex flex-col gap-5">
       <div className="flex flex-col gap-3">
@@ -138,7 +148,10 @@ export const DateAndTimePicker = ({
             >
               <Calendar
                 className="bg-[#0F2343] "
-                disabled={[(day) => day < tomorrow]}
+                disabled={[
+                  (day) => day < tomorrow,
+                  (day) => formatDate(day) === disabledValue,
+                ]}
                 mode="single"
                 selected={date}
                 captionLayout="dropdown"
@@ -175,46 +188,40 @@ export const DateAndTimePicker = ({
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-fit h-fit py-5 px-5 rounded-[26px] border-[#323743FF] bg-black">
-            {empty ? (
-              <div className="text-white">it's empty </div>
+            {isWeekend ? (
+              <div className="flex flex-col justify-center">
+                {weekday.map((day, index) => {
+                  return (
+                    <button
+                      onClick={() => {
+                        setTime(day.time), setIsOpen(false);
+                      }}
+                      key={index}
+                      className="text-white text-[14px] px-2 py-1"
+                    >
+                      {day.time}
+                    </button>
+                  );
+                })}
+              </div>
             ) : (
               <>
-                {isWeekend ? (
-                  <div className="flex flex-col justify-center">
-                    {weekday.map((day, index) => {
-                      return (
-                        <button
-                          onClick={() => {
-                            setTime(day.time), setIsOpen(false);
-                          }}
-                          key={index}
-                          className="text-white text-[14px] px-2 py-1"
-                        >
-                          {day.time}
-                        </button>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <>
-                    <div className="flex flex-col justify-center">
-                      {workday.map((day, index) => {
-                        return (
-                          <button
-                            onClick={() => {
-                              setTime(day.time);
-                              setIsOpen(false);
-                            }}
-                            key={index}
-                            className="text-white text-[14px] px-2 py-1"
-                          >
-                            {day.time}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </>
-                )}
+                <div className="flex flex-col justify-center">
+                  {workday.map((day, index) => {
+                    return (
+                      <button
+                        onClick={() => {
+                          setTime(day.time);
+                          setIsOpen(false);
+                        }}
+                        key={index}
+                        className="text-white text-[14px] px-2 py-1"
+                      >
+                        {day.time}
+                      </button>
+                    );
+                  })}
+                </div>
               </>
             )}
           </PopoverContent>
