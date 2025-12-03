@@ -11,6 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui";
+import { useSession } from "@/app/_hooks/use-session";
 
 export const DateAndTimePicker = ({
   value,
@@ -32,10 +33,14 @@ export const DateAndTimePicker = ({
   formatDate: (date: Date | undefined) => string;
 }) => {
   const tomorrow = new Date();
+  const { allSessions, isLoading } = useSession();
+  const [disabledValue, setDisabledValue] = useState(formatDate(date));
+
   tomorrow.setDate(today.getDate() + 1);
   const [isWeekend, setIsWeekend] = useState(false);
   const [open, setOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(date);
   const [month, setMonth] = useState<Date | undefined>(date);
 
   function isValidDate(date: Date | undefined) {
@@ -66,16 +71,38 @@ export const DateAndTimePicker = ({
     }
   }
 
-  const workday = schedule.filter((schedule) => schedule.time >= "13:00");
-  const weekday = schedule.filter((schedule) => schedule.time <= "16:00");
+  const date1 = allSessions.filter((session) => session.value === value);
 
+  const time1 = date1.map((date) => {
+    return date.time;
+  });
+  const selectedDateAndTime = schedule.filter((schedule) => {
+    return !time1.includes(schedule.time);
+  });
+
+  const workday = selectedDateAndTime.filter(
+    (schedule) => schedule.time >= "13:00"
+  );
+  const weekday = selectedDateAndTime.filter(
+    (schedule) => schedule.time <= "16:00"
+  );
+  const [empty, setEmpty] = useState(false);
+  useEffect(() => {}, [date]);
   useEffect(() => {
-    isWorkingDay;
-    // console.log({ workday });
-    // console.log({ value });
-    // console.log({ time });
-  }, [value]);
-
+    if (date) isWorkingDay(date);
+    if (!value || date === undefined) {
+      setValue(formatDate(today));
+    }
+    if (workday.length === 0 || weekday.length === 0) {
+      return setEmpty(true), setDisabledValue(value);
+    } else if (workday.length !== 0 || weekday.length !== 0) {
+      setEmpty(false);
+    }
+  }, [value, date]);
+  console.log({ workday });
+  console.log({ weekday });
+  console.log({ empty });
+  console.log({ disabledValue });
   return (
     <div className="w-full flex flex-col gap-5">
       <div className="flex flex-col gap-3">
@@ -121,7 +148,10 @@ export const DateAndTimePicker = ({
             >
               <Calendar
                 className="bg-[#0F2343] "
-                disabled={(day) => day < tomorrow}
+                disabled={[
+                  (day) => day < tomorrow,
+                  (day) => formatDate(day) === disabledValue,
+                ]}
                 mode="single"
                 selected={date}
                 captionLayout="dropdown"

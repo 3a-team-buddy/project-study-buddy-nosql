@@ -1,23 +1,35 @@
 "use client";
 import { useSession } from "@/app/_hooks/use-session";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import JoinedSessionCard from "./_components/JoinedSessionCard";
 import MoreSessions from "./_components/MoreSessions";
 import { DetailJoinedSession } from "./_components/DetailJoinedSession";
 import { Skeleton } from "@/components/ui/skeleton";
 import CreatedSessions from "./_components/CreatedSessions";
+import { useJoinedSession } from "@/app/_hooks/use-joined-sessions";
+import { SessionList } from "../create-session/_components";
+import { useUser } from "@clerk/nextjs";
 
 const MySessionPage = () => {
-  const { allSessions, isLoading } = useSession();
-  const [selectedSessionId, setSelectedSessionId] = useState<string>("");
+  const { user } = useUser();
 
-  const filteredSession = allSessions.filter(
+  const { isLoading } = useSession();
+  const { joinedSessions } = useJoinedSession();
+  const [selectedSessionId, setSelectedSessionId] = useState<string>("");
+  const [userId, setUserId] = useState<string>("");
+
+  const filteredSession = joinedSessions.filter(
     (session) => session._id === selectedSessionId
   );
 
   const handleSessionId = (sessionId: string) => {
     setSelectedSessionId(sessionId);
   };
+  useEffect(() => {
+    if (user) {
+      setUserId(user.id);
+    }
+  }, [user]);
 
   return (
     <div className="w-full min-h-screen flex gap-8 p-10 text-white">
@@ -43,7 +55,7 @@ const MySessionPage = () => {
               </div>
             ) : (
               <div className="flex flex-col gap-3">
-                {allSessions.map((session) => (
+                {joinedSessions.map((session) => (
                   <div key={session._id}>
                     <JoinedSessionCard
                       session={session}

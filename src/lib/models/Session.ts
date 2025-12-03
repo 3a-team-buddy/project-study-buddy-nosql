@@ -32,6 +32,11 @@ const SessionSchema = new Schema(
     studentCount: [{ type: Schema.ObjectId, ref: "StudentMock", default: [] }],
   },
   { timestamps: true }
+    studentCount: [{ type: Schema.ObjectId, ref: "MockUser", default: [] }],
+  },
+  {
+    timestamps: true,
+  }
 );
 
 export const Session =

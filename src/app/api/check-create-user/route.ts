@@ -34,13 +34,13 @@ export const POST = async () => {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
   const { userClerkId, fullname, email, pic, role } = result;
-  //   console.log({ userClerkId, fullname, email, pic, role });
+  console.log({ userClerkId, fullname, email, pic, role });
   // shineer login hiisen suragch db hadgalah, ali hediin bval hadgalahgui
 
   const status = role || "STUDENT";
 
   let mockUser = await MockUser.findOne({ mockUserClerkId: userClerkId });
-
+  console.log({ mockUser });
   if (!mockUser) {
     mockUser = await createMockUser(
       userClerkId as string,
