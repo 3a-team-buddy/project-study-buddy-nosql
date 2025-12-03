@@ -13,23 +13,28 @@ type SessionSchemaType = {
   studentCount: number;
 };
 
-const SessionSchema = new Schema({
-  sessionTopicTitle: { type: String, required: true },
-  description: { type: String, required: true },
-  minMember: { type: Number, required: true },
-  maxMember: { type: Number, required: true },
-  value: { type: String, required: true },
-  time: { type: String, required: true },
-  selectedSessionType: { type: String, required: true },
-  status: {
-    type: String,
-    enum: ["WAITING", "ACCEPTED"],
-    default: "WAITING",
-    required: true,
+const SessionSchema = new Schema(
+  {
+    sessionTopicTitle: { type: String, required: true },
+    description: { type: String, required: true },
+    minMember: { type: Number, required: true },
+    maxMember: { type: Number, required: true },
+    value: { type: String, required: true },
+    time: { type: String, required: true },
+    selectedSessionType: { type: String, required: true },
+    status: {
+      type: String,
+      enum: ["WAITING", "ACCEPTED"],
+      default: "WAITING",
+      required: true,
+    },
+    creatorId: { type: String, required: true },
+    studentCount: [{ type: Schema.ObjectId, ref: "MockUser", default: [] }],
   },
-  creatorId: { type: String, required: true },
-  studentCount: [{ type: Schema.ObjectId, ref: "MockUser", default: [] }],
-});
+  {
+    timestamps: true,
+  }
+);
 
 export const Session =
   mongoose.models.Session ||
