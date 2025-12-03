@@ -29,16 +29,26 @@ export const useSession = () => {
 
     const channel = ablyClient.channels.get("sessions");
 
-    const handleCreated = async (message: any) => {
+    const handleCreated = (message: any) => {
       if (message.name !== "session-created") return;
       if (!message.data) return;
 
-      await getSessions();
-
+      // setAllSessions((prev) => {
+      //   if (prev.some((session) => session._id === message.data._id))
+      //     return prev;
+      //   return [message.data, ...prev];
+      // });
       setAllSessions((prev) => {
-        if (prev.some((session) => session._id === message.data._id))
-          return prev;
-        return [message.data, ...prev];
+        const newArray = prev.some(
+          (session) => session._id === message.data._id
+        )
+          ? prev
+          : [message.data, ...prev];
+
+        return newArray.sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
       });
     };
 
