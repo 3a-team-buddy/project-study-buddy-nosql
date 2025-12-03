@@ -182,8 +182,8 @@ export async function DELETE(
 
   const removedStudentFromDB = await Session.findByIdAndUpdate(
     sessionId,
-    { $pull: { studentCount: mongoUser._id } }, // removes mongoUser._id from studentCount array
-    { new: true } // return the updated document
+    { $pull: { studentCount: mongoUser._id } },
+    { new: true }
   );
 
   return NextResponse.json({
