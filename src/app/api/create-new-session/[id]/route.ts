@@ -32,7 +32,7 @@ export async function checkAuth() {
 
 export async function DELETE(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await connectDB();
 
@@ -42,7 +42,9 @@ export async function DELETE(
 
   const { userClerkId } = auth;
 
-  const { id: sessionIdString } = context.params;
+  const { id } = await params;
+
+  const session = await Session.findById(id);
 
   const sessionId = new mongoose.Types.ObjectId(sessionIdString);
 
