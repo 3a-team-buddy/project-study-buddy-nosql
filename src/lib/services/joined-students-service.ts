@@ -13,28 +13,21 @@ export const getAllJoinedStudents = async (sessionId: string) => {
 };
 
 export const createJoinedStudent = async (
-  userClerkId: string,
+  userId: string,
   sessionId: string
 ) => {
   await connectDB();
 
-  const studentId = await MockUser.findOne({
-    mockUserClerkId: userClerkId,
-  }).select("_id");
-
-  // console.log({ studentId });
-  // console.log({ sessionId });
-
   const joinedStudent = new JoinedStudent({
-    studentId,
+    userId,
     sessionId,
   });
   await joinedStudent.save();
-
+  console.log({ sessionId, userId });
   const updatedSession = await Session.findByIdAndUpdate(
     sessionId,
     {
-      $push: { studentCount: studentId },
+      $push: { studentCount: userId },
     },
     { new: true }
   );

@@ -2,16 +2,29 @@ import { NextRequest, NextResponse } from "next/server";
 import { createJoinedStudent } from "@/lib/services/joined-students-service";
 import Ably from "ably";
 import { checkAuth } from "../check-create-user/route";
+import connectDB from "@/lib/mongodb";
+import { MockUser } from "@/lib/models/MockUser";
 
 export async function POST(request: NextRequest) {
   try {
+    await connectDB();
     const result = await checkAuth();
 
     if (!result) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
     const { userClerkId } = result;
+    const user = await MockUser.findOne(
+      {
+        mockUserClerkId: userClerkId,
+      },
+      "_id"
+    );
+    // .select("_id")
+    // .lean();
 
+    const userId = user?._id.toString();
+    console.log({ userId });
     const body = await request.json();
     const { sessionId } = body;
 
@@ -22,10 +35,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { updatedSession } = await createJoinedStudent(
-      userClerkId,
-      sessionId
-    );
+    const { updatedSession } = await createJoinedStudent(userId, sessionId);
 
     if (!updatedSession) {
       return NextResponse.json(

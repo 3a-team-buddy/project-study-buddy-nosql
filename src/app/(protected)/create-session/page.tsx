@@ -11,7 +11,7 @@ import {
   CreateSessionHeading,
 } from "./_components";
 import { SelectedTutorType } from "@/lib/types";
-import { useUser, useAuth } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 
 const CreateSessionPage = () => {
   const [sessionTopicTitle, setSessionTopicTitle] = useState<string>("");
@@ -27,8 +27,7 @@ const CreateSessionPage = () => {
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
   const [studentCount, setStudentCount] = useState<number[]>([]);
-  const [userId, setUserId] = useState<string>(""); // ustgah
-  const { user } = useUser(); //ustgah
+
   const { getToken } = useAuth();
   const [token, setToken] = useState<string>("");
 

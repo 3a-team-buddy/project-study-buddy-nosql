@@ -4,15 +4,27 @@ import { createNewSession } from "@/lib/services/create-session-service";
 import { createSelectedTutor } from "@/lib/services/selected-tutors-service";
 import { createJoinedStudent } from "@/lib/services/joined-students-service";
 import { checkAuth } from "../check-create-user/route";
+import connectDB from "@/lib/mongodb";
+import { MockUser } from "@/lib/models/MockUser";
 
 export async function POST(request: NextRequest) {
   try {
+    await connectDB();
     const result = await checkAuth();
 
     if (!result) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
     const { userClerkId } = result;
+
+    const creator = await MockUser.findOne(
+      {
+        mockUserClerkId: userClerkId,
+      },
+      "_id"
+    );
+    const creatorId = creator._id;
+    console.log({ creatorId });
 
     const body = await request.json();
     const {
@@ -51,7 +63,7 @@ export async function POST(request: NextRequest) {
       value,
       time,
       selectedSessionType,
-      userClerkId,
+      creatorId,
       studentCount
     );
 
@@ -64,7 +76,7 @@ export async function POST(request: NextRequest) {
 
     const createdSessionId = createdSession._id;
     const createdSessionType = createdSession.selectedSessionType;
-    const firstJoinedStudentClerkId = createdSession.creatorId;
+    const firstJoinedStudentId = createdSession.creatorId;
     // console.log({ createdSession });
 
     if (createdSessionType === "tutor-led") {
@@ -72,7 +84,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { updatedSession } = await createJoinedStudent(
-      firstJoinedStudentClerkId,
+      firstJoinedStudentId,
       createdSessionId
     );
 
