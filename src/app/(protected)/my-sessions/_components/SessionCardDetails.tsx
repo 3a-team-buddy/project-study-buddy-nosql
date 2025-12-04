@@ -11,8 +11,10 @@ import {
 
 export const SessionCardDetails = ({
   session,
+  selectedType,
 }: {
   session: CreateSessionType;
+  selectedType: "created" | "joined" | "other" | undefined;
 }) => {
   const { getToken } = useAuth();
 
@@ -47,13 +49,29 @@ export const SessionCardDetails = ({
         <ParticipantsList session={session} />
       </div>
 
-      <Button
-        variant={"destructive"}
-        onClick={() => leaveSession(session._id)}
-        className="w-full"
-      >
-        Leave Session
-      </Button>
+      {selectedType === "created" ? (
+        <div className="w-fit flex gap-2">
+          <Button
+            variant={"secondary"}
+            className="w-full text-accent-foreground cursor-pointer"
+          >
+            Edit
+          </Button>
+          <Button variant={"destructive"} className="w-full cursor-pointer">
+            Delete Session
+          </Button>
+        </div>
+      ) : selectedType === "joined" ? (
+        <Button
+          variant={"destructive"}
+          onClick={() => leaveSession(session._id)}
+          className="w-full cursor-pointer"
+        >
+          Leave Session
+        </Button>
+      ) : (
+        <Button className="w-full bg-[#2563EB]">Join</Button>
+      )}
     </div>
   );
 };

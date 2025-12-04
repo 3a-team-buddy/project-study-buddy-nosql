@@ -16,16 +16,21 @@ const MySessionPage = () => {
   const { isLoading } = useSession();
   const [selectedSessionId, setSelectedSessionId] = useState<string>("");
   const [selectedType, setSelectedType] = useState<
-    "created" | "joined" | "other" | ""
-  >("");
+    "created" | "joined" | "other"
+  >();
 
   const filteredSession = joinedSessions.filter(
     (session) => session._id === selectedSessionId
   );
 
-  const handleSessionId = (sessionId: string) => {
+  const handleSessionOnClick = (
+    sessionId: string,
+    type: "created" | "joined" | "other"
+  ) => {
     setSelectedSessionId(sessionId);
+    setSelectedType(type);
   };
+
   const sessionLists = [
     {
       name: "Created Sessions",
@@ -65,7 +70,16 @@ const MySessionPage = () => {
                     <div key={session._id}>
                       <SessionCard
                         session={session}
-                        handleSessionId={() => handleSessionId(session._id)}
+                        handleSessionId={() =>
+                          handleSessionOnClick(
+                            session._id,
+                            sessionList.name === "Created Sessions"
+                              ? "created"
+                              : sessionList.name === "Joined Sessions"
+                              ? "joined"
+                              : "other"
+                          )
+                        }
                       />
                     </div>
                   ))}
@@ -81,7 +95,10 @@ const MySessionPage = () => {
           <div>
             {filteredSession.map((session) => (
               <div key={session._id}>
-                <SessionCardDetails session={session} />
+                <SessionCardDetails
+                  session={session}
+                  selectedType={selectedType}
+                />
               </div>
             ))}
           </div>
