@@ -20,9 +20,8 @@ export async function POST(request: NextRequest) {
       },
       "_id"
     );
-
     const userId = user?._id.toString();
-    console.log({ userId });
+
     const body = await request.json();
     const { sessionId } = body;
 
@@ -48,7 +47,7 @@ export async function POST(request: NextRequest) {
     await channel.publish("session-joined", { sessionId, userClerkId });
 
     return NextResponse.json(
-      { message: "Joined successfully" },
+      { updatedSession, message: "Joined successfully" },
       { status: 200 }
     );
   } catch (error) {
