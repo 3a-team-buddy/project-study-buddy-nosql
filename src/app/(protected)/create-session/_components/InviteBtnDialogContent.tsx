@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+"use client";
 
+import React, { useState } from "react";
 import {
   DialogClose,
   DialogContent,
@@ -15,100 +16,115 @@ import { IoPersonAdd } from "react-icons/io5";
 import { toast } from "sonner";
 import { SelectedStudentType } from "@/lib/types";
 
-export const InviteBtnDialogContent = ({}: {}) => {
+export const InviteBtnDialogContent = () => {
   const [selectedStudents, setSelectedStudents] = useState<
     SelectedStudentType[]
   >([]);
   const [emailInputValue, setEmailInputValue] = useState<string>("");
 
   const handleAddStudentEmail = () => {
-    const newSelectedStudents = [
-      ...selectedStudents,
-      { email: emailInputValue },
-    ];
-    if (newSelectedStudents) {
-      setSelectedStudents(newSelectedStudents);
+    if (!emailInputValue) return;
+    if (!emailInputValue.includes("@")) {
+      toast.error("Invalid email");
+      return;
     }
+
+    const newList = [...selectedStudents, { email: emailInputValue }];
+    setSelectedStudents(newList);
     setEmailInputValue("");
   };
 
   const deleteSelectedStudent = (studentEmail: string) => {
-    const remainedSelectedStudent = selectedStudents.filter(
-      (selectedStudent) => selectedStudent.email !== studentEmail
-    );
+    setSelectedStudents((prev) => prev.filter((s) => s.email !== studentEmail));
+  };
 
-    if (remainedSelectedStudent) {
-      setSelectedStudents(remainedSelectedStudent);
+  const handleSendInvites = async () => {
+    if (selectedStudents.length === 0) {
+      toast.error("No emails selected");
+      return;
+    }
+
+    const emails = selectedStudents.map((s) => s.email);
+    const link = "http://localhost:3000/create-session"; // 🔗 invitation link
+
+    try {
+      const res = await fetch("/api/send-link", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ emails, link }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.error || "Failed to send");
+        return;
+      }
+
+      toast.success("Invites sent successfully!");
+      setSelectedStudents([]);
+    } catch (e) {
+      toast.error("Server error");
     }
   };
 
-  const handleInviteToast = () => {
-    toast.success("Invite sent successfully");
-    // setEmailInputValue("");
-  };
-
   return (
-    <DialogContent className="px-8 py-6 gap-10 border-0 rounded-2xlå">
+    <DialogContent className="px-8 py-6 gap-10 border-0 rounded-2xl">
       <DialogHeader>
         <DialogTitle>Invite students</DialogTitle>
-        <DialogDescription></DialogDescription>
+        <DialogDescription />
       </DialogHeader>
 
+      {/* Email input */}
       <div className="flex flex-col gap-2">
         <Label htmlFor="email">Email</Label>
         <div className="flex gap-3 items-center">
           <Input
             type="email"
-            placeholder="Enter student email address..."
+            placeholder="Enter student email..."
             value={emailInputValue}
             onChange={(e) => setEmailInputValue(e.target.value)}
           />
           <Button
-            disabled={selectedStudents.length > 2}
+            disabled={selectedStudents.length > 10}
             onClick={handleAddStudentEmail}
-            className="cursor-pointer"
           >
             <IoPersonAdd />
           </Button>
         </div>
       </div>
 
-      {selectedStudents && (
-        <div>
-          {selectedStudents.map((student, index) => {
-            return (
-              <div key={index} className="flex justify-between items-center">
-                <Label className="font-normal">{student.email}</Label>
-                <Button
-                  variant={"ghost"}
-                  onClick={() => deleteSelectedStudent(student.email)}
-                >
-                  x
-                </Button>
-              </div>
-            );
-          })}
+      {/* Selected students list */}
+      {selectedStudents.length > 0 && (
+        <div className="flex flex-col gap-2">
+          {selectedStudents.map((student, index) => (
+            <div key={index} className="flex justify-between items-center">
+              <span>{student.email}</span>
+              <Button
+                variant="ghost"
+                onClick={() => deleteSelectedStudent(student.email)}
+              >
+                x
+              </Button>
+            </div>
+          ))}
         </div>
       )}
 
+      {/* Link field */}
       <div className="flex flex-col gap-2">
-        <Label htmlFor="link">Link to send</Label>
-        <Input
-          id="link"
-          defaultValue="http://localhost:3000/create-session"
-          readOnly
-        />
+        <Label>Link to send</Label>
+        <Input value="http://localhost:3000/create-session" readOnly />
       </div>
 
       <DialogFooter className="sm:justify-end">
         <DialogClose asChild>
-          <Button type="button" variant="secondary">
-            Close
-          </Button>
+          <Button variant="secondary">Close</Button>
         </DialogClose>
-        <Button type="submit" onClick={handleInviteToast}>
-          Invite
-        </Button>
+
+        <Button onClick={handleSendInvites}>Invite</Button>
       </DialogFooter>
     </DialogContent>
   );
