@@ -1,19 +1,7 @@
 "use client";
 
 import React from "react";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  Button,
-  Input,
-  Label,
-} from "@/components/ui";
+import { Dialog, DialogTrigger, Button } from "@/components/ui";
 import { BsLink } from "react-icons/bs";
 import { InviteBtnDialogContent } from "./InviteBtnDialogContent";
 

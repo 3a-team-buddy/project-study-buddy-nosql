@@ -11,3 +11,13 @@ export const EmailTemplate = ({ firstName }: EmailTemplateProps) => {
     </div>
   );
 };
+export const EmailTemplateLink = ({ link }: { link: string }) => {
+  return (
+    <div>
+      <h2>You are invited!</h2>
+      <p>Join the session using the link below:</p>
+
+      <a href={link}>{link}</a>
+    </div>
+  );
+};
