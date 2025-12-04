@@ -5,6 +5,7 @@ import { useSession } from "@/app/_hooks/use-session";
 import { CreateSessionType } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { MySessionInviteBtn } from "./MySessionInviteBtn";
+import { InviteBtnDialog } from "../../create-session/_components";
 
 export const SessionCard = ({
   session,
@@ -15,6 +16,7 @@ export const SessionCard = ({
 }) => {
   const { allSessions } = useSession();
   const router = useRouter();
+
   return (
     <div className="flex flex-col gap-3 hover:cursor-pointer">
       <div key={session._id}>
@@ -24,6 +26,7 @@ export const SessionCard = ({
           </h3>
 
           <div className="flex items-center gap-4">
+            {/* <InviteBtnDialog /> */}
             <MySessionInviteBtn />
             {session.status && (
               <span

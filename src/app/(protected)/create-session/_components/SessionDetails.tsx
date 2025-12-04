@@ -6,7 +6,7 @@ import { FiCalendar, FiClock, FiUser } from "react-icons/fi";
 
 export const SessionDetails = ({ session }: { session: CreateSessionType }) => {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-3">
       <Label className="text-white text-base font-semibold">
         Session Details
       </Label>

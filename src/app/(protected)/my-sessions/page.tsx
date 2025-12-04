@@ -1,12 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import { DetailJoinedSession } from "./_components/DetailJoinedSession";
 import { Label, Skeleton } from "@/components/ui";
 import { useJoinedSession } from "@/app/_hooks/use-joined-session";
 import { useCreatedSession } from "@/app/_hooks/use-created-session";
 import { useSession } from "@/app/_hooks/use-session";
 import { useOtherSession } from "@/app/_hooks/use-other-session";
+import { SessionInfoDialogContent } from "../create-session/_components";
 import { SessionCard } from "./_components/SessionCard";
+import { SessionCardDetails } from "./_components/SessionCardDetails";
 
 const MySessionPage = () => {
   const { joinedSessions } = useJoinedSession();
@@ -14,6 +15,9 @@ const MySessionPage = () => {
   const { otherSessions } = useOtherSession();
   const { isLoading } = useSession();
   const [selectedSessionId, setSelectedSessionId] = useState<string>("");
+  const [selectedType, setSelectedType] = useState<
+    "created" | "joined" | "other" | ""
+  >("");
 
   const filteredSession = joinedSessions.filter(
     (session) => session._id === selectedSessionId
@@ -72,12 +76,12 @@ const MySessionPage = () => {
         </div>
       </div>
 
-      <div className="max-w-[480px] w-full h-full rounded-2xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl">
+      <div className="max-w-[480px] w-full h-full rounded-2xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl text-white">
         {filteredSession.length > 0 ? (
           <div>
             {filteredSession.map((session) => (
               <div key={session._id}>
-                <DetailJoinedSession session={session} />
+                <SessionCardDetails session={session} />
               </div>
             ))}
           </div>
