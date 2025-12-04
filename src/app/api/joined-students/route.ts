@@ -20,8 +20,6 @@ export async function POST(request: NextRequest) {
       },
       "_id"
     );
-    // .select("_id")
-    // .lean();
 
     const userId = user?._id.toString();
     console.log({ userId });

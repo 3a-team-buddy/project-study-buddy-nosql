@@ -28,7 +28,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[url('https://talent.pinebaatars.mn/pinebaatar.png')] bg-cover bg-center`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-900 bg-cover bg-center`}
         >
           {children}
           <Toaster position="top-center" />
@@ -37,3 +37,5 @@ export default function RootLayout({
     </ClerkProvider>
   );
 }
+
+// className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[url('https://talent.pinebaatars.mn/pinebaatar.png')] bg-cover bg-center`}

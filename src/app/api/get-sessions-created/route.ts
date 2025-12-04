@@ -23,7 +23,7 @@ export async function GET() {
       secretKey: process.env.CLERK_SECRET_KEY,
     });
 
-    const clerkId = sub; // <-- Clerk User ID
+    const clerkId = sub;
 
     // const studentId = await MockUser.findOne(
     //   { mockUserClerkId: clerkId },
