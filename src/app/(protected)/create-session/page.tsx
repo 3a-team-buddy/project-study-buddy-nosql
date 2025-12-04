@@ -25,7 +25,7 @@ const CreateSessionPage = () => {
   const [time, setTime] = useState<string>("");
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
-  let studentCount: number[] = [];
+  const studentCount: number[] = [];
 
   function formatDate(date: Date | undefined) {
     if (!date) {

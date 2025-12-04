@@ -23,7 +23,6 @@ export const CreateSessionBtn = ({
   setSelectedSessionType,
   selectedTutors,
   setSelectedTutors,
-
   studentCount,
 }: {
   sessionTopicTitle: string;
@@ -42,7 +41,6 @@ export const CreateSessionBtn = ({
   setSelectedSessionType: Dispatch<React.SetStateAction<string>>;
   selectedTutors: SelectedTutorType[];
   setSelectedTutors: Dispatch<React.SetStateAction<SelectedTutorType[]>>;
-
   studentCount: number[];
 }) => {
   const { getToken } = useAuth();
