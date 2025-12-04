@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { ParticipantItem } from "./ParticipantItem";
-import { useSession } from "@/app/_hooks/use-session";
 import { useUser } from "@clerk/nextjs";
 import { CreateSessionType } from "@/lib/types";
 

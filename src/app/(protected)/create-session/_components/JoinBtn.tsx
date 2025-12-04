@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { Button } from "@/components/ui";
 import { BsFillPeopleFill } from "react-icons/bs";
@@ -6,25 +6,16 @@ import { CreateSessionType, SelectedTutorEmailType } from "@/lib/types";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/nextjs";
 
-export const JoinBtn = ({
-  session,
-  token,
-}: {
-  session: CreateSessionType;
-  token: string;
-}) => {
-  // const [selectedTutorsEmails, setSelectedTutorsEmails] = useState<
-  //   SelectedTutorDBType[]
-  // >([]);
+export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
   const [emailSent, setEmailSent] = useState(false);
   const { getToken } = useAuth();
 
-  console.log(
-    session.sessionTopicTitle,
-    session.studentCount.length,
-    session.minMember,
-    "COUNCOUNTTTTTTT"
-  );
+  // console.log(
+  //   session.sessionTopicTitle,
+  //   session.studentCount.length,
+  //   session.minMember,
+  //   "COUNCOUNTTTTTTT"
+  // );
 
   const joinedStudentHandler = async (sessionId: string) => {
     const token = await getToken();

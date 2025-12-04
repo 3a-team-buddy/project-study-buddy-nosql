@@ -4,7 +4,6 @@ import { useSession } from "@/app/_hooks/use-session";
 import { CreateSessionType } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { FiLink } from "react-icons/fi";
 import { MySessionInviteBtn } from "./MySessionInviteBtn";
 
 const JoinedSessionCard = ({

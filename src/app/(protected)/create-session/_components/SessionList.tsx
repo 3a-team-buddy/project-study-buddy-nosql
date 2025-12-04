@@ -9,7 +9,7 @@ import {
   SessionListSkeleton,
 } from "@/app/(protected)/create-session/_components";
 
-export const SessionList = ({ token }: { token: string }) => {
+export const SessionList = () => {
   const { allSessions, isLoading } = useSession();
 
   return (
@@ -28,7 +28,7 @@ export const SessionList = ({ token }: { token: string }) => {
               <SessionInfoDialog session={session} />
 
               <div className="flex items-center justify-center gap-2">
-                <JoinBtn session={session} token={token} />
+                <JoinBtn session={session} />
 
                 <InviteBtnDialog />
               </div>

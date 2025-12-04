@@ -1,9 +1,7 @@
 "use client";
 
-import { useUser, useAuth } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { CreateSessionType } from "@/lib/types";
 
 export default function CreatedSession() {
@@ -83,9 +81,9 @@ export default function CreatedSession() {
   );
 }
 
-async function handleDelete(id: string, setSessions: any) {
-  const res = await fetch(`/api/delete-session/${id}`, { method: "DELETE" });
-  if (res.ok) {
-    setSessions((prev: any[]) => prev.filter((x) => x._id !== id));
-  }
-}
+// async function handleDelete(id: string, setSessions) {
+//   const res = await fetch(`/api/delete-session/${id}`, { method: "DELETE" });
+//   if (res.ok) {
+//     setSessions((prev ) => prev.filter((x) => x._id !== id));
+//   }
+// }

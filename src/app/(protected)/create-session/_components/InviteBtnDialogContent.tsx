@@ -66,6 +66,7 @@ export const InviteBtnDialogContent = () => {
       toast.success("Invites sent successfully!");
       setSelectedStudents([]);
     } catch (e) {
+      console.error(e);
       toast.error("Server error");
     }
   };

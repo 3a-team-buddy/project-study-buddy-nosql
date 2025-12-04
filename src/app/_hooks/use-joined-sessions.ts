@@ -5,6 +5,7 @@ import { CreateSessionType } from "@/lib/types";
 import { useAuth } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import type * as Ably from "ably";
 
 export const useJoinedSession = () => {
   const { getToken } = useAuth();
@@ -47,7 +48,7 @@ export const useJoinedSession = () => {
     //   });
     // };
 
-    const handleJoined = (message: any) => {
+    const handleJoined = (message: Ably.Message) => {
       if (message.name !== "session-joined") return;
       if (!message.data) return;
       const { sessionId, studentClerkId } = message.data;

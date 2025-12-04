@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   SessionList,
   StudySessionTitleAndDescription,
@@ -11,7 +11,6 @@ import {
   CreateSessionHeading,
 } from "./_components";
 import { SelectedTutorType } from "@/lib/types";
-import { useAuth } from "@clerk/nextjs";
 
 const CreateSessionPage = () => {
   const [sessionTopicTitle, setSessionTopicTitle] = useState<string>("");
@@ -26,20 +25,7 @@ const CreateSessionPage = () => {
   const [time, setTime] = useState<string>("");
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
-  const [studentCount, setStudentCount] = useState<number[]>([]);
-
-  const { getToken } = useAuth();
-  const [token, setToken] = useState<string>("");
-
-  useEffect(() => {
-    const fetchToken = async () => {
-      const token = await getToken();
-      if (token) {
-        setToken(token);
-      }
-    };
-    fetchToken();
-  }, []);
+  let studentCount: number[] = [];
 
   function formatDate(date: Date | undefined) {
     if (!date) {
@@ -58,7 +44,7 @@ const CreateSessionPage = () => {
   return (
     <div className="w-full min-h-screen text-white flex gap-8 p-10">
       <div className="flex-1">
-        <SessionList token={token} />
+        <SessionList />
       </div>
 
       <div className="max-w-[480px] w-full flex flex-col gap-8 rounded-2xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl">
@@ -112,7 +98,6 @@ const CreateSessionPage = () => {
           selectedTutors={selectedTutors}
           setSelectedTutors={setSelectedTutors}
           studentCount={studentCount}
-          token={token}
         />
       </div>
     </div>

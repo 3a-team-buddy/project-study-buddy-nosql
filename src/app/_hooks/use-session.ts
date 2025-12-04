@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { CreateSessionType } from "@/lib/types";
 import { toast } from "sonner";
 import { ablyClient } from "@/lib/ably";
+import type * as Ably from "ably";
 
 export const useSession = () => {
   const [allSessions, setAllSessions] = useState<CreateSessionType[]>([]);
@@ -29,7 +30,7 @@ export const useSession = () => {
 
     const channel = ablyClient.channels.get("sessions");
 
-    const handleCreated = (message: any) => {
+    const handleCreated = (message: Ably.Message) => {
       if (message.name !== "session-created") return;
       if (!message.data) return;
 
@@ -52,17 +53,17 @@ export const useSession = () => {
       });
     };
 
-    const handleJoined = (message: any) => {
+    const handleJoined = (message: Ably.Message) => {
       if (message.name !== "session-joined") return;
       if (!message.data) return;
-      const { sessionId, studentClerkId } = message.data;
+      const { sessionId, userId } = message.data;
 
       setAllSessions((prev) =>
         prev.map((session) =>
           session._id === sessionId
             ? {
                 ...session,
-                studentCount: [...session.studentCount, studentClerkId],
+                studentCount: [...session.studentCount, userId],
               }
             : session
         )

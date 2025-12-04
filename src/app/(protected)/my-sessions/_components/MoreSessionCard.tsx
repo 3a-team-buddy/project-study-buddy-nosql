@@ -8,7 +8,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import React from "react";
-import { FiLink } from "react-icons/fi";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { SessionInfoDialog } from "@/app/(protected)/create-session/_components/SessionInfoDialog";
 import { Skeleton } from "@/components/ui/skeleton";
