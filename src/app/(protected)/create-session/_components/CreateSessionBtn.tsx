@@ -22,7 +22,7 @@ export const CreateSessionBtn = ({
   setSelectedSessionType,
   selectedTutors,
   setSelectedTutors,
-  userId,
+  token,
   studentCount,
 }: {
   sessionTopicTitle: string;
@@ -41,10 +41,10 @@ export const CreateSessionBtn = ({
   setSelectedSessionType: Dispatch<React.SetStateAction<string>>;
   selectedTutors: SelectedTutorType[];
   setSelectedTutors: Dispatch<React.SetStateAction<SelectedTutorType[]>>;
-  userId: string;
+  token: string;
   studentCount: number[];
 }) => {
-  const createSession = async () => {
+  const handleCreateSession = async () => {
     if (
       !sessionTopicTitle ||
       !description ||
@@ -54,7 +54,7 @@ export const CreateSessionBtn = ({
       !time ||
       !selectedSessionType ||
       !selectedTutors ||
-      !userId
+      !token
     ) {
       toast.warning("All fields are required!");
       return;
@@ -62,7 +62,10 @@ export const CreateSessionBtn = ({
 
     const response = await fetch("/api/create-new-session", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
         sessionTopicTitle,
         description,
@@ -71,7 +74,6 @@ export const CreateSessionBtn = ({
         value,
         time,
         selectedSessionType,
-        creatorId: userId,
         selectedTutors,
         studentCount,
       }),
@@ -95,7 +97,7 @@ export const CreateSessionBtn = ({
   return (
     <Button
       size={"lg"}
-      onClick={createSession}
+      onClick={handleCreateSession}
       className="w-full rounded-full bg-[#2563EB] hover:bg-[#1d4ed8] cursor-pointer"
     >
       Create Session

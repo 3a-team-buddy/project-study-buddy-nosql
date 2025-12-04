@@ -6,37 +6,30 @@ import { MockUser } from "../models/MockUser";
 export const getAllJoinedStudents = async (sessionId: string) => {
   await connectDB();
 
-  return await JoinedStudent.find({ sessionId: { $in: sessionId } })
+  return await JoinedStudent.find({ sessionId: sessionId })
     .populate("studentId")
-    .select("-__v");
+    .sort({ createdAt: 1 })
+    .lean();
 };
 
 export const createJoinedStudent = async (
-  studentClerkId: string,
+  userId: string,
   sessionId: string
 ) => {
   await connectDB();
 
-  const studentId = await MockUser.findOne({
-    mockUserClerkId: studentClerkId,
-  }).select("_id");
-
-  // console.log({ studentId });
-  // console.log({ sessionId });
-
   const joinedStudent = new JoinedStudent({
-    studentId,
+    userId,
     sessionId,
   });
   await joinedStudent.save();
-
+  console.log({ sessionId, userId });
   const updatedSession = await Session.findByIdAndUpdate(
     sessionId,
     {
-      $push: { studentCount: studentId },
+      $push: { studentCount: userId },
     },
     { new: true }
   );
-
   return { joinedStudent, updatedSession };
 };

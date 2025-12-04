@@ -1,6 +1,5 @@
 "use client";
 
-import { useSession } from "@/app/_hooks/use-session";
 import { Button } from "@/components/ui";
 import { CreateSessionType } from "@/lib/types";
 import { useAuth } from "@clerk/nextjs";

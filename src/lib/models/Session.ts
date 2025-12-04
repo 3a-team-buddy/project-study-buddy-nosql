@@ -22,14 +22,14 @@ const SessionSchema = new Schema(
     value: { type: String, required: true },
     time: { type: String, required: true },
     selectedSessionType: { type: String, required: true },
+    creatorId: { type: String, required: true },
+    studentCount: [{ type: Schema.ObjectId, ref: "MockUser", default: [] }],
     status: {
       type: String,
       enum: ["WAITING", "ACCEPTED"],
       default: "WAITING",
       required: true,
     },
-    creatorId: { type: String, required: true },
-    studentCount: [{ type: Schema.ObjectId, ref: "StudentMock", default: [] }],
   },
   {
     timestamps: true,

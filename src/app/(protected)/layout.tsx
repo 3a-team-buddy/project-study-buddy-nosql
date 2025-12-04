@@ -5,7 +5,6 @@ import { Dashboard, Header } from "../_components-main-page";
 import { useUser, useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/ui/spinner";
-import { SessionProvider } from "next-auth/react";
 
 export default function RootLayout({
   children,
@@ -15,25 +14,27 @@ export default function RootLayout({
   const { user, isLoaded } = useUser();
   const { getToken } = useAuth();
   const router = useRouter();
-  console.log({ user });
 
   // auth hiigeed daraa ni save hiij bga
   // POST huselt yavad be-ees butsaj clerk data-g avch user bgag shalgah eseh
-  async function createSaveUser() {
-    const token = await getToken();
-
-    await fetch("/api/check-create-user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  }
-
   useEffect(() => {
-    createSaveUser();
-  }, []);
+    if (!isLoaded) return;
+    if (!user) return;
+
+    async function createCheckUser() {
+      const token = await getToken();
+
+      await fetch("/api/check-create-user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
+
+    createCheckUser();
+  }, [isLoaded, user]);
 
   useEffect(() => {
     if (isLoaded && !user) {
@@ -44,23 +45,21 @@ export default function RootLayout({
   if (!isLoaded) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
-        <Spinner className="w-10 h-10" />
+        <Spinner className="w-10 h-10 text-white" />
       </div>
     );
   }
 
   return (
-    <SessionProvider>
-      <div className="bg-[url('https://talent.pinebaatars.mn/pinebaatar.png')] bg-cover bg-center">
-        <Header />
-        <div className="max-w-[1440px] flex flex-col justify-center m-auto">
-          <div className="flex gap-6 py-9">
-            <Dashboard />
-            {children}
-          </div>
+    <div className="bg-[url('https://talent.pinebaatars.mn/pinebaatar.png')] bg-cover bg-center">
+      <Header />
+      <div className="max-w-[1440px] flex flex-col justify-center m-auto">
+        <div className="flex gap-6 py-9">
+          <Dashboard />
+          {children}
         </div>
       </div>
-    </SessionProvider>
+    </div>
   );
 }
 // const saveStudentData = async (user: UserResource) => {

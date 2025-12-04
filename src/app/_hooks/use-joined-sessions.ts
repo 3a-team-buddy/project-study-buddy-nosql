@@ -9,10 +9,10 @@ import { toast } from "sonner";
 export const useJoinedSession = () => {
   const { getToken } = useAuth();
   const [joinedSessions, setJoinedSessions] = useState<CreateSessionType[]>([]);
-  const [isLoadingJoined, setIsLoading] = useState<boolean>(false);
+  const [isLoadingJoined, setIsLoadingJoined] = useState<boolean>(false);
 
   const getJoinedSessions = async () => {
-    setIsLoading(true);
+    setIsLoadingJoined(true);
 
     const token = await getToken();
     const result = await fetch("/api/get-joined-sessions", {
@@ -24,11 +24,11 @@ export const useJoinedSession = () => {
     const { data } = await result.json();
 
     if (!result.ok) {
-      toast.error("No sessions!");
+      toast.error("No joined sessions!");
     }
 
     setJoinedSessions(data);
-    setIsLoading(false);
+    setIsLoadingJoined(false);
   };
 
   useEffect(() => {

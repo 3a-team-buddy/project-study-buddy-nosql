@@ -1,25 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createJoinedStudent } from "@/lib/services/joined-students-service";
 import Ably from "ably";
+import { checkAuth } from "../check-create-user/route";
+import connectDB from "@/lib/mongodb";
+import { MockUser } from "@/lib/models/MockUser";
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { studentClerkId, sessionId } = body;
+    await connectDB();
+    const result = await checkAuth();
 
-    // console.log(studentClerkId);
-    // console.log(sessionId);
-    if (!studentClerkId || !sessionId) {
+    if (!result) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+    const { userClerkId } = result;
+    const user = await MockUser.findOne(
+      {
+        mockUserClerkId: userClerkId,
+      },
+      "_id"
+    );
+    // .select("_id")
+    // .lean();
+
+    const userId = user?._id.toString();
+    console.log({ userId });
+    const body = await request.json();
+    const { sessionId } = body;
+
+    if (!sessionId) {
       return NextResponse.json(
-        { message: "All fields are required!" },
+        { message: "SessionId required!" },
         { status: 400 }
       );
     }
 
-    const { updatedSession } = await createJoinedStudent(
-      studentClerkId,
-      sessionId
-    );
+    const { updatedSession } = await createJoinedStudent(userId, sessionId);
 
     if (!updatedSession) {
       return NextResponse.json(
@@ -31,10 +47,10 @@ export async function POST(request: NextRequest) {
     const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
     const channel = ably.channels.get("sessions");
 
-    await channel.publish("session-joined", { sessionId, studentClerkId });
+    await channel.publish("session-joined", { sessionId, userClerkId });
 
     return NextResponse.json(
-      { data: updatedSession, message: "Joined successfully" },
+      { message: "Joined successfully" },
       { status: 200 }
     );
   } catch (error) {

@@ -9,14 +9,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ message: "No session id" });
   }
 
-  const selectedTutorsDB = await getAllSelectedTutors(sessionId);
+  const selectedTutorsEmails = await getAllSelectedTutors(sessionId);
 
-  if (!selectedTutorsDB) {
+  if (!selectedTutorsEmails) {
     return NextResponse.json(
       { message: "Failed to get selected tutors!" },
       { status: 500 }
     );
   }
 
-  return NextResponse.json({ data: selectedTutorsDB }, { status: 200 });
+  return NextResponse.json({ data: selectedTutorsEmails }, { status: 200 });
 }

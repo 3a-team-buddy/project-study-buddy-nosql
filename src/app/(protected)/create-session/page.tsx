@@ -11,7 +11,7 @@ import {
   CreateSessionHeading,
 } from "./_components";
 import { SelectedTutorType } from "@/lib/types";
-import { useUser, useAuth } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 
 const CreateSessionPage = () => {
   const [sessionTopicTitle, setSessionTopicTitle] = useState<string>("");
@@ -26,16 +26,20 @@ const CreateSessionPage = () => {
   const [time, setTime] = useState<string>("");
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
-  const [userId, setUserId] = useState<string>("");
-  const { user } = useUser();
-  const { getToken } = useAuth();
   const [studentCount, setStudentCount] = useState<number[]>([]);
 
+  const { getToken } = useAuth();
+  const [token, setToken] = useState<string>("");
+
   useEffect(() => {
-    if (user) {
-      setUserId(user.id);
-    }
-  }, [user]);
+    const fetchToken = async () => {
+      const token = await getToken();
+      if (token) {
+        setToken(token);
+      }
+    };
+    fetchToken();
+  }, []);
 
   function formatDate(date: Date | undefined) {
     if (!date) {
@@ -50,12 +54,11 @@ const CreateSessionPage = () => {
 
   console.log({ value });
   console.log({ time });
-  console.log({ userId });
 
   return (
     <div className="w-full min-h-screen text-white flex gap-8 p-10">
       <div className="flex-1">
-        <SessionList userId={userId} />
+        <SessionList token={token} />
       </div>
 
       <div className="max-w-[480px] w-full flex flex-col gap-8 rounded-2xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl">
@@ -108,8 +111,8 @@ const CreateSessionPage = () => {
           setSelectedSessionType={setSelectedSessionType}
           selectedTutors={selectedTutors}
           setSelectedTutors={setSelectedTutors}
-          userId={userId}
           studentCount={studentCount}
+          token={token}
         />
       </div>
     </div>

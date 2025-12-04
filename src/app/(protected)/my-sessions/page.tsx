@@ -1,6 +1,6 @@
 "use client";
 import { useSession } from "@/app/_hooks/use-session";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import JoinedSessionCard from "./_components/JoinedSessionCard";
 import MoreSessions from "./_components/MoreSessions";
 import { DetailJoinedSession } from "./_components/DetailJoinedSession";
@@ -8,15 +8,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import CreatedSessions from "./_components/CreatedSessions";
 import { useJoinedSession } from "@/app/_hooks/use-joined-sessions";
 import { SessionList } from "../create-session/_components";
-import { useUser } from "@clerk/nextjs";
 
 const MySessionPage = () => {
-  const { user } = useUser();
-
   const { isLoading } = useSession();
   const { joinedSessions } = useJoinedSession();
   const [selectedSessionId, setSelectedSessionId] = useState<string>("");
-  const [userId, setUserId] = useState<string>("");
 
   const filteredSession = joinedSessions.filter(
     (session) => session._id === selectedSessionId
@@ -25,18 +21,15 @@ const MySessionPage = () => {
   const handleSessionId = (sessionId: string) => {
     setSelectedSessionId(sessionId);
   };
-  useEffect(() => {
-    if (user) {
-      setUserId(user.id);
-    }
-  }, [user]);
 
   return (
     <div className="w-full min-h-screen flex gap-8 p-10 text-white">
       <div className="flex-1">
         <div className="flex flex-col gap-10">
           <div>
-            <h2 className="text-2xl text-white">CreatedSessions</h2>
+            <h2 className="text-2xl text-white font-semibold">
+              Created Sessions
+            </h2>
 
             <CreatedSessions />
           </div>
@@ -66,6 +59,7 @@ const MySessionPage = () => {
               </div>
             )}
           </div>
+
           <div>
             <MoreSessions />
           </div>
@@ -84,7 +78,6 @@ const MySessionPage = () => {
         ) : (
           <div className="max-w-[480px] rounded-xl px-8 bg-[#0E1B2EFF] shadow-xl h-200 flex items-center justify-center">
             <h2 className="text-md font-semibold text-white mb-4">
-              {" "}
               Please choose your session to check the details.
             </h2>
           </div>
