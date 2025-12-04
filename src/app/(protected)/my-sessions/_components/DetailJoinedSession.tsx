@@ -26,7 +26,7 @@ export const DetailJoinedSession = ({
   }
 
   return (
-    <div className="w-full rounded-xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl">
+    <div>
       <div>
         <h2 className="text-2xl font-semibold text-white mb-4">
           {session.sessionTopicTitle}

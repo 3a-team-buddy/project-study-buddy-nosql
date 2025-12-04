@@ -1,8 +1,10 @@
-import connectDB from "@/lib/mongodb";
 import { NextResponse } from "next/server";
-import { MockUser } from "@/lib/models/MockUser";
+import connectDB from "@/lib/mongodb";
+import { verifyToken } from "@clerk/backend";
+import { headers } from "next/headers";
 import { Session } from "@/lib/models/Session";
 import { checkAuth } from "../check-create-user/route";
+import { MockUser } from "@/lib/models/MockUser";
 
 export async function GET() {
   await connectDB();
@@ -25,18 +27,19 @@ export async function GET() {
       { status: 404 }
     );
   }
+
   const foundUserId = foundUser._id;
+  console.log(foundUserId, "LKJHLKH");
+  const foundCreatedSessions = await Session.find({ creatorId: foundUserId });
 
-  const foundJoinedSessions = await Session.find({ studentCount: foundUserId });
-
-  if (!foundJoinedSessions) {
+  if (!foundCreatedSessions) {
     return NextResponse.json(
-      { message: "No joined sessions" },
-      { status: 404 }
+      { message: "No created sessions" },
+      { status: 400 }
     );
   }
 
-  return NextResponse.json({
-    data: foundJoinedSessions,
-  });
+  console.log({ foundCreatedSessions });
+
+  return NextResponse.json({ data: foundCreatedSessions });
 }

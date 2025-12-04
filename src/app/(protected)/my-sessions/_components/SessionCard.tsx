@@ -1,12 +1,12 @@
 "use client";
 
+import React from "react";
 import { useSession } from "@/app/_hooks/use-session";
 import { CreateSessionType } from "@/lib/types";
 import { useRouter } from "next/navigation";
-import React from "react";
 import { MySessionInviteBtn } from "./MySessionInviteBtn";
 
-const JoinedSessionCard = ({
+export const SessionCard = ({
   session,
   handleSessionId,
 }: {
@@ -40,5 +40,3 @@ const JoinedSessionCard = ({
     </div>
   );
 };
-
-export default JoinedSessionCard;

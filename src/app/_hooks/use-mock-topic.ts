@@ -2,23 +2,24 @@
 
 import { useEffect, useState } from "react";
 import { MockTopicType } from "@/lib/types";
+import { useSession } from "./use-session";
 
 export const useMockTopic = () => {
+  const { setIsLoading } = useSession();
   const [mockTopics, setMockTopics] = useState<MockTopicType[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
 
   const getMockTopics = async () => {
-    setLoading(true);
+    setIsLoading(true);
 
     const response = await fetch("/api/mock-datas/create-mock-topic");
     const { data } = await response.json();
     setMockTopics(data);
-    setLoading(false);
+    setIsLoading(false);
   };
 
   useEffect(() => {
     getMockTopics();
   }, []);
 
-  return { mockTopics, loading, setLoading };
+  return { mockTopics };
 };
