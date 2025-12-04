@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { CreateSessionType, JoinedStudentType } from "@/lib/types";
 import { toast } from "sonner";
-import { Label } from "@/components/ui";
 import { Star } from "lucide-react";
+import { Button } from "@/components/ui";
 
 export const ParticipantsList = ({
   session,
@@ -36,7 +36,16 @@ export const ParticipantsList = ({
 
   return (
     <div className="flex flex-col gap-2">
-      <h3 className="text-base text-white font-semibold">Participants</h3>
+      <div className="flex justify-between items-center">
+        <div className="text-base text-white font-semibold">Participants</div>
+        <Button
+          variant={"secondary"}
+          className="rounded-full font-semibold text-[#2563EB] hover:text-white bg-black/20 hover:bg-[#2563EB] border border-[#2563EB] hover:border-[#2563EB]"
+        >
+          {session.studentCount.length}
+          <span>/{session.maxMember}</span>
+        </Button>
+      </div>
 
       <div className="text-sm text-white/60 flex flex-col gap-2">
         {joinedStudents.map((joinedStudent, i) => (
@@ -49,7 +58,10 @@ export const ParticipantsList = ({
             <div>{joinedStudent.studentId.mockUserName}</div>
             {i === 0 && (
               <div className="flex gap-0.5 text-xs items-center text-amber-200">
-                <Star size={11} className="text-amber-200 fill-amber-200" />
+                <Star
+                  size={11}
+                  className="text-amber-200 fill-amber-200 font-medium"
+                />
                 Creator
               </div>
             )}

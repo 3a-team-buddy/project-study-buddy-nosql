@@ -4,6 +4,7 @@ import React, { Dispatch } from "react";
 import { Button } from "@/components/ui";
 import { SelectedTutorType } from "@/lib/types";
 import { toast } from "sonner";
+import { useAuth } from "@clerk/nextjs";
 
 export const CreateSessionBtn = ({
   sessionTopicTitle,
@@ -44,7 +45,11 @@ export const CreateSessionBtn = ({
   token: string;
   studentCount: number[];
 }) => {
+  const { getToken } = useAuth();
+
   const handleCreateSession = async () => {
+    const token = await getToken();
+
     if (
       !sessionTopicTitle ||
       !description ||

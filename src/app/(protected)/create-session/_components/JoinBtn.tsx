@@ -4,6 +4,7 @@ import { Button } from "@/components/ui";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { CreateSessionType, SelectedTutorDBType } from "@/lib/types";
 import { toast } from "sonner";
+import { useAuth } from "@clerk/nextjs";
 
 export const JoinBtn = ({
   session,
@@ -16,8 +17,11 @@ export const JoinBtn = ({
     SelectedTutorDBType[]
   >([]);
   const [emailSent, setEmailSent] = useState(false);
+  const { getToken } = useAuth();
 
   const joinedStudentHandler = async (sessionId: string) => {
+    const token = await getToken();
+
     const response = await fetch("/api/joined-students", {
       method: "POST",
       headers: {

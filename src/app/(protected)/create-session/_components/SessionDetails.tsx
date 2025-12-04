@@ -20,7 +20,9 @@ export const SessionDetails = ({ session }: { session: CreateSessionType }) => {
         </p>
         <p className="flex items-center gap-2 text-sm">
           <FiUser /> Session type:
-          <span className="text-purple-300">{session.selectedSessionType}</span>
+          <span className="text-purple-300 font-medium">
+            {session.selectedSessionType}
+          </span>
         </p>
       </div>
     </div>

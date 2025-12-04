@@ -51,7 +51,7 @@ export default function RootLayout({
   }
 
   return (
-    <div className="bg-[url('https://talent.pinebaatars.mn/pinebaatar.png')] bg-cover bg-center">
+    <div className="bg-slate-900 bg-cover bg-center">
       <Header />
       <div className="max-w-[1440px] flex flex-col justify-center m-auto">
         <div className="flex gap-6 py-9">
@@ -62,39 +62,5 @@ export default function RootLayout({
     </div>
   );
 }
-// const saveStudentData = async (user: UserResource) => {
-//   if (!user) {
-//     toast.warning("Missing required fields!");
-//     return;
-//   }
 
-//   setLoading(true);
-
-//   try {
-//     const response = await fetch("api/mock-datas/create-student-mock-data", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({
-//         studentClerkId: user.id,
-//         studentEmail: user.primaryEmailAddress?.emailAddress,
-//         studentName: user.fullName,
-//         studentImage: user.imageUrl,
-//       }),
-//     });
-
-//     if (!response.ok) {
-//       toast.error("Failed to create student mock data!");
-//     }
-
-//     toast.success("Student mock data created successfully");
-//   } catch (error) {
-//     console.error("Error while creating student mock data!", error);
-//     toast.error("Something went wrong while creating student mock data!");
-//   } finally {
-//     setLoading(false);
-//   }
-// };
-
-// if (isLoaded && user) {
-//   saveStudentData(user);
-// }
+// <div className="bg-[url('https://talent.pinebaatars.mn/pinebaatar.png')] bg-cover bg-center">
