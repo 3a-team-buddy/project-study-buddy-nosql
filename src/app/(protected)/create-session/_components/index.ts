@@ -14,3 +14,4 @@ export * from "./SessionListSkeleton";
 
 export * from "./SessionTypeSelector";
 export * from "./StudySessionTitleAndDescription";
+export * from "./ParticipantsSkeleton";
