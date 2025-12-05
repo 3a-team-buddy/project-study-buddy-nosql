@@ -40,7 +40,7 @@ export const InviteBtnDialogContent = () => {
 
   const handleSendInvites = async () => {
     if (selectedStudents.length === 0) {
-      toast.error("No emails selected");
+      alert("No emails selected");
       return;
     }
 
@@ -59,14 +59,14 @@ export const InviteBtnDialogContent = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        toast.error(data.error || "Failed to send");
+        alert(data.error || "Failed to send");
         return;
       }
 
-      toast.success("Invites sent successfully!");
+      alert("Invites sent successfully!");
       setSelectedStudents([]);
     } catch (e) {
-      toast.error("Server error");
+      alert("Server error");
     }
   };
 
