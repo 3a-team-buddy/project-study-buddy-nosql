@@ -4,7 +4,7 @@ import { Label, Textarea, Button } from "@/components/ui";
 import { toast } from "sonner";
 import { LoaderCircle } from "lucide-react";
 
-const CreateMockUser = ({
+export const CreateMockUser = ({
   setLoading,
   loading,
 }: {
@@ -108,5 +108,3 @@ const CreateMockUser = ({
     </div>
   );
 };
-
-export default CreateMockUser;
