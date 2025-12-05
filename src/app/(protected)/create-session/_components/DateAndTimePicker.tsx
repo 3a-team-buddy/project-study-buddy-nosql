@@ -35,14 +35,11 @@ export const DateAndTimePicker = ({
   const tomorrow = new Date();
   const { allSessions, isLoading } = useSession();
   const [disabledValue, setDisabledValue] = useState(formatDate(date));
-
   tomorrow.setDate(today.getDate() + 1);
   const [isWeekend, setIsWeekend] = useState(false);
   const [open, setOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(date);
   const [month, setMonth] = useState<Date | undefined>(date);
-
   function isValidDate(date: Date | undefined) {
     if (!date) {
       return false;
@@ -87,22 +84,30 @@ export const DateAndTimePicker = ({
     (schedule) => schedule.time <= "16:00"
   );
   const [empty, setEmpty] = useState(false);
-  useEffect(() => {}, [date]);
+  const [mainValue, setMainValue] = useState<string>("");
+
   useEffect(() => {
+    if (value !== "") {
+      setMainValue(value);
+    }
     if (date) isWorkingDay(date);
     if (!value || date === undefined) {
-      setValue(formatDate(today));
+      setValue(formatDate(tomorrow));
     }
     if (workday.length === 0 || weekday.length === 0) {
       return setEmpty(true), setDisabledValue(value);
     } else if (workday.length !== 0 || weekday.length !== 0) {
       setEmpty(false);
     }
+
+    console.log([today]);
   }, [value, date]);
+
   console.log({ workday });
   console.log({ weekday });
   console.log({ empty });
   console.log({ disabledValue });
+
   return (
     <div className="w-full flex flex-col gap-5">
       <div className="flex flex-col gap-3">
@@ -110,7 +115,7 @@ export const DateAndTimePicker = ({
         <div className="relative flex gap-2">
           <Input
             id="date"
-            value={value}
+            value={mainValue}
             placeholder="Өдрөө сонгоно уу"
             onChange={(e) => {
               const date = new Date(e.target.value);
@@ -159,6 +164,7 @@ export const DateAndTimePicker = ({
                 onMonthChange={setMonth}
                 onSelect={(date) => {
                   setDate(date);
+
                   setValue(formatDate(date));
                   setOpen(false);
                   if (date !== undefined) {
