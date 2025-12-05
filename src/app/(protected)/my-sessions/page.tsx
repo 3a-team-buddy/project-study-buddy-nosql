@@ -5,7 +5,6 @@ import { useJoinedSession } from "@/app/_hooks/use-joined-session";
 import { useCreatedSession } from "@/app/_hooks/use-created-session";
 import { useSession } from "@/app/_hooks/use-session";
 import { useOtherSession } from "@/app/_hooks/use-other-session";
-import { SessionInfoDialogContent } from "../create-session/_components";
 import { SessionCard } from "./_components/SessionCard";
 import { SessionCardDetails } from "./_components/SessionCardDetails";
 
@@ -69,6 +68,7 @@ const MySessionPage = () => {
                   {sessionList.sessions?.map((session) => (
                     <div key={session._id}>
                       <SessionCard
+                        selectedType={selectedType}
                         session={session}
                         handleSessionId={() =>
                           handleSessionOnClick(

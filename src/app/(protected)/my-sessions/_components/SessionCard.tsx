@@ -5,12 +5,15 @@ import { useSession } from "@/app/_hooks/use-session";
 import { CreateSessionType } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { MySessionInviteBtn } from "./MySessionInviteBtn";
-import { InviteBtnDialog } from "../../create-session/_components";
+import { InviteBtnDialog, JoinBtn } from "../../create-session/_components";
+import { Button } from "@/components/ui";
 
 export const SessionCard = ({
+  selectedType,
   session,
   handleSessionId,
 }: {
+  selectedType: "created" | "joined" | "other" | undefined;
   session: CreateSessionType;
   handleSessionId: () => void;
 }) => {
@@ -26,8 +29,20 @@ export const SessionCard = ({
           </h3>
 
           <div className="flex items-center gap-4">
-            {/* <InviteBtnDialog /> */}
-            <MySessionInviteBtn />
+            {selectedType === "created" || "joined" ? (
+              <div>
+                <Button>{session.status}</Button>
+                <MySessionInviteBtn />
+              </div>
+            ) : selectedType === "other" ? (
+              <div>
+                <JoinBtn session={session} />
+                <InviteBtnDialog />
+              </div>
+            ) : (
+              ""
+            )}
+
             {session.status && (
               <span
                 className={`text-xs ${
