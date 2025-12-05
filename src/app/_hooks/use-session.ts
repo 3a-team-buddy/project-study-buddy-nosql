@@ -10,17 +10,15 @@ export const useSession = () => {
   const [allSessions, setAllSessions] = useState<CreateSessionType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  console.log({ allSessions });
-
   const getSessions = async () => {
     setIsLoading(true);
     const result = await fetch("/api/get-sessions");
-    const { data } = await result.json();
 
     if (!result.ok) {
       toast.error("No sessions!");
     }
 
+    const { data } = await result.json();
     setAllSessions(data);
     setIsLoading(false);
   };
@@ -79,5 +77,5 @@ export const useSession = () => {
     };
   }, []);
 
-  return { allSessions, isLoading };
+  return { allSessions, isLoading, setIsLoading };
 };

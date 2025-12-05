@@ -1,8 +1,8 @@
 import connectDB from "@/lib/mongodb";
+import { checkAuth } from "../check-create-user/route";
 import { NextResponse } from "next/server";
 import { MockUser } from "@/lib/models/MockUser";
 import { Session } from "@/lib/models/Session";
-import { checkAuth } from "../check-create-user/route";
 
 export async function GET() {
   await connectDB();
@@ -27,9 +27,12 @@ export async function GET() {
   }
   const foundUserId = foundUser._id;
 
-  const foundJoinedSessions = await Session.find({ studentCount: foundUserId });
+  const foundOtherSessions = await Session.find({
+    creatorId: { $ne: foundUserId },
+    studentCount: { $ne: foundUserId },
+  });
 
-  if (!foundJoinedSessions) {
+  if (!foundOtherSessions) {
     return NextResponse.json(
       { message: "No joined sessions" },
       { status: 404 }
@@ -37,6 +40,6 @@ export async function GET() {
   }
 
   return NextResponse.json({
-    data: foundJoinedSessions,
+    data: foundOtherSessions,
   });
 }

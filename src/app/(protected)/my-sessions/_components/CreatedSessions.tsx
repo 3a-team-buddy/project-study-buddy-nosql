@@ -36,6 +36,8 @@ export default function CreatedSession() {
 
   return (
     <div className="space-y-4">
+      <h2 className="text-2xl text-white font-semibold">Created Sessions</h2>
+
       {/* {createdSessions.map((session) => (
         <div>
           <div>{session.sessionTopicTitle}</div>

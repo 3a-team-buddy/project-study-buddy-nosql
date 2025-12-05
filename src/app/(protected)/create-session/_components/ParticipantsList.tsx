@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { CreateSessionType, JoinedStudentType } from "@/lib/types";
 import { toast } from "sonner";
 import { Star } from "lucide-react";
-import { Button } from "@/components/ui";
+import { Button, Label } from "@/components/ui";
 
 export const ParticipantsList = ({
   session,
@@ -35,9 +35,11 @@ export const ParticipantsList = ({
   }, []);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-3">
       <div className="flex justify-between items-center">
-        <div className="text-base text-white font-semibold">Participants</div>
+        <Label className="text-base text-white font-semibold">
+          Participants
+        </Label>
         <Button
           variant={"secondary"}
           className="rounded-full font-semibold text-[#2563EB] hover:text-white bg-black/20 hover:bg-[#2563EB] border border-[#2563EB] hover:border-[#2563EB]"

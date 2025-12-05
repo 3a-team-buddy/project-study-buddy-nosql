@@ -6,7 +6,7 @@ export async function GET() {
   // console.log({ allSessions });
 
   if (!allSessions) {
-    return NextResponse.json({ error: "No Sessions" }, { status: 404 });
+    return NextResponse.json({ message: "No Sessions" }, { status: 404 });
   }
 
   return NextResponse.json({ data: allSessions });

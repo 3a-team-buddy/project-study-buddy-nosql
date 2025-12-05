@@ -1,6 +1,5 @@
-export * from "./JoinedSessionCard";
-// export * from "./JoinedSessionSection";
+export * from "./SessionCard";
+export * from "./SessionCardDetails";
+
 export * from "./MoreSessionCard";
-export * from "./MoreSessions";
 export * from "./MySessionInviteBtn";
-export * from "./CreatedSessions";

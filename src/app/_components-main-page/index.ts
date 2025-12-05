@@ -5,4 +5,5 @@ export * from "./Header";
 export * from "./IgLeaderboard";
 export * from "./SeasonalStatistic";
 export * from "./StudyBuddy";
+export * from "./TierCard";
 export * from "./TierMapRewards";

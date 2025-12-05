@@ -1,35 +1,37 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useSession } from "./use-session";
 import { ablyClient } from "@/lib/ably";
 import { CreateSessionType } from "@/lib/types";
 import { useAuth } from "@clerk/nextjs";
-import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import type * as Ably from "ably";
 
 export const useJoinedSession = () => {
   const { getToken } = useAuth();
+  const { setIsLoading } = useSession();
   const [joinedSessions, setJoinedSessions] = useState<CreateSessionType[]>([]);
-  const [isLoadingJoined, setIsLoadingJoined] = useState<boolean>(false);
 
   const getJoinedSessions = async () => {
-    setIsLoadingJoined(true);
+    setIsLoading(true);
 
     const token = await getToken();
+
     const result = await fetch("/api/get-joined-sessions", {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
-    const { data } = await result.json();
 
     if (!result.ok) {
       toast.error("No joined sessions!");
     }
 
+    const { data } = await result.json();
     setJoinedSessions(data);
-    setIsLoadingJoined(false);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -51,14 +53,14 @@ export const useJoinedSession = () => {
     const handleJoined = (message: Ably.Message) => {
       if (message.name !== "session-joined") return;
       if (!message.data) return;
-      const { sessionId, studentClerkId } = message.data;
+      const { sessionId, userId } = message.data;
 
       setJoinedSessions((prev) =>
         prev.map((session) =>
           session._id === sessionId
             ? {
                 ...session,
-                studentCount: [...session.studentCount, studentClerkId],
+                studentCount: [...session.studentCount, userId],
               }
             : session
         )
@@ -74,5 +76,5 @@ export const useJoinedSession = () => {
     };
   }, []);
 
-  return { joinedSessions, isLoadingJoined };
+  return { joinedSessions };
 };

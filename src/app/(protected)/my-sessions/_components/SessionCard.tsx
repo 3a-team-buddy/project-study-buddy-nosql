@@ -1,20 +1,25 @@
 "use client";
 
+import React from "react";
 import { useSession } from "@/app/_hooks/use-session";
 import { CreateSessionType } from "@/lib/types";
 import { useRouter } from "next/navigation";
-import React from "react";
 import { MySessionInviteBtn } from "./MySessionInviteBtn";
+import { InviteBtnDialog, JoinBtn } from "../../create-session/_components";
+import { Button } from "@/components/ui";
 
-const JoinedSessionCard = ({
+export const SessionCard = ({
+  selectedType,
   session,
   handleSessionId,
 }: {
+  selectedType: "created" | "joined" | "other" | undefined;
   session: CreateSessionType;
   handleSessionId: () => void;
 }) => {
   const { allSessions } = useSession();
   const router = useRouter();
+
   return (
     <div className="flex flex-col gap-3 hover:cursor-pointer">
       <div key={session._id}>
@@ -24,7 +29,20 @@ const JoinedSessionCard = ({
           </h3>
 
           <div className="flex items-center gap-4">
-            <MySessionInviteBtn />
+            {selectedType === "created" || "joined" ? (
+              <div>
+                <Button>{session.status}</Button>
+                <MySessionInviteBtn />
+              </div>
+            ) : selectedType === "other" ? (
+              <div>
+                <JoinBtn session={session} />
+                <InviteBtnDialog />
+              </div>
+            ) : (
+              ""
+            )}
+
             {session.status && (
               <span
                 className={`text-xs ${
@@ -40,5 +58,3 @@ const JoinedSessionCard = ({
     </div>
   );
 };
-
-export default JoinedSessionCard;
