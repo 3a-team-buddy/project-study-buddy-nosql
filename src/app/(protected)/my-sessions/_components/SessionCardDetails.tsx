@@ -8,6 +8,7 @@ import {
   ParticipantsList,
   SessionDetails,
 } from "../../create-session/_components";
+import { SessionCardDetailsEditButton } from "./SessionCardDetailsEditButton";
 
 export const SessionCardDetails = ({
   session,
@@ -29,6 +30,7 @@ export const SessionCardDetails = ({
       },
     });
   }
+  console.log("HAHAHAHAHHA", { session });
 
   return (
     <div className="flex flex-col gap-10">
@@ -51,12 +53,7 @@ export const SessionCardDetails = ({
 
       {selectedType === "created" ? (
         <div className="w-fit flex gap-2">
-          <Button
-            variant={"secondary"}
-            className="w-full text-accent-foreground cursor-pointer"
-          >
-            Edit
-          </Button>
+          <SessionCardDetailsEditButton session={session} />
           <Button variant={"destructive"} className="w-full cursor-pointer">
             Delete Session
           </Button>
