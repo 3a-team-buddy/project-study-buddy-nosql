@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
       }&email=${encodeURIComponent(recipient[0])}">Decline</a>`,
     });
 
-    return NextResponse.json({ succes: true });
+    return NextResponse.json({ data: data, succes: true }, { status: 200 });
   } catch (error) {
     console.error("Error", error);
     NextResponse.json({ error: error }, { status: 500 });

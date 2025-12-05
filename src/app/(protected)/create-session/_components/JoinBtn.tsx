@@ -67,7 +67,7 @@ export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          recipients: "tutorsEmails",
+          recipients: tutorsEmails,
           session,
         }),
       });
@@ -79,6 +79,9 @@ export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
       toast.success("Email sent to selected tutors", {
         description: session.sessionTopicTitle,
       });
+
+      const datass = emailResponse.json();
+      console.log({ datass });
       setEmailSent(true);
     }
   };
