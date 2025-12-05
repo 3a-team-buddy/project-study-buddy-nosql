@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
-import { verifyToken } from "@clerk/backend";
-import { headers } from "next/headers";
 import { Session } from "@/lib/models/Session";
 import { checkAuth } from "../check-create-user/route";
 import { MockUser } from "@/lib/models/MockUser";
@@ -29,7 +27,7 @@ export async function GET() {
   }
 
   const foundUserId = foundUser._id;
-  console.log(foundUserId, "LKJHLKH");
+
   const foundCreatedSessions = await Session.find({ creatorId: foundUserId });
 
   if (!foundCreatedSessions) {

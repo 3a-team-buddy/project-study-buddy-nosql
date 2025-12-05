@@ -18,17 +18,17 @@ export const SessionCardDetails = ({
 }) => {
   const { getToken } = useAuth();
 
-  async function leaveSession(id: string) {
+  const leaveSession = async (id: string) => {
     const token = await getToken();
 
-    await fetch(`/api/create-new-session/${id}`, {
+    await fetch(`/api/leave-session/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
-  }
+  };
 
   return (
     <div className="flex flex-col gap-10">

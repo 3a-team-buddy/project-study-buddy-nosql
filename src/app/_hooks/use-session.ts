@@ -68,12 +68,33 @@ export const useSession = () => {
       );
     };
 
+    const handleRemoved = (message: Ably.Message) => {
+      if (message.name === "student-removed") return;
+      if (!message.data) return;
+
+      const { sessionId, userId } = message.data;
+
+      setAllSessions((prev) =>
+        prev.map((session) =>
+          session._id === sessionId
+            ? {
+                ...session,
+                studentCount: session.studentCount.filter(
+                  (id) => id !== userId
+                ),
+              }
+            : session
+        )
+      );
+    };
     channel.subscribe("session-created", handleCreated);
     channel.subscribe("session-joined", handleJoined);
+    channel.subscribe("student-removed", handleRemoved);
 
     return () => {
       channel.unsubscribe("session-created", handleCreated);
       channel.unsubscribe("session-joined", handleJoined);
+      channel.unsubscribe("student-removed", handleRemoved);
     };
   }, []);
 
