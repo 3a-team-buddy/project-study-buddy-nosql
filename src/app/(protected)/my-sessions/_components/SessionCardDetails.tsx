@@ -8,6 +8,7 @@ import {
   ParticipantsList,
   SessionDetails,
 } from "../../create-session/_components";
+import { SessionDeleteBtn } from "./SessionDeleteBtn";
 
 export const SessionCardDetails = ({
   session,
@@ -50,16 +51,19 @@ export const SessionCardDetails = ({
       </div>
 
       {selectedType === "created" ? (
-        <div className="w-fit flex gap-2">
+        <div className="w-fit flex gap-2 justify-between">
           <Button
             variant={"secondary"}
             className="w-full text-accent-foreground cursor-pointer"
           >
             Edit
           </Button>
-          <Button variant={"destructive"} className="w-full cursor-pointer">
+          {/* <Button variant={"destructive"} className="w-full cursor-pointer">
             Delete Session
-          </Button>
+          </Button> */}
+          <div>
+            <SessionDeleteBtn session={session} />
+          </div>
         </div>
       ) : selectedType === "joined" ? (
         <Button
