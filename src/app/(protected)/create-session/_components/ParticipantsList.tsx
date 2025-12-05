@@ -5,12 +5,15 @@ import { CreateSessionType, JoinedStudentType } from "@/lib/types";
 import { toast } from "sonner";
 import { Star } from "lucide-react";
 import { Button, Label } from "@/components/ui";
+import { useSession } from "@/app/_hooks/use-session";
+import { ParticipantsSkeleton } from "./ParticipantsSkeleton";
 
 export const ParticipantsList = ({
   session,
 }: {
   session: CreateSessionType;
 }) => {
+  const { isLoading } = useSession();
   const [joinedStudents, setJoinedStudents] = useState<JoinedStudentType[]>([]);
 
   const getSelectedSessionJoinedStudents = async () => {
@@ -45,11 +48,37 @@ export const ParticipantsList = ({
           className="rounded-full font-semibold text-[#2563EB] hover:text-white bg-black/20 hover:bg-[#2563EB] border border-[#2563EB] hover:border-[#2563EB]"
         >
           {session.studentCount.length}
-          <span>/{session.maxMember}</span>
+          <span>/ {session.maxMember}</span>
         </Button>
       </div>
 
-      <div className="text-sm text-white/60 flex flex-col gap-2">
+      {isLoading ? (
+        <ParticipantsSkeleton session={session} />
+      ) : (
+        <div className="text-sm text-white/60 flex flex-col gap-2">
+          {joinedStudents.map((joinedStudent, i) => (
+            <div key={joinedStudent._id} className="flex gap-2 items-center">
+              <img
+                src={joinedStudent.studentId.mockUserImage}
+                className="w-6 h-6 rounded-full bg-slate-900"
+                alt=""
+              />
+              <div>{joinedStudent.studentId.mockUserName}</div>
+              {i === 0 && (
+                <div className="flex gap-0.5 text-xs items-center text-amber-200">
+                  <Star
+                    size={11}
+                    className="text-amber-200 fill-amber-200 font-medium"
+                  />
+                  Creator
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* <div className="text-sm text-white/60 flex flex-col gap-2">
         {joinedStudents.map((joinedStudent, i) => (
           <div key={joinedStudent._id} className="flex gap-2 items-center">
             <img
@@ -69,7 +98,7 @@ export const ParticipantsList = ({
             )}
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };
