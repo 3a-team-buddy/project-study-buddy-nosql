@@ -12,13 +12,13 @@ const MySessionPage = () => {
   const { joinedSessions } = useJoinedSession();
   const { createdSessions } = useCreatedSession();
   const { otherSessions } = useOtherSession();
-  const { isLoading } = useSession();
+  const { isLoading, allSessions } = useSession();
   const [selectedSessionId, setSelectedSessionId] = useState<string>("");
   const [selectedType, setSelectedType] = useState<
     "created" | "joined" | "other"
   >();
 
-  const filteredSession = joinedSessions.filter(
+  const filteredSession = allSessions.filter(
     (session) => session._id === selectedSessionId
   );
 
