@@ -2,11 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAllSelectedTutors } from "@/lib/services/selected-tutors-service";
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const { sessionId } = body;
+  const { sessionId } = await req.json();
 
   if (!sessionId) {
-    return NextResponse.json({ message: "No session id" });
+    return NextResponse.json(
+      { message: "SessionId required!" },
+      { status: 404 }
+    );
   }
 
   const selectedTutorsEmails = await getAllSelectedTutors(sessionId);
@@ -18,5 +20,5 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  return NextResponse.json({ data: selectedTutorsEmails }, { status: 200 });
+  return NextResponse.json({ selectedTutorsEmails });
 }

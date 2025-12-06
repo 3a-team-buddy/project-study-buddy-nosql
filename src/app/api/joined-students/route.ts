@@ -8,8 +8,8 @@ import { MockUser } from "@/lib/models/MockUser";
 export async function POST(request: NextRequest) {
   try {
     await connectDB();
-    const result = await checkAuth();
 
+    const result = await checkAuth();
     if (!result) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
@@ -22,13 +22,12 @@ export async function POST(request: NextRequest) {
     );
     const userId = user?._id.toString();
 
-    const body = await request.json();
-    const { sessionId } = body;
+    const { sessionId } = await request.json();
 
     if (!sessionId) {
       return NextResponse.json(
         { message: "SessionId required!" },
-        { status: 400 }
+        { status: 404 }
       );
     }
 

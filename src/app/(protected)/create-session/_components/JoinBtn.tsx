@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Button } from "@/components/ui";
 import { BsFillPeopleFill } from "react-icons/bs";
-import { CreateSessionType, SelectedTutorEmailType } from "@/lib/types";
+import { CreateSessionType } from "@/lib/types";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/nextjs";
 
@@ -34,6 +34,7 @@ export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
     if (!joinResponse.ok) {
       toast.error("Failed to join the session");
     }
+
     toast.success(
       <>
         You have successfully joined the session. <br /> View your joined
@@ -49,39 +50,19 @@ export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
       updatedStudentCount === session.minMember &&
       !emailSent
     ) {
-      const tutorResponse = await fetch("/api/get-selected-tutors", {
+      const emailResponse = await fetch("/api/send-next-tutor-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId }),
       });
 
-      if (!tutorResponse) {
-        toast.error("Failed to get selected tutors email!");
-      }
-
-      const { data }: { data: SelectedTutorEmailType[] } =
-        await tutorResponse.json();
-      const tutorsEmails = data.map((tutor) => tutor.tutorId.mockUserEmail);
-
-      const emailResponse = await fetch("/api/send-tutor-invite", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          recipients: tutorsEmails,
-          session,
-        }),
-      });
-
       if (!emailResponse.ok) {
-        toast.error("Failed to sent email!");
+        toast.error("Failed to send tutor invite email!");
       }
 
-      toast.success("Email sent to selected tutors", {
+      toast.success("Tutor invite email sent", {
         description: session.sessionTopicTitle,
       });
-
-      const datass = emailResponse.json();
-      console.log({ datass });
       setEmailSent(true);
     }
   };

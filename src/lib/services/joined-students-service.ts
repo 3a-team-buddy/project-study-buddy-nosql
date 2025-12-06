@@ -22,7 +22,6 @@ export const createJoinedStudent = async (
   });
   await joinedStudent.save();
 
-  // console.log({ sessionId, userId });
   const updatedSession = await Session.findByIdAndUpdate(
     sessionId,
     {

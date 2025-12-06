@@ -42,7 +42,7 @@ const CreateSessionPage = () => {
   console.log({ time });
 
   return (
-    <div className="w-full min-h-screen text-white flex gap-8 p-10">
+    <div className="w-full min-h-screen text-white flex gap-8 py-10">
       <div className="flex-1">
         <SessionList />
       </div>

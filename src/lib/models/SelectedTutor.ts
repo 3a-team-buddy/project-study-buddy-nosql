@@ -3,13 +3,15 @@ import mongoose, { Schema } from "mongoose";
 type SelectedTutorSchemaType = {
   tutorId: string;
   createdSessionId: string;
+  order: number;
   invitationStatus: string;
 };
 
 const SelectedTutorSchema = new Schema(
   {
-    tutorId: { type: Schema.ObjectId, ref: "MockUser" },
-    createdSessionId: { type: Schema.ObjectId, ref: "Session" },
+    tutorId: { type: Schema.ObjectId, ref: "MockUser", required: true },
+    createdSessionId: { type: Schema.ObjectId, ref: "Session", required: true },
+    order: { type: Number, required: true },
     invitationStatus: {
       type: String,
       enum: ["WAITING", "SEND", "ACCEPT", "DECLINE"],

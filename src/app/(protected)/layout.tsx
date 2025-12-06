@@ -15,8 +15,6 @@ export default function RootLayout({
   const { getToken } = useAuth();
   const router = useRouter();
 
-  // auth hiigeed daraa ni save hiij bga
-  // POST huselt yavad be-ees butsaj clerk data-g avch user bgag shalgah eseh
   useEffect(() => {
     if (!isLoaded) return;
     if (!user) return;
@@ -51,7 +49,7 @@ export default function RootLayout({
   }
 
   return (
-    <div className="bg-slate-900 bg-cover bg-center">
+    <div className="bg-[url('https://talent.pinebaatars.mn/pinebaatar.png')] bg-cover bg-center">
       <Header />
       <div className="max-w-[1440px] flex flex-col justify-center m-auto">
         <div className="flex gap-6 py-9">
@@ -63,4 +61,4 @@ export default function RootLayout({
   );
 }
 
-// <div className="bg-[url('https://talent.pinebaatars.mn/pinebaatar.png')] bg-cover bg-center">
+//bg-[url('https://talent.pinebaatars.mn/pinebaatar.png')]
