@@ -8,10 +8,10 @@ type SessionSchemaType = {
   value: string;
   time: string;
   selectedSessionType: string;
-  creatorId: string;
-  studentCount: string[];
-  assignedTutor?: string;
+  creatorId: mongoose.Types.ObjectId;
+  studentCount?: string[];
   status: "WAITING" | "ACCEPTED" | "DECLINED";
+  assignedTutor?: mongoose.Types.ObjectId | null;
 };
 
 const SessionSchema = new Schema(
@@ -23,18 +23,23 @@ const SessionSchema = new Schema(
     value: { type: String, required: true },
     time: { type: String, required: true },
     selectedSessionType: { type: String, required: true },
-    creatorId: { type: String, required: true },
-    studentCount: [{ type: Schema.ObjectId, ref: "MockUser", default: [] }],
-    assignedTutor: { type: Schema.ObjectId, ref: "MockUser", required: false },
+    creatorId: { type: Schema.ObjectId, ref: "MockUser", required: true },
+    studentCount: { type: [String], default: [] },
     status: {
       type: String,
       enum: ["WAITING", "ACCEPTED", "DECLINED"],
       default: "WAITING",
       required: true,
     },
+    assignedTutor: {
+      type: Schema.ObjectId,
+      ref: "MockUser",
+      default: null,
+    },
   },
   {
     timestamps: true,
+    versionKey: false,
   }
 );
 

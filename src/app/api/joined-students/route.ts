@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
       },
       "_id"
     );
-    const userId = user?._id.toString();
+    const userId = user?._id;
 
     const { sessionId } = await request.json();
 
@@ -43,7 +43,10 @@ export async function POST(request: NextRequest) {
     const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
     const channel = ably.channels.get("sessions");
 
-    await channel.publish("session-joined", { sessionId, userId });
+    await channel.publish("session-joined", {
+      sessionId,
+      userId: userId.toString(),
+    });
 
     return NextResponse.json(
       { updatedSession, message: "Joined successfully" },

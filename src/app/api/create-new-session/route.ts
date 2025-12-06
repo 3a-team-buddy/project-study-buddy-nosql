@@ -23,8 +23,8 @@ export async function POST(request: NextRequest) {
       },
       "_id"
     );
-    const creatorId = creator._id;
-    console.log({ creatorId });
+
+    const creatorId = creator?._id;
 
     const body = await request.json();
     const {
@@ -36,7 +36,6 @@ export async function POST(request: NextRequest) {
       time,
       selectedSessionType,
       selectedTutors,
-      studentCount,
     } = body;
 
     if (
@@ -63,8 +62,7 @@ export async function POST(request: NextRequest) {
       value,
       time,
       selectedSessionType,
-      creatorId,
-      studentCount
+      creatorId
     );
 
     if (!createdSession) {

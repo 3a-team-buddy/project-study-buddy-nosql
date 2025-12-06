@@ -25,7 +25,6 @@ const CreateSessionPage = () => {
   const [time, setTime] = useState<string>("");
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
-  const studentCount: number[] = [];
 
   function formatDate(date: Date | undefined) {
     if (!date) {
@@ -97,7 +96,6 @@ const CreateSessionPage = () => {
           setSelectedSessionType={setSelectedSessionType}
           selectedTutors={selectedTutors}
           setSelectedTutors={setSelectedTutors}
-          studentCount={studentCount}
         />
       </div>
     </div>

@@ -5,7 +5,7 @@ export type MockUserSchemaType = {
   mockUserName: string;
   mockUserEmail: string;
   mockUserImage: string;
-  mockUserStatus: string;
+  mockUserStatus: "STUDENT" | "TEACHER";
 };
 
 export const MockUserSchema = new Schema(
@@ -21,7 +21,7 @@ export const MockUserSchema = new Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true, versionKey: false }
 );
 
 export const MockUser =

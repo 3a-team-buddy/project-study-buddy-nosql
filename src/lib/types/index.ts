@@ -17,9 +17,10 @@ export type CreateSessionType = {
   value: string;
   time: string;
   selectedSessionType: string;
-  creatorId: string;
+  creatorId: MockUserType;
+  studentCount: string[];
   status: string;
-  studentCount: number[];
+  assignedTutor?: MockUserType;
   createdAt: string;
   updatedAt: string;
 };

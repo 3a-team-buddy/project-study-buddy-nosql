@@ -51,7 +51,6 @@ export const POST = async () => {
       status as string
     );
   }
-  console.log({ mockUser });
 
   if (!mockUser) {
     return NextResponse.json(
@@ -60,5 +59,5 @@ export const POST = async () => {
     );
   }
 
-  return NextResponse.json({ data: mockUser.userClerkId });
+  return NextResponse.json({ message: "User created or fetched successfully" });
 };

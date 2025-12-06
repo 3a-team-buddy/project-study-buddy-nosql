@@ -1,10 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 
 type SelectedTutorSchemaType = {
-  tutorId: string;
-  createdSessionId: string;
+  tutorId: mongoose.Types.ObjectId;
+  createdSessionId: mongoose.Types.ObjectId;
   order: number;
-  invitationStatus: string;
+  invitationStatus: "WAITING" | "SEND" | "ACCEPT" | "DECLINE";
 };
 
 const SelectedTutorSchema = new Schema(
@@ -19,7 +19,7 @@ const SelectedTutorSchema = new Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true, versionKey: false }
 );
 
 export const SelectedTutor =

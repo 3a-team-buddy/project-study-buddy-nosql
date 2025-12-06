@@ -5,7 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui";
-import { CreateSessionType } from "@/lib/types";
+import { CreateSessionType, JoinedStudentType } from "@/lib/types";
 import {
   ParticipantsList,
   SessionDetails,
@@ -13,8 +13,10 @@ import {
 
 export const SessionInfoDialogContent = ({
   session,
+  joinedStudents,
 }: {
   session: CreateSessionType;
+  joinedStudents: JoinedStudentType[];
 }) => {
   return (
     <DialogContent className="px-8 py-6 gap-10 bg-gray-700 border-0 rounded-2xl text-white">
@@ -29,7 +31,7 @@ export const SessionInfoDialogContent = ({
 
       <SessionDetails session={session} />
 
-      <ParticipantsList session={session} />
+      <ParticipantsList session={session} joinedStudents={joinedStudents} />
     </DialogContent>
   );
 };
