@@ -7,7 +7,10 @@ export async function POST(request: NextRequest) {
     const { sessionId } = body;
 
     if (!sessionId) {
-      return NextResponse.json({ message: "No session id!" }, { status: 404 });
+      return NextResponse.json(
+        { message: "SessionId required!" },
+        { status: 404 }
+      );
     }
 
     const joinedStudentsDB = await getAllJoinedStudents(sessionId);
@@ -18,7 +21,7 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
-    return NextResponse.json({ data: joinedStudentsDB }, { status: 200 });
+    return NextResponse.json({ data: joinedStudentsDB });
   } catch (error) {
     console.error("Error while getting joined students!", error);
     return NextResponse.json(

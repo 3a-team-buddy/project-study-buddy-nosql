@@ -1,4 +1,4 @@
-import { sendEmail } from "@/lib/mailer";
+import { transporter } from "@/lib/mailer";
 import { SelectedTutor } from "@/lib/models/SelectedTutor";
 import { Session } from "@/lib/models/Session";
 import connectDB from "@/lib/mongodb";
@@ -28,7 +28,8 @@ export async function POST(request: NextRequest) {
   const accept = `${process.env.NEXT_PUBLIC_BASE_URL}/api/tutor-response?sessionId=${sessionId}&tutorId=${nextTutor._id}&response=accept`;
   const decline = `${process.env.NEXT_PUBLIC_BASE_URL}/api/tutor-response?sessionId=${sessionId}&tutorId=${nextTutor._id}&response=decline`;
 
-  await sendEmail({
+  await transporter.sendMail({
+    from: `"Study Buddy" ${process.env.EMAIL_USER}`,
     to: nextTutor.tutorId.mockUserEmail,
     subject: "Tutor Invitation",
     html: `

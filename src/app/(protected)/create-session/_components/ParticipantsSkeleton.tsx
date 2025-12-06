@@ -9,8 +9,8 @@ export const ParticipantsSkeleton = ({
 }) => {
   return (
     <div className="flex flex-col gap-2 w-full">
-      {session.studentCount?.map((s) => (
-        <div key={s} className="flex gap-2 items-center">
+      {session.studentCount?.map((s, i) => (
+        <div key={i} className="flex gap-2 items-center">
           <Skeleton className="rounded-full h-6 w-6 opacity-10" />
           <Skeleton className="flex-1 h-5 rounded-2xl opacity-10" />
         </div>

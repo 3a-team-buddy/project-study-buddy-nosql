@@ -6,6 +6,7 @@ export type MockTopicType = {
 
 export type SelectedTutorType = {
   mockUserEmail: string;
+  order: number;
 };
 
 export type CreateSessionType = {

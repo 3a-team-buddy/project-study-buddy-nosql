@@ -19,7 +19,7 @@ export const createJoinedStudent = async (
 
   const joinedStudent = new JoinedStudent({
     studentId: userId,
-    sessionId,
+    sessionId: new mongoose.Types.ObjectId(sessionId),
   });
   await joinedStudent.save();
 
