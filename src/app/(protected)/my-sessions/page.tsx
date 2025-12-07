@@ -1,19 +1,32 @@
 "use client";
+
 import React, { useState } from "react";
+
 import { Label, Skeleton } from "@/components/ui";
+
 import { useJoinedSession } from "@/app/_hooks/use-joined-session";
+
 import { useCreatedSession } from "@/app/_hooks/use-created-session";
+
 import { useSession } from "@/app/_hooks/use-session";
+
 import { useOtherSession } from "@/app/_hooks/use-other-session";
+
 import { SessionCard } from "./_components/SessionCard";
+
 import { SessionCardDetails } from "./_components/SessionCardDetails";
 
 const MySessionPage = () => {
   const { joinedSessions } = useJoinedSession();
+
   const { createdSessions } = useCreatedSession();
+
   const { otherSessions } = useOtherSession();
+
   const { isLoading, allSessions } = useSession();
+
   const [selectedSessionId, setSelectedSessionId] = useState<string>("");
+
   const [selectedType, setSelectedType] = useState<
     "created" | "joined" | "other"
   >();
@@ -24,23 +37,30 @@ const MySessionPage = () => {
 
   const handleSessionOnClick = (
     sessionId: string,
+
     type: "created" | "joined" | "other"
   ) => {
     setSelectedSessionId(sessionId);
+
     setSelectedType(type);
   };
 
   const sessionLists = [
     {
       name: "Created Sessions",
+
       sessions: createdSessions,
     },
+
     {
       name: "Joined Sessions",
+
       sessions: joinedSessions,
     },
+
     {
       name: "More Sessions to join",
+
       sessions: otherSessions,
     },
   ];
@@ -64,7 +84,7 @@ const MySessionPage = () => {
                     />
                   ))}
                 </div>
-              ) : (
+              ) : sessionList.sessions?.length ? (
                 <div className="flex flex-col gap-3">
                   {sessionList.name === "Created Sessions" &&
                   sessionList.sessions ? (
@@ -98,6 +118,7 @@ const MySessionPage = () => {
                         handleSessionId={() =>
                           handleSessionOnClick(
                             session._id,
+
                             sessionList.name === "Created Sessions"
                               ? "created"
                               : sessionList.name === "Joined Sessions"
@@ -108,6 +129,19 @@ const MySessionPage = () => {
                       />
                     </div>
                   ))}
+                </div>
+              ) : (
+                <div className="rounded-2xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl text-white">
+                  <p className="text-sm opacity-70  text-center">
+                    {sessionList.name === "Created Sessions" &&
+                      "No sessions created by you."}
+
+                    {sessionList.name === "Joined Sessions" &&
+                      "No sessions you joined yet."}
+
+                    {sessionList.name === "More Sessions to join" &&
+                      "No more available sessions to join."}
+                  </p>
                 </div>
               )}
             </div>
@@ -136,4 +170,5 @@ const MySessionPage = () => {
     </div>
   );
 };
+
 export default MySessionPage;
