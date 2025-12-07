@@ -9,10 +9,10 @@ import { MockUser } from "@/lib/models/MockUser";
 export async function GET(request: NextRequest) {
   await connectDB();
 
-  const { searchParams } = new URL(request.url);
-  const sessionId = searchParams.get("sessionId");
-  const tutorId = searchParams.get("tutorId");
-  const response = searchParams.get("response");
+  const url = new URL(request.url);
+  const sessionId = url.searchParams.get("sessionId");
+  const tutorId = url.searchParams.get("tutorId");
+  const response = url.searchParams.get("response")?.toLowerCase();
 
   console.log({ sessionId }, "SESSION ID ");
   console.log({ tutorId }, "TUTOR ID");
@@ -46,13 +46,12 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  tutor.invitationStatus =
-    response?.toUpperCase() === "ACCEPTED" ? "ACCEPTED" : "DECLINED";
-  await tutor.save();
-
   console.log(tutor.invitationStatus, "TUROR INVITATION STATUS");
 
   if (response === "accept") {
+    tutor.invitationStatus === "ACCEPTED";
+    await tutor.save();
+
     session.status = "ACCEPTED";
     session.assignedTutor = tutor.tutorId._id;
     await session.save();
@@ -61,7 +60,8 @@ export async function GET(request: NextRequest) {
       from: `"Study Buddy" ${process.env.EMAIL_USER}`,
       to: tutor.tutorId.mockUserEmail,
       subject: "Tutor Assignment Confirmed",
-      html: `<p>You have accepted the session!</p>`,
+      html: `<p>You have accepted the session!</p>
+      <p>Students have been notified.</p>`,
     });
 
     const students = await MockUser.find(
@@ -75,8 +75,8 @@ export async function GET(request: NextRequest) {
         transporter.sendMail({
           from: `"Study Buddy" ${process.env.EMAIL_USER}`,
           to: student.mockUserEmail,
-          subject: "Session Confrimed",
-          html: `<p>Your session has been confirmed</p>`,
+          subject: "Your Session is Confrimed",
+          html: `<p>Your session has been confirmed and a tutor accepted.</p>`,
         })
       )
     );
@@ -89,7 +89,10 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const nextResponse = await fetch(
+  tutor.invitationStatus === "DECLINED";
+  await tutor.save();
+
+  const nextTutorResponse = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/send-next-tutor-email`,
     {
       method: "POST",
@@ -98,22 +101,19 @@ export async function GET(request: NextRequest) {
     }
   );
 
-  const result = await nextResponse.json();
+  const nextTutorResult = await nextTutorResponse.json();
 
-  if (result.noTutorsRemaining) {
-    const creatorEmail = await MockUser.findById(
-      session.creatorId,
-      "mockUserEmail"
-    );
+  if (nextTutorResult.noTutorsRemaining) {
+    const creator = await MockUser.findById(session.creatorId, "mockUserEmail");
 
     await transporter.sendMail({
       from: `"Study Buddy" ${process.env.EMAIL_USER}`,
-      to: creatorEmail,
-      subject: "All Tutors Declined",
-      html: `<p>All tutors declined your session. Choose:</p>
+      to: creator.mockUserEmail,
+      subject: "All Tutors Declined Your Session",
+      html: `<p>All tutors declined your session.</p>
+      <p>Choose an option:</p>
       <a href="${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-response?sessionId=${session._id}&action=delete">Delete Session</a>
-      <br/>
-      <a href="${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-response?sessionId=${session._id}&action=self">Covert to Self-led Session</a>
+      <a href="${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-response?sessionId=${session._id}&action=self">Covert to Self-Led Session</a>
 `,
     });
   }

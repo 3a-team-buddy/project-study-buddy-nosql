@@ -3,24 +3,35 @@ import connectDB from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  connectDB();
+  await connectDB();
 
   const { searchParams } = await new URL(request.url);
   const sessionId = searchParams.get("sessionId");
   const action = searchParams.get("action");
 
-  const session = await Session.findById({ _id: sessionId });
+  if (!sessionId || !action) {
+    return NextResponse.json(
+      { message: "Missing sessionId or action" },
+      { status: 400 }
+    );
+  }
+
+  const session = await Session.findById(sessionId);
+
+  if (!session) {
+    return NextResponse.json({ message: "Session not found" }, { status: 404 });
+  }
 
   if (action === "delete") {
-    session.status = "declined";
+    session.status = "DECLINED";
     await session.deleteOne();
     //notify students
     //send cancellation mails
   }
 
   if (action === "self") {
-    session.type = "self-led";
-    session.status = "accepted";
+    session.selectedSessionType = "SELF-LED";
+    session.status = "ACCEPTED";
     await session.save();
 
     //notify students

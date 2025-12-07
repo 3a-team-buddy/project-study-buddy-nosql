@@ -46,7 +46,7 @@ export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
     // router.push("/my-sessions");
 
     if (
-      session.selectedSessionType === "tutor-led" &&
+      session.selectedSessionType.toLowerCase() === "tutor-led" &&
       updatedStudentCount === session.minMember &&
       !emailSent
     ) {

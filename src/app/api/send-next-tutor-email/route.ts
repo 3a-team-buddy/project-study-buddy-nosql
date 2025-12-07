@@ -9,7 +9,14 @@ export async function POST(request: NextRequest) {
 
   const { sessionId } = await request.json();
 
+  if (!sessionId) {
+    return NextResponse.json({ message: "Missing sessionId" }, { status: 400 });
+  }
+
   const session = await Session.findById(sessionId);
+  if (!session) {
+    return NextResponse.json({ message: "Session not founf" }, { status: 404 });
+  }
   console.log({ session }, "SESSSSSION");
 
   const nextTutor = await SelectedTutor.findOne({
@@ -40,7 +47,7 @@ export async function POST(request: NextRequest) {
     <p>Date: <strong>${session.value}</strong></p>
     <p>Time: <strong>${session.time}</strong></p>
     <p>Please select an option:</p>
-    <a href="${accept}">ACCEPT</a>
+    <a href="${accept}">ACCEPT</a> 
     <a href="${decline}">DECLINE</a>
     `,
   });

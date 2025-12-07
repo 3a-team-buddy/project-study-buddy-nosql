@@ -7,7 +7,7 @@ type SessionSchemaType = {
   maxMember: number;
   value: string;
   time: string;
-  selectedSessionType: string;
+  selectedSessionType: "TUTOR-LED" | "SELF-LED";
   creatorId: mongoose.Types.ObjectId;
   studentCount?: string[];
   status: "WAITING" | "ACCEPTED" | "DECLINED";
@@ -22,7 +22,11 @@ const SessionSchema = new Schema(
     maxMember: { type: Number, required: true },
     value: { type: String, required: true },
     time: { type: String, required: true },
-    selectedSessionType: { type: String, required: true },
+    selectedSessionType: {
+      type: String,
+      enum: ["TUTOR-LED", "SELF-LED"],
+      required: true,
+    },
     creatorId: { type: Schema.ObjectId, ref: "MockUser", required: true },
     studentCount: { type: [String], default: [] },
     status: {
