@@ -1,23 +1,25 @@
 import mongoose, { Schema } from "mongoose";
 
 type SelectedTutorSchemaType = {
-  tutorId: string;
-  createdSessionId: string;
-  invitationStatus: string;
+  tutorId: mongoose.Types.ObjectId;
+  createdSessionId: mongoose.Types.ObjectId;
+  order: number;
+  invitationStatus: "WAITING" | "SEND" | "ACCEPTED" | "DECLINED";
 };
 
 const SelectedTutorSchema = new Schema(
   {
-    tutorId: { type: Schema.ObjectId, ref: "MockUser" },
-    createdSessionId: { type: Schema.ObjectId, ref: "Session" },
+    tutorId: { type: Schema.ObjectId, ref: "MockUser", required: true },
+    createdSessionId: { type: Schema.ObjectId, ref: "Session", required: true },
+    order: { type: Number, required: true },
     invitationStatus: {
       type: String,
-      enum: ["WAITING", "SEND", "ACCEPT", "DECLINE"],
+      enum: ["WAITING", "SEND", "ACCEPTED", "DECLINED"],
       default: "WAITING",
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true, versionKey: false }
 );
 
 export const SelectedTutor =

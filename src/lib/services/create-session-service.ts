@@ -1,5 +1,6 @@
 import connectDB from "../mongodb";
 import { Session } from "../models/Session";
+import mongoose from "mongoose";
 
 export const getAllSessions = async () => {
   await connectDB();
@@ -15,8 +16,7 @@ export const createNewSession = async (
   value: string,
   time: string,
   selectedSessionType: string,
-  creatorId: string,
-  studentCount: number | ""
+  creatorId: mongoose.Types.ObjectId
 ) => {
   await connectDB();
   const newSession = new Session({
@@ -28,7 +28,9 @@ export const createNewSession = async (
     time,
     selectedSessionType,
     creatorId,
-    studentCount,
+    studentCount: [],
+    status: "WAITING",
+    assignedTutor: null,
   });
 
   await newSession.save();

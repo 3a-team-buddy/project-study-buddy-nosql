@@ -30,21 +30,13 @@ export const useSession = () => {
 
     const handleCreated = (message: Ably.Message) => {
       if (message.name !== "session-created") return;
-      if (!message.data) return;
+      const newSession = message.data;
 
-      // setAllSessions((prev) => {
-      //   if (prev.some((session) => session._id === message.data._id))
-      //     return prev;
-      //   return [message.data, ...prev];
-      // });
       setAllSessions((prev) => {
-        const newArray = prev.some(
-          (session) => session._id === message.data._id
-        )
-          ? prev
-          : [message.data, ...prev];
+        if (prev.some((session) => session._id === message.data._id))
+          return prev;
 
-        return newArray.sort(
+        return [newSession, ...prev].sort(
           (a, b) =>
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
@@ -53,7 +45,7 @@ export const useSession = () => {
 
     const handleJoined = (message: Ably.Message) => {
       if (message.name !== "session-joined") return;
-      if (!message.data) return;
+
       const { sessionId, userId } = message.data;
 
       setAllSessions((prev) =>
@@ -70,7 +62,6 @@ export const useSession = () => {
 
     const handleRemoved = (message: Ably.Message) => {
       if (message.name === "student-removed") return;
-      if (!message.data) return;
 
       const { sessionId, userId } = message.data;
 
@@ -87,6 +78,7 @@ export const useSession = () => {
         )
       );
     };
+
     channel.subscribe("session-created", handleCreated);
     channel.subscribe("session-joined", handleJoined);
     channel.subscribe("student-removed", handleRemoved);

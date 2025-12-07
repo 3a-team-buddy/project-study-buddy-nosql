@@ -2,6 +2,7 @@ import connectDB from "../mongodb";
 import { SelectedTutor } from "../models/SelectedTutor";
 import { SelectedTutorType } from "../types";
 import { MockUser } from "../models/MockUser";
+import { NextResponse } from "next/server";
 
 export const getAllSelectedTutors = async (sessionId: string) => {
   await connectDB();
@@ -24,21 +25,29 @@ export const createSelectedTutor = async (
     (selectedTutor) => selectedTutor.mockUserEmail
   );
 
-  const foundTutors = await MockUser.find(
-    {
-      mockUserEmail: { $in: tutorsEmail },
-    },
-    "_id"
+  const foundTutors = await MockUser.find({
+    mockUserEmail: { $in: tutorsEmail },
+  }).select("_id mockUserEmail");
+
+  const reversedFoundTutor = new Map(
+    foundTutors.map((tutor) => [tutor.mockUserEmail, tutor._id])
   );
 
   const createdSelectedTutor = await Promise.all(
-    foundTutors.map((tutor) =>
-      SelectedTutor.create({
-        tutorId: tutor._id,
+    selectedTutors.map((tutor, index) => {
+      const matchedTutorId = reversedFoundTutor.get(tutor.mockUserEmail);
+
+      if (!matchedTutorId) {
+        return null;
+      }
+
+      return SelectedTutor.create({
+        tutorId: matchedTutorId,
         createdSessionId,
         invitationStatus: "WAITING",
-      })
-    )
+        order: index + 1,
+      });
+    })
   );
 
   return createdSelectedTutor;

@@ -45,7 +45,7 @@ export const InviteBtnDialogContent = () => {
     }
 
     const emails = selectedStudents.map((s) => s.email);
-    const link = "http://localhost:3000/create-session"; // 🔗 invitation link
+    const link = `${process.env.NEXT_PUBLIC_BASE_URL}/create-session`; // 🔗 invitation link
 
     try {
       const res = await fetch("/api/send-link", {
@@ -117,7 +117,10 @@ export const InviteBtnDialogContent = () => {
       {/* Link field */}
       <div className="flex flex-col gap-2">
         <Label>Link to send</Label>
-        <Input value="http://localhost:3000/create-session" readOnly />
+        <Input
+          value={`${process.env.NEXT_PUBLIC_BASE_URL}/create-session`}
+          readOnly
+        />
       </div>
 
       <DialogFooter className="sm:justify-end">

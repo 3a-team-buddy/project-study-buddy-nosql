@@ -25,7 +25,6 @@ const CreateSessionPage = () => {
   const [time, setTime] = useState<string>("");
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
-  const studentCount: number[] = [];
 
   function formatDate(date: Date | undefined) {
     if (!date) {
@@ -42,7 +41,7 @@ const CreateSessionPage = () => {
   console.log({ time });
 
   return (
-    <div className="w-full min-h-screen text-white flex gap-8 p-10">
+    <div className="w-full min-h-screen text-white flex gap-8 py-10">
       <div className="flex-1">
         <SessionList />
       </div>
@@ -97,7 +96,6 @@ const CreateSessionPage = () => {
           setSelectedSessionType={setSelectedSessionType}
           selectedTutors={selectedTutors}
           setSelectedTutors={setSelectedTutors}
-          studentCount={studentCount}
         />
       </div>
     </div>

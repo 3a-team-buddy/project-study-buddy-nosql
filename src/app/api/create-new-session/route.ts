@@ -23,8 +23,8 @@ export async function POST(request: NextRequest) {
       },
       "_id"
     );
-    const creatorId = creator._id;
-    console.log({ creatorId });
+
+    const creatorId = creator?._id;
 
     const body = await request.json();
     const {
@@ -36,7 +36,6 @@ export async function POST(request: NextRequest) {
       time,
       selectedSessionType,
       selectedTutors,
-      studentCount,
     } = body;
 
     if (
@@ -55,6 +54,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const uppercasedSessionType = selectedSessionType
+      .toUpperCase()
+      .replace(" ", "-");
+
     const createdSession = await createNewSession(
       sessionTopicTitle,
       description,
@@ -62,9 +65,8 @@ export async function POST(request: NextRequest) {
       maxMember,
       value,
       time,
-      selectedSessionType,
-      creatorId,
-      studentCount
+      uppercasedSessionType,
+      creatorId
     );
 
     if (!createdSession) {
@@ -77,9 +79,8 @@ export async function POST(request: NextRequest) {
     const createdSessionId = createdSession._id;
     const createdSessionType = createdSession.selectedSessionType;
     const firstJoinedStudentId = createdSession.creatorId;
-    // console.log({ createdSession });
 
-    if (createdSessionType === "tutor-led") {
+    if (createdSessionType === "TUTOR-LED") {
       await createSelectedTutor(selectedTutors, createdSessionId);
     }
 

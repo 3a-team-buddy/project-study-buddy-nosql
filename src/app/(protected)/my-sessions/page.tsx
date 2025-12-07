@@ -44,6 +44,7 @@ const MySessionPage = () => {
       sessions: otherSessions,
     },
   ];
+
   return (
     <div className="w-full min-h-screen flex gap-8 p-10 text-white">
       <div className="flex-1">
@@ -65,6 +66,30 @@ const MySessionPage = () => {
                 </div>
               ) : (
                 <div className="flex flex-col gap-3">
+                  {sessionList.name === "Created Sessions" &&
+                  sessionList.sessions ? (
+                    <div className="w-20 h-5 text-white">HOOOSON</div>
+                  ) : (
+                    sessionList.sessions.map((session) => (
+                      <div key={session._id}>
+                        <SessionCard
+                          selectedType={selectedType}
+                          session={session}
+                          handleSessionId={() =>
+                            handleSessionOnClick(
+                              session._id,
+                              sessionList.name === "Created Sessions"
+                                ? "created"
+                                : sessionList.name === "Joined Sessions"
+                                ? "joined"
+                                : "other"
+                            )
+                          }
+                        />
+                      </div>
+                    ))
+                  )}
+
                   {sessionList.sessions?.map((session) => (
                     <div key={session._id}>
                       <SessionCard

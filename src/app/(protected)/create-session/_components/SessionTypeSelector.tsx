@@ -36,8 +36,14 @@ export const SessionTypeSelector = ({
         mockUserEmail: tutorLedInputValue,
       },
     ];
-    if (newSelectedTutors) {
-      setSelectedTutors(newSelectedTutors);
+
+    const orderedSelectedTutors = newSelectedTutors?.map((tutor, index) => ({
+      ...tutor,
+      order: index + 1,
+    }));
+
+    if (orderedSelectedTutors) {
+      setSelectedTutors(orderedSelectedTutors);
     }
     setTutorLedInputValue("");
   };
@@ -48,8 +54,15 @@ export const SessionTypeSelector = ({
         selectedTutor.mockUserEmail !== tutorEmail
     );
 
-    if (remainedSelectedTutors) {
-      setSelectedTutors(remainedSelectedTutors);
+    const orderedRemainedTutors = remainedSelectedTutors?.map(
+      (tutor, index) => ({
+        ...tutor,
+        order: index + 1,
+      })
+    );
+
+    if (orderedRemainedTutors) {
+      setSelectedTutors(orderedRemainedTutors);
     }
   };
 

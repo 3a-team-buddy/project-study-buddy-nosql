@@ -8,8 +8,8 @@ import { MockUser } from "@/lib/models/MockUser";
 export async function POST(request: NextRequest) {
   try {
     await connectDB();
-    const result = await checkAuth();
 
+    const result = await checkAuth();
     if (!result) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
@@ -20,15 +20,14 @@ export async function POST(request: NextRequest) {
       },
       "_id"
     );
-    const userId = user?._id.toString();
+    const userId = user?._id;
 
-    const body = await request.json();
-    const { sessionId } = body;
+    const { sessionId } = await request.json();
 
     if (!sessionId) {
       return NextResponse.json(
         { message: "SessionId required!" },
-        { status: 400 }
+        { status: 404 }
       );
     }
 
@@ -44,7 +43,10 @@ export async function POST(request: NextRequest) {
     const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
     const channel = ably.channels.get("sessions");
 
-    await channel.publish("session-joined", { sessionId, userId });
+    await channel.publish("session-joined", {
+      sessionId,
+      userId: userId.toString(),
+    });
 
     return NextResponse.json(
       { updatedSession, message: "Joined successfully" },

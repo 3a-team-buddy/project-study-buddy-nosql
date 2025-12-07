@@ -1,6 +1,7 @@
 import connectDB from "../mongodb";
 import { JoinedStudent } from "../models/JoinedStudent";
 import { Session } from "../models/Session";
+import mongoose from "mongoose";
 
 export const getAllJoinedStudents = async (sessionId: string) => {
   await connectDB();
@@ -11,22 +12,21 @@ export const getAllJoinedStudents = async (sessionId: string) => {
 };
 
 export const createJoinedStudent = async (
-  userId: string,
+  userId: mongoose.Types.ObjectId,
   sessionId: string
 ) => {
   await connectDB();
 
   const joinedStudent = new JoinedStudent({
     studentId: userId,
-    sessionId,
+    sessionId: new mongoose.Types.ObjectId(sessionId),
   });
   await joinedStudent.save();
 
-  // console.log({ sessionId, userId });
   const updatedSession = await Session.findByIdAndUpdate(
     sessionId,
     {
-      $push: { studentCount: userId },
+      $push: { studentCount: userId.toString() },
     },
     { new: true }
   );
