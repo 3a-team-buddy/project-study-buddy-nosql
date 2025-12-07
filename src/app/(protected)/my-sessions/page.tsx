@@ -27,6 +27,12 @@ const MySessionPage = () => {
     (session) => session._id === selectedSessionId
   );
 
+  const getSessionType = (name: string): "created" | "joined" | "other" => {
+    if (name === "Created Sessions") return "created";
+    if (name === "Joined Sessions") return "joined";
+    return "other";
+  };
+
   const handleSessionOnClick = async (
     sessionId: string,
     type: "created" | "joined" | "other"
@@ -80,22 +86,17 @@ const MySessionPage = () => {
               ) : sessionList.sessions?.length ? (
                 <div className="flex flex-col gap-3">
                   {sessionList.sessions?.map((session) => (
-                    <div key={session._id}>
-                      <SessionCard
-                        selectedType={selectedType}
-                        session={session}
-                        handleSessionId={() =>
-                          handleSessionOnClick(
-                            session._id,
-                            sessionList.name === "Created Sessions"
-                              ? "created"
-                              : sessionList.name === "Joined Sessions"
-                              ? "joined"
-                              : "other"
-                          )
-                        }
-                      />
-                    </div>
+                    <SessionCard
+                      key={session._id}
+                      session={session}
+                      sessionListType={getSessionType(sessionList.name)}
+                      handleSessionId={() =>
+                        handleSessionOnClick(
+                          session._id,
+                          getSessionType(sessionList.name)
+                        )
+                      }
+                    />
                   ))}
                 </div>
               ) : (

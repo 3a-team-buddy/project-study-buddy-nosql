@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 export const getAllSessions = async () => {
   await connectDB();
 
-  return await Session.find().select("-__v").sort({ createdAt: -1 });
+  return await Session.find().sort({ createdAt: -1 });
 };
 
 export const createNewSession = async (

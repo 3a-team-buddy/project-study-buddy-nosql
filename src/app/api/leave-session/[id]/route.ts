@@ -30,6 +30,7 @@ export async function DELETE(
       { status: 404 }
     );
   }
+
   const foundUserId = foundUser._id;
 
   const { id } = await params;
@@ -39,38 +40,36 @@ export async function DELETE(
   if (!foundSession) {
     return NextResponse.json({ message: "Session not found" }, { status: 404 });
   }
-  console.log({ foundSession });
-  const foundSessionId = foundSession._id;
-  console.log({ foundSessionId });
 
-  const deletedFromJoinedStudent = await JoinedStudent.findOneAndDelete({
+  const foundSessionId = foundSession._id;
+
+  const removedFromJoinedStudent = await JoinedStudent.findOneAndDelete({
     studentId: foundUserId,
     sessionId: foundSessionId,
   });
 
-  console.log({ deletedFromJoinedStudent });
-  if (!deletedFromJoinedStudent) {
+  if (!removedFromJoinedStudent) {
     return NextResponse.json(
       { message: "You were not joined in this session" },
       { status: 404 }
     );
   }
 
-  const updatedSession = await Session.findByIdAndUpdate(
+  await Session.findByIdAndUpdate(
     foundSessionId,
     { $pull: { studentCount: foundUserId.toString() } },
     { new: true }
   );
-  console.log({ updatedSession });
 
   const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
-  await ably.channels.get(`session-${foundSessionId}`).publish("student-left", {
-    studentId: foundUserId,
+  await ably.channels.get("sessions").publish("student-removed", {
     sessionId: foundSessionId,
+    userId: foundUserId.toString(),
   });
+
   return NextResponse.json(
     {
-      message: "Left session successfully",
+      message: "Left the session successfully",
     },
     { status: 200 }
   );

@@ -41,9 +41,7 @@ export async function POST(request: NextRequest) {
     }
 
     const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
-    const channel = ably.channels.get("sessions");
-
-    await channel.publish("session-joined", {
+    await ably.channels.get("sessions").publish("session-joined", {
       sessionId,
       userId: userId.toString(),
     });

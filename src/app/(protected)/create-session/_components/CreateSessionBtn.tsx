@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Dispatch } from "react";
+import React, { Dispatch, useState } from "react";
 import { Button } from "@/components/ui";
 import { SelectedTutorType } from "@/lib/types";
 import { toast } from "sonner";
@@ -42,8 +42,10 @@ export const CreateSessionBtn = ({
   setSelectedTutors: Dispatch<React.SetStateAction<SelectedTutorType[]>>;
 }) => {
   const { getToken } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   const handleCreateSession = async () => {
+    setLoading(true);
     const token = await getToken();
 
     if (
@@ -92,11 +94,13 @@ export const CreateSessionBtn = ({
     setTime("");
     setSelectedSessionType("");
     setSelectedTutors([]);
+    setLoading(false);
   };
 
   return (
     <Button
       size={"lg"}
+      disabled={loading}
       onClick={handleCreateSession}
       className="w-full rounded-full bg-[#2563EB] hover:bg-[#1d4ed8] cursor-pointer"
     >

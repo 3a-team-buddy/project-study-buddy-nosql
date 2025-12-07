@@ -1,3 +1,4 @@
+import Ably from "ably";
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import { Session } from "@/lib/models/Session";
@@ -52,6 +53,11 @@ export async function DELETE(
     await JoinedStudent.deleteMany({ sessionId: id });
     await SelectedTutor.deleteMany({ createdSessionId: id });
     await session.deleteOne();
+
+    const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
+    await ably.channels
+      .get("sessions")
+      .publish("session-deleted", { sessioId: id });
 
     return NextResponse.json({ message: "Session deleted" });
   } catch (err) {
