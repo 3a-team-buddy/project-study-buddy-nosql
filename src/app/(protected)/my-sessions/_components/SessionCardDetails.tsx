@@ -3,7 +3,6 @@
 import React from "react";
 import { Button, Separator } from "@/components/ui";
 import { CreateSessionType, JoinedStudentType } from "@/lib/types";
-import { useAuth } from "@clerk/nextjs";
 import {
   JoinBtn,
   ParticipantsList,
