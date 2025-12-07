@@ -34,8 +34,8 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const accept = `${process.env.NEXT_PUBLIC_BASE_URL}/api/tutor-response?sessionId=${sessionId}&tutorId=${nextTutor._id}&response=accept`;
-  const decline = `${process.env.NEXT_PUBLIC_BASE_URL}/api/tutor-response?sessionId=${sessionId}&tutorId=${nextTutor._id}&response=decline`;
+  const accept = `${process.env.NEXT_PUBLIC_BASE_URL}/api/tutor-email-response?sessionId=${sessionId}&tutorId=${nextTutor._id}&response=accept`;
+  const decline = `${process.env.NEXT_PUBLIC_BASE_URL}/api/tutor-email-response?sessionId=${sessionId}&tutorId=${nextTutor._id}&response=decline`;
 
   await transporter.sendMail({
     from: "Study Buddy <oyunmyagmar.g@gmail.com>",

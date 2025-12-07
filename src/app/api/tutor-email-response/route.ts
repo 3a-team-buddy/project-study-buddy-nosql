@@ -93,7 +93,7 @@ export async function GET(request: NextRequest) {
   await tutor.save();
 
   const nextTutorResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/send-next-tutor-email`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/send-next-tutor-gmail`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },

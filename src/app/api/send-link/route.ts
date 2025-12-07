@@ -1,8 +1,5 @@
 // import { EmailTemplateLink } from "@/app/(protected)/create-session/_components/EmailTemplate";
 // import { NextRequest, NextResponse } from "next/server";
-// import { Resend } from "resend";
-
-// const resend = new Resend(process.env.RESEND_API_KEY);
 
 // export async function POST(req: NextRequest) {
 //   try {
@@ -15,8 +12,6 @@
 //       );
 //     }
 
-//     const { error, data } = await resend.emails.send({
-//       from: "StudyBuddy <onboarding@resend.dev>",
 //       to: emails,
 //       subject: "Study Session Invitation",
 //       react: EmailTemplateLink({ link }), // ✔️ FIXED

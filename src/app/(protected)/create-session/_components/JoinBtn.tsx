@@ -50,7 +50,7 @@ export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
       updatedStudentCount === session.minMember &&
       !emailSent
     ) {
-      const emailResponse = await fetch("/api/send-next-tutor-email", {
+      const emailResponse = await fetch("/api/send-next-tutor-gmail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId }),
