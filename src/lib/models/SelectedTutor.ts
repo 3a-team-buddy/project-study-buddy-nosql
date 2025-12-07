@@ -4,7 +4,7 @@ type SelectedTutorSchemaType = {
   tutorId: mongoose.Types.ObjectId;
   createdSessionId: mongoose.Types.ObjectId;
   order: number;
-  invitationStatus: "WAITING" | "SEND" | "ACCEPT" | "DECLINE";
+  invitationStatus: "WAITING" | "SEND" | "ACCEPTED" | "DECLINED";
 };
 
 const SelectedTutorSchema = new Schema(
@@ -14,7 +14,7 @@ const SelectedTutorSchema = new Schema(
     order: { type: Number, required: true },
     invitationStatus: {
       type: String,
-      enum: ["WAITING", "SEND", "ACCEPT", "DECLINE"],
+      enum: ["WAITING", "SEND", "ACCEPTED", "DECLINED"],
       default: "WAITING",
       required: true,
     },

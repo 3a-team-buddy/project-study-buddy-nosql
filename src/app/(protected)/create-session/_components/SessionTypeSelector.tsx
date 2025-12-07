@@ -25,8 +25,6 @@ export const SessionTypeSelector = ({
   const [tutorLedInputValue, setTutorLedInputValue] = useState<string>("");
   const { teachers } = useTeacher();
 
-  console.log({ selectedTutors }, "ORDERADDDED");
-
   const handleChangeSessionType = (value: string) => {
     setSelectedSessionType(value);
   };

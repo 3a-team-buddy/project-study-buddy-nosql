@@ -9,7 +9,8 @@ export async function POST(request: NextRequest) {
 
   const { sessionId } = await request.json();
 
-  const session = await Session.findById({ _id: sessionId });
+  const session = await Session.findById(sessionId);
+  console.log({ session }, "SESSSSSION");
 
   const nextTutor = await SelectedTutor.findOne({
     createdSessionId: sessionId,
@@ -17,6 +18,7 @@ export async function POST(request: NextRequest) {
   })
     .populate("tutorId")
     .sort({ order: 1 });
+  console.log({ nextTutor }, "NEXTNEXTTUTOR");
 
   if (!nextTutor) {
     return NextResponse.json({
