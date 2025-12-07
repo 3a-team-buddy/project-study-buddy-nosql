@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
   const decline = `${process.env.NEXT_PUBLIC_BASE_URL}/api/tutor-response?sessionId=${sessionId}&tutorId=${nextTutor._id}&response=decline`;
 
   await transporter.sendMail({
-    from: `"Study Buddy" ${process.env.EMAIL_USER}`,
+    from: "Study Buddy <oyunmyagmar.g@gmail.com>",
     to: nextTutor.tutorId.mockUserEmail,
     subject: "Tutor Invitation",
     html: `
