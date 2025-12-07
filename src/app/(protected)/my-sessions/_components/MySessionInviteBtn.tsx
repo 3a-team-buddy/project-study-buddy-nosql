@@ -58,7 +58,7 @@ export function MySessionInviteBtn() {
               </Label>
               <Input
                 id="link"
-                defaultValue="http://localhost:3000/create-session"
+                defaultValue={`${process.env.NEXT_PUBLIC_BASE_URL}/create-session`}
                 readOnly
               />
             </div>
