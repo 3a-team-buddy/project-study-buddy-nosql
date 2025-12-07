@@ -2,11 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useSession } from "./use-session";
-import { ablyClient } from "@/lib/ably";
 import { CreateSessionType } from "@/lib/types";
 import { useAuth } from "@clerk/nextjs";
 import { toast } from "sonner";
-import type * as Ably from "ably";
 
 export const useJoinedSession = () => {
   const { getToken } = useAuth();
