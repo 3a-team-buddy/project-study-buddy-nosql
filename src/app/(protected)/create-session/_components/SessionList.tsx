@@ -19,8 +19,8 @@ export const SessionList = () => {
       {isLoading ? (
         <SessionListSkeleton />
       ) : allSessions.length === 0 ? (
-        <div className="rounded-2xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl text-white text-sm opacity-70  text-center">
-          No sessions created yet.
+        <div className="rounded-2xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl text-sm opacity-70 text-center">
+          No sessions created yet - create one to get started!
         </div>
       ) : (
         <div className="flex flex-col gap-3">

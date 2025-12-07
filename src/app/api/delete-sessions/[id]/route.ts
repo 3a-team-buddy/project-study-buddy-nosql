@@ -24,7 +24,10 @@ export async function DELETE(
     const session = await Session.findById(id);
 
     if (!session) {
-      return NextResponse.json({ error: "Session not found" }, { status: 404 });
+      return NextResponse.json(
+        { message: "Session not found" },
+        { status: 404 }
+      );
     }
 
     const userIdFromMongo = await MockUser.findOne({

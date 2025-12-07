@@ -29,7 +29,7 @@ export async function GET() {
 
   const foundOtherSessions = await Session.find({
     creatorId: { $ne: foundUserId },
-    studentCount: { $ne: foundUserId },
+    studentCount: { $nin: [foundUserId.toString()] },
   });
 
   if (!foundOtherSessions) {

@@ -27,7 +27,10 @@ export async function GET() {
   }
   const foundUserId = foundUser._id;
 
-  const foundJoinedSessions = await Session.find({ studentCount: foundUserId });
+  const foundJoinedSessions = await Session.find({
+    studentCount: foundUserId.toString(),
+    creatorId: { $ne: foundUserId },
+  });
 
   if (!foundJoinedSessions) {
     return NextResponse.json(

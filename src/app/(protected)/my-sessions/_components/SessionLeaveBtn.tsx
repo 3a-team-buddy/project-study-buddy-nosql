@@ -6,7 +6,7 @@ import { CreateSessionType } from "@/lib/types";
 import { useAuth } from "@clerk/nextjs";
 import { toast } from "sonner";
 
-export const SessionDeleteBtn = ({
+export const SessionLeaveBtn = ({
   session,
 }: {
   session: CreateSessionType;
@@ -14,13 +14,13 @@ export const SessionDeleteBtn = ({
   const { getToken } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
 
-  async function deleteSession(id: string) {
-    if (confirm("Are you sure you want to delete this session?")) {
+  const leaveSession = async (id: string) => {
+    if (confirm("Are you sure you want to leave this session?")) {
       setLoading(true);
 
       const token = await getToken();
 
-      const result = await fetch(`/api/delete-sessions/${id}`, {
+      const response = await fetch(`/api/leave-session/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -28,25 +28,23 @@ export const SessionDeleteBtn = ({
         },
       });
 
-      if (!result.ok) {
-        toast.error("Failed to delete study session!");
+      if (!response) {
+        toast.error("Failed to leave the session!");
       }
 
-      toast.success("Study session deleted");
+      toast.success("You left the session");
       setLoading(false);
     }
-  }
+  };
 
   return (
-    <div className="w-fit flex gap-2">
-      <Button
-        disabled={loading}
-        variant={"destructive"}
-        className="w-full rounded-full cursor-pointer"
-        onClick={() => deleteSession(session._id)}
-      >
-        Delete Session
-      </Button>
-    </div>
+    <Button
+      disabled={loading}
+      variant={"destructive"}
+      onClick={() => leaveSession(session._id)}
+      className="w-full rounded-full cursor-pointer"
+    >
+      Leave Session
+    </Button>
   );
 };
