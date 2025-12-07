@@ -1,9 +1,7 @@
 "use client";
 
 import React from "react";
-import { useSession } from "@/app/_hooks/use-session";
 import { CreateSessionType } from "@/lib/types";
-import { useRouter } from "next/navigation";
 import { InviteBtnDialog, JoinBtn } from "../../create-session/_components";
 import { Button } from "@/components/ui";
 

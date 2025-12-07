@@ -1,4 +1,3 @@
-// import { EmailTemplateLink } from "@/app/(protected)/create-session/_components/EmailTemplate";
 // import { NextRequest, NextResponse } from "next/server";
 
 // export async function POST(req: NextRequest) {
@@ -14,7 +13,6 @@
 
 //       to: emails,
 //       subject: "Study Session Invitation",
-//       react: EmailTemplateLink({ link }), // ✔️ FIXED
 //     });
 
 //     if (error) {
