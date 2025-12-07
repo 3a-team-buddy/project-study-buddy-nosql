@@ -1,70 +1,68 @@
-"use client";
+// "use client";
 
-import { useSession } from "@/app/_hooks/use-session";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import React from "react";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { SessionInfoDialog } from "@/app/(protected)/create-session/_components/SessionInfoDialog";
-import { Skeleton } from "@/components/ui/skeleton";
-import { MySessionInviteBtn } from "./MySessionInviteBtn";
+// import { useSession } from "@/app/_hooks/use-session";
+// import {
+//   Dialog,
+//   DialogContent,
+//   DialogTrigger,
+//   DialogTitle,
+// } from "@/components/ui/dialog";
+// import React from "react";
+// import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+// import { SessionInfoDialog } from "@/app/(protected)/create-session/_components/SessionInfoDialog";
+// import { Skeleton } from "@/components/ui/skeleton";
 
-interface SessionCardProps {
-  showJoin?: boolean;
-}
+// interface SessionCardProps {
+//   showJoin?: boolean;
+// }
 
-const MoreSessionCard: React.FC<SessionCardProps> = ({ showJoin = false }) => {
-  const { allSessions, isLoading } = useSession();
+// const MoreSessionCard: React.FC<SessionCardProps> = ({ showJoin = false }) => {
+//   const { allSessions, isLoading } = useSession();
 
-  return (
-    <div className="flex flex-col gap-3">
-      {isLoading ? (
-        <div className="flex flex-col gap-3">
-          {[1, 2, 3].map((i) => (
-            <Skeleton
-              key={i}
-              className="max-w-138 h-14 rounded-xl opacity-10"
-            />
-          ))}
-        </div>
-      ) : (
-        <div className="flex flex-col gap-3">
-          {allSessions.map((session) => (
-            <div key={session._id}>
-              <div className="w-full rounded-xl px-6 py-4 bg-linear-to-b from-[#1E2648] to-[#122136] flex justify-between items-center">
-                <Dialog>
-                  <DialogTrigger>
-                    <h3 className="text-white font-semibold">
-                      {session.sessionTopicTitle}
-                    </h3>
-                  </DialogTrigger>
-                  <DialogContent className="p-0 bg-transparent">
-                    <VisuallyHidden>
-                      <DialogTitle />
-                    </VisuallyHidden>
-                    <SessionInfoDialog session={session} />
-                  </DialogContent>
-                </Dialog>
+//   return (
+//     <div className="flex flex-col gap-3">
+//       {isLoading ? (
+//         <div className="flex flex-col gap-3">
+//           {[1, 2, 3].map((i) => (
+//             <Skeleton
+//               key={i}
+//               className="max-w-138 h-14 rounded-xl opacity-10"
+//             />
+//           ))}
+//         </div>
+//       ) : (
+//         <div className="flex flex-col gap-3">
+//           {allSessions.map((session) => (
+//             <div key={session._id}>
+//               <div className="w-full rounded-xl px-6 py-4 bg-linear-to-b from-[#1E2648] to-[#122136] flex justify-between items-center">
+//                 <Dialog>
+//                   <DialogTrigger>
+//                     <h3 className="text-white font-semibold">
+//                       {session.sessionTopicTitle}
+//                     </h3>
+//                   </DialogTrigger>
+//                   <DialogContent className="p-0 bg-transparent">
+//                     <VisuallyHidden>
+//                       <DialogTitle />
+//                     </VisuallyHidden>
+//                     <SessionInfoDialog session={session} />
+//                   </DialogContent>
+//                 </Dialog>
 
-                <div className="flex items-center gap-4">
-                  {!showJoin && (
-                    <button className="text-xs bg-blue-600 text-white px-2 py-1 rounded-md">
-                      1/{session.maxMember} JOIN
-                    </button>
-                  )}
-                  <MySessionInviteBtn />
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
+//                 <div className="flex items-center gap-4">
+//                   {!showJoin && (
+//                     <button className="text-xs bg-blue-600 text-white px-2 py-1 rounded-md">
+//                       1/{session.maxMember} JOIN
+//                     </button>
+//                   )}
+//                 </div>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
 
-export default MoreSessionCard;
+// export default MoreSessionCard;
