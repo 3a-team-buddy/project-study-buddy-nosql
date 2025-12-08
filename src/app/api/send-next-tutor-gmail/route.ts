@@ -46,6 +46,7 @@ export async function POST(request: NextRequest) {
     <p>Session: <strong>${session.sessionTopicTitle}</strong></p>
     <p>Date: <strong>${session.value}</strong></p>
     <p>Time: <strong>${session.time}</strong></p>
+    <p>Time:</p>
     <p>Please select an option:</p>
     <a href="${accept}">ACCEPT</a> 
     <a href="${decline}">DECLINE</a>
