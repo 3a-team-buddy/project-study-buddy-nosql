@@ -14,9 +14,9 @@ export async function GET(request: NextRequest) {
   const tutorId = url.searchParams.get("tutorId");
   const response = url.searchParams.get("response")?.toLowerCase();
 
-  console.log({ sessionId }, "SESSION ID ");
-  console.log({ tutorId }, "TUTOR ID");
-  console.log({ response }, "TUROR RESPONSE");
+  // console.log({ sessionId }, "sessionId");
+  // console.log({ tutorId }, "tutorId");
+  // console.log({ response }, "response");
 
   if (!sessionId || !tutorId || !response) {
     return NextResponse.json(
@@ -28,8 +28,8 @@ export async function GET(request: NextRequest) {
   const session = await Session.findById(sessionId);
   const tutor = await SelectedTutor.findById(tutorId).populate("tutorId");
 
-  console.log({ session }, "SES");
-  console.log({ tutor }, "TUT");
+  // console.log({ session }, "SES");
+  // console.log({ tutor }, "TUT");
 
   if (!session || !tutor) {
     return NextResponse.json(
@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  console.log(tutor.invitationStatus, "TUROR INVITATION STATUS");
+  // console.log(tutor.invitationStatus, "TUTOR INVITATION STATUS");
 
   if (response === "accept") {
     tutor.invitationStatus = "ACCEPTED";
@@ -60,8 +60,8 @@ export async function GET(request: NextRequest) {
     session.assignedTutor = tutor.tutorId._id;
     await session.save();
 
-    console.log({ tutor }, "AFTER CHANGE");
-    console.log({ session }, "AFTERCHANGE");
+    // console.log({ tutor }, "AFTER CHANGE");
+    // console.log({ session }, "AFTER CHANGE");
 
     await transporter.sendMail({
       from: "Study Buddy <oyunmyagmar.g@gmail.com>",

@@ -44,16 +44,28 @@ export async function POST(request: NextRequest) {
   await transporter.sendMail({
     from: "Study Buddy <oyunmyagmar.g@gmail.com>",
     to: nextTutor.tutorId.mockUserEmail,
-    subject: "Tutor Invitation",
+    subject: "Tutor Invitation - Study Buddy",
     html: `
-    <h2>Study Buddy Tutor Invitation</h2>
-    <p>Session: <strong>${session.sessionTopicTitle}</strong></p>
-    <p>Date: <strong>${session.value}</strong></p>
-    <p>Time: <strong>${session.time}</strong></p>
-    <p>Time:</p>
-    <p>Please select an option:</p>
-    <a href="${accept}">ACCEPT</a> 
-    <a href="${decline}">DECLINE</a>
+    <div style="padding: 20px; line-height: 1.5; color: #333;">
+    <p>Hello, </p>
+
+    <p>You have been invited to be a tutor for the following study session:</p>
+
+    <p><strong>Session title:</strong> ${session.sessionTopicTitle}</p>
+    <p><strong>Description:</strong> ${session.description}</p>
+    <p><strong>Date:</strong> ${session.value}</p>
+    <p><strong>Time:</strong> ${session.time}</p>
+    <p><strong>Joined students:</strong> ${session.studentCount?.length} / ${session.maxMember}</p>
+
+    <p>Please select an option below:</p>
+
+    <div style="margin-top: 20px;">
+    <a href="${accept}" style="background: #4CAF50; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px; margin-right: 10px;">Accept</a> 
+    <a href="${decline}" style="background: #d9534f; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px;">Decline</a>
+    </div>
+    
+    <p style="margin-top: 25px;">Thank you, <br/>Study Buddy Team</p>
+  </div>
     `,
   });
 
