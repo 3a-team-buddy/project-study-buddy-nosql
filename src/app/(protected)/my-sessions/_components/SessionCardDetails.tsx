@@ -2,35 +2,24 @@
 
 import React from "react";
 import { Button, Separator } from "@/components/ui";
-import { CreateSessionType } from "@/lib/types";
-import { useAuth } from "@clerk/nextjs";
+import { CreateSessionType, JoinedStudentType } from "@/lib/types";
 import {
+  JoinBtn,
   ParticipantsList,
   SessionDetails,
 } from "../../create-session/_components";
 import { SessionDeleteBtn } from "./SessionDeleteBtn";
+import { SessionLeaveBtn } from "./SessionLeaveBtn";
 
 export const SessionCardDetails = ({
   session,
   selectedType,
+  joinedStudents,
 }: {
   session: CreateSessionType;
   selectedType: "created" | "joined" | "other" | undefined;
+  joinedStudents: JoinedStudentType[];
 }) => {
-  const { getToken } = useAuth();
-
-  const leaveSession = async (id: string) => {
-    const token = await getToken();
-
-    await fetch(`/api/leave-session/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  };
-
   return (
     <div className="flex flex-col gap-10">
       <div className="flex flex-col gap-3">
@@ -47,7 +36,7 @@ export const SessionCardDetails = ({
 
       <div className="flex flex-col gap-2">
         <Separator className="bg-gray-800" />
-        <ParticipantsList session={session} />
+        <ParticipantsList session={session} joinedStudents={joinedStudents} />
       </div>
 
       {selectedType === "created" ? (
@@ -58,23 +47,15 @@ export const SessionCardDetails = ({
           >
             Edit
           </Button>
-          {/* <Button variant={"destructive"} className="w-full cursor-pointer">
-            Delete Session
-          </Button> */}
+
           <div>
             <SessionDeleteBtn session={session} />
           </div>
         </div>
       ) : selectedType === "joined" ? (
-        <Button
-          variant={"destructive"}
-          onClick={() => leaveSession(session._id)}
-          className="w-full cursor-pointer"
-        >
-          Leave Session
-        </Button>
+        <SessionLeaveBtn session={session} />
       ) : (
-        <Button className="w-full bg-[#2563EB]">Join</Button>
+        <JoinBtn session={session} />
       )}
     </div>
   );

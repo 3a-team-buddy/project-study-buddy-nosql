@@ -1,0 +1,77 @@
+import connectDB from "@/lib/mongodb";
+import { checkAuth } from "../check-create-user/route";
+import { NextResponse } from "next/server";
+import { MockUser } from "@/lib/models/MockUser";
+import { Session } from "@/lib/models/Session";
+import { getAllSessions } from "@/lib/services/create-session-service";
+import Ably from "ably";
+
+export async function GET() {
+  try {
+    await connectDB();
+
+    const result = await checkAuth();
+
+    if (!result) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const { userClerkId } = result;
+
+    const user = await MockUser.findOne(
+      { mockUserClerkId: userClerkId },
+      "_id"
+    );
+
+    if (!user) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
+
+    const userId = user._id;
+
+    const createdSessions = await Session.find({ creatorId: userId }).lean();
+
+    const joinedSessions = await Session.find({
+      studentCount: userId.toString(),
+      creatorId: { $ne: userId },
+    });
+
+    const otherSessions = await Session.find({
+      creatorId: { $ne: userId },
+      studentCount: { $nin: [userId.toString()] },
+    });
+
+    const allSessions = await getAllSessions();
+
+    if (!createdSessions || !joinedSessions || !otherSessions || !allSessions) {
+      return NextResponse.json(
+        { message: "No sessions found!" },
+        { status: 404 }
+      );
+    }
+
+    const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
+    const channels = ably.channels.get("sessions");
+
+    await channels.publish("session-updated", {
+      userId: userId.toString(),
+      timestamp: Date.now(),
+    });
+
+    return NextResponse.json(
+      {
+        createdSessions,
+        joinedSessions,
+        otherSessions,
+        allSessions,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { message: "Server error", error },
+      { status: 500 }
+    );
+  }
+}

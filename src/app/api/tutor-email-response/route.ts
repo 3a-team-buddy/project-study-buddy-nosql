@@ -57,7 +57,7 @@ export async function GET(request: NextRequest) {
     await session.save();
 
     await transporter.sendMail({
-      from: `"Study Buddy" ${process.env.EMAIL_USER}`,
+      from: "Study Buddy <oyunmyagmar.g@gmail.com>",
       to: tutor.tutorId.mockUserEmail,
       subject: "Tutor Assignment Confirmed",
       html: `<p>You have accepted the session!</p>
@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
     await Promise.all(
       students.map((student) =>
         transporter.sendMail({
-          from: `"Study Buddy" ${process.env.EMAIL_USER}`,
+          from: "Study Buddy <oyunmyagmar.g@gmail.com>",
           to: student.mockUserEmail,
           subject: "Your Session is Confrimed",
           html: `<p>Your session has been confirmed and a tutor accepted.</p>`,
@@ -93,7 +93,7 @@ export async function GET(request: NextRequest) {
   await tutor.save();
 
   const nextTutorResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/send-next-tutor-email`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/send-next-tutor-gmail`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -107,7 +107,7 @@ export async function GET(request: NextRequest) {
     const creator = await MockUser.findById(session.creatorId, "mockUserEmail");
 
     await transporter.sendMail({
-      from: `"Study Buddy" ${process.env.EMAIL_USER}`,
+      from: "Study Buddy <oyunmyagmar.g@gmail.com>",
       to: creator.mockUserEmail,
       subject: "All Tutors Declined Your Session",
       html: `<p>All tutors declined your session.</p>

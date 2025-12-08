@@ -13,14 +13,17 @@ export const SessionDetails = ({ session }: { session: CreateSessionType }) => {
 
       <div className="space-y-2 text-white/60 text-sm">
         <p className="flex items-center gap-2">
-          <FiCalendar /> Date: {session.value}
+          <FiCalendar /> Date:
+          <span className="font-semibold text-purple-300">{session.value}</span>
         </p>
-        <p className="flex items-center gap-2 text-sm">
-          <FiClock /> Start time: {session.time} (1 hour)
+        <p className="flex items-center gap-2">
+          <FiClock /> Start time:{" "}
+          <span className="font-semibold text-purple-300">{session.time}</span>{" "}
+          (1 hour)
         </p>
-        <p className="flex items-center gap-2 text-sm">
+        <p className="flex items-center gap-2">
           <FiUser /> Session type:
-          <span className="text-purple-300 font-medium">
+          <span className="text-purple-300 font-semibold">
             {session.selectedSessionType}
           </span>
         </p>

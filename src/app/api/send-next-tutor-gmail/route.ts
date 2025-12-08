@@ -34,11 +34,11 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const accept = `${process.env.NEXT_PUBLIC_BASE_URL}/api/tutor-response?sessionId=${sessionId}&tutorId=${nextTutor._id}&response=accept`;
-  const decline = `${process.env.NEXT_PUBLIC_BASE_URL}/api/tutor-response?sessionId=${sessionId}&tutorId=${nextTutor._id}&response=decline`;
+  const accept = `${process.env.NEXT_PUBLIC_BASE_URL}/api/tutor-email-response?sessionId=${sessionId}&tutorId=${nextTutor._id}&response=accept`;
+  const decline = `${process.env.NEXT_PUBLIC_BASE_URL}/api/tutor-email-response?sessionId=${sessionId}&tutorId=${nextTutor._id}&response=decline`;
 
   await transporter.sendMail({
-    from: `"Study Buddy" ${process.env.EMAIL_USER}`,
+    from: "Study Buddy <oyunmyagmar.g@gmail.com>",
     to: nextTutor.tutorId.mockUserEmail,
     subject: "Tutor Invitation",
     html: `
@@ -46,6 +46,7 @@ export async function POST(request: NextRequest) {
     <p>Session: <strong>${session.sessionTopicTitle}</strong></p>
     <p>Date: <strong>${session.value}</strong></p>
     <p>Time: <strong>${session.time}</strong></p>
+    <p>Time:</p>
     <p>Please select an option:</p>
     <a href="${accept}">ACCEPT</a> 
     <a href="${decline}">DECLINE</a>

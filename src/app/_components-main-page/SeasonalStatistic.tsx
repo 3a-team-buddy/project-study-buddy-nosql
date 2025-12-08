@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 
-export default function SeasonalStatistic() {
+export const SeasonalStatistic = () => {
   return (
     <Card className="bg-[#092B4F66] text-white rounded-2xl p-4 shadow-xl border-none">
       <CardContent className="p-0">
@@ -69,4 +69,4 @@ export default function SeasonalStatistic() {
       </CardContent>
     </Card>
   );
-}
+};

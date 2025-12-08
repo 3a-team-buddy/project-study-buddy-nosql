@@ -1,7 +1,7 @@
+import Ably from "ably";
 import connectDB from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 import { JoinedStudent } from "@/lib/models/JoinedStudent";
-import mongoose from "mongoose";
 import { MockUser } from "@/lib/models/MockUser";
 import { Session } from "@/lib/models/Session";
 import { checkAuth } from "../../check-create-user/route";
@@ -36,29 +36,41 @@ export async function DELETE(
   const { id } = await params;
 
   const foundSession = await Session.findOne({ _id: id }, "_id");
-  const foundSessionId = foundSession._id;
-  console.log({ foundSessionId });
 
-  const deletedFromJoinedStudent = await JoinedStudent.findOneAndDelete({
+  if (!foundSession) {
+    return NextResponse.json({ message: "Session not found" }, { status: 404 });
+  }
+
+  const foundSessionId = foundSession._id;
+
+  const removedFromJoinedStudent = await JoinedStudent.findOneAndDelete({
     studentId: foundUserId,
     sessionId: foundSessionId,
   });
-  console.log({ deletedFromJoinedStudent });
-  if (!deletedFromJoinedStudent) {
+
+  if (!removedFromJoinedStudent) {
     return NextResponse.json(
-      { message: "Error while deleting" },
+      { message: "You were not joined in this session" },
       { status: 404 }
     );
   }
 
-  const removedStudentSession = await Session.findByIdAndUpdate(
+  await Session.findByIdAndUpdate(
     foundSessionId,
-    { $pull: { studentCount: foundUserId } },
+    { $pull: { studentCount: foundUserId.toString() } },
     { new: true }
   );
-  console.log({ removedStudentSession });
-  return NextResponse.json({
-    message: "Left session successfully",
-    data: removedStudentSession,
+
+  const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
+  await ably.channels.get("sessions").publish("student-removed", {
+    sessionId: foundSessionId,
+    userId: foundUserId.toString(),
   });
+
+  return NextResponse.json(
+    {
+      message: "Left the session successfully",
+    },
+    { status: 200 }
+  );
 }

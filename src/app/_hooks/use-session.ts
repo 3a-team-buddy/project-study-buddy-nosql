@@ -61,7 +61,7 @@ export const useSession = () => {
     };
 
     const handleRemoved = (message: Ably.Message) => {
-      if (message.name === "student-removed") return;
+      if (message.name !== "student-removed") return;
 
       const { sessionId, userId } = message.data;
 
@@ -79,14 +79,26 @@ export const useSession = () => {
       );
     };
 
+    const handleDeleted = (message: Ably.Message) => {
+      if (message.name !== "session-deleted") return;
+
+      const { sessionId } = message.data;
+
+      setAllSessions((prev) =>
+        prev.filter((session) => session._id !== sessionId)
+      );
+    };
+
     channel.subscribe("session-created", handleCreated);
     channel.subscribe("session-joined", handleJoined);
     channel.subscribe("student-removed", handleRemoved);
+    channel.subscribe("session-deleted", handleDeleted);
 
     return () => {
       channel.unsubscribe("session-created", handleCreated);
       channel.unsubscribe("session-joined", handleJoined);
       channel.unsubscribe("student-removed", handleRemoved);
+      channel.unsubscribe("session-deleted", handleDeleted);
     };
   }, []);
 

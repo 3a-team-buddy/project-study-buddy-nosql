@@ -2,7 +2,6 @@ import connectDB from "../mongodb";
 import { SelectedTutor } from "../models/SelectedTutor";
 import { SelectedTutorType } from "../types";
 import { MockUser } from "../models/MockUser";
-import { NextResponse } from "next/server";
 
 export const getAllSelectedTutors = async (sessionId: string) => {
   await connectDB();
