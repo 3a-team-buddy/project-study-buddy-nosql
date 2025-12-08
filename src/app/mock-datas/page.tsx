@@ -11,8 +11,6 @@ const MockDatasPage = () => {
       <CreateMockTopic setLoading={setLoading} loading={loading} />
 
       <CreateMockUser setLoading={setLoading} loading={loading} />
-
-      <div>Test</div>
     </div>
   );
 };

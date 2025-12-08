@@ -26,7 +26,7 @@ export const ParticipantsList = ({
           variant={"secondary"}
           className="rounded-full font-semibold text-[#2563EB] hover:text-white bg-black/20 hover:bg-[#2563EB] border border-[#2563EB] hover:border-[#2563EB]"
         >
-          {session.studentCount.length}
+          {session.studentCount?.length}
           <span>/ {session.maxMember}</span>
         </Button>
       </div>

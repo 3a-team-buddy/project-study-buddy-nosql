@@ -24,12 +24,16 @@ export async function GET(request: NextRequest) {
       { status: 400 }
     );
   }
+
   const session = await Session.findById(sessionId);
   const tutor = await SelectedTutor.findById(tutorId).populate("tutorId");
 
+  console.log({ session }, "SES");
+  console.log({ tutor }, "TUT");
+
   if (!session || !tutor) {
     return NextResponse.json(
-      { message: "Session or tutor not found!" },
+      { message: "Session or Tutor not found!" },
       { status: 404 }
     );
   }
@@ -49,12 +53,15 @@ export async function GET(request: NextRequest) {
   console.log(tutor.invitationStatus, "TUROR INVITATION STATUS");
 
   if (response === "accept") {
-    tutor.invitationStatus === "ACCEPTED";
+    tutor.invitationStatus = "ACCEPTED";
     await tutor.save();
 
     session.status = "ACCEPTED";
     session.assignedTutor = tutor.tutorId._id;
     await session.save();
+
+    console.log({ tutor }, "AFTER CHANGE");
+    console.log({ session }, "AFTERCHANGE");
 
     await transporter.sendMail({
       from: "Study Buddy <oyunmyagmar.g@gmail.com>",
@@ -89,8 +96,13 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  tutor.invitationStatus === "DECLINED";
-  await tutor.save();
+  tutor.invitationStatus = "DECLINED";
+  try {
+    await tutor.save();
+    console.log("Tutor updated OK");
+  } catch (error) {
+    console.error("Tutor update failed!", error);
+  }
 
   const nextTutorResponse = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/send-next-tutor-gmail`,

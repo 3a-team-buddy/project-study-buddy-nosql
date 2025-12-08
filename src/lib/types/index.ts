@@ -4,6 +4,17 @@ export type MockTopicType = {
   mockDescription: string;
 };
 
+export type MockUserType = {
+  _id: string;
+  mockUserClerkId?: string;
+  mockUserName: string;
+  mockUserEmail: string;
+  mockUserImage: string;
+  mockUserStatus: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
 export type SelectedTutorType = {
   mockUserEmail: string;
   order: number;
@@ -19,26 +30,29 @@ export type CreateSessionType = {
   time: string;
   selectedSessionType: string;
   creatorId: MockUserType;
-  studentCount: string[];
+  studentCount?: string[];
   status: string;
   assignedTutor?: MockUserType;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type JoinedStudentType = {
   _id: string;
   studentId: MockUserType;
   sessionId: CreateSessionType;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
-export type MockUserType = {
+export type SelectedTutorDBType = {
   _id: string;
-  mockUserClerkId?: string;
-  mockUserName: string;
-  mockUserEmail: string;
-  mockUserImage: string;
-  mockUserStatus: string;
+  tutorId: MockUserType;
+  createdSessionId: CreateSessionType;
+  order: number;
+  invitationStatus: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type SelectedTutorEmailType = {
