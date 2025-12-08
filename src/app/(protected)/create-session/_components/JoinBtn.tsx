@@ -9,7 +9,7 @@ import { useAuth } from "@clerk/nextjs";
 export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
   const [emailSent, setEmailSent] = useState(false);
   const { getToken } = useAuth();
-
+  console.log({ session });
   const joinedStudentHandler = async (sessionId: string) => {
     const token = await getToken();
 
@@ -36,7 +36,6 @@ export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
     );
     const { updatedSession } = await joinResponse.json();
     const updatedStudentCount = updatedSession.studentCount.length;
-    // router.push("/my-sessions");
 
     //tutor-led
     if (
