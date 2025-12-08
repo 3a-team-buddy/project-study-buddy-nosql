@@ -1,32 +1,51 @@
 "use client";
 
-import React from "react";
-import { CreateSessionType } from "@/lib/types";
+import React, { useState } from "react";
+import { CreateSessionType, JoinedStudentType } from "@/lib/types";
 import { InviteBtnDialog, JoinBtn } from "../../create-session/_components";
 import { Button } from "@/components/ui";
 
+import { SessionCardDetails } from "../../my-sessions/_components/SessionCardDetails";
+
 export const SessionCard = ({
   session,
-  handleSessionId,
   sessionListType,
 }: {
   session: CreateSessionType;
-  handleSessionId: () => void;
   sessionListType: "created" | "joined" | "other";
 }) => {
+  const [open, setOpen] = useState<boolean>(false);
+  const [joinedStudents, setJoinedStudents] = useState<JoinedStudentType[]>([]);
+
+  const handleSessionCardDetail = async () => {
+    setOpen(!open);
+
+    if (!open) {
+      const result = await fetch("/api/get-joined-students", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId: session._id }),
+      });
+
+      const { data } = await result.json();
+      setJoinedStudents(data);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-3 hover:cursor-pointer">
       <div key={session._id}>
-        <div className="w-full rounded-xl px-6 py-4 bg-linear-to-b from-[#1E2648] to-[#122136] flex gap-3 justify-between items-center">
-          <Button
-            onClick={handleSessionId}
-            variant={"ghost"}
-            className="flex-1 justify-start text-xl hover:text-white/80 font-semibold hover:bg-accent/5 cursor-pointer rounded-full"
-          >
-            {session.sessionTopicTitle}
-          </Button>
-
-          <div className="flex items-center gap-4">
+        <div className="w-full rounded-xl px-6 py-4 bg-linear-to-b from-[#1E2648] to-[#122136] flex gap-3 justify-between items-center relative ">
+          <div className="flex flex-col gap-3">
+            <Button
+              onClick={handleSessionCardDetail}
+              variant={"ghost"}
+              className="hover:bg-gray-600 hover:text-white rounded-full"
+            >
+              {session.sessionTopicTitle}
+            </Button>
+          </div>
+          <div className="flex gap-4 items-center">
             {(sessionListType === "created" ||
               sessionListType === "joined") && (
               <span
@@ -39,12 +58,21 @@ export const SessionCard = ({
                 }`}
               >
                 {session.status && session.status.toLowerCase()}
+                <JoinBtn session={session} />
               </span>
             )}
+
             {sessionListType === "other" && <JoinBtn session={session} />}
             <InviteBtnDialog />
           </div>
         </div>
+        {open && (
+          <SessionCardDetails
+            session={session}
+            sessionListType={sessionListType}
+            joinedStudents={joinedStudents}
+          />
+        )}
       </div>
     </div>
   );

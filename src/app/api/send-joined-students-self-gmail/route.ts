@@ -3,9 +3,9 @@ import { JoinedStudent } from "@/lib/models/JoinedStudent";
 import { MockUser } from "@/lib/models/MockUser";
 import { Session } from "@/lib/models/Session";
 import connectDB from "@/lib/mongodb";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: NextResponse) {
+export async function POST(request: NextRequest) {
   await connectDB();
 
   const { sessionId } = await request.json();

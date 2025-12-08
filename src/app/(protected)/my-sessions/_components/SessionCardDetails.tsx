@@ -13,15 +13,15 @@ import { SessionLeaveBtn } from "./SessionLeaveBtn";
 
 export const SessionCardDetails = ({
   session,
-  selectedType,
+  sessionListType,
   joinedStudents,
 }: {
   session: CreateSessionType;
-  selectedType: "created" | "joined" | "other" | undefined;
+  sessionListType: "created" | "joined" | "other" | undefined;
   joinedStudents: JoinedStudentType[];
 }) => {
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-10 p-5 bg-linear-to-b from-[#1E2648]/50 to-[#122136]/50 rounded-xl mt-3">
       <div className="flex flex-col gap-3">
         <h2 className="text-2xl leading-7 font-semibold">
           {session.sessionTopicTitle}
@@ -39,7 +39,7 @@ export const SessionCardDetails = ({
         <ParticipantsList session={session} joinedStudents={joinedStudents} />
       </div>
 
-      {selectedType === "created" ? (
+      {sessionListType === "created" ? (
         <div className="w-fit flex gap-2 justify-between">
           <Button
             variant={"secondary"}
@@ -52,7 +52,7 @@ export const SessionCardDetails = ({
             <SessionDeleteBtn session={session} />
           </div>
         </div>
-      ) : selectedType === "joined" ? (
+      ) : sessionListType === "joined" ? (
         <SessionLeaveBtn session={session} />
       ) : (
         <JoinBtn session={session} />

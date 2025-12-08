@@ -1,18 +1,15 @@
-"use client";
-
-import React, { useState } from "react";
-import { Label } from "@/components/ui";
-import { useJoinedSession } from "@/app/_hooks/use-joined-session";
 import { useCreatedSession } from "@/app/_hooks/use-created-session";
-import { useSession } from "@/app/_hooks/use-session";
+import { useJoinedSession } from "@/app/_hooks/use-joined-session";
 import { useOtherSession } from "@/app/_hooks/use-other-session";
-import { SessionCard } from "./_components/SessionCard";
-import { SessionCardDetails } from "./_components/SessionCardDetails";
-import { SessionListSkeleton } from "../create-session/_components";
+import { useSession } from "@/app/_hooks/use-session";
 import { JoinedStudentType } from "@/lib/types";
+import React, { useState } from "react";
 import { toast } from "sonner";
+import { SessionListSkeleton } from "../../create-session/_components";
+import { SessionCard } from "../../my-sessions/_components/SessionCard";
+import { Accordion } from "@/components/ui/accordion";
 
-const MySessionPage = () => {
+const SessionListComp = () => {
   const { joinedSessions } = useJoinedSession();
   const { createdSessions } = useCreatedSession();
   const { otherSessions } = useOtherSession();
@@ -21,7 +18,6 @@ const MySessionPage = () => {
   const [selectedType, setSelectedType] = useState<
     "created" | "joined" | "other"
   >();
-  const [joinedStudents, setJoinedStudents] = useState<JoinedStudentType[]>([]);
 
   const filteredSession = allSessions.filter(
     (session) => session._id === selectedSessionId
@@ -31,29 +27,6 @@ const MySessionPage = () => {
     if (name === "Created Sessions") return "created";
     if (name === "Joined Sessions") return "joined";
     return "other";
-  };
-
-  const handleSessionOnClick = async (
-    sessionId: string,
-    type: "created" | "joined" | "other"
-  ) => {
-    setSelectedSessionId(sessionId);
-    setSelectedType(type);
-
-    const result = await fetch("/api/get-joined-students", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: sessionId,
-      }),
-    });
-
-    if (!result.ok) {
-      toast.error("Failed to get joined students!");
-    }
-
-    const { data } = await result.json();
-    setJoinedStudents(data);
   };
 
   const sessionLists = [
@@ -70,9 +43,8 @@ const MySessionPage = () => {
       sessions: otherSessions,
     },
   ];
-
   return (
-    <div className="w-full min-h-screen flex gap-8 py-10 text-white">
+    <div>
       <div className="flex-1">
         <div className="flex flex-col gap-10">
           {sessionLists.map((sessionList) => (
@@ -109,9 +81,8 @@ const MySessionPage = () => {
           ))}
         </div>
       </div>
-      å
     </div>
   );
 };
 
-export default MySessionPage;
+export default SessionListComp;
