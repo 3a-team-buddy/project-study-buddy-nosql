@@ -10,13 +10,6 @@ export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
   const [emailSent, setEmailSent] = useState(false);
   const { getToken } = useAuth();
 
-  // console.log(
-  //   session.sessionTopicTitle,
-  //   session.studentCount.length,
-  //   session.minMember,
-  //   "COUNCOUNTTTTTTT"
-  // );
-
   const joinedStudentHandler = async (sessionId: string) => {
     const token = await getToken();
 
@@ -45,6 +38,7 @@ export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
     const updatedStudentCount = updatedSession.studentCount.length;
     // router.push("/my-sessions");
 
+    //tutor-led
     if (
       session.selectedSessionType.toLowerCase() === "tutor-led" &&
       updatedStudentCount === session.minMember &&
@@ -61,6 +55,31 @@ export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
       }
 
       toast.success("Tutor invite email sent", {
+        description: session.sessionTopicTitle,
+      });
+      setEmailSent(true);
+    }
+
+    //self-led
+    if (
+      session.selectedSessionType.toLowerCase() === "self-led" &&
+      updatedStudentCount === session.minMember &&
+      !emailSent
+    ) {
+      const emailResponse = await fetch(
+        "/api/send-joined-students-self-gmail",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sessionId }),
+        }
+      );
+
+      if (!emailResponse.ok) {
+        toast.error("Failed to inform joined students!");
+      }
+
+      toast.success("Joined students informed by email", {
         description: session.sessionTopicTitle,
       });
       setEmailSent(true);
