@@ -127,9 +127,7 @@ export const SessionTypeSelector = ({
             </Button>
           </div>
           {selectedTutors.length > 2 && (
-            <div className="text-xs text-orange-500">
-              * You can select up to 3 tutors only
-            </div>
+            <div className="text-xs text-orange-500">* Max: 3 tutors</div>
           )}
         </div>
       )}

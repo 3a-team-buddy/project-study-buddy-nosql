@@ -25,9 +25,9 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  if (action === "delete") {
-    session.status = "DECLINED";
-    await session.deleteOne();
+  if (action === "cancel") {
+    session.status = "CANCELED";
+    await session.save();
     //notify students
     //send cancellation mails
   }

@@ -136,8 +136,8 @@ export async function GET(request: NextRequest) {
       html: `
       <p>All tutors declined your session.</p>
       <p>Choose an option:</p>
-      <a href="${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-email-response?sessionId=${session._id}&action=delete">Delete Session</a>
-      <a href="${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-email-response?sessionId=${session._id}&action=self">Convert to Self-Led Session</a>
+      <a href="${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-email-response?sessionId=${session._id}&action=cancel">Cancel Session</a>
+      <a href="${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-email-response?sessionId=${session._id}&action=self">Change to Self-Led Session</a>
 `,
     });
   }
