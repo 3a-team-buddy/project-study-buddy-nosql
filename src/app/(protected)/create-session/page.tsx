@@ -11,6 +11,7 @@ import {
   CreateSessionHeading,
 } from "./_components";
 import { SelectedTutorType } from "@/lib/types";
+import { useSession } from "@/app/_hooks/use-session";
 
 const CreateSessionPage = () => {
   const [sessionTopicTitle, setSessionTopicTitle] = useState<string>("");
@@ -21,22 +22,11 @@ const CreateSessionPage = () => {
   const n2 = new Date();
   n2.setDate(today.getDate() + 2);
   const [date, setDate] = useState<Date | undefined>();
-  const [value, setValue] = useState(formatDate(date));
+  const [value, setValue] = useState("");
   const [time, setTime] = useState<string>("");
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
-
-  function formatDate(date: Date | undefined) {
-    if (!date) {
-      return "";
-    }
-    return date.toLocaleDateString("en-US", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    });
-  }
-
+  const { allSessions } = useSession();
   console.log({ value });
   console.log({ time });
 
@@ -69,8 +59,7 @@ const CreateSessionPage = () => {
             setTime={setTime}
             date={date}
             setDate={setDate}
-            today={today}
-            formatDate={formatDate}
+            allSessions={allSessions}
           />
         </div>
         <SessionTypeSelector

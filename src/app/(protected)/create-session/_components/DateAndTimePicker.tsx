@@ -11,7 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui";
-import { useSession } from "@/app/_hooks/use-session";
+import { CreateSessionType } from "@/lib/types";
 
 export const DateAndTimePicker = ({
   value,
@@ -20,8 +20,7 @@ export const DateAndTimePicker = ({
   setTime,
   date,
   setDate,
-  today,
-  formatDate,
+  allSessions,
 }: {
   value: string;
   setValue: Dispatch<React.SetStateAction<string>>;
@@ -29,84 +28,56 @@ export const DateAndTimePicker = ({
   setTime: Dispatch<React.SetStateAction<string>>;
   date: Date | undefined;
   setDate: Dispatch<React.SetStateAction<Date | undefined>>;
-  today: Date;
-  formatDate: (date: Date | undefined) => string;
+  allSessions: CreateSessionType[];
 }) => {
+  const today = new Date();
   const tomorrow = new Date();
-  const { allSessions, isLoading } = useSession();
-  const [disabledValue, setDisabledValue] = useState(formatDate(date));
   tomorrow.setDate(today.getDate() + 1);
-  const [isWeekend, setIsWeekend] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isWeekend, setIsWeekend] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [month, setMonth] = useState<Date | undefined>(date);
-  function isValidDate(date: Date | undefined) {
-    if (!date) {
-      return false;
-    }
-    return !isNaN(date.getTime());
-  }
+  const schedules = ["13:00", "14:00", "15:00", "16:00", "17:00"];
 
-  const schedule = [
-    { time: "12:00" },
-    { time: "13:00" },
-    { time: "14:00" },
-    { time: "15:00" },
-    { time: "16:00" },
-    { time: "17:00" },
+  const formatDate = (date: Date | undefined): string => {
+    if (!date) return "";
+    return date.toLocaleDateString("en-US", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+  };
+
+  const checkWeekend = (date: Date) => {
+    setIsWeekend(date.getDay() === 0 || date.getDay() === 6);
+  };
+
+  const fullyBookedDates = [
+    ...new Set(
+      allSessions
+        .filter(
+          (session) =>
+            allSessions.filter((s) => s.value === session.value).length ===
+            schedules.length
+        )
+        .map((session) => session.value)
+    ),
   ];
 
-  function isWorkingDay(date: Date) {
-    const day = date.getDay();
+  const alreadyScheduled = allSessions
+    .filter((session) => session.value === value)
+    .map((session) => session.time);
 
-    const isWeekend = day === 0 || day === 6;
-
-    if (isWeekend) {
-      setIsWeekend(true);
-    } else {
-      setIsWeekend(false);
-    }
-  }
-
-  const date1 = allSessions.filter((session) => session.value === value);
-
-  const time1 = date1.map((date) => {
-    return date.time;
-  });
-  const selectedDateAndTime = schedule.filter((schedule) => {
-    return !time1.includes(schedule.time);
-  });
-
-  const workday = selectedDateAndTime.filter(
-    (schedule) => schedule.time >= "13:00"
+  const availableTimes = schedules.filter(
+    (schedule) => !alreadyScheduled.includes(schedule)
   );
-  const weekday = selectedDateAndTime.filter(
-    (schedule) => schedule.time <= "16:00"
-  );
-  const [empty, setEmpty] = useState(false);
-  const [mainValue, setMainValue] = useState<string>("");
+
+  const weekdayTimes = availableTimes.filter((schedule) => schedule >= "13:00");
+  const weekendTimes = availableTimes.filter((schedule) => schedule <= "16:00");
 
   useEffect(() => {
-    if (value !== "") {
-      setMainValue(value);
-    }
-    if (date) isWorkingDay(date);
-    if (!value || date === undefined) {
-      setValue(formatDate(tomorrow));
-    }
-    if (workday.length === 0 || weekday.length === 0) {
-      return setEmpty(true), setDisabledValue(value);
-    } else if (workday.length !== 0 || weekday.length !== 0) {
-      setEmpty(false);
-    }
-
-    console.log([today]);
+    if (date) checkWeekend(date);
   }, [value, date]);
-
-  console.log({ workday });
-  console.log({ weekday });
-  console.log({ empty });
-  console.log({ disabledValue });
 
   return (
     <div className="w-full flex flex-col gap-5">
@@ -115,12 +86,12 @@ export const DateAndTimePicker = ({
         <div className="relative flex gap-2">
           <Input
             id="date"
-            value={mainValue}
+            value={value}
             placeholder="Өдрөө сонгоно уу"
             onChange={(e) => {
               const date = new Date(e.target.value);
               setValue(e.target.value);
-              if (isValidDate(date)) {
+              if (!isNaN(date.getDate())) {
                 setDate(date);
                 setMonth(date);
               }
@@ -133,6 +104,7 @@ export const DateAndTimePicker = ({
             }}
             className="border-border/20 bg-black/50 hover:bg-black text-white/80"
           />
+
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button
@@ -140,11 +112,10 @@ export const DateAndTimePicker = ({
                 variant="ghost"
                 className="absolute hover:bg-black top-1/2 right-2 size-6 -translate-y-1/2 text-white/80 hover:text-white/80"
               >
-                <>
-                  <CalendarRange />
-                </>
+                <CalendarRange />
               </Button>
             </PopoverTrigger>
+
             <PopoverContent
               className="w-auto overflow-hidden p-0 bg-[black] text-white"
               align="end"
@@ -152,24 +123,24 @@ export const DateAndTimePicker = ({
               sideOffset={10}
             >
               <Calendar
-                className="bg-[#0F2343] "
-                disabled={[
-                  (day) => day < tomorrow,
-                  (day) => formatDate(day) === disabledValue,
-                ]}
+                className="bg-[#0F2343]"
                 mode="single"
                 selected={date}
                 captionLayout="dropdown"
                 month={month}
                 onMonthChange={setMonth}
+                disabled={[
+                  (day) => day < today,
+                  (day) => day.toString() === today.toDateString(),
+                  (day) => day.toDateString() === tomorrow.toDateString(),
+                  (day) => fullyBookedDates.includes(formatDate(day)),
+                ]}
                 onSelect={(date) => {
+                  if (!date) return;
                   setDate(date);
-
                   setValue(formatDate(date));
                   setOpen(false);
-                  if (date !== undefined) {
-                    isWorkingDay(date);
-                  }
+                  checkWeekend(date);
                 }}
               />
             </PopoverContent>
@@ -185,51 +156,27 @@ export const DateAndTimePicker = ({
               variant="outline"
               className="justify-between border-border/20 bg-black/50 hover:bg-black text-white/80 hover:text-white/80"
             >
-              {time ? (
-                <div className="flex items-center gap-2">{time}</div>
-              ) : (
-                <div className="text-muted-foreground">Цаг сонгоно уу...</div>
+              {time || (
+                <span className="text-muted-foreground">Цаг сонгоно уу...</span>
               )}
               <Clock />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-fit h-fit py-5 px-5 rounded-[26px] border-[#323743FF] bg-black">
-            {isWeekend ? (
-              <div className="flex flex-col justify-center">
-                {weekday.map((day, index) => {
-                  return (
-                    <button
-                      onClick={() => {
-                        setTime(day.time), setIsOpen(false);
-                      }}
-                      key={index}
-                      className="text-white text-[14px] px-2 py-1"
-                    >
-                      {day.time}
-                    </button>
-                  );
-                })}
-              </div>
-            ) : (
-              <>
-                <div className="flex flex-col justify-center">
-                  {workday.map((day, index) => {
-                    return (
-                      <button
-                        onClick={() => {
-                          setTime(day.time);
-                          setIsOpen(false);
-                        }}
-                        key={index}
-                        className="text-white text-[14px] px-2 py-1"
-                      >
-                        {day.time}
-                      </button>
-                    );
-                  })}
-                </div>
-              </>
-            )}
+
+          <PopoverContent className="w-full h-fit py-5 px-5 rounded-3xl border-[#323743FF] bg-black">
+            <div className="flex flex-col gap-0.5 text-white text-sm">
+              {(isWeekend ? weekendTimes : weekdayTimes).map((t, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    setTime(t), setIsOpen(false);
+                  }}
+                  className="px-2 py-1"
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
           </PopoverContent>
         </Popover>
       </div>
