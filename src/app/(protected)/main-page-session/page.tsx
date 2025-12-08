@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-
 import { SelectedTutorType } from "@/lib/types";
-
 import { useSession } from "@/app/_hooks/use-session";
 import {
   CreateSessionBtn,

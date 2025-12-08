@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { useCreatedSession } from "@/app/_hooks/use-created-session";
-import { useJoinedSession } from "@/app/_hooks/use-joined-session";
-import { useOtherSession } from "@/app/_hooks/use-other-session";
+"use client";
+
+import React from "react";
 import { useSession } from "@/app/_hooks/use-session";
 import {
   SessionCard,
@@ -9,10 +8,8 @@ import {
 } from "@/app/(protected)/main-page-session/_components";
 
 export const SessionListComp = () => {
-  const { joinedSessions } = useJoinedSession();
-  const { createdSessions } = useCreatedSession();
-  const { otherSessions } = useOtherSession();
-  const { isLoading } = useSession();
+  const { createdSessions, joinedSessions, otherSessions, isLoading } =
+    useSession();
 
   const sessionLists = [
     {

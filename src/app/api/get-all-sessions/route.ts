@@ -60,10 +60,13 @@ export async function GET() {
 
     return NextResponse.json(
       {
-        createdSessions,
-        joinedSessions,
-        otherSessions,
-        allSessions,
+        data: {
+          createdSessions,
+          joinedSessions,
+          otherSessions,
+          allSessions,
+          userId,
+        },
       },
       { status: 200 }
     );

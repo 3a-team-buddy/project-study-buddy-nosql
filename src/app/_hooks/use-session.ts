@@ -5,21 +5,52 @@ import { CreateSessionType } from "@/lib/types";
 import { toast } from "sonner";
 import { ablyClient } from "@/lib/ably";
 import type * as Ably from "ably";
+import { useAuth } from "@clerk/nextjs";
 
 export const useSession = () => {
-  const [allSessions, setAllSessions] = useState<CreateSessionType[]>([]);
+  const { getToken } = useAuth();
+
+  const [sessions, setSessions] = useState<{
+    createdSessions: CreateSessionType[];
+    joinedSessions: CreateSessionType[];
+    otherSessions: CreateSessionType[];
+    allSessions: CreateSessionType[];
+    userId: string | null;
+  }>({
+    createdSessions: [],
+    joinedSessions: [],
+    otherSessions: [],
+    allSessions: [],
+    userId: null,
+  });
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const getSessions = async () => {
     setIsLoading(true);
-    const result = await fetch("/api/get-sessions");
 
-    if (!result.ok) {
+    const token = await getToken();
+
+    const result = await fetch("/api/get-all-sessions", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!result) {
       toast.error("No sessions!");
     }
 
     const { data } = await result.json();
-    setAllSessions(data);
+
+    setSessions({
+      createdSessions: data.createdSessions,
+      joinedSessions: data.joinedSessions,
+      otherSessions: data.otherSessions,
+      allSessions: data.allSessions,
+      userId: data.userId,
+    });
+
     setIsLoading(false);
   };
 
@@ -30,17 +61,24 @@ export const useSession = () => {
 
     const handleCreated = (message: Ably.Message) => {
       if (message.name !== "session-created") return;
+
       const newSession = message.data;
 
-      setAllSessions((prev) => {
-        if (prev.some((session) => session._id === message.data._id))
-          return prev;
+      setSessions((prev) => ({
+        ...prev,
+        allSessions: [newSession, ...prev.allSessions],
+        createdSessions:
+          newSession.creatorId === prev.userId
+            ? [newSession, ...prev.createdSessions]
+            : prev.createdSessions,
 
-        return [newSession, ...prev].sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
-      });
+        otherSessions: [newSession, ...prev.otherSessions],
+      }));
+
+      // return [newSession, ...prev].sort(
+      //   (a, b) =>
+      //     new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      // );
     };
 
     const handleJoined = (message: Ably.Message) => {
@@ -48,16 +86,25 @@ export const useSession = () => {
 
       const { sessionId, userId } = message.data;
 
-      setAllSessions((prev) =>
-        prev.map((session) =>
-          session._id === sessionId
-            ? {
-                ...session,
-                studentCount: [...(session.studentCount ?? []), userId],
-              }
-            : session
-        )
-      );
+      setSessions((prev) => {
+        const update = (sessions: CreateSessionType[]) =>
+          sessions.map((session) =>
+            session._id === sessionId
+              ? {
+                  ...session,
+                  studentCount: [...(session.studentCount ?? []), userId],
+                }
+              : session
+          );
+
+        return {
+          ...prev,
+          allSessions: update(prev.allSessions),
+          createdSessions: update(prev.createdSessions),
+          joinedSessions: update(prev.joinedSessions),
+          otherSessions: update(prev.otherSessions),
+        };
+      });
     };
 
     const handleRemoved = (message: Ably.Message) => {
@@ -65,18 +112,27 @@ export const useSession = () => {
 
       const { sessionId, userId } = message.data;
 
-      setAllSessions((prev) =>
-        prev.map((session) =>
-          session._id === sessionId
-            ? {
-                ...session,
-                studentCount: session.studentCount?.filter(
-                  (id) => id !== userId
-                ),
-              }
-            : session
-        )
-      );
+      setSessions((prev) => {
+        const update = (sessions: CreateSessionType[]) =>
+          sessions.map((session) =>
+            session._id === sessionId
+              ? {
+                  ...session,
+                  studentCount: session.studentCount?.filter(
+                    (id) => id !== userId
+                  ),
+                }
+              : session
+          );
+
+        return {
+          ...prev,
+          allSessions: update(prev.allSessions),
+          createdSessions: update(prev.createdSessions),
+          joinedSessions: update(prev.joinedSessions),
+          otherSessions: update(prev.otherSessions),
+        };
+      });
     };
 
     const handleDeleted = (message: Ably.Message) => {
@@ -84,9 +140,18 @@ export const useSession = () => {
 
       const { sessionId } = message.data;
 
-      setAllSessions((prev) =>
-        prev.filter((session) => session._id !== sessionId)
-      );
+      setSessions((prev) => {
+        const filter = (sessions: CreateSessionType[]) =>
+          sessions.filter((session) => session._id! == sessionId);
+
+        return {
+          ...prev,
+          allSessions: filter(prev.allSessions),
+          createdSessions: filter(prev.createdSessions),
+          joinedSessions: filter(prev.joinedSessions),
+          otherSessions: filter(prev.otherSessions),
+        };
+      });
     };
 
     channel.subscribe("session-created", handleCreated);
@@ -102,5 +167,5 @@ export const useSession = () => {
     };
   }, []);
 
-  return { allSessions, isLoading, setIsLoading };
+  return { ...sessions, isLoading, setIsLoading };
 };
