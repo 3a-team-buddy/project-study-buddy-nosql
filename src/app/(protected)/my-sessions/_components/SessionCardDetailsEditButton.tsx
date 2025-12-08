@@ -55,10 +55,6 @@ export function SessionCardDetailsEditButton({
 }: {
   session: CreateSessionType;
 }) {
-  //1. tutor section utga awdag boloh
-  //2. data backend ruu ywuul\dag boloh
-  //3. id gaarni session haigaad
-  //4. baigaa utgiig ni update hiij backend eesee data base ruu hadgaldag
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
   const [emailSent, setEmailSent] = useState(false);
@@ -71,23 +67,7 @@ export function SessionCardDetailsEditButton({
   const [value, setValue] = useState(formatDate(date));
   const [time, setTime] = useState<string>(session.time);
 
-  // const [selectedSessionType, setSelectedSessionType] = useState<string>(
-  //   session.selectedSessionType
-  // );
-  // const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType2>();
-
   console.log({ session });
-  // async function updateSession(id: string) {
-  //   const { getToken } = useAuth();
-  //   const token = await getToken();
-  //   await fetch(`/api/create-new-session/${id}`, {
-  //     method: "DELETE",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
-  // }
 
   async function getTutors() {
     const sessionId = session._id;
