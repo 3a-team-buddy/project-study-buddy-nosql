@@ -10,14 +10,17 @@ export async function POST(request: NextRequest) {
   const { sessionId } = await request.json();
 
   if (!sessionId) {
-    return NextResponse.json({ message: "Missing sessionId" }, { status: 400 });
+    return NextResponse.json(
+      { message: "SessionId required" },
+      { status: 400 }
+    );
   }
 
   const session = await Session.findById(sessionId);
   if (!session) {
     return NextResponse.json({ message: "Session not found" }, { status: 404 });
   }
-  console.log({ session }, "SESSSSSION");
+  // console.log({ session }, "SESSSSSION");
 
   const nextTutor = await SelectedTutor.findOne({
     createdSessionId: sessionId,
@@ -25,7 +28,8 @@ export async function POST(request: NextRequest) {
   })
     .populate("tutorId")
     .sort({ order: 1 });
-  console.log({ nextTutor }, "NEXTNEXTTUTOR");
+
+  // console.log({ nextTutor }, "NEXTNEXTTUTOR");
 
   if (!nextTutor) {
     return NextResponse.json({
