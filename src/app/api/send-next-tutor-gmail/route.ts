@@ -1,8 +1,8 @@
+import { NextRequest, NextResponse } from "next/server";
 import { transporter } from "@/lib/mailer";
 import { SelectedTutor } from "@/lib/models/SelectedTutor";
 import { Session } from "@/lib/models/Session";
 import connectDB from "@/lib/mongodb";
-import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   await connectDB();
@@ -47,9 +47,11 @@ export async function POST(request: NextRequest) {
     subject: "Tutor Invitation - Study Buddy",
     html: `
     <div style="padding: 20px; line-height: 1.5; color: #333;">
+    <h3>Tutor Invitation - Study Buddy</h3>
+
     <p>Hello, </p>
 
-    <p>You have been invited to be a tutor for the following study session:</p>
+    <p>You have been invited to be a Tutor for the following study session:</p>
 
     <p><strong>Session title:</strong> ${session.sessionTopicTitle}</p>
     <p><strong>Description:</strong> ${session.description}</p>

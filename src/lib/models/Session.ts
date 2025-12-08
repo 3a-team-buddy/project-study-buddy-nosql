@@ -10,7 +10,7 @@ type SessionSchemaType = {
   selectedSessionType: "TUTOR-LED" | "SELF-LED";
   creatorId: mongoose.Types.ObjectId;
   studentCount?: string[];
-  status: "WAITING" | "ACCEPTED" | "DECLINED";
+  status: "WAITING" | "ACCEPTED" | "CANCELED" | "DELETED";
   assignedTutor?: mongoose.Types.ObjectId | null;
 };
 
@@ -31,7 +31,7 @@ const SessionSchema = new Schema(
     studentCount: { type: [String], default: [] },
     status: {
       type: String,
-      enum: ["WAITING", "ACCEPTED", "DECLINED"],
+      enum: ["WAITING", "ACCEPTED", "CANCELED", "DELETED"],
       default: "WAITING",
       required: true,
     },

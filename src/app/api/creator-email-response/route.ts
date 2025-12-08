@@ -5,13 +5,13 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   await connectDB();
 
-  const { searchParams } = await new URL(request.url);
-  const sessionId = searchParams.get("sessionId");
-  const action = searchParams.get("action");
+  const url = new URL(request.url);
+  const sessionId = url.searchParams.get("sessionId");
+  const action = url.searchParams.get("action")?.toLowerCase();
 
   if (!sessionId || !action) {
     return NextResponse.json(
-      { message: "Missing sessionId or action" },
+      { message: "Missing parameters!" },
       { status: 400 }
     );
   }
@@ -19,7 +19,10 @@ export async function GET(request: NextRequest) {
   const session = await Session.findById(sessionId);
 
   if (!session) {
-    return NextResponse.json({ message: "Session not found" }, { status: 404 });
+    return NextResponse.json(
+      { message: "Session not found"! },
+      { status: 404 }
+    );
   }
 
   if (action === "delete") {

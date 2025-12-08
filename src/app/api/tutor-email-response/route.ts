@@ -53,7 +53,16 @@ export async function GET(request: NextRequest) {
   // console.log(tutor.invitationStatus, "TUTOR INVITATION STATUS");
 
   if (response === "accept") {
+    await SelectedTutor.updateMany(
+      {
+        createdSessionId: sessionId,
+        _id: { $ne: tutorId },
+      },
+      { invitationStatus: "DECLINED" }
+    );
+
     tutor.invitationStatus = "ACCEPTED";
+
     await tutor.save();
 
     session.status = "ACCEPTED";
@@ -62,14 +71,6 @@ export async function GET(request: NextRequest) {
 
     // console.log({ tutor }, "AFTER CHANGE");
     // console.log({ session }, "AFTER CHANGE");
-
-    await transporter.sendMail({
-      from: "Study Buddy <oyunmyagmar.g@gmail.com>",
-      to: tutor.tutorId.mockUserEmail,
-      subject: "Tutor Assignment Confirmed",
-      html: `<p>You have accepted the session!</p>
-      <p>Students have been notified.</p>`,
-    });
 
     const students = await MockUser.find(
       { _id: { $in: session.studentCount } },
@@ -83,10 +84,20 @@ export async function GET(request: NextRequest) {
           from: "Study Buddy <oyunmyagmar.g@gmail.com>",
           to: student.mockUserEmail,
           subject: "Your Session is Confrimed",
-          html: `<p>Your session has been confirmed and a tutor accepted.</p>`,
+          html: `
+          <p>Your session has been confirmed and a tutor accepted.</p>`,
         })
       )
     );
+
+    await transporter.sendMail({
+      from: "Study Buddy <oyunmyagmar.g@gmail.com>",
+      to: tutor.tutorId.mockUserEmail,
+      subject: "Tutor Assignment reConfirmed",
+      html: `
+      <p>You have accepted the session!</p>
+      <p>Students have been notified.</p>`,
+    });
 
     const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
     await ably.channels.get("session").publish("session-updated", session);
@@ -122,10 +133,11 @@ export async function GET(request: NextRequest) {
       from: "Study Buddy <oyunmyagmar.g@gmail.com>",
       to: creator.mockUserEmail,
       subject: "All Tutors Declined Your Session",
-      html: `<p>All tutors declined your session.</p>
+      html: `
+      <p>All tutors declined your session.</p>
       <p>Choose an option:</p>
-      <a href="${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-response?sessionId=${session._id}&action=delete">Delete Session</a>
-      <a href="${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-response?sessionId=${session._id}&action=self">Covert to Self-Led Session</a>
+      <a href="${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-email-response?sessionId=${session._id}&action=delete">Delete Session</a>
+      <a href="${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-email-response?sessionId=${session._id}&action=self">Convert to Self-Led Session</a>
 `,
     });
   }
