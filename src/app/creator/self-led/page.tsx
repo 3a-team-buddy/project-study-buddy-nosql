@@ -1,6 +1,6 @@
 import React from "react";
 
-const CreatorDonePage = () => {
+const SelfLedPage = () => {
   return (
     <div className="flex flex-col items-center text-white gap-2">
       <div className="text-3xl font-semibold">
@@ -12,4 +12,4 @@ const CreatorDonePage = () => {
     </div>
   );
 };
-export default CreatorDonePage;
+export default SelfLedPage;
