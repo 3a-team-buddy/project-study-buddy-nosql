@@ -1,36 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 
 import { SelectedTutorType } from "@/lib/types";
-import React from "react";
+
+import { useSession } from "@/app/_hooks/use-session";
 import {
   CreateSessionBtn,
   CreateSessionHeading,
   DateAndTimePicker,
   MemberLimitSelector,
+  SessionListComp,
   SessionTypeSelector,
   StudySessionTitleAndDescription,
-} from "../create-session/_components";
-import SessionListComp from "./_components/SessionListComp";
-import { useSession } from "@/app/_hooks/use-session";
+} from "./_components";
 
 const SessionPage = () => {
   const [sessionTopicTitle, setSessionTopicTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [minMember, setMinMember] = useState<number>(0);
   const [maxMember, setMaxMember] = useState<number>(0);
-
   const [date, setDate] = useState<Date | undefined>();
   const [value, setValue] = useState<string>("");
   const [time, setTime] = useState<string>("");
-
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
-  const { allSessions, isLoading } = useSession();
+  const { allSessions } = useSession();
 
-  console.log({ value });
-  console.log({ time });
   return (
     <div className="w-full min-h-screen text-white flex gap-8 py-10">
       <div className="flex-1">

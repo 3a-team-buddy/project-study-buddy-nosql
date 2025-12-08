@@ -38,15 +38,13 @@ export const SessionDeleteBtn = ({
   }
 
   return (
-    <div className="w-fit flex gap-2">
-      <Button
-        disabled={loading}
-        variant={"destructive"}
-        className="w-full rounded-full cursor-pointer"
-        onClick={() => deleteSession(session._id)}
-      >
-        Delete Session
-      </Button>
-    </div>
+    <Button
+      disabled={loading}
+      variant={"destructive"}
+      className="w-1/2 rounded-full cursor-pointer"
+      onClick={() => deleteSession(session._id)}
+    >
+      Delete Session
+    </Button>
   );
 };

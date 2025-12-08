@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 import { CreateSessionType, JoinedStudentType } from "@/lib/types";
 import { Button, Dialog, DialogTrigger } from "@/components/ui";
-import { SessionInfoDialogContent } from "@/app/(protected)/create-session/_components";
 import { toast } from "sonner";
+import { SessionInfoDialogContent } from "./SessionInfoDialogContent";
 
 export const SessionInfoDialog = ({
   session,

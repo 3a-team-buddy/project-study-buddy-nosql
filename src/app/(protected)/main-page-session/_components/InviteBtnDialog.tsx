@@ -3,7 +3,7 @@
 import React from "react";
 import { Dialog, DialogTrigger, Button } from "@/components/ui";
 import { BsLink } from "react-icons/bs";
-import { InviteBtnDialogContent } from "./InviteBtnDialogContent";
+import { InviteBtnDialogContent } from "@/app/(protected)/main-page-session/_components";
 
 export function InviteBtnDialog() {
   return (

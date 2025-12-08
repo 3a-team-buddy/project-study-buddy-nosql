@@ -1,15 +1,16 @@
 "use client";
 
 import React from "react";
-import { Button, Separator } from "@/components/ui";
+import { Separator } from "@/components/ui";
 import { CreateSessionType, JoinedStudentType } from "@/lib/types";
 import {
   JoinBtn,
   ParticipantsList,
+  SessionDeleteBtn,
   SessionDetails,
-} from "../../create-session/_components";
-import { SessionDeleteBtn } from "./SessionDeleteBtn";
-import { SessionLeaveBtn } from "./SessionLeaveBtn";
+  SessionEditBtn,
+  SessionLeaveBtn,
+} from "@/app/(protected)/main-page-session/_components";
 
 export const SessionCardDetails = ({
   session,
@@ -21,7 +22,7 @@ export const SessionCardDetails = ({
   joinedStudents: JoinedStudentType[];
 }) => {
   return (
-    <div className="flex flex-col gap-10 p-5 bg-linear-to-b from-[#1E2648]/50 to-[#122136]/50 rounded-xl mt-3">
+    <div className="flex flex-col gap-10 p-5 bg-linear-to-b from-[#1E2648]/50 to-[#122136]/50 rounded-2xl">
       <div className="flex flex-col gap-3">
         <h2 className="text-2xl leading-7 font-semibold">
           {session.sessionTopicTitle}
@@ -40,17 +41,9 @@ export const SessionCardDetails = ({
       </div>
 
       {sessionListType === "created" ? (
-        <div className="w-fit flex gap-2 justify-between">
-          <Button
-            variant={"secondary"}
-            className="w-full text-accent-foreground cursor-pointer"
-          >
-            Edit
-          </Button>
-
-          <div>
-            <SessionDeleteBtn session={session} />
-          </div>
+        <div className="w-full flex gap-2">
+          <SessionEditBtn />
+          <SessionDeleteBtn session={session} />
         </div>
       ) : sessionListType === "joined" ? (
         <SessionLeaveBtn session={session} />
