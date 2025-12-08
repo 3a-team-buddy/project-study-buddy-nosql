@@ -40,12 +40,12 @@ export const InviteBtnDialogContent = () => {
 
   const handleSendInvites = async () => {
     if (selectedStudents.length === 0) {
-      toast.error("No emails selected");
+      alert("No emails selected");
       return;
     }
 
     const emails = selectedStudents.map((s) => s.email);
-    const link = `${process.env.NEXT_PUBLIC_BASE_URL}/create-session`; // 🔗 invitation link
+    const link = "http://localhost:3000/create-session"; // 🔗 invitation link
 
     try {
       const res = await fetch("/api/send-link", {
@@ -59,15 +59,14 @@ export const InviteBtnDialogContent = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        toast.error(data.error || "Failed to send");
+        alert(data.error || "Failed to send");
         return;
       }
 
-      toast.success("Invites sent successfully!");
+      alert("Invites sent successfully!");
       setSelectedStudents([]);
     } catch (e) {
-      console.error(e);
-      toast.error("Server error");
+      alert("Server error");
     }
   };
 
@@ -117,10 +116,7 @@ export const InviteBtnDialogContent = () => {
       {/* Link field */}
       <div className="flex flex-col gap-2">
         <Label>Link to send</Label>
-        <Input
-          value={`${process.env.NEXT_PUBLIC_BASE_URL}/create-session`}
-          readOnly
-        />
+        <Input value="http://localhost:3000/create-session" readOnly />
       </div>
 
       <DialogFooter className="sm:justify-end">
