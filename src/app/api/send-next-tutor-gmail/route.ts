@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
 
   const session = await Session.findById(sessionId);
   if (!session) {
-    return NextResponse.json({ message: "Session not founf" }, { status: 404 });
+    return NextResponse.json({ message: "Session not found" }, { status: 404 });
   }
   console.log({ session }, "SESSSSSION");
 
