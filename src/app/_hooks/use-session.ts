@@ -53,7 +53,7 @@ export const useSession = () => {
           session._id === sessionId
             ? {
                 ...session,
-                studentCount: [...session.studentCount, userId],
+                studentCount: [...(session.studentCount ?? []), userId],
               }
             : session
         )
@@ -70,7 +70,7 @@ export const useSession = () => {
           session._id === sessionId
             ? {
                 ...session,
-                studentCount: session.studentCount.filter(
+                studentCount: session.studentCount?.filter(
                   (id) => id !== userId
                 ),
               }
