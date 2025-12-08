@@ -87,7 +87,7 @@ export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
 
   return (
     <Button
-      disabled={session.studentCount.length === session.maxMember}
+      disabled={session.studentCount?.length === session.maxMember}
       onClick={() => {
         joinedStudentHandler(session._id);
       }}
@@ -95,7 +95,7 @@ export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
     >
       <BsFillPeopleFill />
       <div>
-        {session.studentCount.length}
+        {session.studentCount?.length}
         <span>/{session.maxMember}</span>
       </div>
       <div>JOIN</div>

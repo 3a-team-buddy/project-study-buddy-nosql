@@ -18,7 +18,6 @@ export async function POST(request: NextResponse) {
   if (!session) {
     return NextResponse.json({ message: "Session not found" }, { status: 404 });
   }
-  console.log({ session }, "send joined students mail SESSION");
 
   const joinedStudents = await JoinedStudent.find({ sessionId }).select(
     "studentId"
@@ -34,8 +33,6 @@ export async function POST(request: NextResponse) {
     { _id: { $in: studentIds } },
     "mockUserEmail"
   );
-
-  console.log({ students }, "mailllllllll");
 
   await Promise.all(
     students.map((student) =>
