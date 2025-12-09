@@ -1,12 +1,22 @@
 "use client";
-
-import React from "react";
 import { SignIn } from "@clerk/nextjs";
+import { FloatingCoins } from "./_components/FloatingCoins";
+import { usePrefersReducedMotion } from "./_hook/usePrefersReducedMotion";
 
 const LoginPage = () => {
+  const reduced = usePrefersReducedMotion();
+
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center">
-      <SignIn routing={"hash"} />
+    <div className="w-full h-screen flex flex-col items-center justify-center relative overflow-hidden bg-[#003747]">
+      {!reduced && (
+        <div className="absolute inset-0 z-0">
+          <FloatingCoins reduced={reduced} />
+        </div>
+      )}
+
+      <div className="relative z-10">
+        <SignIn routing={"hash"} />
+      </div>
     </div>
   );
 };
