@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Separator } from "@/components/ui";
+import { Button, Dialog, DialogTrigger, Separator } from "@/components/ui";
 import { CreateSessionType, JoinedStudentType } from "@/lib/types";
 import {
   JoinBtn,
@@ -11,6 +11,7 @@ import {
   SessionEditBtn,
   SessionLeaveBtn,
 } from "@/app/(protected)/main-page-session/_components";
+import { EditBtnTrigger } from "./EditBtnTrigger";
 
 export const SessionCardDetails = ({
   session,
@@ -42,7 +43,7 @@ export const SessionCardDetails = ({
 
       {sessionListType === "created" ? (
         <div className="w-full flex gap-2">
-          <SessionEditBtn />
+          <EditBtnTrigger session={session} />
           <SessionDeleteBtn session={session} />
         </div>
       ) : sessionListType === "joined" ? (
