@@ -57,10 +57,10 @@ export function SessionCardDetailsEditButton({
   n2.setDate(today.getDate() + 2);
   const [time, setTime] = useState<string>(session.time);
 
-  console.log({ session });
   const [sessionTitle, setSessionTitle] = useState(session.sessionTopicTitle);
   const [description, setDescription] = useState(session.description);
-  console.log({ session });
+  const [sessionId, setSessionId] = useState(session._id);
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
@@ -72,12 +72,11 @@ export function SessionCardDetailsEditButton({
       value,
       time,
       sessionType: selectedSessionType,
-      selectedTutors,
     };
 
     const token = await getToken();
 
-    const response = await fetch(`/api/update-my-session/${session._id}`, {
+    const response = await fetch(`/api/update-my-session/${sessionId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -205,7 +204,7 @@ export function SessionCardDetailsEditButton({
                 Cancel
               </Button>
             </DialogClose>
-            <Button type="submit" className="w-1/2">
+            <Button onClick={handleSubmit} type="submit" className="w-1/2">
               Save changes
             </Button>
           </DialogFooter>

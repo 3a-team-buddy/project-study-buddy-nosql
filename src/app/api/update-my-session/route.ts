@@ -4,12 +4,12 @@ import { Session } from "@/lib/models/Session";
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { sessionId: string } }
 ) {
   try {
     await connectDB();
 
-    const { id } = params;
+    const { sessionId } = params;
     const body = await request.json();
 
     const {
@@ -20,7 +20,6 @@ export async function PUT(
       value,
       time,
       selectedSessionType,
-      selectedTutors,
     } = body;
 
     if (
@@ -38,23 +37,28 @@ export async function PUT(
       );
     }
 
-    const session = await Session.findById(id);
-    if (!session) {
+    if (!sessionId) {
       return NextResponse.json(
         { message: "Session not found!" },
         { status: 404 }
       );
     }
-
-    session.sessionTopicTitle = sessionTitle;
-    session.description = description;
-    session.minMember = minMember;
-    session.maxMember = maxMember;
-    session.value = value;
-    session.time = time;
-    session.selectedSessionType = selectedSessionType;
-
-    await session.save();
+    const session = await Session.findOneAndUpdate(
+      { _id: sessionId },
+      {
+        $set: {
+          sessionTopicTitle: sessionTitle,
+          description,
+          minMember,
+          maxMember,
+          value,
+          time,
+          selectedSessionType,
+        },
+      },
+      { new: true }
+    );
+    console.log({ session });
 
     return NextResponse.json(
       { message: "Session updated successfully", session },
