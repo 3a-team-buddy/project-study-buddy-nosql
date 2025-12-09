@@ -20,6 +20,8 @@ export function Main({
   text,
   isAccepted,
 }: InvitationModalprops) {
+  // { searchParams }: { searchParams: string }
+  // const sessionId = searchParams.sessionId;
   const [isOpen, setIsOpen] = useState(true);
   //   const [session, setSession] = useState<CreateSessionType>();
 
