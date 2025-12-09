@@ -168,6 +168,7 @@ export function SessionCardDetailsEditButton({
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
+                <></>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4 mt-10">
