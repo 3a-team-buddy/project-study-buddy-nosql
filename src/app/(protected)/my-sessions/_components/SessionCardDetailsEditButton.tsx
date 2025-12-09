@@ -18,20 +18,7 @@ import {
   CreateSessionType,
   SelectedTutorEmailType,
   SelectedTutorType,
-  SelectedTutorType2,
 } from "@/lib/types";
-
-import * as React from "react";
-
-import { CalendarIcon } from "lucide-react";
-
-import { Calendar } from "@/components/ui/calendar";
-
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { se } from "date-fns/locale";
 import { useAuth } from "@clerk/nextjs";
 import {
@@ -55,6 +42,11 @@ export function SessionCardDetailsEditButton({
 }: {
   session: CreateSessionType;
 }) {
+  const { getToken } = useAuth();
+  const [value, setValue] = useState<string>(session.value);
+  const [date, setDate] = useState<Date | undefined>(
+    session.value ? new Date(session.value) : undefined
+  );
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
   const [emailSent, setEmailSent] = useState(false);
@@ -63,12 +55,44 @@ export function SessionCardDetailsEditButton({
   const today = new Date();
   const n2 = new Date();
   n2.setDate(today.getDate() + 2);
-  const [date, setDate] = useState<Date | undefined>();
-  const [value, setValue] = useState(formatDate(date));
   const [time, setTime] = useState<string>(session.time);
 
   console.log({ session });
+  const [sessionTitle, setSessionTitle] = useState(session.sessionTopicTitle);
+  const [description, setDescription] = useState(session.description);
+  console.log({ session });
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
 
+    const updatedData = {
+      sessionTitle,
+      description,
+      minMembers: minMember,
+      maxMembers: maxMember,
+      value,
+      time,
+      sessionType: selectedSessionType,
+      selectedTutors,
+    };
+
+    const token = await getToken();
+
+    const response = await fetch(`/api/update-my-session/${session._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(updatedData),
+    });
+
+    if (!response.ok) {
+      toast.error("Update failed!");
+      return;
+    }
+
+    toast.success("Session updated!");
+  }
   async function getTutors() {
     const sessionId = session._id;
     const tutorResponse = await fetch("/api/get-selected-tutors", {
@@ -108,10 +132,9 @@ export function SessionCardDetailsEditButton({
   }
   return (
     <Dialog>
-      <form>
+      <form onSubmit={handleSubmit}>
         <DialogTrigger asChild>
           <Button
-            onClick={getTutors}
             variant="outline"
             className="w-full text-accent-foreground cursor-pointer"
           >
@@ -133,7 +156,8 @@ export function SessionCardDetailsEditButton({
                 <Input
                   id="name-1"
                   name="name"
-                  defaultValue={session.sessionTopicTitle}
+                  value={sessionTitle}
+                  onChange={(e) => setSessionTitle(e.target.value)}
                 />
               </div>
               <div className="grid gap-3">
@@ -141,7 +165,8 @@ export function SessionCardDetailsEditButton({
                 <Textarea
                   id="username-1"
                   name="username"
-                  defaultValue={session.description}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
             </div>
