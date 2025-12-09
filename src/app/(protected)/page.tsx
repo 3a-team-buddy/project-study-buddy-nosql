@@ -157,7 +157,7 @@ export default function Component() {
         </div>
 
         <button
-          onClick={() => router.push("/main-page-session")}
+          onClick={() => router.push("/card-chunks")}
           className="bg-white text-black font-bold py-3 px-6 rounded-md hover:bg-gray-200 transition duration-300"
         >
           Study Buddy

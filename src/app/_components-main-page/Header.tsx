@@ -18,7 +18,7 @@ export const Header = () => {
 
           <div className="flex gap-2">
             <Button
-              onClick={() => router.push("/main-page-session")}
+              onClick={() => router.push("/card-chunks")}
               size={"lg"}
               variant={"ghost"}
               className="bg-transparent px-4 cursor-pointer hover:bg-transparent text-white hover:text-white border-0"
