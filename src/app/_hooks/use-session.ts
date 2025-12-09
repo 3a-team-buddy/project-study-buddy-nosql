@@ -72,7 +72,10 @@ export const useSession = () => {
             ? [newSession, ...prev.createdSessions]
             : prev.createdSessions,
 
-        otherSessions: [newSession, ...prev.otherSessions],
+        otherSessions:
+          newSession.creatorId !== prev.userId
+            ? [newSession, ...prev.otherSessions]
+            : prev.otherSessions,
       }));
 
       // return [newSession, ...prev].sort(
@@ -129,7 +132,12 @@ export const useSession = () => {
           ...prev,
           allSessions: update(prev.allSessions),
           createdSessions: update(prev.createdSessions),
-          joinedSessions: update(prev.joinedSessions),
+          joinedSessions:
+            prev.userId === userId
+              ? prev.joinedSessions.filter(
+                  (session) => session._id !== sessionId
+                )
+              : update(prev.joinedSessions),
           otherSessions: update(prev.otherSessions),
         };
       });
@@ -142,7 +150,7 @@ export const useSession = () => {
 
       setSessions((prev) => {
         const filter = (sessions: CreateSessionType[]) =>
-          sessions.filter((session) => session._id! == sessionId);
+          sessions.filter((session) => session._id !== sessionId);
 
         return {
           ...prev,
