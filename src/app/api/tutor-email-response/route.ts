@@ -134,10 +134,25 @@ export async function GET(request: NextRequest) {
       to: creator.mockUserEmail,
       subject: "All Tutors Declined Your Session",
       html: `
-      <p>All tutors declined your session.</p>
-      <p>Choose an option:</p>
-      <a href="${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-email-response?sessionId=${session._id}&action=cancel">Cancel Session</a>
-      <a href="${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-email-response?sessionId=${session._id}&action=self">Change to Self-Led Session</a>
+       <div style="padding: 20px; line-height: 1.5; color: #333;">
+      <h3>All tutors declined your session.</h3>
+
+      <p>Hello, </p>
+
+     <p>Choose an option:</p>
+
+     <p><strong>Session title:</strong> ${session.sessionTopicTitle}</p>
+     <p><strong>Description:</strong> ${session.description}</p>
+     <p><strong>Date:</strong> ${session.value}</p>
+     <p><strong>Time:</strong> ${session.time}</p>
+     <p><strong>Joined students:</strong> ${session.studentCount?.length} / ${session.maxMember}</p>
+
+     <p>Please select an option below:</p>
+
+     <div style="margin-top: 20px;">
+     <a href="${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-email-response?sessionId=${session._id}&action=cancel">Cancel Session</a> 
+     <a href="${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-email-response?sessionId=${session._id}&action=self">Change to Self-Led Session</a>
+     </div>
 `,
     });
   }
