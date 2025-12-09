@@ -19,12 +19,6 @@ export async function GET(request: NextRequest) {
   }
 
   const session = await Session.findById(sessionId);
-  const students = await MockUser.find(
-    {
-      _id: { $in: session.studentCount },
-    },
-    "mockerUserEmail"
-  );
 
   if (!session) {
     return NextResponse.json(
@@ -36,6 +30,12 @@ export async function GET(request: NextRequest) {
   if (action === "cancel") {
     session.status = "CANCELED";
     await session.save();
+    const students = await MockUser.find(
+      {
+        _id: { $in: session.studentCount },
+      },
+      "mockerUserEmail"
+    );
 
     await Promise.all(
       students.map((student) =>
@@ -58,6 +58,13 @@ export async function GET(request: NextRequest) {
     session.selectedSessionType = "SELF-LED";
     session.status = "ACCEPTED";
     await session.save();
+
+    const students = await MockUser.find(
+      {
+        _id: { $in: session.studentCount },
+      },
+      "mockerUserEmail"
+    );
 
     await Promise.all(
       students.map((student) =>
