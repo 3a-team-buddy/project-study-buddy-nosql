@@ -43,6 +43,7 @@ export async function PUT(
         { status: 404 }
       );
     }
+
     const session = await Session.findOneAndUpdate(
       { _id: sessionId },
       {

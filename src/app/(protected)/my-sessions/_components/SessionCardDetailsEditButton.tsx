@@ -133,6 +133,7 @@ export function SessionCardDetailsEditButton({
     <Dialog>
       <form onSubmit={handleSubmit}>
         <DialogTrigger asChild>
+          <>hi</>
           <Button
             variant="outline"
             className="w-full text-accent-foreground cursor-pointer"
