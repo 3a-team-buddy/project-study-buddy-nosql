@@ -7,23 +7,29 @@ import { Users, Calendar, Briefcase, X } from "lucide-react";
 import { CreateSessionType } from "@/lib/types";
 import { Session } from "inspector/promises";
 import { useSearchParams } from "next/navigation";
+
 type InvitationModalprops = {
   title: String;
   description: String;
   text: String;
   isAccepted: boolean;
 };
-
+// interface PageProps {
+//   searchParams?: { [key: string]: string | string[] | undefined };
+// }
 export function Main({
   title,
   description,
   text,
   isAccepted,
 }: InvitationModalprops) {
-  // { searchParams }: { searchParams: string }
-  // const sessionId = searchParams.sessionId;
+  // { searchParams }: PageProps
+  // const searchTerm = searchParams.query;
+  // console.log({ searchParams });
+  const searchParams = useSearchParams();
+  const searchTerm = searchParams.get("query");
   const [isOpen, setIsOpen] = useState(true);
-  //   const [session, setSession] = useState<CreateSessionType>();
+  const [session, setSession] = useState<CreateSessionType>();
 
   // Snowflake positions
   const [snowflakes, setSnowflakes] = useState<
