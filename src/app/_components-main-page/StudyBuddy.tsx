@@ -13,23 +13,11 @@ export const StudyBuddy = ({ open }: { open: boolean }) => {
       {open && (
         <div className="flex flex-col">
           <Button
-            onClick={() => router.push("/create-session")}
-            className="bg-transparent justify-start ml-2 px-2 py-1.5 text-muted-foreground hover:text-primary-foreground cursor-pointer"
-          >
-            Create Study Buddy
-          </Button>
-          <Button
-            onClick={() => router.push("/my-sessions")}
+            onClick={() => router.push("/main-page-session")}
             className="bg-transparent justify-start ml-2 px-2 py-1.5 text-muted-foreground hover:text-primary-foreground cursor-pointer"
           >
             <Panda />
-            My Study Buddies
-          </Button>
-          <Button
-            onClick={() => router.push("/final-session")}
-            className="bg-transparent justify-start ml-2 px-2 py-1.5 text-muted-foreground hover:text-primary-foreground cursor-pointer"
-          >
-            final page
+            Main Page Session
           </Button>
         </div>
       )}

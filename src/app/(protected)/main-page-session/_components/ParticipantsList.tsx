@@ -5,7 +5,7 @@ import { CreateSessionType, JoinedStudentType } from "@/lib/types";
 import { Star } from "lucide-react";
 import { Button, Label } from "@/components/ui";
 import { useSession } from "@/app/_hooks/use-session";
-import { ParticipantsSkeleton } from "./ParticipantsSkeleton";
+import { ParticipantsSkeleton } from "@/app/(protected)/main-page-session/_components";
 
 export const ParticipantsList = ({
   session,

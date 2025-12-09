@@ -57,7 +57,7 @@ export async function DELETE(
     const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
     await ably.channels
       .get("sessions")
-      .publish("session-deleted", { sessioId: id });
+      .publish("session-deleted", { sessionId: id });
 
     return NextResponse.json({ message: "Session deleted" });
   } catch (err) {

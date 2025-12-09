@@ -1,46 +1,30 @@
 "use client";
 
-import { useState } from "react";
-
+import React, { useState } from "react";
 import { SelectedTutorType } from "@/lib/types";
-import React from "react";
+import { useSession } from "@/app/_hooks/use-session";
 import {
   CreateSessionBtn,
   CreateSessionHeading,
   DateAndTimePicker,
   MemberLimitSelector,
+  SessionListComp,
   SessionTypeSelector,
   StudySessionTitleAndDescription,
-} from "../create-session/_components";
-import SessionListComp from "./_components/SessionListComp";
+} from "./_components";
 
 const SessionPage = () => {
   const [sessionTopicTitle, setSessionTopicTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [minMember, setMinMember] = useState<number>(0);
   const [maxMember, setMaxMember] = useState<number>(0);
-  const today = new Date();
-  const n2 = new Date();
-  n2.setDate(today.getDate() + 2);
   const [date, setDate] = useState<Date | undefined>();
-  const [value, setValue] = useState(formatDate(date));
+  const [value, setValue] = useState<string>("");
   const [time, setTime] = useState<string>("");
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
+  const { allSessions } = useSession();
 
-  function formatDate(date: Date | undefined) {
-    if (!date) {
-      return "";
-    }
-    return date.toLocaleDateString("en-US", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    });
-  }
-
-  console.log({ value });
-  console.log({ time });
   return (
     <div className="w-full min-h-screen text-white flex gap-8 py-10">
       <div className="flex-1">
@@ -70,8 +54,7 @@ const SessionPage = () => {
             setTime={setTime}
             date={date}
             setDate={setDate}
-            today={today}
-            formatDate={formatDate}
+            allSessions={allSessions}
           />
         </div>
         <SessionTypeSelector

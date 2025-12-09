@@ -6,10 +6,7 @@ import {
   DialogTitle,
 } from "@/components/ui";
 import { CreateSessionType, JoinedStudentType } from "@/lib/types";
-import {
-  ParticipantsList,
-  SessionDetails,
-} from "@/app/(protected)/create-session/_components";
+import { ParticipantsList, SessionDetails } from "../_components";
 
 export const SessionInfoDialogContent = ({
   session,

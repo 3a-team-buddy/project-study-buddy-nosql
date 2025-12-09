@@ -2,12 +2,8 @@
 
 import React from "react";
 import { useSession } from "@/app/_hooks/use-session";
-import {
-  InviteBtnDialog,
-  JoinBtn,
-  SessionInfoDialog,
-  SessionListSkeleton,
-} from "@/app/(protected)/create-session/_components";
+import { InviteBtnDialog, JoinBtn, SessionListSkeleton } from "../_components";
+import { SessionInfoDialog } from "./SessionInfoDialog";
 
 export const SessionList = () => {
   const { allSessions, isLoading } = useSession();
