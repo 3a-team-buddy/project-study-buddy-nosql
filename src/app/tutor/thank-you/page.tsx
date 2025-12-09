@@ -1,11 +1,22 @@
+"use client";
 import React from "react";
 
+import { useRouter } from "next/navigation";
+
+import { useState } from "react";
+import { Main } from "../components/Main";
+
 const TutorThankYouPage = () => {
+  const [isAccepted, setIsAccepted] = useState(false);
+  const sessionId = useRouter();
   return (
-    <div className="flex flex-col items-center text-white gap-2">
-      <div className="text-3xl font-semibold">Thanks for responding!</div>
-      <div className="text-2xl font-bold">You declined the session</div>
-      <div className="text-lg">We notified the session creator</div>
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-[#F1F4F6] via-[#E8EBEF] to-[#F1F4F6] p-4">
+      <Main
+        isAccepted={isAccepted}
+        title={"Thanks for responding!"}
+        description={"You declined the session"}
+        text={"We notified the session creator"}
+      />
     </div>
   );
 };
