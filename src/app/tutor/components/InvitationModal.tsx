@@ -186,7 +186,9 @@ export function InvitationModal({
                   <div className="absolute inset-0 bg-[#0F5D4A]/30 rounded-full animate-breathe blur-xl" />
                   <Avatar className="w-16 h-16 xs:w-20 xs:h-20 border-4 border-[#D9B96E] shadow-lg relative">
                     <AvatarImage src="/project-management-team.png" />
-                    <AvatarFallback className="bg-[#0F5D4A] text-white text-2xl"></AvatarFallback>
+                    <AvatarFallback className="bg-[#0F5D4A] text-white text-2xl">
+                      hu
+                    </AvatarFallback>
                   </Avatar>
                 </div>
               </div>
