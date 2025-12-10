@@ -50,14 +50,6 @@ export async function GET() {
       );
     }
 
-    const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
-    const channels = ably.channels.get("sessions");
-
-    await channels.publish("session-updated", {
-      userId: userId.toString(),
-      timestamp: Date.now(),
-    });
-
     return NextResponse.json(
       {
         data: {

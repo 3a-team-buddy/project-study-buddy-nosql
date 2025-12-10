@@ -50,13 +50,11 @@ export async function POST(request: NextRequest) {
 
     <h3>Tutor Invitation - Study Buddy</h3>
 
-    <!-- Hello + Intro -->
     <div style="display: flex; flex-direction: column; gap: 4px;">
       <p>Hello, </p>
       <p>You have been invited to be a Tutor for the following study session:</p>
     </div>
 
-    <!-- Session Details -->
     <div style="display: flex; flex-direction: column; gap: 4px;">
       <p><strong>Session title:</strong> ${session.sessionTopicTitle}</p>
       <p><strong>Description:</strong> ${session.description}</p>
@@ -65,11 +63,9 @@ export async function POST(request: NextRequest) {
       <p><strong>Joined students:</strong> ${session.studentCount?.length} / ${session.maxMember}</p>
     </div>
 
-    <!-- Action Section -->
     <div style="display: flex; flex-direction: column; gap: 4px;">
       <p>Please select an option below:</p>
 
-      <!-- Buttons with justify-between -->
       <div style="display: flex; justify-content: space-between;">
         <a href="${accept}" 
           style="background: #4CAF50; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px;">
