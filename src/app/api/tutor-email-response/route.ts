@@ -125,7 +125,7 @@ export async function GET(request: NextRequest) {
       html: `
       <div style="padding: 20px; line-height: 1.6; color: #333;">
 
-      <div style="text-align: center; margin-bottom: 25px;">
+      <div style="text-align: center; margin-bottom: 20px;">
       <h2 style="color: #0275d8; margin:0;">📘Study Buddy</h2>
       <p style="margin: 0; font-size: 12px; color: #555;">Together * Learn * Leap</p>
       </div>
@@ -139,13 +139,13 @@ export async function GET(request: NextRequest) {
 
       <p><strong>Select an option below:</strong></p>
       
-      <div style="margin-top: 20px;">
+      <div style="margin-top: 40px;">
       <a href="${cancel}" style="background: #d9534f; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px; margin-right: 10px;">Cancel</a> 
       <a href="${self}" style="background: #0275d8; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px;">Self-Led</a>
       </div>
       
       
-      <p style="margin-top: 50px; color: #555">
+      <p style="margin-top: 80px; color: #555">
       Thank you,<br/>
       <strong style="text-align: center;">Buddy-Buddy Team</strong>
       </p>
