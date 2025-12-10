@@ -53,9 +53,6 @@ export async function PUT(
       );
     }
 
-    console.log({ id });
-    console.log({ body });
-
     if (
       !sessionTopicTitle ||
       !description ||

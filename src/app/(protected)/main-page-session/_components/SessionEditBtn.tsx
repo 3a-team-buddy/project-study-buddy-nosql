@@ -11,8 +11,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CreateSessionType, SelectedTutorType } from "@/lib/types";
-import { useAuth } from "@clerk/nextjs";
-import { toast } from "sonner";
 import { MemberLimitSelector } from "./MemberLimitSelector";
 import { DateAndTimePicker } from "./DateAndTimePicker";
 import { useSession } from "@/app/_hooks/use-session";
@@ -34,7 +32,7 @@ export function SessionEditBtn({ session }: { session: CreateSessionType }) {
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
 
   const { allSessions } = useSession();
-  function gettutorEmails() {}
+
   return (
     <div>
       <form>
