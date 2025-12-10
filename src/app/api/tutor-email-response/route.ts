@@ -115,8 +115,8 @@ export async function GET(request: NextRequest) {
   if (nextTutorResult.noTutorsRemaining) {
     const creator = await MockUser.findById(session.creatorId, "mockUserEmail");
 
-    const cancel = `${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-email-response?sessionId=${session._id}&action=cancel">Cancel Session</a>`;
-    const self = `${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-email-response?sessionId=${session._id}&action=self">Change to Self-Led Session</a>`;
+    const cancel = `${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-email-response?sessionId=${session._id}&action=cancel `;
+    const self = `${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-email-response?sessionId=${session._id}&action=self`;
 
     await transporter.sendMail({
       from: "Study Buddy <oyunmyagmar.g@gmail.com>",
@@ -134,9 +134,8 @@ export async function GET(request: NextRequest) {
       <p>Please select an option below:</p>
       
       <div style="margin-top: 20px;">
-      <a href="${cancel}" style="background: #d9534f; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px; margin-right: 10px;">Accept</a> 
-      <a href="${self}" style="background: #0275d8; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px;">Decline</a>
-
+      <a href="${cancel}" style="background: #d9534f; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px; margin-right: 10px;">Cancel Session</a> 
+      <a href="${self}" style="background: #0275d8; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px;">Change to Self-Led Session</a>
       </div>
       
       <div>
@@ -148,10 +147,8 @@ export async function GET(request: NextRequest) {
       </div>
       
       <p style="margin-top: 25px;">Thank you, <br/>Study Buddy, Buddy-Buddy Team</p>
-
-
      </div>
-`,
+     `,
     });
   }
 
