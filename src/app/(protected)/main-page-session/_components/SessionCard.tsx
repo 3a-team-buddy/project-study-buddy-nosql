@@ -56,6 +56,7 @@ export const SessionCard = ({
               }`}
             >
               {session.status && session.status.toLowerCase()}
+              <JoinBtn session={session} />
             </span>
           )}
           {sessionListType === "other" && <JoinBtn session={session} />}

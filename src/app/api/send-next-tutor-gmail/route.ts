@@ -46,27 +46,34 @@ export async function POST(request: NextRequest) {
     to: nextTutor.tutorId.mockUserEmail,
     subject: "Tutor Invitation - Study Buddy",
     html: `
-    <div style="padding: 20px; line-height: 1.5; color: #333;">
+    <div classname="flex flex-col gap-5 px-5 pb-5 leading-6 text-black">
     <h3>Tutor Invitation - Study Buddy</h3>
 
+    <div classname="flex flex-col gap-1"> 
     <p>Hello, </p>
-
     <p>You have been invited to be a Tutor for the following study session:</p>
-
+    </div>
+   
+    <div> 
     <p><strong>Session title:</strong> ${session.sessionTopicTitle}</p>
     <p><strong>Description:</strong> ${session.description}</p>
     <p><strong>Date:</strong> ${session.value}</p>
     <p><strong>Time:</strong> ${session.time}</p>
     <p><strong>Joined students:</strong> ${session.studentCount?.length} / ${session.maxMember}</p>
+    </div>
+   
 
+    <div classname="flex flex-col gap-1">
     <p>Please select an option below:</p>
 
-    <div style="margin-top: 20px;">
-    <a href="${accept}" style="background: #4CAF50; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px; margin-right: 10px;">Accept</a> 
-    <a href="${decline}" style="background: #d9534f; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px;">Decline</a>
+    <div classname="flex justify-between">
+    <a href="${accept}" classname="bg-emerald-500 text-white px-5 py-3 decoration-0 rounded-md">Accept</a> 
+    <a href="${decline}" classname="bg-red-400 text-white px-5 py-3 decoration-0 rounded-md">Decline</a>
     </div>
+    </div>
+   
     
-    <p style="margin-top: 25px;">Thank you, <br/>Study Buddy Team</p>
+    <p>Thank you, <br/>Study Buddy Team</p>
   </div>
     `,
   });
