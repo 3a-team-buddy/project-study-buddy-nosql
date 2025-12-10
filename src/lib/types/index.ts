@@ -5,6 +5,8 @@ export type MockTopicType = {
 };
 
 export type MockUserType = {
+  image: string;
+  name?: string;
   _id: string;
   mockUserClerkId?: string;
   mockUserName: string;
@@ -63,31 +65,31 @@ export type SelectedStudentType = {
   email: string;
 };
 
-// export interface CreateSessionType {
-//   _id: string;
-//   sessionTopicTitle: string;
-//   description: string;
-//   value: string; // date
-//   time: string;
-//   selectedSessionType: string;
-//   status?: "WAITING" | "ACCEPTED" | string;
-//   studentCount?: string[];
-//   maxMember: number;
-//   assignedTutor?: {
-//     name: string;
-//     image: string;
-//   };
-// }
+export interface CreateSessionType1 {
+  _id: string;
+  sessionTopicTitle: string;
+  description: string;
+  value: string; // date
+  time: string;
+  selectedSessionType: string;
+  status?: "WAITING" | "ACCEPTED" | string;
+  studentCount?: string[];
+  maxMember: number;
+  assignedTutor?: {
+    name: string;
+    image: string;
+  };
+}
 
-// export interface JoinedStudentType {
-//   _id: string;
-//   studentId: {
-//     mockUserName: string;
-//     mockUserImage: string;
-//   };
-// }
+export interface JoinedStudentType1 {
+  _id: string;
+  studentId: {
+    mockUserName: string;
+    mockUserImage: string;
+  };
+}
 
-// export interface SessionCardData extends CreateSessionType {
-//   id: string;
-//   category: "Created Sessions" | "Joined Sessions" | "More Sessions";
-// }
+export interface SessionCardData extends CreateSessionType {
+  id: string;
+  category: "Created Sessions" | "Joined Sessions" | "More Sessions";
+}

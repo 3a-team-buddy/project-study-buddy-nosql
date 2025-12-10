@@ -14,7 +14,7 @@ import {
   LogOut,
   UserPlus,
 } from "lucide-react";
-import type { JoinedStudentType } from "@/lib/types";
+import type { JoinedStudentType, JoinedStudentType1 } from "@/lib/types";
 import { useCard } from "./CardContext";
 
 export default function CardModal() {
@@ -31,7 +31,7 @@ export default function CardModal() {
   const fetchJoinedStudents = async () => {
     setIsLoading(true);
     // Mock data for demonstration - replace with actual API call
-    const mockStudents: JoinedStudentType[] = [
+    const mockStudents: JoinedStudentType1[] = [
       {
         _id: "1",
         studentId: {

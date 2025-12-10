@@ -28,18 +28,18 @@ export default function CardChunk({
     }
   });
 
-  const handleClick = (e: any) => {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     setSelectedChunk(isSelected ? null : category);
   };
 
-  const handlePointerOver = (e: any) => {
+  const handlePointerOver = (e: React.PointerEvent<HTMLDivElement>) => {
     e.stopPropagation();
     setHovered(true);
     document.body.style.cursor = "pointer";
   };
 
-  const handlePointerOut = (e: any) => {
+  const handlePointerOut = (e: React.PointerEvent<HTMLDivElement>) => {
     e.stopPropagation();
     setHovered(false);
     document.body.style.cursor = "auto";
