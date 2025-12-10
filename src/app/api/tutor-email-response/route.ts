@@ -132,8 +132,6 @@ export async function GET(request: NextRequest) {
 
       <h3 style="margin-top: 0;">All Tutors Declined Your Session.</h3>
       
-      <p>Hello, </p>
-      
       <p>
       Unfortunately, all invited tutors have declined your request for the session <strong>"${session.sessionTopicTitle}".</strong>
       Please choose how you would like to proceed.
@@ -147,7 +145,7 @@ export async function GET(request: NextRequest) {
       </div>
       
       
-      <p style="margin-top: 30px; font-size: 14px; color: #555">
+      <p style="margin-top: 50px; color: #555">
       Thank you,<br/>
       <strong style="text-align: center;">Buddy-Buddy Team</strong>
       </p>
