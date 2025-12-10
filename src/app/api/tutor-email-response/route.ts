@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const session = await Session.findById(sessionId);
+  const session = await Session.findById(sessionId).populate("assignedTutor");
   const tutor = await SelectedTutor.findById(tutorId).populate("tutorId");
 
   if (!session || !tutor) {
@@ -70,7 +70,7 @@ export async function GET(request: NextRequest) {
         transporter.sendMail({
           from: "Study Buddy <oyunmyagmar.g@gmail.com>",
           to: student.mockUserEmail,
-          subject: "Session Confirmation Notice",
+          subject: "Session Confirmation",
           html: `
           <div style="padding: 20px; line-height: 1.6; color: #333;">
 
@@ -79,12 +79,12 @@ export async function GET(request: NextRequest) {
           <p style="margin: 0; font-size: 12px; color: #555;">Together • Learn • Leap</p>
           </div>
 
-          <h3>Your Session is Confirmed</h3>
+          <h3 style="color: #255A27;">Session Confirmed</h3>
 
           <p>
           Great news!<br/> 
-          Your joined session 
-          <strong>"${session.sessionTopicTitle}"</strong> has been confirmed.
+          Your joined session
+          <strong>"${session.sessionTopicTitle}"</strong> has been <strong>confirmed</strong>.
           </p>
           
           <p style="margin: 0;">
@@ -93,8 +93,8 @@ export async function GET(request: NextRequest) {
           <strong>Study Content:</strong> ${session.description}<br/>
           📅 <strong>Date:</strong> ${session.value}<br/>
           ⏰ <strong>Starts At:</strong> ${session.time}<br/>
-          👥 <strong>Joined Students:</strong> ${session.studentCount?.length}/${session.maxMember}<br/>
-          🎓 <strong>Tutor:</strong> ${session.assignedTutor}
+          👥 <strong>Joined Students:</strong> ${session.studentCount?.length}+<br/>
+          🎓 <strong>Tutor:</strong> ${session.assignedTutor?.mockUserName}
           </p>
 
           <p style="margin-top: 80px; color: #555;">
@@ -111,7 +111,7 @@ export async function GET(request: NextRequest) {
     await transporter.sendMail({
       from: "Study Buddy <oyunmyagmar.g@gmail.com>",
       to: tutor.tutorId.mockUserEmail,
-      subject: "Tutor Assignment Re-Confirmation Notice",
+      subject: "Tutor Assignment Confirmation",
       html: `
       <div style="padding: 20px; line-height: 1.6; color: #333;">
       
@@ -120,11 +120,11 @@ export async function GET(request: NextRequest) {
       <p style="margin: 0; font-size: 12px; color: #555;">Together • Learn • Leap</p>
       </div>
 
-      <h3>Tutor Assignment Confirmation</h3>
+      <h3 style="color: #255A27;">Tutor Assignment Confirmation</h3>
 
       <p>
-      You have successfully <strong>accepted</strong> the tutoring session
-      <strong>"${session.sessionTopicTitle}"</strong> scheduled on <strong>${session.value}.</strong><br/>
+      You have <strong>accepted</strong> to tutor study session
+      <strong>"${session.sessionTopicTitle}"</strong> scheduled on <strong>${session.value}</strong> at <strong>${session.time}.</strong><br/>
       All joined students have been notified.
       </p>
 
@@ -172,7 +172,7 @@ export async function GET(request: NextRequest) {
     await transporter.sendMail({
       from: "Study Buddy <oyunmyagmar.g@gmail.com>",
       to: creator.mockUserEmail,
-      subject: "Tutor Decline Notice",
+      subject: "Tutor Declined",
       html: `
       <div style="padding: 20px; line-height: 1.6; color: #333;">
 
@@ -181,11 +181,12 @@ export async function GET(request: NextRequest) {
       <p style="margin: 0; font-size: 12px; color: #555;">Together • Learn • Leap</p>
       </div>
 
-      <h3>All Tutors Declined Your Session</h3>
+      <h3 style="color: #441614;">All Tutors Declined</h3>
       
       <p>
-      Unfortunately, all invited tutors have declined your request for the session<br/>
-      <strong>"${session.sessionTopicTitle}"</strong> scheduled on <strong>${session.value}.</strong>
+      Unfortunately,<br/> 
+      all invited tutors have <strong>declined</strong> your request for the session<br/>
+      <strong>"${session.sessionTopicTitle}"</strong> scheduled on <strong>${session.value}</strong> at <strong>${session.time}</strong>.
       </p>
 
       <div style="margin-top: 40px;">

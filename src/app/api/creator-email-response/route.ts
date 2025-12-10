@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
         transporter.sendMail({
           from: "Study Buddy <oyunmyagmar.g@gmail.com>",
           to: student.mockUserEmail,
-          subject: "Session Cancellation Notice",
+          subject: "Session Cancelled",
           html: `
           <div style="padding: 20px; line-height: 1.6; color: #333;">
           
@@ -51,17 +51,16 @@ export async function GET(request: NextRequest) {
           <p style="margin: 0; font-size: 12px; color: #555;">Together • Learn • Leap</p>
           </div>
   
-          <h3 style="color:#d9534f;">Session Cancelled</h3>
+          <h3 style="color: #441614;">Session Cancelled</h3>
           
           <p>
           Unfortunately, your joined session<br/> 
           <strong>"${session.sessionTopicTitle}"</strong> scheduled on 
-          <strong>${session.value}</strong><br/> 
-          has been <strong>cancelled</strong>.
+          <strong>${session.value}</strong> at <strong>${session.time}</strong> has been <strong>cancelled</strong>.
           </p>
           
-          <p style="color: #666;">
-          You may join any available session or create a new one anytime.
+          <p style="color: #555;">
+          You’re welcome to join another available session or create a new one.
           </p>
 
           <p style="margin-top: 80px; color: #555;">
@@ -90,7 +89,7 @@ export async function GET(request: NextRequest) {
         transporter.sendMail({
           from: "Study Buddy <oyunmyagmar.g@gmail.com>",
           to: student.mockUserEmail,
-          subject: "Session Type Changed",
+          subject: "Session Changed To SELF-LED",
           html: `
           <div style="padding: 20px; line-height: 1.6; color: #333;">
           
@@ -99,19 +98,19 @@ export async function GET(request: NextRequest) {
           <p style="margin: 0; font-size: 12px; color: #555;">Together • Learn • Leap</p>
           </div>
   
-          <h3 style="color:#4a6cf7;">Session Changed to SELF-LED</h3>
+          <h3 style="color: #FF8C00;">Session Changed To SELF-LED</h3>
           
           <p>
           Your session has been changed to <strong>SELF-LED</strong>.
           </p>
 
           <p style="margin: 0;">
-          <strong>Session Details:</strong><br/><br/>
+          <strong>Session Details:</strong><br/>
           <strong>Topic:</strong> ${session.sessionTopicTitle}<br/>
           <strong>Study Content:</strong> ${session.description}<br/>
           📅 <strong>Date:</strong> ${session.value}<br/>
           ⏰ <strong>Starts At:</strong> ${session.time}<br/>
-          👥 <strong>Joined Students:</strong> ${session.studentCount?.length}/${session.maxMember}
+          👥 <strong>Joined Students:</strong> ${session.studentCount?.length}+
           </p>
           
           <p style="margin-top: 80px; color: #555;">

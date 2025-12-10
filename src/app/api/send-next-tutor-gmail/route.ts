@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
   await transporter.sendMail({
     from: "Study Buddy <oyunmyagmar.g@gmail.com>",
     to: nextTutor.tutorId.mockUserEmail,
-    subject: "Tutor Invitation Notice",
+    subject: "Tutor Invitation",
     html: `
     <div style="padding: 20px; line-height: 1.6; color: #333;">
     
@@ -52,18 +52,18 @@ export async function POST(request: NextRequest) {
 
     <h3>Tutor Invitation</h3>
 
-    <p>You have been invited to tutor the following session:</p>
+    <p>You have been invited to tutor the following study session:</p>
 
     <p style="margin: 0;">
     <strong>Topic:</strong> ${session.sessionTopicTitle}<br/>
     <strong>Study Content:</strong> ${session.description}<br/>
     📅 <strong>Date:</strong> ${session.value}<br/>
     ⏰ <strong>Starts At:</strong> ${session.time}<br/>
-    👥 <strong>Joined Students:</strong> ${session.studentCount?.length}/${session.maxMember}
+    👥 <strong>Joined Students:</strong> ${session.studentCount?.length}+
     </p>
 
     <div style="margin-top: 40px;">
-    <p>Please choose an option below:</p>
+    <p>Please kindly choose one of the options below:</p>
     <div> 
     <a href="${accept}" style="background: #4CAF50; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px; margin-right: 10px;">
     <strong>Accept</strong> 
