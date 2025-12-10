@@ -121,7 +121,7 @@ export async function GET(request: NextRequest) {
     await transporter.sendMail({
       from: "Study Buddy <oyunmyagmar.g@gmail.com>",
       to: creator.mockUserEmail,
-      subject: "Tutor Decline Notice - Study Buddy",
+      subject: "Tutor Decline Notice",
       html: `
       <div style="padding: 20px; line-height: 1.6; color: #333;">
 
@@ -134,8 +134,10 @@ export async function GET(request: NextRequest) {
       
       <p>Hello, </p>
       
-      <p>Unfortunately, all invited tutors have declined your session ${session.sessionTopicTitle} request.<br/> 
-      Please choose how you would like to proceed.</p>
+      <p>
+      Unfortunately, all invited tutors have declined your request for the session <strong>"${session.sessionTopicTitle}".</strong>
+      Please choose how you would like to proceed.
+      </p>
 
       <p><strong>Select an option below:</strong></p>
       
@@ -145,7 +147,8 @@ export async function GET(request: NextRequest) {
       </div>
       
       
-      <p style="margin-top: 30px; font-size: 14px; color: #555">Thank you,<br/>
+      <p style="margin-top: 30px; font-size: 14px; color: #555">
+      Thank you,<br/>
       <strong style="text-align: center;">Buddy-Buddy Team</strong>
       </p>
 
