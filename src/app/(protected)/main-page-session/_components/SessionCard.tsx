@@ -49,10 +49,12 @@ export const SessionCard = ({
             <span
               className={`text-sm font-medium ${
                 session.status === "WAITING"
-                  ? "text-orange-300"
+                  ? "text-yellow-500"
                   : session.status === "ACCEPTED"
-                  ? "text-green-400"
-                  : "text-orange-300"
+                  ? "text-green-500"
+                  : session.status === "CANCELED"
+                  ? "text-red-500"
+                  : ""
               }`}
             >
               {session.status && session.status.toLowerCase()}
