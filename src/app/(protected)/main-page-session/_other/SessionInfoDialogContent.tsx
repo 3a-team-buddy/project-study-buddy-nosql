@@ -25,6 +25,7 @@ export const SessionInfoDialogContent = ({
           {session.description}
         </DialogDescription>
       </DialogHeader>
+      <div>hooson ustgah</div>
 
       <SessionDetails session={session} />
 
