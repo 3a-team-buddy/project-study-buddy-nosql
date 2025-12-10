@@ -51,11 +51,14 @@ export const SessionCard = ({
                 session.status === "WAITING"
                   ? "text-orange-300"
                   : session.status === "ACCEPTED"
-                  ? "text-green-400"
-                  : "text-orange-300"
+                  ? "text-green-600"
+                  : session.status === "CANCELED"
+                  ? "text-red-700"
+                  : ""
               }`}
             >
               {session.status && session.status.toLowerCase()}
+              <JoinBtn session={session} />
             </span>
           )}
           {sessionListType === "other" && <JoinBtn session={session} />}

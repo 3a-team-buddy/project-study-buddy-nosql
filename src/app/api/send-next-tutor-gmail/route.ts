@@ -20,7 +20,6 @@ export async function POST(request: NextRequest) {
   if (!session) {
     return NextResponse.json({ message: "Session not found" }, { status: 404 });
   }
-  // console.log({ session }, "SESSSSSION");
 
   const nextTutor = await SelectedTutor.findOne({
     createdSessionId: sessionId,
@@ -28,8 +27,6 @@ export async function POST(request: NextRequest) {
   })
     .populate("tutorId")
     .sort({ order: 1 });
-
-  // console.log({ nextTutor }, "NEXTNEXTTUTOR");
 
   if (!nextTutor) {
     return NextResponse.json({
@@ -44,30 +41,46 @@ export async function POST(request: NextRequest) {
   await transporter.sendMail({
     from: "Study Buddy <oyunmyagmar.g@gmail.com>",
     to: nextTutor.tutorId.mockUserEmail,
-    subject: "Tutor Invitation - Study Buddy",
+    subject: "Tutor Invitation",
     html: `
-    <div style="padding: 20px; line-height: 1.5; color: #333;">
-    <h3>Tutor Invitation - Study Buddy</h3>
+    <div style="padding: 20px; line-height: 1.6; color: #333;">
+    
+    <div style="text-align: center; margin-bottom: 20px;">
+    <h2 style="color: #0275d8; margin: 0;">📘Study Buddy</h2>
+    <p style="margin: 0; font-size: 12px; color: #555;">Together • Learn • Leap</p>
+    </div>
 
-    <p>Hello, </p>
+    <h3>Tutor Invitation</h3>
 
-    <p>You have been invited to be a Tutor for the following study session:</p>
+    <p>You have been invited to tutor the following study session:</p>
 
-    <p><strong>Session title:</strong> ${session.sessionTopicTitle}</p>
-    <p><strong>Description:</strong> ${session.description}</p>
-    <p><strong>Date:</strong> ${session.value}</p>
-    <p><strong>Time:</strong> ${session.time}</p>
-    <p><strong>Joined students:</strong> ${session.studentCount?.length} / ${session.maxMember}</p>
+    <p style="margin: 0;">
+    <strong>Topic:</strong> ${session.sessionTopicTitle}<br/>
+    <strong>Study Content:</strong> ${session.description}<br/>
+    📅 <strong>Date:</strong> ${session.value}<br/>
+    ⏰ <strong>Starts At:</strong> ${session.time}<br/>
+    👥 <strong>Joined Students:</strong> ${session.studentCount?.length}+
+    </p>
 
-    <p>Please select an option below:</p>
-
-    <div style="margin-top: 20px;">
-    <a href="${accept}" style="background: #4CAF50; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px; margin-right: 10px;">Accept</a> 
-    <a href="${decline}" style="background: #d9534f; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px;">Decline</a>
+    <div style="margin-top: 40px;">
+    <p>Please kindly choose one of the options below:</p>
+    <div> 
+    <a href="${accept}" style="background: #4CAF50; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px; margin-right: 10px;">
+    <strong>Accept</strong> 
+    </a> 
+    
+    <a href="${decline}" style="background: #d9534f; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px;">
+    <strong>Decline</strong> 
+    </a>
+    </div>
     </div>
     
-    <p style="margin-top: 25px;">Thank you, <br/>Study Buddy Team</p>
-  </div>
+    <p style="margin-top: 80px; color: #555">
+    Thank you,<br/>
+    <strong>Buddy-Buddy Team</strong>
+    </p>
+
+    </div>
     `,
   });
 

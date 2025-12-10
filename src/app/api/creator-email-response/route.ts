@@ -19,13 +19,13 @@ export async function GET(request: NextRequest) {
   }
 
   const session = await Session.findById(sessionId);
+
   const students = await MockUser.find(
     {
       _id: { $in: session.studentCount },
     },
-    "mockerUserEmail"
+    "mockUserEmail"
   );
-
   if (!session) {
     return NextResponse.json(
       { message: "Session not found"! },
@@ -42,9 +42,34 @@ export async function GET(request: NextRequest) {
         transporter.sendMail({
           from: "Study Buddy <oyunmyagmar.g@gmail.com>",
           to: student.mockUserEmail,
-          subject: "Session Cancellation",
+          subject: "Session Cancelled",
           html: `
-          <p>Your session has been cancelled.</p>`,
+          <div style="padding: 20px; line-height: 1.6; color: #333;">
+          
+          <div style="text-align: center; margin-bottom: 20px;">
+          <h2 style="color: #0275d8; margin: 0;">📘 Study Buddy</h2>
+          <p style="margin: 0; font-size: 12px; color: #555;">Together • Learn • Leap</p>
+          </div>
+  
+          <h3 style="color: #750000;">Session Cancelled</h3>
+          
+          <p>
+          Unfortunately, your joined session<br/> 
+          <strong>"${session.sessionTopicTitle}"</strong> scheduled on 
+          <strong>${session.value}</strong> at <strong>${session.time}</strong> has been <strong>cancelled</strong>.
+          </p>
+          
+          <p style="color: #555;">
+          You’re welcome to join another available session or create a new one.
+          </p>
+
+          <p style="margin-top: 80px; color: #555;">
+          Thank you,<br/>
+          <strong>Buddy-Buddy Team</strong>
+          </p>
+
+        </div>
+        `,
         })
       )
     );
@@ -63,10 +88,38 @@ export async function GET(request: NextRequest) {
       students.map((student) =>
         transporter.sendMail({
           from: "Study Buddy <oyunmyagmar.g@gmail.com>",
-          to: student.mockerUserEmail,
-          subject: "Session Type Changed",
+          to: student.mockUserEmail,
+          subject: "Session Changed To SELF-LED",
           html: `
-          <p>Your session type has been changed to SELF-LED</p>`,
+          <div style="padding: 20px; line-height: 1.6; color: #333;">
+          
+          <div style="text-align: center; margin-bottom: 20px;">
+          <h2 style="color: #0275d8; margin: 0;">📘 Study Buddy</h2>
+          <p style="margin: 0; font-size: 12px; color: #555;">Together • Learn • Leap</p>
+          </div>
+  
+          <h3 style="color: #A31B00;">Session Changed To SELF-LED</h3>
+          
+          <p>
+          Your session has been changed to <strong>SELF-LED</strong>.
+          </p>
+
+          <p style="margin: 0;">
+          <strong>Session Details:</strong><br/>
+          <strong>Topic:</strong> ${session.sessionTopicTitle}<br/>
+          <strong>Study Content:</strong> ${session.description}<br/>
+          📅 <strong>Date:</strong> ${session.value}<br/>
+          ⏰ <strong>Starts At:</strong> ${session.time}<br/>
+          👥 <strong>Joined Students:</strong> ${session.studentCount?.length}+
+          </p>
+          
+          <p style="margin-top: 80px; color: #555;">
+          Thank you,<br/>
+          <strong>Buddy-Buddy Team</strong>
+          </p>
+
+          </div>
+          `,
         })
       )
     );
