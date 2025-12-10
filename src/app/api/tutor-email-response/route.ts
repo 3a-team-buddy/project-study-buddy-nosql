@@ -75,7 +75,8 @@ export async function GET(request: NextRequest) {
           <div style="padding: 20px; line-height: 1.6; color: #333;">
 
           <div style="text-align: center; margin-bottom: 20px;">
-          <p style="margin: 0; font-size: 12px; color: #555;">Together • Learn • Leap</p>
+          <h2 style="color: #0275d8; margin: 0;">📘Study Buddy</h2>
+          <p style="margin: 0; font-size: 12px; color: #555;">Together * Learn * Leap</p>
           </div>
 
           <h3>Your Session is Confirmed</h3>
@@ -93,7 +94,7 @@ export async function GET(request: NextRequest) {
           👥 <strong>Joined students:</strong> ${session.studentCount?.length}/${session.maxMember}
           </p>
 
-          <p style="margin-top: 60px; color: #555;">
+          <p style="margin-top: 80px; color: #555;">
           Thank you,<br/>
           <strong>Buddy-Buddy Team</strong>
           </p>

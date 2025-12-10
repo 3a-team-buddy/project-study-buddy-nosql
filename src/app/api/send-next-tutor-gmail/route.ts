@@ -56,7 +56,6 @@ export async function POST(request: NextRequest) {
     <h3>Tutor Invitation</h3>
 
     <p>You have been invited to tutor the following session:</p>
-   
     <p style="margin: 0;">
     <strong>Title:</strong> ${session.sessionTopicTitle}<br/>
     <strong>Description:</strong> ${session.description}<br/>
