@@ -79,7 +79,7 @@ export async function GET(request: NextRequest) {
           <p style="margin: 0; font-size: 12px; color: #555;">Together • Learn • Leap</p>
           </div>
 
-          <h3 style="color: #255A27;">Session Confirmed</h3>
+          <h3 style="color: #004700;">Session Confirmed</h3>
 
           <p>
           Great news!<br/> 
@@ -94,7 +94,7 @@ export async function GET(request: NextRequest) {
           📅 <strong>Date:</strong> ${session.value}<br/>
           ⏰ <strong>Starts At:</strong> ${session.time}<br/>
           👥 <strong>Joined Students:</strong> ${session.studentCount?.length}+<br/>
-          🎓 <strong>Tutor:</strong> ${session.assignedTutor?.mockUserName}
+          🎓 <strong>Tutor:</strong> ${session.assignedTutor?.tutorId.mockUserEmail}
           </p>
 
           <p style="margin-top: 80px; color: #555;">
@@ -120,7 +120,7 @@ export async function GET(request: NextRequest) {
       <p style="margin: 0; font-size: 12px; color: #555;">Together • Learn • Leap</p>
       </div>
 
-      <h3 style="color: #255A27;">Tutor Assignment Confirmation</h3>
+      <h3 style="color: #004700;">Tutor Assignment Confirmation</h3>
 
       <p>
       You have <strong>accepted</strong> to tutor study session
@@ -181,11 +181,11 @@ export async function GET(request: NextRequest) {
       <p style="margin: 0; font-size: 12px; color: #555;">Together • Learn • Leap</p>
       </div>
 
-      <h3 style="color: #441614;">All Tutors Declined</h3>
+      <h3 style="color: #750000;">All Tutors Declined</h3>
       
       <p>
       Unfortunately,<br/> 
-      all invited tutors have <strong>declined</strong> your request for the session<br/>
+      All invited tutors have <strong>declined</strong> your request for the session 
       <strong>"${session.sessionTopicTitle}"</strong> scheduled on <strong>${session.value}</strong> at <strong>${session.time}</strong>.
       </p>
 

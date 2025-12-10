@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
           <p style="margin: 0; font-size: 12px; color: #555;">Together • Learn • Leap</p>
           </div>
   
-          <h3 style="color: #441614;">Session Cancelled</h3>
+          <h3 style="color: #750000;">Session Cancelled</h3>
           
           <p>
           Unfortunately, your joined session<br/> 
@@ -98,7 +98,7 @@ export async function GET(request: NextRequest) {
           <p style="margin: 0; font-size: 12px; color: #555;">Together • Learn • Leap</p>
           </div>
   
-          <h3 style="color: #FF8C00;">Session Changed To SELF-LED</h3>
+          <h3 style="color: #A31B00;">Session Changed To SELF-LED</h3>
           
           <p>
           Your session has been changed to <strong>SELF-LED</strong>.
