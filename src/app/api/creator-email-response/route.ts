@@ -20,18 +20,19 @@ export async function GET(request: NextRequest) {
 
   const session = await Session.findById(sessionId);
 
+  if (!session) {
+    return NextResponse.json(
+      { message: "Session not found!" },
+      { status: 404 }
+    );
+  }
+
   const students = await MockUser.find(
     {
       _id: { $in: session.studentCount },
     },
     "mockUserEmail"
   );
-  if (!session) {
-    return NextResponse.json(
-      { message: "Session not found"! },
-      { status: 404 }
-    );
-  }
 
   if (action === "cancel") {
     session.status = "CANCELED";

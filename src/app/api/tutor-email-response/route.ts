@@ -24,9 +24,6 @@ export async function GET(request: NextRequest) {
   const session = await Session.findById(sessionId).populate("assignedTutor");
   const tutor = await SelectedTutor.findById(tutorId).populate("tutorId");
 
-  console.log({ session }, "SES");
-  console.log({ tutor }, "TUT");
-
   if (!session || !tutor) {
     return NextResponse.json(
       { message: "Session or Tutor not found!" },
@@ -36,13 +33,13 @@ export async function GET(request: NextRequest) {
 
   if (tutor.invitationStatus === "ACCEPTED") {
     return NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/tutor/accepted?sessionId=${session._id}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/tutor/accepted`
     );
   }
 
   if (tutor.invitationStatus === "DECLINED") {
     return NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/tutor/thank-you?sessionId=${session._id}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/tutor/thank-you`
     );
   }
 
@@ -97,7 +94,7 @@ export async function GET(request: NextRequest) {
           📅 <strong>Date:</strong> ${session.value}<br/>
           ⏰ <strong>Starts At:</strong> ${session.time}<br/>
           👥 <strong>Joined Students:</strong> ${session.studentCount?.length}+<br/>
-          🎓 <strong>Tutor:</strong> ${session.assignedTutor?.tutorId.mockUserEmail}
+          🎓 <strong>Tutor:</strong> ${tutor.tutorId.mockUserEmail}
           </p>
 
           <p style="margin-top: 80px; color: #555;">
