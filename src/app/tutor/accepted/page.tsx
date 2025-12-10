@@ -1,12 +1,12 @@
-import { Main } from "../components/Main";
+import { Main } from "../_components/Main";
 
 const TutorAcceptedPage = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-[#F1F4F6] via-[#E8EBEF] to-[#F1F4F6] p-4">
       <Main
         title="Thank You!"
-        description="You accepted the session."
-        footerText="We notified the students 🎄"
+        description="You have accepted the request to tutor."
+        footerText="We've notified the students 🎄"
       />
     </div>
   );
