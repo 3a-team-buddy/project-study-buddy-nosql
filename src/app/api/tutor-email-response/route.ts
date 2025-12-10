@@ -137,11 +137,13 @@ export async function GET(request: NextRequest) {
       Please choose how you would like to proceed.
       </p>
 
-      <p><strong>Select an option below:</strong></p>
       
       <div style="margin-top: 40px;">
+      <p><strong>Select an option below:</strong></p>
+      <div style="margin-top: 10px">
       <a href="${cancel}" style="background: #d9534f; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px; margin-right: 10px;">Cancel</a> 
       <a href="${self}" style="background: #0275d8; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px;">Self-Led</a>
+      </div>
       </div>
       
       
