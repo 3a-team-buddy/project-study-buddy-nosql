@@ -29,8 +29,6 @@ export async function POST(request: NextRequest) {
     .populate("tutorId")
     .sort({ order: 1 });
 
-  // console.log({ nextTutor }, "NEXTNEXTTUTOR");
-
   if (!nextTutor) {
     return NextResponse.json({
       message: "No more tutors to email",
@@ -50,25 +48,31 @@ export async function POST(request: NextRequest) {
     
     <div style="text-align: center; margin-bottom: 20px;">
     <h2 style="color: #0275d8; margin: 0;">📘Study Buddy</h2>
-    <p style="margin: 0; font-size: 12px; color: #555;">Together * Learn * Leap</p>
+    <p style="margin: 0; font-size: 12px; color: #555;">Together • Learn • Leap</p>
     </div>
 
     <h3>Tutor Invitation</h3>
 
     <p>You have been invited to tutor the following session:</p>
+
     <p style="margin: 0;">
-    <strong>Title:</strong> ${session.sessionTopicTitle}<br/>
-    <strong>Description:</strong> ${session.description}<br/>
+    <strong>Topic:</strong> ${session.sessionTopicTitle}<br/>
+    <strong>Study Content:</strong> ${session.description}<br/>
     📅 <strong>Date:</strong> ${session.value}<br/>
-    ⏰ <strong>Starts at:</strong> ${session.time}<br/>
-    👥 <strong>Joined students:</strong> ${session.studentCount?.length}/${session.maxMember}
+    ⏰ <strong>Starts At:</strong> ${session.time}<br/>
+    👥 <strong>Joined Students:</strong> ${session.studentCount?.length}/${session.maxMember}
     </p>
 
     <div style="margin-top: 40px;">
     <p>Please choose an option below:</p>
     <div> 
-    <a href="${accept}" style="background: #4CAF50; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px; margin-right: 10px;">Accept</a> 
-    <a href="${decline}" style="background: #d9534f; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px;">Decline</a>
+    <a href="${accept}" style="background: #4CAF50; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px; margin-right: 10px;">
+    <strong>Accept</strong> 
+    </a> 
+    
+    <a href="${decline}" style="background: #d9534f; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px;">
+    <strong>Decline</strong> 
+    </a>
     </div>
     </div>
     

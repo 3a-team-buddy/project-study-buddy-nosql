@@ -76,22 +76,25 @@ export async function GET(request: NextRequest) {
 
           <div style="text-align: center; margin-bottom: 20px;">
           <h2 style="color: #0275d8; margin: 0;">📘Study Buddy</h2>
-          <p style="margin: 0; font-size: 12px; color: #555;">Together * Learn * Leap</p>
+          <p style="margin: 0; font-size: 12px; color: #555;">Together • Learn • Leap</p>
           </div>
 
           <h3>Your Session is Confirmed</h3>
 
-          <p>Great news!<br/> Your joined session 
+          <p>
+          Great news!<br/> 
+          Your joined session 
           <strong>"${session.sessionTopicTitle}"</strong> has been confirmed.
           </p>
           
           <p style="margin: 0;">
-          <strong>Session details:<strong><br/>
-          <strong>Title:</strong> ${session.sessionTopicTitle}<br/>
-          <strong>Description:</strong> ${session.description}<br/>
+          <strong>Session Details:</strong><br/><br/>
+          <strong>Topic:</strong> ${session.sessionTopicTitle}<br/>
+          <strong>Study Content:</strong> ${session.description}<br/>
           📅 <strong>Date:</strong> ${session.value}<br/>
-          ⏰ <strong>Starts at:</strong> ${session.time}<br/>
-          👥 <strong>Joined students:</strong> ${session.studentCount?.length}/${session.maxMember}
+          ⏰ <strong>Starts At:</strong> ${session.time}<br/>
+          👥 <strong>Joined Students:</strong> ${session.studentCount?.length}/${session.maxMember}<br/>
+          🎓 <strong>Tutor:</strong> ${session.assignedTutor}
           </p>
 
           <p style="margin-top: 80px; color: #555;">
@@ -107,10 +110,30 @@ export async function GET(request: NextRequest) {
     await transporter.sendMail({
       from: "Study Buddy <oyunmyagmar.g@gmail.com>",
       to: tutor.tutorId.mockUserEmail,
-      subject: "Tutor Assignment reConfirmed",
+      subject: "Tutor Assignment Re-Confirmation Notice",
       html: `
-      <p>You have accepted the session!</p>
-      <p>Students have been notified.</p>`,
+      <div style="padding: 20px; line-height: 1.6; color: #333;">
+      
+      <div style="text-align: center; margin-bottom: 20px;">
+      <h2 style="color: #0275d8; margin: 0;">📘 Study Buddy</h2>
+      <p style="margin: 0; font-size: 12px; color: #555;">Together • Learn • Leap</p>
+      </div>
+
+      <h3>Tutor Assignment Re-Confirmation</h3>
+
+      <p>
+      You have successfully <strong>accepted</strong> the tutoring session<br/>
+      <strong>"${session.sessionTopicTitle}".</strong><br/>
+      All joined students have been notified.
+      </p>
+
+      <p style="margin-top: 80px; color: #555;">
+      Thank you,<br/>
+      <strong>Buddy-Buddy Team</strong>
+      </p>
+
+    </div>
+   `,
     });
 
     // const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
@@ -154,21 +177,26 @@ export async function GET(request: NextRequest) {
 
       <div style="text-align: center; margin-bottom: 20px;">
       <h2 style="color: #0275d8; margin: 0;">📘Study Buddy</h2>
-      <p style="margin: 0; font-size: 12px; color: #555;">Together * Learn * Leap</p>
+      <p style="margin: 0; font-size: 12px; color: #555;">Together • Learn • Leap</p>
       </div>
 
-      <h3>All Tutors Declined Your Session!</h3>
+      <h3>All Tutors Declined Your Session</h3>
       
       <p>
-      Unfortunately, all invited tutors have declined your request for the session:<br/>
-      <strong>"${session.sessionTopicTitle}".</strong><br/>
+      Unfortunately, all invited tutors have declined your request for the session<br/>
+      <strong>"${session.sessionTopicTitle}".</strong>
       </p>
 
       <div style="margin-top: 40px;">
       <p>Please choose how you would like to proceed the session:</p>
       <div>
-      <a href="${cancel}" style="background: #d9534f; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px; margin-right: 10px;"><strong>Cancel</strong></a> 
-      <a href="${self}" style="background: #0275d8; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px;"><strong>Self-Led</strong></a>
+      <a href="${cancel}" style="background: #d9534f; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px; margin-right: 10px;">
+      <strong>Cancel</strong>
+      </a> 
+
+      <a href="${self}" style="background: #0275d8; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px;">
+      <strong>Self-Led</strong>
+      </a>
       </div>
       </div>
       
