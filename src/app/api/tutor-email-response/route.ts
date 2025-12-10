@@ -121,20 +121,20 @@ export async function GET(request: NextRequest) {
     await transporter.sendMail({
       from: "Study Buddy <oyunmyagmar.g@gmail.com>",
       to: creator.mockUserEmail,
-      subject: "Tutor Decline Notice - Action Required | Study Buddy",
+      subject: "Tutor Decline Notice - Study Buddy",
       html: `
       <div style="padding: 20px; line-height: 1.6; color: #333;">
 
       <div style="text-align: center; margin-bottom: 25px;">
       <h2 style="color: #0275d8; margin:0;">📘Study Buddy</h2>
-      <p style="margin: 0; font-size: 14px; color: #555;">Buddy-Buddy Team</p>
+      <p style="margin: 0; font-size: 12px; color: #555;">Together * Learn * Leap</p>
       </div>
 
       <h3 style="margin-top: 0;">All Tutors Declined Your Session.</h3>
       
       <p>Hello, </p>
       
-      <p>Unfortunately, all invited tutors have declined your session request. 
+      <p>Unfortunately, all invited tutors have declined your session ${session.sessionTopicTitle} request.<br/> 
       Please choose how you would like to proceed.</p>
 
       <p><strong>Select an option below:</strong></p>
@@ -144,19 +144,11 @@ export async function GET(request: NextRequest) {
       <a href="${self}" style="background: #0275d8; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px;">Self-Led</a>
       </div>
       
-      <div style="margin-top: 25px;">
-      <p><strong>Session title:</strong> ${session.sessionTopicTitle}</p>
-      <p><strong>Description:</strong> ${session.description}</p>
-      <p><strong>Date:</strong> ${session.value}</p>
-      <p><strong>Time:</strong> ${session.time}</p>
-      <p><strong>Joined students:</strong> ${session.studentCount?.length}/${session.maxMember}</p>
-      </div>
       
-      <p style="margin-top: 30px; font-size: 14px; color: #555'">Thank you,<br/>
-      <strong>Study Buddy -  Buddy-Buddy Team</strong><br/>
-      <i>Together * Learn * Leap</i>
+      <p style="margin-top: 30px; font-size: 14px; color: #555">Thank you,<br/>
+      <strong style="text-align: center;">Buddy-Buddy Team</strong>
       </p>
-      
+
      </div>
      `,
     });
