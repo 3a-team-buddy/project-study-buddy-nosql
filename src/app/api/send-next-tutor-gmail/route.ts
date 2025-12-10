@@ -20,7 +20,6 @@ export async function POST(request: NextRequest) {
   if (!session) {
     return NextResponse.json({ message: "Session not found" }, { status: 404 });
   }
-  // console.log({ session }, "SESSSSSION");
 
   const nextTutor = await SelectedTutor.findOne({
     createdSessionId: sessionId,

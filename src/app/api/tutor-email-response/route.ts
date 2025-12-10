@@ -88,7 +88,7 @@ export async function GET(request: NextRequest) {
           </p>
           
           <p style="margin: 0;">
-          <strong>Session Details:</strong><br/><br/>
+          <strong>Session Details:</strong><br/>
           <strong>Topic:</strong> ${session.sessionTopicTitle}<br/>
           <strong>Study Content:</strong> ${session.description}<br/>
           📅 <strong>Date:</strong> ${session.value}<br/>
@@ -120,11 +120,11 @@ export async function GET(request: NextRequest) {
       <p style="margin: 0; font-size: 12px; color: #555;">Together • Learn • Leap</p>
       </div>
 
-      <h3>Tutor Assignment Re-Confirmation</h3>
+      <h3>Tutor Assignment Confirmation</h3>
 
       <p>
       You have successfully <strong>accepted</strong> the tutoring session
-      <strong>"${session.sessionTopicTitle}".</strong><br/>
+      <strong>"${session.sessionTopicTitle}"</strong> scheduled on <strong>${session.value}.</strong><br/>
       All joined students have been notified.
       </p>
 
@@ -185,7 +185,7 @@ export async function GET(request: NextRequest) {
       
       <p>
       Unfortunately, all invited tutors have declined your request for the session<br/>
-      <strong>"${session.sessionTopicTitle}".</strong>
+      <strong>"${session.sessionTopicTitle}"</strong> scheduled on <strong>${session.value}.</strong>
       </p>
 
       <div style="margin-top: 40px;">

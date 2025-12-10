@@ -20,6 +20,12 @@ export async function GET(request: NextRequest) {
 
   const session = await Session.findById(sessionId);
 
+  const students = await MockUser.find(
+    {
+      _id: { $in: session.studentCount },
+    },
+    "mockUserEmail"
+  );
   if (!session) {
     return NextResponse.json(
       { message: "Session not found"! },
@@ -30,13 +36,6 @@ export async function GET(request: NextRequest) {
   if (action === "cancel") {
     session.status = "CANCELED";
     await session.save();
-
-    const students = await MockUser.find(
-      {
-        _id: { $in: session.studentCount },
-      },
-      "mockerUserEmail"
-    );
 
     await Promise.all(
       students.map((student) =>
@@ -86,13 +85,6 @@ export async function GET(request: NextRequest) {
     session.status = "ACCEPTED";
     await session.save();
 
-    const students = await MockUser.find(
-      {
-        _id: { $in: session.studentCount },
-      },
-      "mockerUserEmail"
-    );
-
     await Promise.all(
       students.map((student) =>
         transporter.sendMail({
@@ -105,7 +97,7 @@ export async function GET(request: NextRequest) {
           <div style="text-align: center; margin-bottom: 20px;">
           <h2 style="color: #0275d8; margin: 0;">📘 Study Buddy</h2>
           <p style="margin: 0; font-size: 12px; color: #555;">Together • Learn • Leap</p>
-          /div>
+          </div>
   
           <h3 style="color:#4a6cf7;">Session Changed to SELF-LED</h3>
           
