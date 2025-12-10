@@ -121,24 +121,30 @@ export async function GET(request: NextRequest) {
     await transporter.sendMail({
       from: "Study Buddy <oyunmyagmar.g@gmail.com>",
       to: creator.mockUserEmail,
-      subject: "Tutor Decline Notice - Study Buddy",
+      subject: "Tutor Decline Notice - Action Required | Study Buddy",
       html: `
-      <div style="padding: 20px; padding-top: 4px; line-height: 1.5; color: #333;">
+      <div style="padding: 20px; line-height: 1.6; color: #333;">
 
-      <h3>All tutors declined your session. Action required.</h3>
+      <div style="text-align: center; margin-bottom: 25px;">
+      <h2 style="color: #0275d8; margin:0;">📘Study Buddy</h2>
+      <p style="margin: 0; font-size: 14px; color: #555;">Buddy-Buddy Team</p>
+      </div>
+
+      <h3 style="margin-top: 0;">All Tutors Declined Your Session.</h3>
       
       <p>Hello, </p>
       
-      <p>Do you want to cancel your session or change to SELF-LED session?</p>
+      <p>Unfortunately, all invited tutors have declined your session request. 
+      Please choose how you would like to proceed.</p>
 
-      <p>Please select an option below:</p>
+      <p><strong>Select an option below:</strong></p>
       
       <div style="margin-top: 20px;">
-      <a href="${cancel}" style="background: #d9534f; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px; margin-right: 10px;">Cancel Session</a> 
-      <a href="${self}" style="background: #0275d8; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px;">Change to Self-Led Session</a>
+      <a href="${cancel}" style="background: #d9534f; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px; margin-right: 10px;">Cancel</a> 
+      <a href="${self}" style="background: #0275d8; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px;">Self-Led</a>
       </div>
       
-      <div>
+      <div style="margin-top: 25px;">
       <p><strong>Session title:</strong> ${session.sessionTopicTitle}</p>
       <p><strong>Description:</strong> ${session.description}</p>
       <p><strong>Date:</strong> ${session.value}</p>
@@ -146,7 +152,11 @@ export async function GET(request: NextRequest) {
       <p><strong>Joined students:</strong> ${session.studentCount?.length}/${session.maxMember}</p>
       </div>
       
-      <p style="margin-top: 25px;">Thank you, <br/>Study Buddy, Buddy-Buddy Team</p>
+      <p style="margin-top: 30px; font-size: 14px; color: #555'">Thank you,<br/>
+      <strong>Study Buddy -  Buddy-Buddy Team</strong><br/>
+      <i>Together * Learn * Leap</i>
+      </p>
+      
      </div>
      `,
     });
