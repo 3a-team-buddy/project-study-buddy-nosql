@@ -126,20 +126,20 @@ export async function GET(request: NextRequest) {
       <div style="padding: 20px; line-height: 1.6; color: #333;">
 
       <div style="text-align: center; margin-bottom: 20px;">
-      <h2 style="color: #0275d8; margin:0;">📘Study Buddy</h2>
+      <h2 style="color: #0275d8; margin: 0;">📘Study Buddy</h2>
       <p style="margin: 0; font-size: 12px; color: #555;">Together * Learn * Leap</p>
       </div>
 
       <h3>All Tutors Declined Your Session!</h3>
       
       <p>
-      Unfortunately, all invited tutors have declined your request for the session:<br/><strong>"${session.sessionTopicTitle}".</strong><br/>
-      Please choose how you would like to proceed.
+      Unfortunately, all invited tutors have declined your request for the session:<br/>
+      <strong>"${session.sessionTopicTitle}".</strong><br/>
       </p>
 
       
       <div style="margin-top: 40px;">
-      <p><strong>Select an option below:</strong></p>
+      <p><strong>Please choose how you would like to proceed the session below:</strong></p>
       <div>
       <a href="${cancel}" style="background: #d9534f; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px; margin-right: 10px;">Cancel</a> 
       <a href="${self}" style="background: #0275d8; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px;">Self-Led</a>
@@ -149,7 +149,7 @@ export async function GET(request: NextRequest) {
       
       <p style="margin-top: 60px; color: #555">
       Thank you,<br/>
-      <strong style="text-align: center;">Buddy-Buddy Team</strong>
+      <strong>Buddy-Buddy Team</strong>
       </p>
 
      </div>
