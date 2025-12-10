@@ -44,34 +44,41 @@ export async function POST(request: NextRequest) {
   await transporter.sendMail({
     from: "Study Buddy <oyunmyagmar.g@gmail.com>",
     to: nextTutor.tutorId.mockUserEmail,
-    subject: "Tutor Invitation - Study Buddy",
+    subject: "Tutor Invitation Notice",
     html: `
-    <div style="padding: 20px; padding-top: 4px; line-height: 1.5; color: #333;">
+    <div style="padding: 20px; line-height: 1.6; color: #333;">
+    
+    <div style="text-align: center; margin-bottom: 20px;">
+    <h2 style="color: #0275d8; margin: 0;">📘Study Buddy</h2>
+    <p style="margin: 0; font-size: 12px; color: #555;">Together * Learn * Leap</p>
+    </div>
 
-    <h3>Tutor Invitation - Study Buddy</h3>
+    <h3>Tutor Invitation</h3>
 
-    <p>Hello, </p>
-
-    <p>You have been invited to be a Tutor for the following study session:</p>
+    <p>You have been invited to tutor the session below:</p>
 
     <div>  
-    <p><strong>Title:</strong> ${session.sessionTopicTitle}</p>
-    <p><strong>Description:</strong> ${session.description}</p>
-    <p><strong>Date:</strong> ${session.value}</p>
-    <p><strong>Time:</strong> ${session.time}</p>
-    <p><strong>Joined students:</strong> ${session.studentCount?.length}/${session.maxMember}</p>
+    <p style="margin: 0;"><strong>Title:</strong> ${session.sessionTopicTitle}</p>
+    <p style="margin: 0;"><strong>Description:</strong> ${session.description}</p>
+    <p style="margin: 0;"><strong>Date:</strong> ${session.value}</p>
+    <p style="margin: 0;"><strong>Time:</strong> ${session.time}</p>
+    <p style="margin: 0;"><strong>Joined students:</strong> ${session.studentCount?.length}/${session.maxMember}</p>
     </div>
 
 
-    <p>Please select an option below:</p>
+  
 
-    <div style="margin-top: 20px;">
+    <div style="margin-top: 40px;">
+    <p>Please choose an option below:</p>
+    <div></div>
     <a href="${accept}" style="background: #4CAF50; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px; margin-right: 10px;">Accept</a> 
     <a href="${decline}" style="background: #d9534f; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px;">Decline</a>
     </div>
     
-    <p style="margin-top: 25px;">Thank you, <br/>Study Buddy, Buddy-Buddy Team</p>
-  </div>
+   <p style="margin-top: 80px; color: #555">
+      Thank you,<br/>
+      <strong>Buddy-Buddy Team</strong>
+      </p>  </div>
     `,
   });
 
