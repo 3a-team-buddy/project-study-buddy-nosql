@@ -4,6 +4,8 @@ import Ably from "ably";
 import { checkAuth } from "../check-create-user/route";
 import connectDB from "@/lib/mongodb";
 import { MockUser } from "@/lib/models/MockUser";
+import { sendNextTutorInviteEmail } from "@/lib/services/sendNextTutorInviteEmail";
+import { sendJoinedStudentsNotifySelfEmail } from "@/lib/services/sendJoinedStudentsNotifySelfEmail";
 
 export async function POST(request: NextRequest) {
   try {
@@ -38,6 +40,23 @@ export async function POST(request: NextRequest) {
         { message: "Failed to join the session!" },
         { status: 500 }
       );
+    }
+
+    const updatedCount = updatedSession.studentCount.length;
+    const minMem = updatedSession.minMem;
+    console.log({ updatedCount });
+    console.log({ minMem });
+
+    if (updatedCount === minMem) {
+      const type = updatedSession.selectedSessionType?.toLowerCase();
+
+      if (type === "tutor-led") {
+        await sendNextTutorInviteEmail(updatedSession);
+      }
+
+      if (type === "self-led") {
+        await sendJoinedStudentsNotifySelfEmail(updatedSession);
+      }
     }
 
     const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });

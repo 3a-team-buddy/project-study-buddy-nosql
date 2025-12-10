@@ -7,9 +7,8 @@ import { toast } from "sonner";
 import { useAuth } from "@clerk/nextjs";
 
 export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
-  const [emailSent, setEmailSent] = useState(false);
   const { getToken } = useAuth();
-  console.log({ session });
+
   const joinedStudentHandler = async (sessionId: string) => {
     const token = await getToken();
 
@@ -25,64 +24,60 @@ export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
     });
 
     if (!joinResponse.ok) {
-      toast.error("Failed to join the session");
+      toast.error("Failed to join!");
     }
 
-    toast.success(
-      <>
-        You have successfully joined the session. <br /> View your joined
-        session on My Study Buddies.
-      </>
-    );
+    toast.success("Joined session successfully!");
     const { updatedSession } = await joinResponse.json();
     const updatedStudentCount = updatedSession.studentCount.length;
 
-    //tutor-led
-    if (
-      session.selectedSessionType.toLowerCase() === "tutor-led" &&
-      updatedStudentCount === session.minMember &&
-      !emailSent
-    ) {
-      const emailResponse = await fetch("/api/send-next-tutor-gmail", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId }),
-      });
+    //   //tutor-led
+    //   if (
+    //     session.selectedSessionType.toLowerCase() === "tutor-led" &&
+    //     updatedStudentCount === session.minMember &&
+    //     !emailSent
+    //   ) {
+    //     const emailResponse = await fetch("/api/send-next-tutor-gmail", {
+    //       method: "POST",
+    //       headers: { "Content-Type": "application/json" },
+    //       body: JSON.stringify({ sessionId }),
+    //     });
 
-      if (!emailResponse.ok) {
-        toast.error("Failed to send tutor invite email!");
-      }
+    //     if (!emailResponse.ok) {
+    //       toast.error("Failed to send tutor invite email!");
+    //     }
 
-      toast.success("Tutor invite email sent", {
-        description: session.sessionTopicTitle,
-      });
-      setEmailSent(true);
-    }
+    //     toast.success("Tutor invite email sent", {
+    //       description: session.sessionTopicTitle,
+    //     });
+    //     setEmailSent(true);
+    //   }
 
-    //self-led
-    if (
-      session.selectedSessionType.toLowerCase() === "self-led" &&
-      updatedStudentCount === session.minMember &&
-      !emailSent
-    ) {
-      const emailResponse = await fetch(
-        "/api/send-joined-students-self-gmail",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ sessionId }),
-        }
-      );
+    //   //self-led
+    //   if (
+    //     session.selectedSessionType.toLowerCase() === "self-led" &&
+    //     updatedStudentCount === session.minMember &&
+    //     !emailSent
+    //   ) {
+    //     const emailResponse = await fetch(
+    //       "/api/send-joined-students-self-gmail",
+    //       {
+    //         method: "POST",
+    //         headers: { "Content-Type": "application/json" },
+    //         body: JSON.stringify({ sessionId }),
+    //       }
+    //     );
 
-      if (!emailResponse.ok) {
-        toast.error("Failed to inform joined students!");
-      }
+    //     if (!emailResponse.ok) {
+    //       toast.error("Failed to inform joined students!");
+    //     }
 
-      toast.success("Joined students informed by email", {
-        description: session.sessionTopicTitle,
-      });
-      setEmailSent(true);
-    }
+    //     toast.success("Joined students informed by email", {
+    //       description: session.sessionTopicTitle,
+    //     });
+    //     setEmailSent(true);
+    //   }
+    // };
   };
 
   return (
