@@ -1,14 +1,13 @@
-import React from "react";
+import { Main } from "@/app/tutor/components/Main";
 
 const SelfLedPage = () => {
   return (
-    <div className="flex flex-col items-center text-white gap-2">
-      <div className="text-3xl font-semibold">
-        Your session has been converted to self-led
-      </div>
-      <div className="text-lg">We notified the students</div>
-      <div className="text-3xl font-semibold">Your session was deleted</div>
-      <div className="text-lg">We notified the students</div>
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-[#F1F4F6] via-[#E8EBEF] to-[#F1F4F6] p-4">
+      <Main
+        title="Your session has been converted to self-led"
+        description="Your session was deleted"
+        footerText="We notified the students 🎄"
+      />
     </div>
   );
 };

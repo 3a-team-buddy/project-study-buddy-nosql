@@ -1,11 +1,12 @@
-import React from "react";
-
+import { Main } from "../components/Main";
 const TutorThankYouPage = () => {
   return (
-    <div className="flex flex-col items-center text-white gap-2">
-      <div className="text-3xl font-semibold">Thanks for responding!</div>
-      <div className="text-2xl font-bold">You declined the session</div>
-      <div className="text-lg">We notified the session creator</div>
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-[#F1F4F6] via-[#E8EBEF] to-[#F1F4F6] p-4">
+      <Main
+        title="Thanks for responding!"
+        description="You declined the session"
+        footerText="We notifiedn the session creator 🎄"
+      />
     </div>
   );
 };

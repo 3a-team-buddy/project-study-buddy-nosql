@@ -44,7 +44,7 @@ export const useSession = () => {
     const { data } = await result.json();
 
     setSessions({
-      createdSessions: data.createdSessions,
+      createdSessions: data?.createdSessions,
       joinedSessions: data.joinedSessions,
       otherSessions: data.otherSessions,
       allSessions: data.allSessions,

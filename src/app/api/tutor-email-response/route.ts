@@ -24,6 +24,9 @@ export async function GET(request: NextRequest) {
   const session = await Session.findById(sessionId).populate("assignedTutor");
   const tutor = await SelectedTutor.findById(tutorId).populate("tutorId");
 
+  console.log({ session }, "SES");
+  console.log({ tutor }, "TUT");
+
   if (!session || !tutor) {
     return NextResponse.json(
       { message: "Session or Tutor not found!" },
@@ -33,13 +36,13 @@ export async function GET(request: NextRequest) {
 
   if (tutor.invitationStatus === "ACCEPTED") {
     return NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/tutor/accepted`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/tutor/accepted?sessionId=${session._id}`
     );
   }
 
   if (tutor.invitationStatus === "DECLINED") {
     return NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/tutor/thank-you`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/tutor/thank-you?sessionId=${session._id}`
     );
   }
 
