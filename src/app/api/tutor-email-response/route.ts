@@ -127,18 +127,18 @@ export async function GET(request: NextRequest) {
 
       <div style="text-align: center; margin-bottom: 20px;">
       <h2 style="color: #0275d8; margin:0;">📘Study Buddy</h2>
-      <p style="font-size: 12px; color: #555;">Together * Learn * Leap</p>
+      <p style="margin: 0; font-size: 12px; color: #555;">Together * Learn * Leap</p>
       </div>
 
-      <h3">All Tutors Declined Your Session!</h3>
+      <h3>All Tutors Declined Your Session!</h3>
       
       <p>
-      Unfortunately, all invited tutors have declined your request for the session <strong>"${session.sessionTopicTitle}".</strong><br/>
+      Unfortunately, all invited tutors have declined your request for the session:<br/><strong>"${session.sessionTopicTitle}".</strong><br/>
       Please choose how you would like to proceed.
       </p>
 
       
-      <div style="margin-top: 80px;">
+      <div style="margin-top: 40px;">
       <p><strong>Select an option below:</strong></p>
       <div>
       <a href="${cancel}" style="background: #d9534f; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px; margin-right: 10px;">Cancel</a> 
@@ -147,7 +147,7 @@ export async function GET(request: NextRequest) {
       </div>
       
       
-      <p style="margin-top: 80px; color: #555">
+      <p style="margin-top: 60px; color: #555">
       Thank you,<br/>
       <strong style="text-align: center;">Buddy-Buddy Team</strong>
       </p>
