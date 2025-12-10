@@ -1,115 +1,293 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { X, Calendar } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Users, Calendar, Briefcase, X } from "lucide-react";
-import { CreateSessionType } from "@/lib/types";
-import { Session } from "inspector/promises";
-import { useSearchParams } from "next/navigation";
 
-type InvitationModalprops = {
-  title: String;
-  description: String;
-  text: String;
-  isAccepted: boolean;
-};
-// interface PageProps {
-//   searchParams?: { [key: string]: string | string[] | undefined };
-// }
-export function Main({
-  title,
-  description,
-  text,
-  isAccepted,
-}: InvitationModalprops) {
-  // { searchParams }: PageProps
-  // const searchTerm = searchParams.query;
-  // console.log({ searchParams });
-  const searchParams = useSearchParams();
-  const searchTerm = searchParams.get("query");
-  const [isOpen, setIsOpen] = useState(true);
-  const [session, setSession] = useState<CreateSessionType>();
+interface TeamMember {
+  name: string;
+  image?: string;
+}
 
-  // Snowflake positions
-  const [snowflakes, setSnowflakes] = useState<
-    Array<{
-      id: number;
-      left: string;
-      delay: string;
-      duration: string;
-    }>
-  >([]);
+interface ChristmasModalProps {
+  title?: string;
+  description?: string;
+  footerText?: string;
+}
 
-  const teamMembers = [
-    { name: "Sarah Chen", avatar: "/diverse-woman-portrait.png" },
-    { name: "Marcus Lee", avatar: "/man.jpg" },
-    { name: "Emma Wilson", avatar: "/diverse-woman-portrait.png" },
-    { name: "James Park", avatar: "/man.jpg" },
-  ];
+export function Main({ title, description, footerText }: ChristmasModalProps) {
+  const isOpen = true;
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // getSession();
     if (isOpen) {
+      setMounted(true);
       document.body.style.overflow = "hidden";
     } else {
+      const timer = setTimeout(() => setMounted(false), 300);
       document.body.style.overflow = "unset";
+      return () => clearTimeout(timer);
     }
     return () => {
       document.body.style.overflow = "unset";
     };
   }, [isOpen]);
 
-  if (!isOpen) return null;
+  if (!mounted) return null;
 
-  useEffect(() => {
-    const flakes = Array.from({ length: 50 }, (_, i) => ({
-      id: i,
-      left: `${Math.random() * 100}%`,
-      delay: `${Math.random() * 5}s`,
-      duration: `${8 + Math.random() * 4}s`,
-    }));
-    setSnowflakes(flakes);
-  }, []);
-
-  //   async function getSession() {
-  //     const result = await fetch("/api/send-next-tutor-gmail", {
-  //       method: "GET",
-  //       headers: { "Content-Type": "application/json" },
-  //     });
-
-  //     const { data } = await result.json();
-  //     console.log({ data });
-  //     setSession(data);
-  //   }
   return (
     <>
-      <style jsx global>{`
-        @keyframes breathe {
-          0%,
-          100% {
-            transform: scale(1);
-            opacity: 1;
-          }
-          50% {
-            transform: scale(1.05);
-            opacity: 0.9;
-          }
-        }
+      {/* Backdrop with Snowfall */}
+      <div
+        className={`fixed inset-0 z-50 bg-black/70 backdrop-blur-sm transition-opacity duration-300 overflow-hidden ${
+          isOpen ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        {/* Backdrop Snowflakes - Layer 1 */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none ">
+          {[...Array(20)].map((_, i) => (
+            <div
+              key={`backdrop-snow-large-${i}`}
+              className="snowflake-large absolute text-white"
+              style={{
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 6}s`,
+                fontSize: `${Math.random() * 8 + 20}px`,
+                animationDuration: `${Math.random() * 3 + 6}s`,
+              }}
+            >
+              ❄
+            </div>
+          ))}
+        </div>
 
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-10px);
-          }
-        }
+        {/* Backdrop Snowflakes - Layer 2 */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none ">
+          {[...Array(25)].map((_, i) => (
+            <div
+              key={`backdrop-snow-medium-${i}`}
+              className="snowflake-medium absolute text-white"
+              style={{
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 4}s`,
+                fontSize: `${Math.random() * 6 + 14}px`,
+                animationDuration: `${Math.random() * 3 + 6}s`,
+              }}
+            >
+              ❄
+            </div>
+          ))}
+        </div>
 
-        @keyframes snowfall {
+        {/* Backdrop Snowflakes - Layer 3 */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {[...Array(30)].map((_, i) => (
+            <div
+              key={`backdrop-snow-small-${i}`}
+              className="snowflake-small absolute text-white"
+              style={{
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 2}s`,
+                fontSize: `${Math.random() * 4 + 8}px`,
+                animationDuration: `${Math.random() * 3 + 7}s`,
+              }}
+            >
+              ❄
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Modal Container */}
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+        <div
+          className={`relative w-full max-w-md pointer-events-auto transition-all duration-300 ease-out ${
+            isOpen ? "scale-100 opacity-100" : "scale-95 opacity-0"
+          }`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Layer 1: Large Snowflakes */}
+          <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none z-10">
+            {[...Array(8)].map((_, i) => (
+              <div
+                key={`snow-large-${i}`}
+                className="snowflake-large absolute text-white"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 5}s`,
+                  fontSize: `${Math.random() * 6 + 16}px`,
+                  animationDuration: `${Math.random() * 2 + 6}s`,
+                }}
+              >
+                ❄
+              </div>
+            ))}
+          </div>
+
+          {/* Layer 2: Medium Snowflakes */}
+          <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none z-10">
+            {[...Array(12)].map((_, i) => (
+              <div
+                key={`snow-medium-${i}`}
+                className="snowflake-medium absolute text-white/80"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 5}s`,
+                  fontSize: `${Math.random() * 4 + 12}px`,
+                  animationDuration: `${Math.random() * 2 + 7}s`,
+                }}
+              >
+                ❄
+              </div>
+            ))}
+          </div>
+
+          {/* Floating Ornaments */}
+          <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none">
+            {[...Array(5)].map((_, i) => {
+              const ornaments = ["🔴", "🟢", "⭐", "🎁", "🎄"];
+              return (
+                <div
+                  key={`ornament-${i}`}
+                  className="ornament absolute "
+                  style={{
+                    left: `${15 + Math.random() * 70}%`,
+                    top: `${10 + Math.random() * 80}%`,
+                    animationDelay: `${i * 0.4}s`,
+                    fontSize: `${Math.random() * 6 + 14}px`,
+                  }}
+                >
+                  {ornaments[i]}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Floating Holly Leaves */}
+          <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none">
+            {[...Array(6)].map((_, i) => (
+              <div
+                key={`holly-${i}`}
+                className="holly-float absolute text-[#0F5D4A]"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 3}s`,
+                  fontSize: `${Math.random() * 6 + 12}px`,
+                }}
+              >
+                🍃
+              </div>
+            ))}
+          </div>
+
+          {/* Twinkling Stars */}
+          <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none">
+            {[...Array(8)].map((_, i) => (
+              <div
+                key={`star-${i}`}
+                className="twinkle-star absolute text-[#D9B96E]"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 2}s`,
+                  fontSize: `${Math.random() * 4 + 8}px`,
+                }}
+              >
+                ✨
+              </div>
+            ))}
+          </div>
+
+          <div className="relative bg-linear-to-br from-white/95 via-white/90 to-white/95 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-xl rounded-3xl shadow-2xl border-2 border-white/40 dark:border-slate-700/40 overflow-hidden">
+            <div className="h-2 bg-linear-to-br from-[#556B2F] via-[#8FA31E] via-50% via-[#C6D870] to-[#A72703] shimmer" />
+
+            <div className="p-8 pt-12">
+              <div className="flex justify-center mb-6">
+                <div className="floating-avatar relative">
+                  <div className="w-24 h-24 rounded-full bg-linear-to-br from-[#C53B3B] via-[#0F5D4A] to-[#D9B96E] flex items-center justify-center text-5xl shadow-2xl ring-4 ring-white/50 dark:ring-slate-700/50 pulse-scale">
+                    🎄
+                  </div>
+                  <div className="absolute inset-0 rounded-full bg-[#0F5D4A]/30 blur-2xl animate-pulse" />
+                  <div className="absolute inset-0 rounded-full bg-[#D9B96E]/20 blur-xl pulse-glow" />
+                </div>
+              </div>
+
+              <h2
+                className="text-3xl font-serif font-bold text-center mb-3 bg-linear-to-r from-[#C53B3B] via-[#0F5D4A] to-[#D9B96E] bg-size-[200%_auto] bg-clip-text text-transparent slide-in-up animate-gradient"
+                style={{ animationDelay: "0.1s" }}
+              >
+                {title}
+              </h2>
+
+              {description === "You declined the session" ||
+              description === "Your session was deleted" ? (
+                <p
+                  className="text-center font-extrabold  text-red-800 dark:text-slate-300 mb-6 slide-in-up leading-relaxed"
+                  style={{ animationDelay: "0.2s" }}
+                >
+                  {description}
+                </p>
+              ) : (
+                <p
+                  className="text-center font-extrabold text-green-900 dark:text-slate-300 mb-6 slide-in-up leading-relaxed"
+                  style={{ animationDelay: "0.2s" }}
+                >
+                  {description}
+                </p>
+              )}
+
+              <div
+                className="flex items-center justify-center gap-2 mb-4 slide-in-up"
+                style={{ animationDelay: "0.5s" }}
+              >
+                <div className="h-px w-16 bg-linear-to-r from-transparent via-[#0F5D4A]/60 to-transparent" />
+                <span className="text-xl pulse-animation">🎄</span>
+                <div className="h-px w-16 bg-linear-to-r from-transparent via-[#0F5D4A]/60 to-transparent" />
+              </div>
+
+              <div className="text-center">
+                <p
+                  className="text-sm text-slate-500 dark:text-slate-400 slide-in-up font-medium"
+                  style={{ animationDelay: "0.6s" }}
+                >
+                  {footerText}
+                </p>
+              </div>
+            </div>
+
+            <div
+              className="h-10 bg-linear-to-r from-[#0F5D4A]/10 via-[#C53B3B]/15 to-[#0F5D4A]/10 flex items-center justify-center gap-4 text-xl slide-in-up border-t border-[#0F5D4A]/10"
+              style={{ animationDelay: "0.7s" }}
+            >
+              <span className="swing-animation">🎄</span>
+              <span
+                className="swing-animation"
+                style={{ animationDelay: "0.2s" }}
+              >
+                🔔
+              </span>
+              <span
+                className="swing-animation"
+                style={{ animationDelay: "0.4s" }}
+              >
+                ⭐
+              </span>
+              <span
+                className="swing-animation"
+                style={{ animationDelay: "0.6s" }}
+              >
+                🎄
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style jsx>{`
+        @keyframes snowfallLarge {
           0% {
-            transform: translateY(-10px) translateX(0px);
+            transform: translateY(-100%) translateX(0) rotate(0deg);
             opacity: 0;
           }
           10% {
@@ -119,26 +297,71 @@ export function Main({
             opacity: 1;
           }
           100% {
-            transform: translateY(100vh) translateX(20px);
+            transform: translateY(120vh) translateX(50px) rotate(360deg);
             opacity: 0;
           }
         }
 
-        @keyframes modalIn {
-          from {
+        @keyframes snowfallMedium {
+          0% {
+            transform: translateY(-100%) translateX(0) rotate(0deg);
             opacity: 0;
-            transform: scale(0.96);
           }
-          to {
-            opacity: 1;
+          10% {
+            opacity: 0.9;
+          }
+          90% {
+            opacity: 0.9;
+          }
+          100% {
+            transform: translateY(120vh) translateX(-30px) rotate(-360deg);
+            opacity: 0;
+          }
+        }
+
+        @keyframes snowfallSmall {
+          0% {
+            transform: translateY(-100%) translateX(0) rotate(0deg);
+            opacity: 0;
+          }
+          10% {
+            opacity: 0.7;
+          }
+          90% {
+            opacity: 0.7;
+          }
+          100% {
+            transform: translateY(120vh) translateX(20px) rotate(180deg);
+            opacity: 0;
+          }
+        }
+
+        @keyframes float {
+          0%,
+          100% {
+            transform: translateY(0px) scale(1);
+          }
+          50% {
+            transform: translateY(-15px) scale(1.05);
+          }
+        }
+
+        @keyframes sparkle {
+          0%,
+          100% {
             transform: scale(1);
+            filter: brightness(1);
+          }
+          50% {
+            transform: scale(1.15);
+            filter: brightness(1.3);
           }
         }
 
-        @keyframes slideIn {
+        @keyframes slideInUp {
           from {
             opacity: 0;
-            transform: translateY(10px);
+            transform: translateY(20px);
           }
           to {
             opacity: 1;
@@ -146,148 +369,229 @@ export function Main({
           }
         }
 
-        @keyframes glow {
+        @keyframes shimmer {
+          0% {
+            background-position: -200% 0;
+          }
+          100% {
+            background-position: 200% 0;
+          }
+        }
+
+        @keyframes twinkle {
           0%,
           100% {
-            box-shadow: 0 0 20px rgba(15, 93, 74, 0.5),
-              0 0 40px rgba(15, 93, 74, 0.2);
+            opacity: 0.3;
+            transform: scale(0.8);
           }
           50% {
-            box-shadow: 0 0 30px rgba(15, 93, 74, 0.7),
-              0 0 60px rgba(15, 93, 74, 0.3);
+            opacity: 1;
+            transform: scale(1.2);
           }
         }
 
-        .animate-breathe {
-          animation: breathe 3s ease-in-out infinite;
+        @keyframes ornamentFloat {
+          0%,
+          100% {
+            transform: translateY(0) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-20px) rotate(10deg);
+          }
         }
 
-        .animate-float {
+        @keyframes hollyFloat {
+          0%,
+          100% {
+            transform: translateY(0) rotate(0deg) scale(1);
+          }
+          50% {
+            transform: translateY(-15px) rotate(180deg) scale(1.1);
+          }
+        }
+
+        @keyframes treeFloat {
+          0%,
+          100% {
+            transform: translateY(0) scale(1) rotate(-5deg);
+            opacity: 0.7;
+          }
+          50% {
+            transform: translateY(-10px) scale(1.15) rotate(5deg);
+            opacity: 1;
+          }
+        }
+
+        @keyframes pulseScale {
+          0%,
+          100% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.08);
+          }
+        }
+
+        @keyframes pulseGlow {
+          0%,
+          100% {
+            opacity: 0.3;
+          }
+          50% {
+            opacity: 0.6;
+          }
+        }
+
+        @keyframes rotateAnimation {
+          0%,
+          100% {
+            transform: rotate(-8deg);
+          }
+          50% {
+            transform: rotate(8deg);
+          }
+        }
+
+        @keyframes bounce {
+          0%,
+          100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-4px);
+          }
+        }
+
+        @keyframes swing {
+          0%,
+          100% {
+            transform: rotate(0deg);
+          }
+          25% {
+            transform: rotate(12deg);
+          }
+          75% {
+            transform: rotate(-12deg);
+          }
+        }
+
+        @keyframes pulse {
+          0%,
+          100% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.1);
+          }
+        }
+
+        @keyframes gradientShift {
+          0%,
+          100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+        }
+
+        .snowflake-large {
+          animation: snowfallLarge linear infinite;
+          user-select: none;
+          filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
+        }
+
+        .snowflake-medium {
+          animation: snowfallMedium linear infinite;
+          user-select: none;
+          filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
+        }
+
+        .snowflake-small {
+          animation: snowfallSmall linear infinite;
+          user-select: none;
+          filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.4));
+        }
+
+        .floating-avatar {
           animation: float 3s ease-in-out infinite;
         }
 
-        .animate-snowfall {
-          animation: snowfall linear infinite;
+        .sparkle-avatar {
+          animation: sparkle 2s ease-in-out infinite, slideInUp 0.5s ease-out;
         }
 
-        .animate-modal-in {
-          animation: modalIn 0.3s ease-out;
+        .slide-in-up {
+          animation: slideInUp 0.5s ease-out;
         }
 
-        .animate-slide-in {
-          animation: slideIn 0.4s ease-out;
+        .shimmer {
+          background-size: 200% 100%;
+          animation: shimmer 3s linear infinite;
         }
 
-        .animate-glow {
-          animation: glow 2s ease-in-out infinite;
+        .twinkle-star {
+          animation: twinkle 1.5s ease-in-out infinite;
+        }
+
+        .ornament {
+          animation: ornamentFloat 4s ease-in-out infinite;
+        }
+
+        .holly-float {
+          animation: hollyFloat 5s ease-in-out infinite;
+        }
+
+        .tree-float {
+          animation: treeFloat 4s ease-in-out infinite;
+        }
+
+        .pulse-scale {
+          animation: pulseScale 2s ease-in-out infinite;
+        }
+
+        .pulse-glow {
+          animation: pulseGlow 2s ease-in-out infinite;
+        }
+
+        .rotate-animation {
+          animation: rotateAnimation 2s ease-in-out infinite;
+        }
+
+        .rotate-animation-reverse {
+          animation: rotateAnimation 2s ease-in-out infinite reverse;
+        }
+
+        .bounce-animation {
+          animation: bounce 1s ease-in-out infinite;
+        }
+
+        .swing-animation {
+          animation: swing 2s ease-in-out infinite;
+          display: inline-block;
+          transform-origin: top center;
+        }
+
+        .pulse-animation {
+          animation: pulse 1.5s ease-in-out infinite;
+          display: inline-block;
+        }
+
+        .animate-gradient {
+          animation: gradientShift 3s ease infinite;
+          background-size: 200% auto;
+        }
+
+        .border-gradient {
+          border-image: linear-gradient(
+              90deg,
+              rgba(197, 59, 59, 0.5),
+              rgba(15, 93, 74, 0.5),
+              rgba(217, 185, 110, 0.5)
+            )
+            1;
         }
       `}</style>
-
-      <div className="fixed inset-0 z-50 flex items-center justify-center px-4 pb-safe pt-safe">
-        <div
-          className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-          onClick={() => {
-            setIsOpen(true);
-          }}
-        >
-          {snowflakes.map((snow) => (
-            <div
-              key={snow.id}
-              className="absolute w-2 h-2 bg-white/30 rounded-full animate-snowfall"
-              style={{
-                left: snow.left,
-                animationDelay: snow.delay,
-                animationDuration: snow.duration,
-              }}
-            />
-          ))}
-        </div>
-
-        <div className="relative w-full max-w-[420px] min-w-[300px] mx-auto animate-modal-in">
-          <div className="bg-card/95 backdrop-blur-xl rounded-[28px] shadow-2xl border-2 border-[#0F5D4A]/30 overflow-hidden relative">
-            <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-[#C53B3B] via-[#D9B96E] to-[#0F5D4A]" />
-
-            <div className="p-6 xs:p-8 space-y-6">
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-[#0F5D4A]/30 rounded-full animate-breathe blur-xl" />
-                  <Avatar className="w-16 h-16 xs:w-20 xs:h-20 border-4 border-[#D9B96E] shadow-lg relative">
-                    <AvatarImage src="/project-management-team.png" />
-                    <AvatarFallback className="bg-[#0F5D4A] text-white text-4xl ">
-                      ❅
-                    </AvatarFallback>
-                  </Avatar>
-                </div>
-              </div>
-
-              <div
-                className="text-center space-y-2 animate-slide-in"
-                style={{ animationDelay: "0.1s" }}
-              >
-                <h2 className="text-[17px] xs:text-[20px] font-semibold text-foreground text-balance">
-                  {title}
-                </h2>
-                <div className="flex items-center justify-center gap-2 text-muted-foreground">
-                  <Calendar className="w-4 h-4 text-[#C53B3B]" />
-                  <span className="text-sm">{"Dec 25, 2024"}</span>
-                </div>
-              </div>
-
-              <div
-                className="text-center text-[15px] leading-relaxed text-foreground/80 px-2 animate-slide-in"
-                style={{ animationDelay: "0.3s" }}
-              >
-                <p className="text-balance">
-                  {description}
-                  <span className="font-semibold text-[#0F5D4A]">
-                    project name
-                  </span>
-                </p>
-              </div>
-
-              <div
-                className="flex justify-center items-center gap-1 animate-slide-in"
-                style={{ animationDelay: "0.3s" }}
-              >
-                <Users className="w-4 h-4 text-[#0F5D4A] mr-2" />
-                <div className="flex -space-x-2">
-                  {teamMembers.map((member, index) => (
-                    <Avatar
-                      key={member.name}
-                      className="w-9 h-9 border-2 border-card shadow-md hover:z-10 hover:scale-110 transition-transform"
-                      style={{
-                        animationDelay: `${0.4 + index * 0.1}s`,
-                      }}
-                    >
-                      <AvatarImage
-                        src={member.avatar || "/placeholder.svg"}
-                        alt={member.name}
-                      />
-                      <AvatarFallback className="bg-secondary text-secondary-foreground text-xs">
-                        {member.name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
-                      </AvatarFallback>
-                    </Avatar>
-                  ))}
-                </div>
-                <span className="ml-3 text-sm text-muted-foreground">
-                  // total student
-                </span>
-              </div>
-
-              <p
-                className="text-center text-xs text-muted-foreground animate-slide-in"
-                style={{ animationDelay: "0.6s" }}
-              >
-                {text}
-              </p>
-            </div>
-            <div className="absolute top-0 left-0 right-0 h-32 bg-linear-to-b from-[#D9B96E]/5 to-transparent pointer-events-none" />
-          </div>
-        </div>
-      </div>
     </>
   );
 }

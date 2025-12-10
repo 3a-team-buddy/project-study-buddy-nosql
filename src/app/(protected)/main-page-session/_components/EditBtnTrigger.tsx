@@ -1,6 +1,6 @@
 import { Button, Dialog, DialogTrigger } from "@/components/ui";
-import { SessionEditBtn } from "./SessionEditBtn";
 import { CreateSessionType } from "@/lib/types";
+import { SessionEditBtn } from "./SessionEditBtn";
 
 export const EditBtnTrigger = ({ session }: { session: CreateSessionType }) => {
   return (

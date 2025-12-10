@@ -1,17 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import { Session } from "@/lib/models/Session";
+import { checkAuth } from "../../check-create-user/route";
+import { MockUser } from "@/lib/models/MockUser";
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { sessionId: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
+    const result = await checkAuth();
 
-    const { sessionId } = params;
+    if (!result) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+    const { id } = await params;
+    const { userClerkId } = result;
+    const creator = await MockUser.findOne(
+      {
+        mockUserClerkId: userClerkId,
+      },
+      "_id"
+    );
+
+    const creatorId = creator?._id;
     const body = await request.json();
-
     const {
       sessionTopicTitle,
       description,
@@ -20,9 +34,28 @@ export async function PUT(
       value,
       time,
       selectedSessionType,
+      selectedTutors,
     } = body;
 
-    // Validation
+    if (
+      !sessionTopicTitle ||
+      !description ||
+      !minMember ||
+      !maxMember ||
+      !value ||
+      !time ||
+      !selectedSessionType ||
+      !selectedTutors
+    ) {
+      return NextResponse.json(
+        { message: "All fields are required!" },
+        { status: 400 }
+      );
+    }
+
+    console.log({ id });
+    console.log({ body });
+
     if (
       !sessionTopicTitle ||
       !description ||
@@ -37,10 +70,12 @@ export async function PUT(
         { status: 400 }
       );
     }
+    const uppercasedSessionType = selectedSessionType
+      .toUpperCase()
+      .replace(" ", "-");
 
-    // DB update
     const updatedSession = await Session.findOneAndUpdate(
-      { _id: sessionId },
+      { _id: id },
       {
         $set: {
           sessionTopicTitle,
@@ -49,12 +84,13 @@ export async function PUT(
           maxMember,
           value,
           time,
-          selectedSessionType,
+          uppercasedSessionType,
+          creatorId,
         },
       },
       { new: true }
     );
-
+    console.log({ updatedSession });
     if (!updatedSession) {
       return NextResponse.json(
         { message: "Session not found" },
