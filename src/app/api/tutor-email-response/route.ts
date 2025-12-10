@@ -70,9 +70,35 @@ export async function GET(request: NextRequest) {
         transporter.sendMail({
           from: "Study Buddy <oyunmyagmar.g@gmail.com>",
           to: student.mockUserEmail,
-          subject: "Your Session is Confrimed",
+          subject: "Session Confirmation Notice",
           html: `
-          <p>Your session has been confirmed and a tutor accepted.</p>`,
+          <div style="padding: 20px; line-height: 1.6; color: #333;">
+
+          <div style="text-align: center; margin-bottom: 20px;">
+          <p style="margin: 0; font-size: 12px; color: #555;">Together • Learn • Leap</p>
+          </div>
+
+          <h3>Your Session is Confirmed</h3>
+
+          <p>Great news!<br/> Your joined session 
+          <strong>"${session.sessionTopicTitle}"</strong> has been confirmed.
+          </p>
+          
+          <p style="margin: 0;">
+          <strong>Session details:<strong><br/>
+          <strong>Title:</strong> ${session.sessionTopicTitle}<br/>
+          <strong>Description:</strong> ${session.description}<br/>
+          📅 <strong>Date:</strong> ${session.value}<br/>
+          ⏰ <strong>Starts at:</strong> ${session.time}<br/>
+          👥 <strong>Joined students:</strong> ${session.studentCount?.length}/${session.maxMember}
+          </p>
+
+          <p style="margin-top: 60px; color: #555;">
+          Thank you,<br/>
+          <strong>Buddy-Buddy Team</strong>
+          </p>
+
+        </div>`,
         })
       )
     );
@@ -137,7 +163,6 @@ export async function GET(request: NextRequest) {
       <strong>"${session.sessionTopicTitle}".</strong><br/>
       </p>
 
-      
       <div style="margin-top: 40px;">
       <p>Please choose how you would like to proceed the session:</p>
       <div>
@@ -146,13 +171,12 @@ export async function GET(request: NextRequest) {
       </div>
       </div>
       
-      
       <p style="margin-top: 80px; color: #555">
       Thank you,<br/>
       <strong>Buddy-Buddy Team</strong>
       </p>
-
-     </div>
+      
+      </div>
      `,
     });
   }

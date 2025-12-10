@@ -55,30 +55,30 @@ export async function POST(request: NextRequest) {
 
     <h3>Tutor Invitation</h3>
 
-    <p>You have been invited to tutor the session below:</p>
-
-    <div>  
-    <p style="margin: 0;"><strong>Title:</strong> ${session.sessionTopicTitle}</p>
-    <p style="margin: 0;"><strong>Description:</strong> ${session.description}</p>
-    <p style="margin: 0;"><strong>Date:</strong> ${session.value}</p>
-    <p style="margin: 0;"><strong>Time:</strong> ${session.time}</p>
-    <p style="margin: 0;"><strong>Joined students:</strong> ${session.studentCount?.length}/${session.maxMember}</p>
-    </div>
-
-
-  
+    <p>You have been invited to tutor the following session:</p>
+   
+    <p style="margin: 0;">
+    <strong>Title:</strong> ${session.sessionTopicTitle}<br/>
+    <strong>Description:</strong> ${session.description}<br/>
+    📅 <strong>Date:</strong> ${session.value}<br/>
+    ⏰ <strong>Starts at:</strong> ${session.time}<br/>
+    👥 <strong>Joined students:</strong> ${session.studentCount?.length}/${session.maxMember}
+    </p>
 
     <div style="margin-top: 40px;">
     <p>Please choose an option below:</p>
-    <div></div>
+    <div> 
     <a href="${accept}" style="background: #4CAF50; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px; margin-right: 10px;">Accept</a> 
     <a href="${decline}" style="background: #d9534f; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px;">Decline</a>
     </div>
+    </div>
     
-   <p style="margin-top: 80px; color: #555">
-      Thank you,<br/>
-      <strong>Buddy-Buddy Team</strong>
-      </p>  </div>
+    <p style="margin-top: 80px; color: #555">
+    Thank you,<br/>
+    <strong>Buddy-Buddy Team</strong>
+    </p>
+
+    </div>
     `,
   });
 
