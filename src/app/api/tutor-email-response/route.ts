@@ -102,7 +102,8 @@ export async function GET(request: NextRequest) {
           <strong>Buddy-Buddy Team</strong>
           </p>
 
-        </div>`,
+        </div>
+        `,
         })
       )
     );
@@ -122,7 +123,7 @@ export async function GET(request: NextRequest) {
       <h3>Tutor Assignment Re-Confirmation</h3>
 
       <p>
-      You have successfully <strong>accepted</strong> the tutoring session<br/>
+      You have successfully <strong>accepted</strong> the tutoring session
       <strong>"${session.sessionTopicTitle}".</strong><br/>
       All joined students have been notified.
       </p>
