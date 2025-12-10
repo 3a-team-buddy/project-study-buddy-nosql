@@ -46,18 +46,22 @@ export async function POST(request: NextRequest) {
     to: nextTutor.tutorId.mockUserEmail,
     subject: "Tutor Invitation - Study Buddy",
     html: `
-    <div style="padding: 20px; line-height: 1.5; color: #333;">
+    <div style="padding: 20px; padding-top: 4px; line-height: 1.5; color: #333;">
+
     <h3>Tutor Invitation - Study Buddy</h3>
 
     <p>Hello, </p>
 
     <p>You have been invited to be a Tutor for the following study session:</p>
 
-    <p><strong>Session title:</strong> ${session.sessionTopicTitle}</p>
+    <div>  
+    <p><strong>Title:</strong> ${session.sessionTopicTitle}</p>
     <p><strong>Description:</strong> ${session.description}</p>
     <p><strong>Date:</strong> ${session.value}</p>
     <p><strong>Time:</strong> ${session.time}</p>
-    <p><strong>Joined students:</strong> ${session.studentCount?.length} / ${session.maxMember}</p>
+    <p><strong>Joined students:</strong> ${session.studentCount?.length}/${session.maxMember}</p>
+    </div>
+
 
     <p>Please select an option below:</p>
 
@@ -66,7 +70,7 @@ export async function POST(request: NextRequest) {
     <a href="${decline}" style="background: #d9534f; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px;">Decline</a>
     </div>
     
-    <p style="margin-top: 25px;">Thank you, <br/>Study Buddy Team</p>
+    <p style="margin-top: 25px;">Thank you, <br/>Study Buddy, Buddy-Buddy Team</p>
   </div>
     `,
   });

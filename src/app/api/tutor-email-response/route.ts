@@ -14,10 +14,6 @@ export async function GET(request: NextRequest) {
   const tutorId = url.searchParams.get("tutorId");
   const response = url.searchParams.get("response")?.toLowerCase();
 
-  // console.log({ sessionId }, "sessionId");
-  // console.log({ tutorId }, "tutorId");
-  // console.log({ response }, "response");
-
   if (!sessionId || !tutorId || !response) {
     return NextResponse.json(
       { message: "Missing parameters!" },
@@ -27,9 +23,6 @@ export async function GET(request: NextRequest) {
 
   const session = await Session.findById(sessionId);
   const tutor = await SelectedTutor.findById(tutorId).populate("tutorId");
-
-  // console.log({ session }, "SES");
-  // console.log({ tutor }, "TUT");
 
   if (!session || !tutor) {
     return NextResponse.json(
@@ -50,8 +43,6 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  // console.log(tutor.invitationStatus, "TUTOR INVITATION STATUS");
-
   if (response === "accept") {
     await SelectedTutor.updateMany(
       {
@@ -69,14 +60,10 @@ export async function GET(request: NextRequest) {
     session.assignedTutor = tutor.tutorId._id;
     await session.save();
 
-    // console.log({ tutor }, "AFTER CHANGE");
-    // console.log({ session }, "AFTER CHANGE");
-
     const students = await MockUser.find(
       { _id: { $in: session.studentCount } },
       "mockUserEmail"
     );
-    console.log({ students }, "SESSION STUDENT COUNT");
 
     await Promise.all(
       students.map((student) =>
@@ -99,8 +86,8 @@ export async function GET(request: NextRequest) {
       <p>Students have been notified.</p>`,
     });
 
-    const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
-    await ably.channels.get("session").publish("session-updated", session);
+    // const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
+    // await ably.channels.get("session").publish("session-updated", session);
 
     return NextResponse.redirect(
       `${process.env.NEXT_PUBLIC_BASE_URL}/tutor/accepted`
@@ -110,7 +97,6 @@ export async function GET(request: NextRequest) {
   tutor.invitationStatus = "DECLINED";
   try {
     await tutor.save();
-    console.log("Tutor updated OK");
   } catch (error) {
     console.error("Tutor update failed!", error);
   }
@@ -129,31 +115,40 @@ export async function GET(request: NextRequest) {
   if (nextTutorResult.noTutorsRemaining) {
     const creator = await MockUser.findById(session.creatorId, "mockUserEmail");
 
+    const cancel = `${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-email-response?sessionId=${session._id}&action=cancel `;
+    const self = `${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-email-response?sessionId=${session._id}&action=self`;
+
     await transporter.sendMail({
       from: "Study Buddy <oyunmyagmar.g@gmail.com>",
       to: creator.mockUserEmail,
-      subject: "All Tutors Declined Your Session",
+      subject: "Tutor Decline Notice - Study Buddy",
       html: `
-       <div style="padding: 20px; line-height: 1.5; color: #333;">
-      <h3>All tutors declined your session.</h3>
+      <div style="padding: 20px; padding-top: 4px; line-height: 1.5; color: #333;">
 
+      <h3>All tutors declined your session. Action required.</h3>
+      
       <p>Hello, </p>
+      
+      <p>Do you want to cancel your session or change to SELF-LED session?</p>
 
-     <p>Choose an option:</p>
-
-     <p><strong>Session title:</strong> ${session.sessionTopicTitle}</p>
-     <p><strong>Description:</strong> ${session.description}</p>
-     <p><strong>Date:</strong> ${session.value}</p>
-     <p><strong>Time:</strong> ${session.time}</p>
-     <p><strong>Joined students:</strong> ${session.studentCount?.length} / ${session.maxMember}</p>
-
-     <p>Please select an option below:</p>
-
-     <div style="margin-top: 20px;">
-     <a href="${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-email-response?sessionId=${session._id}&action=cancel">Cancel Session</a> 
-     <a href="${process.env.NEXT_PUBLIC_BASE_URL}/api/creator-email-response?sessionId=${session._id}&action=self">Change to Self-Led Session</a>
+      <p>Please select an option below:</p>
+      
+      <div style="margin-top: 20px;">
+      <a href="${cancel}" style="background: #d9534f; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px; margin-right: 10px;">Cancel Session</a> 
+      <a href="${self}" style="background: #0275d8; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px;">Change to Self-Led Session</a>
+      </div>
+      
+      <div>
+      <p><strong>Session title:</strong> ${session.sessionTopicTitle}</p>
+      <p><strong>Description:</strong> ${session.description}</p>
+      <p><strong>Date:</strong> ${session.value}</p>
+      <p><strong>Time:</strong> ${session.time}</p>
+      <p><strong>Joined students:</strong> ${session.studentCount?.length}/${session.maxMember}</p>
+      </div>
+      
+      <p style="margin-top: 25px;">Thank you, <br/>Study Buddy, Buddy-Buddy Team</p>
      </div>
-`,
+     `,
     });
   }
 
