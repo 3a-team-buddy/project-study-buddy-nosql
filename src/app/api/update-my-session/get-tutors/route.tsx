@@ -2,25 +2,33 @@ import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import { SelectedTutor } from "@/lib/models/SelectedTutor";
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ sessionId: string }> }
-) {
+export async function GET(req: NextRequest) {
   try {
     await connectDB();
-    const { sessionId } = await params;
+
+    const sessionId = req.nextUrl.searchParams.get("sessionId");
     if (!sessionId) {
-      console.error();
       return NextResponse.json(
-        { error: "session id required " },
+        { error: "sessionId is required" },
         { status: 400 }
       );
     }
-    console.log({ sessionId });
-    const selectedTutors = await SelectedTutor.findById(sessionId);
-    return NextResponse.json({ data: selectedTutors });
+
+    const tutors = await SelectedTutor.find({
+      createdSessionId: sessionId,
+    })
+      .populate("tutorId", "mockUserEmail -_id")
+      .select("tutorId order invitationStatus")
+      .lean();
+
+    const normalized = tutors.map((item) => ({
+      mockUserEmail: item.tutorId.mockUserEmail,
+      order: item.order,
+      invitationStatus: item.invitationStatus,
+    }));
+
+    return NextResponse.json({ tutors: normalized });
   } catch (err) {
-    console.error(err);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    return NextResponse.json({ error: err }, { status: 500 });
   }
 }

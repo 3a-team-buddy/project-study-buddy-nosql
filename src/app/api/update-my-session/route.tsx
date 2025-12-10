@@ -13,7 +13,7 @@ export async function PUT(
     const body = await request.json();
 
     const {
-      sessionTitle,
+      sessionTopicTitle,
       description,
       minMember,
       maxMember,
@@ -22,8 +22,9 @@ export async function PUT(
       selectedSessionType,
     } = body;
 
+    // Validation
     if (
-      !sessionTitle ||
+      !sessionTopicTitle ||
       !description ||
       !minMember ||
       !maxMember ||
@@ -37,18 +38,12 @@ export async function PUT(
       );
     }
 
-    if (!sessionId) {
-      return NextResponse.json(
-        { message: "Session not found!" },
-        { status: 404 }
-      );
-    }
-
-    const session = await Session.findOneAndUpdate(
+    // DB update
+    const updatedSession = await Session.findOneAndUpdate(
       { _id: sessionId },
       {
         $set: {
-          sessionTopicTitle: sessionTitle,
+          sessionTopicTitle,
           description,
           minMember,
           maxMember,
@@ -59,10 +54,16 @@ export async function PUT(
       },
       { new: true }
     );
-    console.log({ session });
+
+    if (!updatedSession) {
+      return NextResponse.json(
+        { message: "Session not found" },
+        { status: 404 }
+      );
+    }
 
     return NextResponse.json(
-      { message: "Session updated successfully", session },
+      { message: "Session updated successfully", data: updatedSession },
       { status: 200 }
     );
   } catch (error) {

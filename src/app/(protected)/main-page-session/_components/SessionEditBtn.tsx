@@ -1,235 +1,150 @@
-import React from "react";
-import { Button } from "@/components/ui";
-import { Textarea } from "@/components/ui";
+"use client";
+
+import React, { Dispatch, useState } from "react";
+import { SelectedTutorType } from "@/lib/types";
 import {
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useState } from "react";
-import {
-  CreateSessionType,
-  SelectedTutorEmailType,
-  SelectedTutorType,
-} from "@/lib/types";
-import { useAuth } from "@clerk/nextjs";
-import { toast } from "sonner";
-import { MemberLimitSelector } from "./MemberLimitSelector";
-import { DateAndTimePicker } from "./DateAndTimePicker";
-import { useSession } from "@/app/_hooks/use-session";
-import { SessionTypeSelector } from "./SessionTypeSelector";
+  Button,
+  Input,
+  Label,
+  RadioGroup,
+  RadioGroupItem,
+} from "@/components/ui";
+import { useTeacher } from "@/app/_hooks/use-teacher";
 
-function formatDate(date: Date | undefined) {
-  if (!date) {
-    return "";
-  }
-  return date.toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
-}
+export const SessionTypeSelector = ({
+  selectedSessionType,
+  setSelectedSessionType,
+  selectedTutors,
+  setSelectedTutors,
+}: {
+  selectedSessionType: string;
+  setSelectedSessionType: Dispatch<React.SetStateAction<string>>;
+  selectedTutors: SelectedTutorType[];
+  setSelectedTutors: Dispatch<React.SetStateAction<SelectedTutorType[]>>;
+}) => {
+  const [tutorLedInputValue, setTutorLedInputValue] = useState<string>("");
 
-export function SessionEditBtn({ session }: { session: CreateSessionType }) {
-  const [sessionTopicTitle, setSessionTopicTitle] = useState(
-    session.sessionTopicTitle
-  );
-  const [description, setDescription] = useState(session.description);
-  const [minMember, setMinMember] = useState(session.minMember);
-  const [maxMember, setMaxMember] = useState(session.maxMember);
-  const [date, setDate] = useState<Date | undefined>();
-  const [value, setValue] = useState<string>(session.value);
-  const [time, setTime] = useState<string>(session.time);
-  const [selectedSessionType, setSelectedSessionType] = useState<string>(
-    session.selectedSessionType
-  );
-  const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
-  const { allSessions } = useSession();
-  const { getToken } = useAuth();
-  const [emailSent, setEmailSent] = useState(false);
-  async function handleSubmit(e: React.FormEvent) {
-    // getTutors();
-    e.preventDefault();
-    setSessionTopicTitle(session.sessionTopicTitle);
-    const updatedData = {
-      sessionTopicTitle,
-      description,
-      minMember,
-      maxMember,
-      value,
-      time,
-      selectedSessionType,
-    };
+  const { teachers } = useTeacher();
 
-    const token = await getToken();
-    const sessionId = session._id;
-    console.log({ updatedData });
+  /** ✔ Session type өөрчлөх */
+  const handleChangeSessionType = (value: string) => {
+    setSelectedSessionType(value);
 
-    async function getTutors() {
-      const sessionId = session._id;
-      const tutorResponse = await fetch(
-        `/api/get-selected-tutors/${sessionId}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ sessionId }),
-        }
-      );
-
-      if (!tutorResponse) {
-        toast.error("Failed to get selected tutors email!");
-      }
-      const { data }: { data: SelectedTutorEmailType[] } =
-        await tutorResponse.json();
-      const tutorsEmails = data.map((tutor) => tutor.tutorId.mockUserEmail);
-
-      const emailResponse = await fetch("/api/send-tutor-invite", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          recipients: "tutorsEmails",
-          session,
-        }),
-      });
-
-      if (!emailResponse.ok) {
-        toast.error("Failed to sent email!");
-      }
-
-      toast.success("Email sent to selected tutors", {
-        description: session.sessionTopicTitle,
-      });
-      // setSelectedTutors(tutorsEmails);
+    if (value === "self-led") {
+      setSelectedTutors([]);
     }
-    // const response = await fetch(`/api/update-my-session/${sessionId}`, {
-    //   method: "PUT",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    //   body: JSON.stringify(updatedData),
-    // });
+  };
 
-    // if (!response.ok) {
-    //   toast.error("Update front end failed!");
-    //   return;
-    // }
+  /** ✔ Tutor нэмэх */
+  const addSelectedTutors = () => {
+    const newList = [...selectedTutors, { mockUserEmail: tutorLedInputValue }];
 
-    // toast.success("Session updated!");
-    // }
-    // async function getTutors() {
-    //   const sessionId = session._id;
-    //   const tutorResponse = await fetch("/api/get-selected-tutors", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ sessionId }),
-    //   });
+    const ordered = newList.map((t, index) => ({
+      ...t,
+      order: index + 1,
+    }));
 
-    //   if (!tutorResponse) {
-    //     toast.error("Failed to get selected tutors email!");
-    //   }
-    //   const { data }: { data: SelectedTutorEmailType[] } =
-    //     await tutorResponse.json();
-    //   const tutorsEmails = data.map((tutor) => tutor.tutorId.mockUserEmail);
+    setSelectedTutors(ordered);
+    setTutorLedInputValue("");
+  };
 
-    //   const emailResponse = await fetch("/api/send-tutor-invite", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({
-    //       recipients: "tutorsEmails",
-    //       session,
-    //     }),
-    //   });
+  /** ✔ Tutor устгах */
+  const deleteSelectedTutor = (tutorEmail: string) => {
+    const remained = selectedTutors.filter(
+      (t) => t.mockUserEmail !== tutorEmail
+    );
 
-    //   if (!emailResponse.ok) {
-    //     toast.error("Failed to sent email!");
-    //   }
+    const ordered = remained.map((t, i) => ({
+      ...t,
+      order: i + 1,
+    }));
 
-    //   toast.success("Email sent to selected tutors", {
-    //     description: session.sessionTopicTitle,
-    //   });
-    //   // setSelectedTutors(tutorsEmails);
-    //   setEmailSent(true);
-  }
+    setSelectedTutors(ordered);
+  };
+
+  /** ✔ Сонгогдоогүй үлдсэн багш нар */
+  const notChosen = selectedTutors.map((t) => t.mockUserEmail);
+
+  const availableTeachers = teachers.filter(
+    (teacher) => !notChosen.includes(teacher.mockUserEmail)
+  );
+
   return (
-    <div>
-      <form>
-        <DialogContent className="w-fit h-fit text-white  bg-[#09121f]">
-          <DialogHeader>
-            <DialogTitle>Edit My Session</DialogTitle>
-            {/* <DialogDescription>
-              Make changes to your session here. Click save when you&apos;re
-              done.
-            </DialogDescription> */}
-          </DialogHeader>
-          <div>
-            <div className="grid grid-rows-2 gap-4">
-              <div className="grid gap-3">
-                <Label htmlFor="name-1 ">Session title</Label>
-                <Input
-                  id="name-1"
-                  name="name"
-                  defaultValue={sessionTopicTitle}
-                  onChange={(e) => {
-                    setSessionTopicTitle(e.target.value);
-                  }}
-                />
-              </div>
-              <div className="grid gap-3">
-                <Label htmlFor="username-1">Description</Label>
-                <Textarea
-                  id="username-1"
-                  name="username"
-                  defaultValue={description}
-                  onChange={(e) => {
-                    setDescription(e.target.value);
-                  }}
-                />
-                <></>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4 mt-10">
-              <MemberLimitSelector
-                minMember={minMember}
-                setMinMember={setMinMember}
-                maxMember={maxMember}
-                setMaxMember={setMaxMember}
-              />
+    <div className="flex flex-col gap-3">
+      <Label>Session Type</Label>
 
-              <DateAndTimePicker
-                value={value}
-                setValue={setValue}
-                time={time}
-                setTime={setTime}
-                date={date}
-                setDate={setDate}
-                allSessions={allSessions}
-              />
-            </div>
-            <SessionTypeSelector
-              selectedSessionType={selectedSessionType}
-              setSelectedSessionType={setSelectedSessionType}
-              selectedTutors={selectedTutors}
-              setSelectedTutors={setSelectedTutors}
+      <RadioGroup
+        value={selectedSessionType}
+        onValueChange={handleChangeSessionType}
+        className="flex justify-around text-white/80"
+      >
+        <div className="flex items-center space-x-2">
+          <RadioGroupItem
+            value="tutor-led"
+            id="tutor-led"
+            className="bg-white"
+          />
+          <Label htmlFor="tutor-led">Tutor-led</Label>
+        </div>
+
+        <div className="flex items-center space-x-2">
+          <RadioGroupItem value="self-led" id="self-led" className="bg-white" />
+          <Label htmlFor="self-led">Self-led</Label>
+        </div>
+      </RadioGroup>
+
+      {selectedSessionType === "tutor-led" && (
+        <div className="flex flex-col gap-0.5">
+          <div className="flex justify-between gap-3">
+            <Input
+              list="tutors"
+              value={tutorLedInputValue}
+              onChange={(e) => setTutorLedInputValue(e.target.value)}
+              placeholder="Type tutor email..."
+              className="border-border/20 bg-black/50 py-2 text-sm text-white/80"
             />
+
+            <datalist id="tutors">
+              {availableTeachers.map((teacher) => (
+                <option key={teacher._id} value={teacher.mockUserEmail} />
+              ))}
+            </datalist>
+
+            <Button
+              variant="outline"
+              onClick={addSelectedTutors}
+              disabled={selectedTutors.length > 2 || !tutorLedInputValue}
+              className="bg-transparent hover:bg-accent/50 border-border/20 text-white/80 hover:text-white"
+            >
+              Add
+            </Button>
           </div>
 
-          <DialogFooter>
-            <DialogClose asChild className="w-[421px] gap-3">
-              <Button className="text-black w-1/2 " variant="outline">
-                Cancel
+          {selectedTutors.length > 2 && (
+            <div className="text-xs text-orange-500">* Max: 3 tutors</div>
+          )}
+        </div>
+      )}
+
+      {selectedTutors.length > 0 && (
+        <div>
+          {selectedTutors.map((tutor, index) => (
+            <div key={index} className="flex justify-between items-center">
+              <Label className="text-white/80 font-normal">
+                {tutor.mockUserEmail}
+              </Label>
+
+              <Button
+                variant="ghost"
+                onClick={() => deleteSelectedTutor(tutor.mockUserEmail)}
+                className="hover:bg-accent/50 text-white/80"
+              >
+                x
               </Button>
-            </DialogClose>
-            <Button onClick={handleSubmit} type="submit" className="w-1/2">
-              Save changes
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </form>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
-}
+};
