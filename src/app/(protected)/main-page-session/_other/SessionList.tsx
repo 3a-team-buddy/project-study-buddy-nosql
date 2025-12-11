@@ -30,7 +30,7 @@ export const SessionList = () => {
               <div className="flex items-center justify-center gap-2">
                 <JoinBtn session={session} />
 
-                <InviteBtnDialog />
+                <InviteBtnDialog session={session} />
               </div>
             </div>
           ))}
