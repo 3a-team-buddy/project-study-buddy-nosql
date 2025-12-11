@@ -12,6 +12,8 @@ import {
   SessionTypeSelector,
   StudySessionTitleAndDescription,
 } from "./_components";
+import StarfieldBackground from "../card-chunks/_components/StarfieldBackground";
+import { Header } from "@/app/_components-main-page";
 
 const SessionPage = () => {
   const [sessionTopicTitle, setSessionTopicTitle] = useState<string>("");
@@ -26,12 +28,12 @@ const SessionPage = () => {
   const { allSessions } = useSession();
 
   return (
-    <div className="w-full min-h-screen text-white flex gap-8 py-10">
+    <div className="w-[1440px] min-h-screen text-white flex gap-8 m-auto py-10 ">
       <div className="flex-1">
         <SessionListComp />
       </div>
-
-      <div className="max-w-[480px] w-full flex flex-col gap-8 rounded-2xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl">
+      {/* <div className="max-w-[480px] w-full h-fit flex flex-col gap-8 rounded-2xl px-8 py-6 bg-[#] shadow-xl sticky top-36"> */}
+      <div className="max-w-[480px] w-full flex flex-col gap-8 rounded-2xl px-8 py-6 bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl">
         <CreateSessionHeading />
 
         <StudySessionTitleAndDescription

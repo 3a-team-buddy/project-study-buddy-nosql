@@ -35,5 +35,3 @@ export default function RootLayout({
     </ClerkProvider>
   );
 }
-
-//  bg-[url('https://talent.pinebaatars.mn/pinebaatar.png')]
