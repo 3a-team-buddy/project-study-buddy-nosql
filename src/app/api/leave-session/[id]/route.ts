@@ -62,10 +62,12 @@ export async function DELETE(
   );
 
   const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
-  await ably.channels.get("sessions").publish("student-removed", {
-    sessionId: foundSessionId,
-    userId: foundUserId.toString(),
-  });
+  await ably.channels
+    .get("sessions")
+    .publish({
+      name: "student-removed",
+      data: { sessionId: foundSessionId, userId: foundUserId.toString() },
+    });
 
   return NextResponse.json(
     {

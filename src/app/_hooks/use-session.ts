@@ -6,7 +6,6 @@ import { toast } from "sonner";
 import { ablyClient } from "@/lib/ably";
 import type * as Ably from "ably";
 import { useAuth } from "@clerk/nextjs";
-import { previousDay } from "date-fns";
 
 export const useSession = () => {
   const { getToken } = useAuth();
@@ -40,6 +39,8 @@ export const useSession = () => {
 
     if (!result) {
       toast.error("No sessions!");
+      setIsLoading(false);
+      return;
     }
 
     const { data } = await result.json();
@@ -64,6 +65,9 @@ export const useSession = () => {
 
     const channel = ablyClient.channels.get("sessions");
 
+    const addIfNotExists = (arr: string[], id: string) =>
+      arr.includes(id) ? arr : [...arr, id];
+
     const handleCreated = (message: Ably.Message) => {
       if (message.name !== "session-created") return;
 
@@ -72,6 +76,7 @@ export const useSession = () => {
       setSessions((prev) => ({
         ...prev,
         allSessions: [newSession, ...prev.allSessions],
+
         createdSessions:
           newSession.creatorId === prev.userId
             ? [newSession, ...prev.createdSessions]
@@ -102,7 +107,10 @@ export const useSession = () => {
             session._id === sessionId
               ? {
                   ...session,
-                  studentCount: [...(session.studentCount ?? []), userId],
+                  studentCount: addIfNotExists(
+                    session.studentCount ?? [],
+                    userId
+                  ),
                 }
               : session
           );
@@ -116,7 +124,16 @@ export const useSession = () => {
           );
 
           if (joinedSession) {
-            joinedSessions = [joinedSession, ...prev.joinedSessions];
+            joinedSessions = [
+              {
+                ...joinedSession,
+                studentCount: addIfNotExists(
+                  joinedSession.studentCount ?? [],
+                  userId
+                ),
+              },
+              ...prev.joinedSessions,
+            ];
           }
 
           otherSessions = prev.otherSessions.filter(
@@ -155,17 +172,34 @@ export const useSession = () => {
               : session
           );
 
+        const isUser = prev.userId === userId;
+
+        let joinedSessions = prev.joinedSessions;
+        let otherSessions = prev.otherSessions;
+
+        if (isUser) {
+          joinedSessions = prev.joinedSessions.filter(
+            (session) => session._id !== sessionId
+          );
+
+          const updatedSession = update(prev.allSessions).find(
+            (session) => session._id === sessionId
+          );
+
+          if (updatedSession) {
+            otherSessions = [updatedSession, ...prev.otherSessions];
+          }
+        } else {
+          joinedSessions = update(prev.joinedSessions);
+          otherSessions = update(prev.otherSessions);
+        }
+
         return {
           ...prev,
           allSessions: update(prev.allSessions),
           createdSessions: update(prev.createdSessions),
-          joinedSessions:
-            prev.userId === userId
-              ? prev.joinedSessions.filter(
-                  (session) => session._id !== sessionId
-                )
-              : update(prev.joinedSessions),
-          otherSessions: update(prev.otherSessions),
+          joinedSessions,
+          otherSessions,
         };
       });
     };
@@ -175,18 +209,16 @@ export const useSession = () => {
 
       const { sessionId } = message.data;
 
-      setSessions((prev) => {
-        const filter = (sessions: CreateSessionType[]) =>
-          sessions.filter((session) => session._id !== sessionId);
+      const filter = (arr: CreateSessionType[]) =>
+        arr.filter((s) => s._id !== sessionId);
 
-        return {
-          ...prev,
-          allSessions: filter(prev.allSessions),
-          createdSessions: filter(prev.createdSessions),
-          joinedSessions: filter(prev.joinedSessions),
-          otherSessions: filter(prev.otherSessions),
-        };
-      });
+      setSessions((prev) => ({
+        ...prev,
+        allSessions: filter(prev.allSessions),
+        createdSessions: filter(prev.createdSessions),
+        joinedSessions: filter(prev.joinedSessions),
+        otherSessions: filter(prev.otherSessions),
+      }));
     };
 
     channel.subscribe("session-created", handleCreated);
