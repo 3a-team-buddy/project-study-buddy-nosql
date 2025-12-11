@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { Manrope } from "next/font/google";
 import { useRouter } from "next/navigation";
-import { Panda } from "lucide-react";
 
 const manrope = Manrope({ subsets: ["latin"] });
 

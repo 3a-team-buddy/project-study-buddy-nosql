@@ -12,8 +12,6 @@ import {
   SessionTypeSelector,
   StudySessionTitleAndDescription,
 } from "./_components";
-import StarfieldBackground from "../card-chunks/_components/StarfieldBackground";
-import { Header } from "@/app/_components-main-page";
 
 const SessionPage = () => {
   const [sessionTopicTitle, setSessionTopicTitle] = useState<string>("");
