@@ -12,6 +12,7 @@ import {
   SessionTypeSelector,
   StudySessionTitleAndDescription,
 } from "./_components";
+import VoiceFloatingButton from "./_components/VoiceFloatingButton";
 
 const SessionPage = () => {
   const [sessionTopicTitle, setSessionTopicTitle] = useState<string>("");
@@ -26,11 +27,10 @@ const SessionPage = () => {
   const { allSessions } = useSession();
 
   return (
-    <div className="w-[1440px] min-h-screen text-white flex gap-8 m-auto py-10 ">
+    <div className="w-[1440px] min-h-screen text-white flex gap-8 m-auto py-10 relative">
       <div className="flex-1">
         <SessionListComp />
       </div>
-
       <div className="max-w-[480px] w-full h-fit flex flex-col gap-8 rounded-2xl px-8 py-6 bg-linear-to-b from-[#1E2648]/50 to-[#122136]/50 backdrop-blur-3xl border border-white/10 shadow-2xl sticky top-36">
         <CreateSessionHeading />
 
@@ -82,6 +82,7 @@ const SessionPage = () => {
           setSelectedTutors={setSelectedTutors}
         />
       </div>
+      <VoiceFloatingButton onClick={() => {}} />
     </div>
   );
 };
