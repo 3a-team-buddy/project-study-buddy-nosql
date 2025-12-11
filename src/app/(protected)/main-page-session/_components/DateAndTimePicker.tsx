@@ -131,7 +131,7 @@ export const DateAndTimePicker = ({
                 onMonthChange={setMonth}
                 disabled={[
                   (day) => day < today,
-                  (day) => day.toString() === today.toDateString(),
+                  (day) => day.toDateString() === today.toDateString(),
                   (day) => day.toDateString() === tomorrow.toDateString(),
                   (day) => fullyBookedDates.includes(formatDate(day)),
                 ]}
