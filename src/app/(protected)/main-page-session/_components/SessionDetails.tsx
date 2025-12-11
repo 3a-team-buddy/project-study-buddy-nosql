@@ -17,13 +17,21 @@ export const SessionDetails = ({ session }: { session: CreateSessionType }) => {
           <span className="font-semibold text-purple-300">{session.value}</span>
         </p>
         <p className="flex items-center gap-2">
-          <FiClock /> Start time:{" "}
-          <span className="font-semibold text-purple-300">{session.time}</span>{" "}
+          <FiClock /> Start time:
+          <span className="font-semibold text-purple-300">
+            {session.time}
+          </span>{" "}
           (1 hour)
         </p>
         <p className="flex items-center gap-2">
           <FiUser /> Session type:
-          <span className="text-purple-300 font-semibold">
+          <span
+            className={`${
+              session.selectedSessionType === "TUTOR-LED"
+                ? "text-purple-300 font-semibold"
+                : "text-purple-400 font-semibold"
+            }`}
+          >
             {session.selectedSessionType}
           </span>
         </p>

@@ -11,5 +11,4 @@ export * from "./DateAndTimePicker";
 export * from "./MemberLimitSelector";
 export * from "./SessionTypeSelector";
 export * from "./StudySessionTitleAndDescription";
-export * from "./SliderComponent";
 export * from "./FlippingCardDetail";

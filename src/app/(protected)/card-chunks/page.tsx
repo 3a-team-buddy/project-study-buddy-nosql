@@ -11,7 +11,7 @@ import {
   SessionTypeSelector,
   StudySessionTitleAndDescription,
 } from "./_components";
-import SliderComponent from "./_components/SliderComponent";
+// import SliderComponent from "./_components/SliderComponent";
 
 const SessionPage = () => {
   const [sessionTopicTitle, setSessionTopicTitle] = useState<string>("");
@@ -27,9 +27,7 @@ const SessionPage = () => {
 
   return (
     <div className="w-full min-h-screen text-white flex gap-8 py-10">
-      <div className="flex-1">
-        <SliderComponent />
-      </div>
+      <div className="flex-1">{/* <SliderComponent /> */}</div>
 
       <div className="max-w-[480px] w-full flex flex-col gap-8 rounded-2xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl">
         <CreateSessionHeading />

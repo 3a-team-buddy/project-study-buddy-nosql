@@ -37,7 +37,7 @@ export const SessionListComp = () => {
       <div className="flex flex-col gap-10">
         {sessionLists.map((sessionList) => (
           <div key={sessionList.name} className="flex flex-col gap-3">
-            <div className="flex-1 leading-7 font-semibold">
+            <div className="text-xl flex-1 leading-7 font-semibold">
               {sessionList.name}
             </div>
 
@@ -54,7 +54,7 @@ export const SessionListComp = () => {
                 ))}
               </div>
             ) : (
-              <div className="rounded-2xl px-8 py-6 bg-[#0E1B2EFF] shadow-xl">
+              <div className="rounded-2xl px-8 py-6 bg-linear-to-b from-[#1E2648]/40 to-[#122136]/40 shadow-xl">
                 <p className="text-sm opacity-70 text-center">
                   {sessionList.name === "Created Sessions" &&
                     "You haven't created any sessions yet."}

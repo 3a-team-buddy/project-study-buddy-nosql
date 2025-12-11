@@ -33,12 +33,12 @@ export const SessionCard = ({
   };
 
   return (
-    <div className="flex flex-col gap-3 hover:cursor-pointer">
+    <div className="flex flex-col gap-3">
       <div className="w-full rounded-2xl px-6 py-4 bg-linear-to-b from-[#1E2648]/90 to-[#122136]/20 flex gap-3 justify-between items-center relative ">
         <Button
           onClick={handleSessionCardDetail}
           variant={"ghost"}
-          className="hover:bg-white/3 text-white/80 hover:text-white rounded-full flex-1 justify-start"
+          className="text-base hover:bg-white/4 text-white/80 hover:text-white rounded-full flex-1 justify-start cursor-pointer"
         >
           {session.sessionTopicTitle}
         </Button>
@@ -46,22 +46,34 @@ export const SessionCard = ({
         <div className="flex gap-4 items-center">
           {(sessionListType === "created" || sessionListType === "joined") && (
             <span
-              className={`text-sm font-medium ${
+              className={`text-sm font-medium cursor-pointer ${
                 session.status === "WAITING"
-                  ? "text-orange-300"
+                  ? "text-amber-200 hover:text-amber-100"
                   : session.status === "ACCEPTED"
-                  ? "text-green-600"
+                  ? "text-green-400 hover:text-green-300"
                   : session.status === "CANCELED"
-                  ? "text-red-700"
+                  ? "text-gray-500 hover:text-gray-400"
                   : ""
               }`}
             >
               {session.status && session.status.toLowerCase()}
-              <JoinBtn session={session} />
             </span>
           )}
+
+          <p className="text-sm font-medium text-white/80 hover:text-white cursor-pointer">
+            {session.studentCount?.length}/{session.maxMember}
+          </p>
+          <p
+            className={`text-sm cursor-pointer ${
+              session.selectedSessionType === "TUTOR-LED"
+                ? "text-purple-300 hover:text-purple-200"
+                : "text-purple-500 hover:text-purple-400"
+            }`}
+          >
+            {session.selectedSessionType.toLowerCase()}
+          </p>
           {sessionListType === "other" && <JoinBtn session={session} />}
-          <InviteBtnDialog />
+          <InviteBtnDialog session={session} />
         </div>
       </div>
       {open && (
