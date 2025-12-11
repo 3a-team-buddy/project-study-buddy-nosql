@@ -7,7 +7,7 @@ const LoginPage = () => {
   const reduced = usePrefersReducedMotion();
 
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center relative overflow-hidden bg-[#003747]">
+    <div className="w-full h-screen flex flex-col items-center justify-center relative overflow-hidden">
       {!reduced && (
         <div className="absolute inset-0 z-0">
           <FloatingCoins reduced={reduced} />

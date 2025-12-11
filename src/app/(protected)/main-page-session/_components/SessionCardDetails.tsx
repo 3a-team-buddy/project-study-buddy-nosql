@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Button, Dialog, DialogTrigger, Separator } from "@/components/ui";
+import { Separator } from "@/components/ui";
 import { CreateSessionType, JoinedStudentType } from "@/lib/types";
 import {
   JoinBtn,
