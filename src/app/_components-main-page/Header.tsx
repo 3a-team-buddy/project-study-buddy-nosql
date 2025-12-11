@@ -4,16 +4,17 @@ import React from "react";
 import { Button } from "@/components/ui";
 import { UserButton } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { Panda } from "lucide-react";
 
 export const Header = () => {
   const router = useRouter();
 
   return (
-    <header className="bg-[#051313] relative">
+    <header className="bg-linear-to-b from-[#1E2648]/10 to-[#122136]/60 relative">
       <div className="max-w-[1440px] flex items-center justify-between m-auto px-3 py-3">
         <div className="flex gap-6 items-center">
           <div onClick={() => router.push("/")} className="cursor-pointer">
-            <img src="/pineconeIcon.svg" alt="pinecone icon" />
+            <Panda size={32} className="text-white" />
           </div>
 
           <div className="flex gap-2">
@@ -21,7 +22,7 @@ export const Header = () => {
               onClick={() => router.push("/card-chunks")}
               size={"lg"}
               variant={"ghost"}
-              className="bg-transparent px-4 cursor-pointer hover:bg-transparent text-white hover:text-white border-0"
+              className="bg-transparent px-4 cursor-pointer hover:bg-transparent text-transparent hover:text-white-transparent border-0"
             >
               Study Buddy
             </Button>
