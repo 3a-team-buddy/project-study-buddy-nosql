@@ -71,7 +71,6 @@ export const SessionCard = ({
             }`}
           >
             {session.selectedSessionType.toLowerCase()}
-            {<JoinBtn session={session} />}
           </p>
           {sessionListType === "other" ? <JoinBtn session={session} /> : ""}
           <InviteBtnDialog session={session} />
