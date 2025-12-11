@@ -139,26 +139,22 @@ export default function Component() {
 
   return (
     <div
-      className={`relative w-full m-auto h-screen bg-[#061e20] text-white overflow-hidden ${manrope.className}`}
-      // bg-[#061a20]
+      className={`relative w-full m-auto h-screen bg-linear-to-b from-[#1E2648]/20 to-[#122136]/70 text-white overflow-hidden ${manrope.className}`}
     >
       <div className="absolute top-8/20 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center z-10">
         <p className="mb-8 opacity-70">Together - Learn - Leap</p>
         <h1 className="text-6xl font-bold mb-8 max-w-4xl mx-auto">
-          Buddy-Buddy Project 3A
+          Study-Buddy Project
         </h1>
         <div className="flex gap-2 justify-center">
           <h2 className="text-xl mb-10 text-center">
             Create a study sessions with your academy buddies
           </h2>
-          <span>
-            <Panda />
-          </span>
         </div>
 
         <button
           onClick={() => router.push("/main-page-session")}
-          className="bg-white text-black font-bold py-3 px-6 rounded-md hover:bg-gray-200 transition duration-300 cursor-po"
+          className="bg-white text-black font-bold py-3 px-6 rounded-md hover:bg-gray-200 transition duration-300 cursor-pointer"
         >
           Study Buddy
         </button>

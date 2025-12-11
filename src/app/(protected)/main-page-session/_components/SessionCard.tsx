@@ -34,16 +34,15 @@ export const SessionCard = ({
 
   return (
     <div className="flex flex-col gap-3 hover:cursor-pointer">
-      <div className="w-full rounded-2xl px-6 py-4 bg-linear-to-b from-[#1E2648] to-[#122136] flex gap-3 justify-between items-center relative ">
-        <div className="flex flex-col gap-3">
-          <Button
-            onClick={handleSessionCardDetail}
-            variant={"ghost"}
-            className="hover:bg-gray-600 hover:text-white rounded-full"
-          >
-            {session.sessionTopicTitle}
-          </Button>
-        </div>
+      <div className="w-full rounded-2xl px-6 py-4 bg-linear-to-b from-[#1E2648]/90 to-[#122136]/20 flex gap-3 justify-between items-center relative ">
+        <Button
+          onClick={handleSessionCardDetail}
+          variant={"ghost"}
+          className="hover:bg-white/3 text-white/80 hover:text-white rounded-full flex-1 justify-start"
+        >
+          {session.sessionTopicTitle}
+        </Button>
+
         <div className="flex gap-4 items-center">
           {(sessionListType === "created" || sessionListType === "joined") && (
             <span

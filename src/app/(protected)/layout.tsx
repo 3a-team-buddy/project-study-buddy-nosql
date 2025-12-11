@@ -51,7 +51,6 @@ export default function RootLayout({
 
   return (
     <div className="h-full w-screen bg-black">
-      <StarfieldBackground />
       <Header />
       <div>
         <div className="flex gap-6">{children}</div>
