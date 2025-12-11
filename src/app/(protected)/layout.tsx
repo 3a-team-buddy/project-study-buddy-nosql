@@ -5,6 +5,7 @@ import { Dashboard, Header } from "../_components-main-page";
 import { useUser, useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/ui/spinner";
+import StarfieldBackground from "./card-chunks/_components/StarfieldBackground";
 
 export default function RootLayout({
   children,
@@ -49,16 +50,12 @@ export default function RootLayout({
   }
 
   return (
-    <div className="h-screen w-screen">
+    <div className="h-full w-screen bg-black">
+      <StarfieldBackground />
       <Header />
       <div>
-        <div className="flex gap-6">
-          {/* <Dashboard /> */}
-          {children}
-        </div>
+        <div className="flex gap-6">{children}</div>
       </div>
     </div>
   );
 }
-
-//bg-[url('https://talent.pinebaatars.mn/pinebaatar.png')]
