@@ -14,18 +14,34 @@ import {
 } from "@/components/ui";
 import { IoPersonAdd } from "react-icons/io5";
 import { toast } from "sonner";
-import { SelectedStudentType } from "@/lib/types";
+import { CreateSessionType, SelectedStudentType } from "@/lib/types";
 
-export const InviteBtnDialogContent = () => {
+export const InviteBtnDialogContent = ({
+  session,
+}: {
+  session: CreateSessionType;
+}) => {
+  const [emailInputValue, setEmailInputValue] = useState<string>("");
   const [selectedStudents, setSelectedStudents] = useState<
     SelectedStudentType[]
   >([]);
-  const [emailInputValue, setEmailInputValue] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const link = "https://project-study-buddy-nosql.vercel.app/";
 
   const handleAddStudentEmail = () => {
     if (!emailInputValue) return;
     if (!emailInputValue.includes("@")) {
-      toast.error("Invalid email");
+      toast.warning("Invalid email");
+      return;
+    }
+
+    if (
+      selectedStudents.some(
+        (selectedStudent) => selectedStudent.email === emailInputValue
+      )
+    ) {
+      toast.warning("Duplicated email!");
       return;
     }
 
@@ -38,17 +54,18 @@ export const InviteBtnDialogContent = () => {
     setSelectedStudents((prev) => prev.filter((s) => s.email !== studentEmail));
   };
 
-  const handleSendInvites = async () => {
+  const handleSendInviteLink = async (sessionId: string) => {
+    setLoading(true);
+
     if (selectedStudents.length === 0) {
-      alert("No emails selected");
+      toast.warning("No emails selected");
       return;
     }
 
     const emails = selectedStudents.map((s) => s.email);
-    const link = "http://localhost:3000/create-session"; // 🔗 invitation link
 
     try {
-      const res = await fetch("/api/send-link", {
+      const res = await fetch(`/api/send-link/${sessionId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -56,17 +73,18 @@ export const InviteBtnDialogContent = () => {
         body: JSON.stringify({ emails, link }),
       });
 
-      const data = await res.json();
-
       if (!res.ok) {
-        alert(data.error || "Failed to send");
+        toast.error("Failed to send link!");
         return;
       }
 
-      alert("Invites sent successfully!");
+      toast.success("Invite link sent successfully!");
       setSelectedStudents([]);
-    } catch (e) {
-      alert("Server error");
+    } catch (error) {
+      console.error("Error", error);
+      toast.error("Server error!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -77,18 +95,18 @@ export const InviteBtnDialogContent = () => {
         <DialogDescription />
       </DialogHeader>
 
-      {/* Email input */}
       <div className="flex flex-col gap-2">
         <Label htmlFor="email">Email</Label>
         <div className="flex gap-3 items-center">
           <Input
             type="email"
-            placeholder="Enter student email..."
             value={emailInputValue}
             onChange={(e) => setEmailInputValue(e.target.value)}
+            placeholder="Enter student email..."
+            className="border border-black/70"
           />
           <Button
-            disabled={selectedStudents.length > 10}
+            disabled={selectedStudents.length > 5}
             onClick={handleAddStudentEmail}
           >
             <IoPersonAdd />
@@ -96,14 +114,14 @@ export const InviteBtnDialogContent = () => {
         </div>
       </div>
 
-      {/* Selected students list */}
       {selectedStudents.length > 0 && (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-0.5">
           {selectedStudents.map((student, index) => (
             <div key={index} className="flex justify-between items-center">
-              <span>{student.email}</span>
+              <Label>{student.email}</Label>
               <Button
                 variant="ghost"
+                disabled={loading}
                 onClick={() => deleteSelectedStudent(student.email)}
               >
                 x
@@ -113,10 +131,9 @@ export const InviteBtnDialogContent = () => {
         </div>
       )}
 
-      {/* Link field */}
       <div className="flex flex-col gap-2">
         <Label>Link to send</Label>
-        <Input value="http://localhost:3000/create-session" readOnly />
+        <Input value={link} readOnly className="border border-black/20" />
       </div>
 
       <DialogFooter className="sm:justify-end">
@@ -124,7 +141,9 @@ export const InviteBtnDialogContent = () => {
           <Button variant="secondary">Close</Button>
         </DialogClose>
 
-        <Button onClick={handleSendInvites}>Invite</Button>
+        <Button onClick={() => handleSendInviteLink(session._id)}>
+          Invite
+        </Button>
       </DialogFooter>
     </DialogContent>
   );

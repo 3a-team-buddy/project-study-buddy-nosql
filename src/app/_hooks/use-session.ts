@@ -162,16 +162,16 @@ export const useSession = () => {
       });
     };
 
-    channel.subscribe("session-created", handleCreated);
-    channel.subscribe("session-joined", handleJoined);
-    channel.subscribe("student-removed", handleRemoved);
-    channel.subscribe("session-deleted", handleDeleted);
+    // channel.subscribe("session-created", handleCreated);
+    // channel.subscribe("session-joined", handleJoined);
+    // channel.subscribe("student-removed", handleRemoved);
+    // channel.subscribe("session-deleted", handleDeleted);
 
     return () => {
-      channel.unsubscribe("session-created", handleCreated);
-      channel.unsubscribe("session-joined", handleJoined);
-      channel.unsubscribe("student-removed", handleRemoved);
-      channel.unsubscribe("session-deleted", handleDeleted);
+      // channel.unsubscribe("session-created", handleCreated);
+      // channel.unsubscribe("session-joined", handleJoined);
+      // channel.unsubscribe("student-removed", handleRemoved);
+      // channel.unsubscribe("session-deleted", handleDeleted);
     };
   }, []);
 

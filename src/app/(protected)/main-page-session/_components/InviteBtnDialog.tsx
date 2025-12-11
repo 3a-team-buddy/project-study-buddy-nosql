@@ -4,8 +4,9 @@ import React from "react";
 import { Dialog, DialogTrigger, Button } from "@/components/ui";
 import { BsLink } from "react-icons/bs";
 import { InviteBtnDialogContent } from "@/app/(protected)/main-page-session/_components";
+import { CreateSessionType } from "@/lib/types";
 
-export function InviteBtnDialog() {
+export function InviteBtnDialog({ session }: { session: CreateSessionType }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -15,7 +16,7 @@ export function InviteBtnDialog() {
         </Button>
       </DialogTrigger>
 
-      <InviteBtnDialogContent />
+      <InviteBtnDialogContent session={session} />
     </Dialog>
   );
 }
