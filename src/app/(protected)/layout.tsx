@@ -49,11 +49,11 @@ export default function RootLayout({
   }
 
   return (
-    <div className="bg-[url('https://talent.pinebaatars.mn/pinebaatar.png')] bg-cover bg-center">
+    <div className="h-screen w-screen">
       <Header />
-      <div className="max-w-[1440px] flex flex-col justify-center m-auto">
-        <div className="flex gap-6 py-9">
-          <Dashboard />
+      <div>
+        <div className="flex gap-6">
+          {/* <Dashboard /> */}
           {children}
         </div>
       </div>
