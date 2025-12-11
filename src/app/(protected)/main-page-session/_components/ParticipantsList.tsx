@@ -23,7 +23,7 @@ export const ParticipantsList = ({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex justify-between items-center">
-        <Label className="text-base text-white font-semibold">
+        <Label className="text-base text-white/80 hover:text-white font-semibold">
           Participants
         </Label>
         <Button
@@ -48,10 +48,10 @@ export const ParticipantsList = ({
               />
               <div>{joinedStudent.studentId.mockUserName}</div>
               {i === 0 && (
-                <div className="flex gap-0.5 text-xs items-center text-amber-200">
+                <div className="flex gap-0.5 text-xs items-center text-amber-200 hover:text-amber-100">
                   <Star
                     size={11}
-                    className="text-amber-200 fill-amber-200 font-medium"
+                    className="text-amber-200 fill-amber-200 font-medium hover:text-amber-100"
                   />
                   Creator
                 </div>

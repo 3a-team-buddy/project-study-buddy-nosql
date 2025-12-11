@@ -9,7 +9,7 @@ export const EditBtnTrigger = ({ session }: { session: CreateSessionType }) => {
         <DialogTrigger asChild>
           <Button
             variant="outline"
-            className="w-1/2 text-accent-foreground cursor-pointer"
+            className="w-1/2 text-accent-foreground cursor-pointer rounded-full"
           >
             Edit
           </Button>

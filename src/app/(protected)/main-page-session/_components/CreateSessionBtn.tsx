@@ -45,56 +45,62 @@ export const CreateSessionBtn = ({
   const [loading, setLoading] = useState(false);
 
   const handleCreateSession = async () => {
-    setLoading(true);
-    const token = await getToken();
+    try {
+      setLoading(true);
+      const token = await getToken();
 
-    if (
-      !sessionTopicTitle ||
-      !description ||
-      !minMember ||
-      !maxMember ||
-      !value ||
-      !time ||
-      !selectedSessionType ||
-      !selectedTutors ||
-      !token
-    ) {
-      toast.warning("All fields are required!");
-      return;
+      if (
+        !sessionTopicTitle ||
+        !description ||
+        !minMember ||
+        !maxMember ||
+        !value ||
+        !time ||
+        !selectedSessionType ||
+        !selectedTutors ||
+        !token
+      ) {
+        toast.warning("All fields are required!");
+        return;
+      }
+
+      const response = await fetch("/api/create-new-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          sessionTopicTitle,
+          description,
+          minMember,
+          maxMember,
+          value,
+          time,
+          selectedSessionType,
+          selectedTutors,
+        }),
+      });
+
+      if (!response.ok) {
+        toast.error("Failed to create study session!");
+      }
+
+      toast.success("Study session created successfully");
+      setSessionTopicTitle("");
+      setDescription("");
+      setMinMember(0);
+      setMaxMember(0);
+      setValue("");
+      setTime("");
+      setSelectedSessionType("");
+      setSelectedTutors([]);
+    } catch (error) {
+      console.error("Error", error);
+      toast.error("Server error!");
+    } finally {
+      setLoading(false);
     }
-
-    const response = await fetch("/api/create-new-session", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        sessionTopicTitle,
-        description,
-        minMember,
-        maxMember,
-        value,
-        time,
-        selectedSessionType,
-        selectedTutors,
-      }),
-    });
-
-    if (!response.ok) {
-      toast.error("Failed to create study session!");
-    }
-
-    toast.success("Study session created successfully");
-    setSessionTopicTitle("");
-    setDescription("");
-    setMinMember(0);
-    setMaxMember(0);
-    setValue("");
-    setTime("");
-    setSelectedSessionType("");
-    setSelectedTutors([]);
-    setLoading(false);
   };
 
   return (

@@ -23,12 +23,11 @@ export const SessionCardDetails = ({
   joinedStudents: JoinedStudentType[];
 }) => {
   return (
-    <div className="flex flex-col gap-10 p-5 bg-linear-to-b from-[#1E2648]/50 to-[#122136]/50 rounded-2xl">
+    <div className="flex flex-col gap-10 px-10 py-5 bg-linear-to-b from-[#1E2648]/50 to-[#122136]/50 rounded-2xl">
       <div className="flex flex-col gap-3">
-        <h2 className="text-2xl leading-7 font-semibold">
-          {session.sessionTopicTitle}
-        </h2>
-        <p className="text-sm text-white/60 leading-5">{session.description}</p>
+        <div className="text-sm text-white/60 leading-5">
+          {session.description}
+        </div>
       </div>
 
       <div className="flex flex-col gap-2">

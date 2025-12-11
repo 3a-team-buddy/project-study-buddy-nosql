@@ -1,13 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createJoinedStudent } from "@/lib/services/joined-students-service";
 import Ably from "ably";
-import { checkAuth } from "../check-create-user/route";
 import connectDB from "@/lib/mongodb";
 import { MockUser } from "@/lib/models/MockUser";
 import { sendNextTutorInviteEmail } from "@/lib/services/sendNextTutorInviteEmail";
 import { sendJoinedStudentsNotifySelfEmail } from "@/lib/services/sendJoinedStudentsNotifySelfEmail";
+import { checkAuth } from "../../check-create-user/route";
 
-export async function POST(request: NextRequest) {
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ sessionId: string }> }
+) {
   try {
     await connectDB();
 
@@ -22,9 +25,14 @@ export async function POST(request: NextRequest) {
       },
       "_id"
     );
+
+    if (!user) {
+      return NextResponse.json({ message: "User not found!" }, { status: 404 });
+    }
+
     const userId = user?._id;
 
-    const { sessionId } = await request.json();
+    const { sessionId } = await params;
 
     if (!sessionId) {
       return NextResponse.json(
@@ -44,8 +52,6 @@ export async function POST(request: NextRequest) {
 
     const updatedCount = updatedSession.studentCount.length;
     const minMem = updatedSession.minMember;
-    console.log({ updatedCount });
-    console.log({ minMem });
 
     if (updatedCount === minMem) {
       const type = updatedSession.selectedSessionType?.toLowerCase();
@@ -60,9 +66,12 @@ export async function POST(request: NextRequest) {
     }
 
     const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
-    await ably.channels.get("sessions").publish("session-joined", {
-      sessionId,
-      userId: userId.toString(),
+    await ably.channels.get("sessions").publish({
+      name: "session-joined",
+      data: {
+        sessionId,
+        userId: userId.toString(),
+      },
     });
 
     return NextResponse.json(

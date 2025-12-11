@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { ablyClient } from "@/lib/ably";
 import type * as Ably from "ably";
 import { useAuth } from "@clerk/nextjs";
+import { previousDay } from "date-fns";
 
 export const useSession = () => {
   const { getToken } = useAuth();
@@ -57,6 +58,10 @@ export const useSession = () => {
   useEffect(() => {
     getSessions();
 
+    ablyClient.connection.on("connected", () => {
+      console.log("⚡ Ably connected!");
+    });
+
     const channel = ablyClient.channels.get("sessions");
 
     const handleCreated = (message: Ably.Message) => {
@@ -90,6 +95,8 @@ export const useSession = () => {
       const { sessionId, userId } = message.data;
 
       setSessions((prev) => {
+        const isUser = prev.userId === userId;
+
         const update = (sessions: CreateSessionType[]) =>
           sessions.map((session) =>
             session._id === sessionId
@@ -100,12 +107,32 @@ export const useSession = () => {
               : session
           );
 
+        let joinedSessions = prev.joinedSessions;
+        let otherSessions = prev.otherSessions;
+
+        if (isUser) {
+          const joinedSession = prev.allSessions.find(
+            (session) => session._id === sessionId
+          );
+
+          if (joinedSession) {
+            joinedSessions = [joinedSession, ...prev.joinedSessions];
+          }
+
+          otherSessions = prev.otherSessions.filter(
+            (session) => session._id !== sessionId
+          );
+        } else {
+          joinedSessions = update(prev.joinedSessions);
+          otherSessions = update(prev.otherSessions);
+        }
+
         return {
           ...prev,
           allSessions: update(prev.allSessions),
           createdSessions: update(prev.createdSessions),
-          joinedSessions: update(prev.joinedSessions),
-          otherSessions: update(prev.otherSessions),
+          joinedSessions,
+          otherSessions,
         };
       });
     };
@@ -162,16 +189,16 @@ export const useSession = () => {
       });
     };
 
-    // channel.subscribe("session-created", handleCreated);
-    // channel.subscribe("session-joined", handleJoined);
-    // channel.subscribe("student-removed", handleRemoved);
-    // channel.subscribe("session-deleted", handleDeleted);
+    channel.subscribe("session-created", handleCreated);
+    channel.subscribe("session-joined", handleJoined);
+    channel.subscribe("student-removed", handleRemoved);
+    channel.subscribe("session-deleted", handleDeleted);
 
     return () => {
-      // channel.unsubscribe("session-created", handleCreated);
-      // channel.unsubscribe("session-joined", handleJoined);
-      // channel.unsubscribe("student-removed", handleRemoved);
-      // channel.unsubscribe("session-deleted", handleDeleted);
+      channel.unsubscribe("session-created", handleCreated);
+      channel.unsubscribe("session-joined", handleJoined);
+      channel.unsubscribe("student-removed", handleRemoved);
+      channel.unsubscribe("session-deleted", handleDeleted);
     };
   }, []);
 

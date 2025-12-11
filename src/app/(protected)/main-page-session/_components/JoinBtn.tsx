@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Button } from "@/components/ui";
 import { BsFillPeopleFill } from "react-icons/bs";
@@ -12,72 +12,19 @@ export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
   const joinedStudentHandler = async (sessionId: string) => {
     const token = await getToken();
 
-    const joinResponse = await fetch("/api/joined-students", {
+    const joinResponse = await fetch(`/api/joined-students/${sessionId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        sessionId,
-      }),
     });
 
     if (!joinResponse.ok) {
       toast.error("Failed to join!");
     }
 
-    toast.success("Joined session successfully!");
-    const { updatedSession } = await joinResponse.json();
-    const updatedStudentCount = updatedSession.studentCount.length;
-
-    //   //tutor-led
-    //   if (
-    //     session.selectedSessionType.toLowerCase() === "tutor-led" &&
-    //     updatedStudentCount === session.minMember &&
-    //     !emailSent
-    //   ) {
-    //     const emailResponse = await fetch("/api/send-next-tutor-gmail", {
-    //       method: "POST",
-    //       headers: { "Content-Type": "application/json" },
-    //       body: JSON.stringify({ sessionId }),
-    //     });
-
-    //     if (!emailResponse.ok) {
-    //       toast.error("Failed to send tutor invite email!");
-    //     }
-
-    //     toast.success("Tutor invite email sent", {
-    //       description: session.sessionTopicTitle,
-    //     });
-    //     setEmailSent(true);
-    //   }
-
-    //   //self-led
-    //   if (
-    //     session.selectedSessionType.toLowerCase() === "self-led" &&
-    //     updatedStudentCount === session.minMember &&
-    //     !emailSent
-    //   ) {
-    //     const emailResponse = await fetch(
-    //       "/api/send-joined-students-self-gmail",
-    //       {
-    //         method: "POST",
-    //         headers: { "Content-Type": "application/json" },
-    //         body: JSON.stringify({ sessionId }),
-    //       }
-    //     );
-
-    //     if (!emailResponse.ok) {
-    //       toast.error("Failed to inform joined students!");
-    //     }
-
-    //     toast.success("Joined students informed by email", {
-    //       description: session.sessionTopicTitle,
-    //     });
-    //     setEmailSent(true);
-    //   }
-    // };
+    toast.success("Joined successfully!");
   };
 
   return (

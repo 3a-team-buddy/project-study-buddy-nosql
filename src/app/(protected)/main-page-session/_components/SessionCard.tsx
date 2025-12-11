@@ -38,7 +38,7 @@ export const SessionCard = ({
         <Button
           onClick={handleSessionCardDetail}
           variant={"ghost"}
-          className="text-base hover:bg-white/4 text-white/80 hover:text-white rounded-full flex-1 justify-start cursor-pointer"
+          className="text-base leading-5 hover:bg-white/4 text-white/80 hover:text-white rounded-full flex-1 justify-start cursor-pointer"
         >
           {session.sessionTopicTitle}
         </Button>
@@ -71,8 +71,9 @@ export const SessionCard = ({
             }`}
           >
             {session.selectedSessionType.toLowerCase()}
+            {<JoinBtn session={session} />}
           </p>
-          {sessionListType === "other" && <JoinBtn session={session} />}
+          {sessionListType === "other" ? <JoinBtn session={session} /> : ""}
           <InviteBtnDialog session={session} />
         </div>
       </div>
