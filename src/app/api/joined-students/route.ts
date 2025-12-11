@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
     }
 
     const updatedCount = updatedSession.studentCount.length;
-    const minMem = updatedSession.minMem;
+    const minMem = updatedSession.minMember;
     console.log({ updatedCount });
     console.log({ minMem });
 

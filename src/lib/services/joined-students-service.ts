@@ -30,5 +30,7 @@ export const createJoinedStudent = async (
     },
     { new: true }
   );
+
+  console.log({ updatedSession });
   return { joinedStudent, updatedSession };
 };
