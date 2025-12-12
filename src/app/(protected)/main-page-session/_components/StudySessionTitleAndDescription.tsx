@@ -42,7 +42,7 @@ export const StudySessionTitleAndDescription = ({
           list="mock-topic-suggestions"
           value={sessionTopicTitle}
           onChange={handleSessionTopicTitleChange}
-          placeholder="Сэдвээ оруулна уу..."
+          placeholder="Enter session topic..."
           className="border-border/20 bg-black/50 hover:bg-black text-white/80"
         />
 
@@ -59,7 +59,7 @@ export const StudySessionTitleAndDescription = ({
           id="description-textarea"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="Сэдвийн талаар товч бичнэ үү..."
+          placeholder="Describe what you want to study about this topic..."
           className="min-h-20 border-border/20 bg-black/50 hover:bg-black text-white/80"
         />
       </div>
