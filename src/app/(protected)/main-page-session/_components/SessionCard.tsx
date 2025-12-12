@@ -32,6 +32,13 @@ export const SessionCard = ({
     setJoinedStudents(data);
   };
 
+  function formatToMonthDay(dateString: string) {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+    });
+  }
+
   return (
     <div className="flex flex-col gap-3">
       <div className="w-full rounded-2xl px-6 py-4 bg-linear-to-b from-[#1E2648]/90 to-[#122136]/20 flex gap-3 justify-between items-center relative ">
@@ -40,7 +47,13 @@ export const SessionCard = ({
           variant={"ghost"}
           className="text-base leading-5 hover:bg-white/4 text-white/80 hover:text-white rounded-full flex-1 justify-start cursor-pointer"
         >
-          {session.sessionTopicTitle}
+          <div className="flex justify-between items-center gap-5">
+            {session.sessionTopicTitle}
+            <div className="flex gap-1 text-xs text-gray-400 text-start animate-pulse">
+              {formatToMonthDay(session.value)}
+              <div>{session.time}</div>
+            </div>
+          </div>
         </Button>
 
         <div className="flex gap-4 items-center">

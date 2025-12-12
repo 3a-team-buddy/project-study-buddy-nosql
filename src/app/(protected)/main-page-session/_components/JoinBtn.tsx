@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Button } from "@/components/ui";
 import { BsFillPeopleFill } from "react-icons/bs";
@@ -8,28 +8,36 @@ import { useAuth } from "@clerk/nextjs";
 
 export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
   const { getToken } = useAuth();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const joinedStudentHandler = async (sessionId: string) => {
-    const token = await getToken();
+    try {
+      setIsLoading(true);
+      const token = await getToken();
 
-    const joinResponse = await fetch(`/api/joined-students/${sessionId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+      const joinResponse = await fetch(`/api/joined-students/${sessionId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    if (!joinResponse.ok) {
-      toast.error("Failed to join!");
+      if (!joinResponse.ok) {
+        toast.error("Failed to join!");
+      }
+
+      toast.success("Joined successfully!");
+    } catch (error) {
+      console.error("error", error);
+    } finally {
+      setIsLoading(false);
     }
-
-    toast.success("Joined successfully!");
   };
 
   return (
     <Button
-      disabled={session.studentCount?.length === session.maxMember}
+      disabled={session.studentCount?.length === session.maxMember || isLoading}
       onClick={() => {
         joinedStudentHandler(session._id);
       }}
