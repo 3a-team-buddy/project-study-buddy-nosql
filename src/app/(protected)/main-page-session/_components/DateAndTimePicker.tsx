@@ -87,7 +87,7 @@ export const DateAndTimePicker = ({
           <Input
             id="date"
             value={value}
-            placeholder="Өдрөө сонгоно уу"
+            placeholder="Select a date..."
             onChange={(e) => {
               const date = new Date(e.target.value);
               setValue(e.target.value);
@@ -157,7 +157,7 @@ export const DateAndTimePicker = ({
               className="justify-between border-border/20 bg-black/50 hover:bg-black text-white/80 hover:text-white/80"
             >
               {time || (
-                <span className="text-muted-foreground">Цаг сонгоно уу...</span>
+                <span className="text-muted-foreground">Select a time...</span>
               )}
               <Clock />
             </Button>

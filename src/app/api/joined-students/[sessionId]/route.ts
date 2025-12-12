@@ -6,6 +6,7 @@ import { MockUser } from "@/lib/models/MockUser";
 import { sendNextTutorInviteEmail } from "@/lib/services/sendNextTutorInviteEmail";
 import { sendJoinedStudentsNotifySelfEmail } from "@/lib/services/sendJoinedStudentsNotifySelfEmail";
 import { checkAuth } from "../../check-create-user/route";
+import { Session } from "@/lib/models/Session";
 
 export async function POST(
   request: NextRequest,
@@ -61,6 +62,9 @@ export async function POST(
       }
 
       if (type === "self-led") {
+        await Session.findByIdAndUpdate(updatedSession._id, {
+          status: "accepted",
+        });
         await sendJoinedStudentsNotifySelfEmail(updatedSession);
       }
     }
