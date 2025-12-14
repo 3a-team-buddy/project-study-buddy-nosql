@@ -19,5 +19,5 @@ export type SessionTypeKey = (typeof SESSION_TYPE)[number];
 
 export const SESSION_TYPE_MN_MAP: { [key in SessionTypeKey]: string } = {
   "TUTOR-LED": "Ментортой",
-  "SELF-LED": "Бие даасан",
+  "SELF-LED": "Бие даан",
 };

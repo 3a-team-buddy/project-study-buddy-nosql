@@ -19,12 +19,8 @@ export const MemberLimitSelector = ({
       <Label>Сурагчдын тоо</Label>
       <div className="flex flex-col gap-3">
         <div className="flex justify-between">
-          <Label className="text-xs text-muted-foreground">
-            Доод лимит : {minMember}
-          </Label>
-          <Label className="text-xs text-muted-foreground">
-            Дээд лимит : {maxMember}
-          </Label>
+          <Label className="text-white/70">Доод лимит : {minMember}</Label>
+          <Label className="text-white/70">Дээд лимит : {maxMember}</Label>
         </div>
         <Slider
           min={5}

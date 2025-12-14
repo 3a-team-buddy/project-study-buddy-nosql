@@ -16,7 +16,7 @@ import { CreateSessionType } from "@/lib/types";
 const schedules = ["13:00", "14:00", "15:00", "16:00", "17:00"];
 const rooms = ["301", "302", "303", "304", "305"];
 
-export const DateAndTimePicker = ({
+export const DateRoomTimePicker = ({
   value,
   setValue,
   room,
@@ -104,7 +104,7 @@ export const DateAndTimePicker = ({
           <PopoverTrigger asChild>
             <Button
               variant="outline"
-              className="justify-between border-border/20 bg-black/50 hover:bg-black text-white/80 hover:text-white/80"
+              className="min-w-[175px] justify-between border-border/20 bg-black/50 hover:bg-black text-white/80 hover:text-white/80 cursor-pointer"
             >
               {value || (
                 <span className="text-muted-foreground">Сонгох...</span>
@@ -115,9 +115,11 @@ export const DateAndTimePicker = ({
 
           <PopoverContent className="w-auto overflow-hidden p-0 border-[#323743FF] bg-[black] text-white">
             <Calendar
-              className="bg-[#0F2343]"
+              className="bg-[#0F2343] cursor-pointer"
               mode="single"
               captionLayout="dropdown"
+              fromYear={2014}
+              toYear={2026}
               selected={date}
               month={month}
               onMonthChange={setMonth}
@@ -148,7 +150,7 @@ export const DateAndTimePicker = ({
             <Button
               variant="outline"
               disabled={!value || availableRooms.length === 0}
-              className="justify-between border-border/20 bg-black/50 hover:bg-black text-white/80 hover:text-white/80"
+              className="min-w-[75px] justify-between border-border/20 bg-black/50 hover:bg-black text-white/80 hover:text-white/80 cursor-pointer"
             >
               {room || <span className="text-muted-foreground">Сонгох...</span>}
               <MdOutlineMeetingRoom />
@@ -166,7 +168,7 @@ export const DateAndTimePicker = ({
                     setOpenRoom(false);
                   }}
                 >
-                  <p className="hover:bg-white hover:text-black rounded-md p-1">
+                  <p className="hover:bg-white hover:text-black rounded-md p-1 cursor-pointer">
                     {r}
                   </p>
                 </button>
@@ -187,7 +189,7 @@ export const DateAndTimePicker = ({
             <Button
               variant="outline"
               disabled={!room || availableTimes.length === 0}
-              className="justify-between border-border/20 bg-black/50 hover:bg-black text-white/80 hover:text-white/80"
+              className="min-w-[85px] justify-between border-border/20 bg-black/50 hover:bg-black text-white/80 hover:text-white/80 cursor-pointer"
             >
               {time || <span className="text-muted-foreground">Сонгох...</span>}
               <Clock />
@@ -204,7 +206,7 @@ export const DateAndTimePicker = ({
                     setOpenTime(false);
                   }}
                 >
-                  <p className="hover:bg-white hover:text-black rounded-md p-1">
+                  <p className="hover:bg-white hover:text-black rounded-md p-1 cursor-pointer">
                     {t}
                   </p>
                 </button>

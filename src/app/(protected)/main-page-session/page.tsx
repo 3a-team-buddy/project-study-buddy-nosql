@@ -6,7 +6,7 @@ import { useSession } from "@/app/_hooks/use-session";
 import {
   CreateSessionBtn,
   CreateSessionHeading,
-  DateAndTimePicker,
+  DateRoomTimePicker,
   MemberLimitSelector,
   SessionListComp,
   SessionTypeSelector,
@@ -16,7 +16,7 @@ import {
 const SessionPage = () => {
   const [sessionTopicTitle, setSessionTopicTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [minMember, setMinMember] = useState<number>(0);
+  const [minMember, setMinMember] = useState<number>(5);
   const [maxMember, setMaxMember] = useState<number>(0);
   const [date, setDate] = useState<Date | undefined>();
   const [value, setValue] = useState<string>("");
@@ -25,9 +25,6 @@ const SessionPage = () => {
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
   const { allSessions } = useSession();
-  console.log({ value });
-  console.log({ room });
-  console.log({ time });
 
   return (
     <div className="w-[1440px] min-h-screen text-white flex gap-8 m-auto py-10 ">
@@ -52,7 +49,7 @@ const SessionPage = () => {
           setMaxMember={setMaxMember}
         />
 
-        <DateAndTimePicker
+        <DateRoomTimePicker
           value={value}
           setValue={setValue}
           room={room}
@@ -81,6 +78,8 @@ const SessionPage = () => {
           setMaxMember={setMaxMember}
           value={value}
           setValue={setValue}
+          room={room}
+          setRoom={setRoom}
           time={time}
           setTime={setTime}
           selectedSessionType={selectedSessionType}

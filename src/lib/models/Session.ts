@@ -6,6 +6,7 @@ type SessionSchemaType = {
   minMember: number;
   maxMember: number;
   value: string;
+  room: string;
   time: string;
   selectedSessionType: "TUTOR-LED" | "SELF-LED";
   creatorId: mongoose.Types.ObjectId;
@@ -21,6 +22,7 @@ const SessionSchema = new Schema(
     minMember: { type: Number, required: true },
     maxMember: { type: Number, required: true },
     value: { type: String, required: true },
+    room: { type: String, required: true },
     time: { type: String, required: true },
     selectedSessionType: {
       type: String,

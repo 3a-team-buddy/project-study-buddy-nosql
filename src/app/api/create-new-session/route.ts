@@ -33,6 +33,7 @@ export async function POST(request: NextRequest) {
       minMember,
       maxMember,
       value,
+      room,
       time,
       selectedSessionType,
       selectedTutors,
@@ -44,6 +45,7 @@ export async function POST(request: NextRequest) {
       !minMember ||
       !maxMember ||
       !value ||
+      !room ||
       !time ||
       !selectedSessionType ||
       !selectedTutors
@@ -64,6 +66,7 @@ export async function POST(request: NextRequest) {
       minMember,
       maxMember,
       value,
+      room,
       time,
       uppercasedSessionType,
       creatorId

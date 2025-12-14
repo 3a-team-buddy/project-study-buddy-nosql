@@ -12,10 +12,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CreateSessionType, SelectedTutorType } from "@/lib/types";
 import { MemberLimitSelector } from "./MemberLimitSelector";
-import { DateAndTimePicker } from "./DateAndTimePicker";
 import { useSession } from "@/app/_hooks/use-session";
 import { Tutor } from "./Tutor";
 import { EditSaveChangesBtn } from "./EditSaveChangesBtn";
+import { DateRoomTimePicker } from "./DateRoomTimePicker";
 export function SessionEditBtn({ session }: { session: CreateSessionType }) {
   const [sessionTopicTitle, setSessionTopicTitle] = useState(
     session.sessionTopicTitle
@@ -25,6 +25,7 @@ export function SessionEditBtn({ session }: { session: CreateSessionType }) {
   const [maxMember, setMaxMember] = useState(session.maxMember);
   const [date, setDate] = useState<Date | undefined>();
   const [value, setValue] = useState<string>(session.value);
+  const [room, setRoom] = useState<string>("");
   const [time, setTime] = useState<string>(session.time);
   const [selectedSessionType, setSelectedSessionType] = useState<string>(
     session.selectedSessionType
@@ -68,9 +69,11 @@ export function SessionEditBtn({ session }: { session: CreateSessionType }) {
                 setMaxMember={setMaxMember}
               />
 
-              <DateAndTimePicker
+              <DateRoomTimePicker
                 value={value}
                 setValue={setValue}
+                room={room}
+                setRoom={setRoom}
                 time={time}
                 setTime={setTime}
                 date={date}
