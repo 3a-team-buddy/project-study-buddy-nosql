@@ -20,10 +20,14 @@ const SessionPage = () => {
   const [maxMember, setMaxMember] = useState<number>(0);
   const [date, setDate] = useState<Date | undefined>();
   const [value, setValue] = useState<string>("");
+  const [room, setRoom] = useState<string>("");
   const [time, setTime] = useState<string>("");
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
   const { allSessions } = useSession();
+  console.log({ value });
+  console.log({ room });
+  console.log({ time });
 
   return (
     <div className="w-[1440px] min-h-screen text-white flex gap-8 m-auto py-10 ">
@@ -31,7 +35,7 @@ const SessionPage = () => {
         <SessionListComp />
       </div>
 
-      <div className="max-w-[480px] w-full h-fit flex flex-col gap-8 rounded-2xl px-8 py-6 bg-linear-to-b from-[#1E2648]/50 to-[#122136]/50 backdrop-blur-3xl border border-white/10 shadow-2xl sticky top-36">
+      <div className="max-w-[480px] w-full h-fit flex flex-col gap-10 rounded-2xl px-8 py-6 bg-linear-to-b from-[#1E2648]/50 to-[#122136]/50 backdrop-blur-3xl border border-white/10 shadow-2xl sticky top-36">
         <CreateSessionHeading />
 
         <StudySessionTitleAndDescription
@@ -40,23 +44,26 @@ const SessionPage = () => {
           description={description}
           setDescription={setDescription}
         />
-        <div className="w-full flex gap-8">
-          <MemberLimitSelector
-            minMember={minMember}
-            setMinMember={setMinMember}
-            maxMember={maxMember}
-            setMaxMember={setMaxMember}
-          />
-          <DateAndTimePicker
-            value={value}
-            setValue={setValue}
-            time={time}
-            setTime={setTime}
-            date={date}
-            setDate={setDate}
-            allSessions={allSessions}
-          />
-        </div>
+
+        <MemberLimitSelector
+          minMember={minMember}
+          setMinMember={setMinMember}
+          maxMember={maxMember}
+          setMaxMember={setMaxMember}
+        />
+
+        <DateAndTimePicker
+          value={value}
+          setValue={setValue}
+          room={room}
+          setRoom={setRoom}
+          time={time}
+          setTime={setTime}
+          date={date}
+          setDate={setDate}
+          allSessions={allSessions}
+        />
+
         <SessionTypeSelector
           selectedSessionType={selectedSessionType}
           setSelectedSessionType={setSelectedSessionType}

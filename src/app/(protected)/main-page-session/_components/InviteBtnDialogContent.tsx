@@ -32,7 +32,7 @@ export const InviteBtnDialogContent = ({
   const handleAddStudentEmail = () => {
     if (!emailInputValue) return;
     if (!emailInputValue.includes("@")) {
-      toast.warning("Invalid email");
+      toast.warning("Имэйл буруу байна");
       return;
     }
 
@@ -41,7 +41,7 @@ export const InviteBtnDialogContent = ({
         (selectedStudent) => selectedStudent.email === emailInputValue
       )
     ) {
-      toast.warning("Duplicated email!");
+      toast.warning("Имэйл давхардсан байна!");
       return;
     }
 
@@ -58,7 +58,7 @@ export const InviteBtnDialogContent = ({
     setLoading(true);
 
     if (selectedStudents.length === 0) {
-      toast.warning("No emails selected");
+      toast.warning("Илгээх имэйл байхгүй байна!");
       return;
     }
 
@@ -74,15 +74,15 @@ export const InviteBtnDialogContent = ({
       });
 
       if (!res.ok) {
-        toast.error("Failed to send link!");
+        toast.error("Илгээж чадсангүй!");
         return;
       }
 
-      toast.success("Invite link sent successfully!");
+      toast.success("Урилгын холбоос амжилттай илгээгдлээ!");
       setSelectedStudents([]);
     } catch (error) {
       console.error("Error", error);
-      toast.error("Server error!");
+      toast.error("Серверийн алдаа!");
     } finally {
       setLoading(false);
     }
@@ -91,23 +91,24 @@ export const InviteBtnDialogContent = ({
   return (
     <DialogContent className="px-8 py-6 gap-10 border-0 rounded-2xl">
       <DialogHeader>
-        <DialogTitle>Invite students</DialogTitle>
+        <DialogTitle>Суралцагч урих</DialogTitle>
         <DialogDescription />
       </DialogHeader>
 
       <div className="flex flex-col gap-2">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">Имэйл</Label>
         <div className="flex gap-3 items-center">
           <Input
             type="email"
             value={emailInputValue}
             onChange={(e) => setEmailInputValue(e.target.value)}
-            placeholder="Enter student email..."
+            placeholder="Сурагчийн имэйл оруулна уу..."
             className="border border-black/70"
           />
           <Button
             disabled={selectedStudents.length > 5}
             onClick={handleAddStudentEmail}
+            className="cursor-pointer"
           >
             <IoPersonAdd />
           </Button>
@@ -123,6 +124,7 @@ export const InviteBtnDialogContent = ({
                 variant="ghost"
                 disabled={loading}
                 onClick={() => deleteSelectedStudent(student.email)}
+                className="cursor-pointer"
               >
                 x
               </Button>
@@ -132,17 +134,22 @@ export const InviteBtnDialogContent = ({
       )}
 
       <div className="flex flex-col gap-2">
-        <Label>Link to send</Label>
+        <Label>Илгээх холбоос</Label>
         <Input value={link} readOnly className="border border-black/20" />
       </div>
 
       <DialogFooter className="sm:justify-end">
         <DialogClose asChild>
-          <Button variant="secondary">Close</Button>
+          <Button variant="secondary" className="cursor-pointer">
+            Хаах
+          </Button>
         </DialogClose>
 
-        <Button onClick={() => handleSendInviteLink(session._id)}>
-          Invite
+        <Button
+          onClick={() => handleSendInviteLink(session._id)}
+          className="cursor-pointer"
+        >
+          Урилга илгээх
         </Button>
       </DialogFooter>
     </DialogContent>

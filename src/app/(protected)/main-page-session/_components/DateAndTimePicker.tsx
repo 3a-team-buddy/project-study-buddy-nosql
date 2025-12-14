@@ -2,10 +2,10 @@
 
 import React, { Dispatch, useEffect, useState } from "react";
 import { CalendarRange, Clock } from "lucide-react";
+import { MdOutlineMeetingRoom } from "react-icons/md";
 import {
   Button,
   Calendar,
-  Input,
   Label,
   Popover,
   PopoverContent,
@@ -13,9 +13,14 @@ import {
 } from "@/components/ui";
 import { CreateSessionType } from "@/lib/types";
 
+const schedules = ["13:00", "14:00", "15:00", "16:00", "17:00"];
+const rooms = ["301", "302", "303", "304", "305"];
+
 export const DateAndTimePicker = ({
   value,
   setValue,
+  room,
+  setRoom,
   time,
   setTime,
   date,
@@ -24,20 +29,23 @@ export const DateAndTimePicker = ({
 }: {
   value: string;
   setValue: Dispatch<React.SetStateAction<string>>;
+  room: string;
+  setRoom: Dispatch<React.SetStateAction<string>>;
   time: string;
   setTime: Dispatch<React.SetStateAction<string>>;
   date: Date | undefined;
   setDate: Dispatch<React.SetStateAction<Date | undefined>>;
   allSessions: CreateSessionType[];
 }) => {
+  const [isWeekend, setIsWeekend] = useState<boolean>(false);
+  const [openDate, setOpenDate] = useState<boolean>(false);
+  const [openRoom, setOpenRoom] = useState<boolean>(false);
+  const [openTime, setOpenTime] = useState<boolean>(false);
+  const [month, setMonth] = useState<Date | undefined>(date);
+
   const today = new Date();
   const tomorrow = new Date();
   tomorrow.setDate(today.getDate() + 1);
-  const [isWeekend, setIsWeekend] = useState<boolean>(false);
-  const [open, setOpen] = useState<boolean>(false);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [month, setMonth] = useState<Date | undefined>(date);
-  const schedules = ["13:00", "14:00", "15:00", "16:00", "17:00"];
 
   const formatDate = (date: Date | undefined): string => {
     if (!date) return "";
@@ -52,128 +60,153 @@ export const DateAndTimePicker = ({
     setIsWeekend(date.getDay() === 0 || date.getDay() === 6);
   };
 
-  const fullyBookedDates = [
-    ...new Set(
-      allSessions
-        .filter(
-          (session) =>
-            allSessions.filter((s) => s.value === session.value).length ===
-            schedules.length
-        )
-        .map((session) => session.value)
-    ),
-  ];
+  const fullyBookedDates: string[] = [];
 
-  const alreadyScheduled = allSessions
-    .filter((session) => session.value === value)
-    .map((session) => session.time);
+  allSessions.forEach((s) => {
+    const sameDay = allSessions.filter((x) => x.value === s.value);
 
-  const availableTimes = schedules.filter(
-    (schedule) => !alreadyScheduled.includes(schedule)
-  );
+    if (sameDay.length === rooms.length * schedules.length) {
+      if (!fullyBookedDates.includes(s.value)) {
+        fullyBookedDates.push(s.value);
+      }
+    }
+  });
 
-  const weekdayTimes = availableTimes.filter((schedule) => schedule >= "13:00");
-  const weekendTimes = availableTimes.filter((schedule) => schedule <= "16:00");
+  const availableRooms = rooms.filter((r) => {
+    const sessionOfRoom = allSessions.filter(
+      (s) => s.value === value && s.room === r
+    );
+
+    return sessionOfRoom.length < schedules.length;
+  });
+
+  let availableTimes = schedules.filter((t) => {
+    return !allSessions.some(
+      (s) => s.value === value && s.room === room && s.time === t
+    );
+  });
+
+  if (isWeekend) {
+    availableTimes = availableTimes.filter((t) => t <= "16:00");
+  } else {
+    availableTimes = availableTimes.filter((t) => t >= "14:00");
+  }
 
   useEffect(() => {
     if (date) checkWeekend(date);
-  }, [value, date]);
+  }, [date]);
 
   return (
-    <div className="w-full flex flex-col gap-5">
+    <div className="w-full flex justify-between">
       <div className="flex flex-col gap-3">
-        <Label>Date</Label>
-        <div className="relative flex gap-2">
-          <Input
-            id="date"
-            value={value}
-            placeholder="Select a date..."
-            onChange={(e) => {
-              const date = new Date(e.target.value);
-              setValue(e.target.value);
-              if (!isNaN(date.getDate())) {
-                setDate(date);
-                setMonth(date);
-              }
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "ArrowDown") {
-                e.preventDefault();
-                setOpen(true);
-              }
-            }}
-            className="border-border/20 bg-black/50 hover:bg-black text-white/80"
-          />
-
-          <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                id="date-picker"
-                variant="ghost"
-                className="absolute hover:bg-black top-1/2 right-2 size-6 -translate-y-1/2 text-white/80 hover:text-white/80"
-              >
-                <CalendarRange />
-              </Button>
-            </PopoverTrigger>
-
-            <PopoverContent
-              className="w-auto overflow-hidden p-0 bg-[black] text-white"
-              align="end"
-              alignOffset={-8}
-              sideOffset={10}
-            >
-              <Calendar
-                className="bg-[#0F2343]"
-                mode="single"
-                selected={date}
-                captionLayout="dropdown"
-                month={month}
-                onMonthChange={setMonth}
-                disabled={[
-                  (day) => day < today,
-                  (day) => day.toDateString() === today.toDateString(),
-                  (day) => day.toDateString() === tomorrow.toDateString(),
-                  (day) => fullyBookedDates.includes(formatDate(day)),
-                ]}
-                onSelect={(date) => {
-                  if (!date) return;
-                  setDate(date);
-                  setValue(formatDate(date));
-                  setOpen(false);
-                  checkWeekend(date);
-                }}
-              />
-            </PopoverContent>
-          </Popover>
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-3">
-        <Label htmlFor="time-picker">Start time</Label>
-        <Popover open={isOpen} onOpenChange={setIsOpen}>
+        <Label htmlFor="date-picker">Он сар өдөр</Label>
+        <Popover open={openDate} onOpenChange={setOpenDate}>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
               className="justify-between border-border/20 bg-black/50 hover:bg-black text-white/80 hover:text-white/80"
             >
-              {time || (
-                <span className="text-muted-foreground">Select a time...</span>
+              {value || (
+                <span className="text-muted-foreground">Сонгох...</span>
               )}
+              <CalendarRange />
+            </Button>
+          </PopoverTrigger>
+
+          <PopoverContent className="w-auto overflow-hidden p-0 border-[#323743FF] bg-[black] text-white">
+            <Calendar
+              className="bg-[#0F2343]"
+              mode="single"
+              captionLayout="dropdown"
+              selected={date}
+              month={month}
+              onMonthChange={setMonth}
+              disabled={[
+                (day) => day < today,
+                (day) => day.toDateString() === today.toDateString(),
+                (day) => day.toDateString() === tomorrow.toDateString(),
+                (day) => fullyBookedDates.includes(formatDate(day)),
+              ]}
+              onSelect={(date) => {
+                if (!date) return;
+                setDate(date);
+                setValue(formatDate(date));
+                setRoom("");
+                setTime("");
+                checkWeekend(date);
+                setOpenDate(false);
+              }}
+            />
+          </PopoverContent>
+        </Popover>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <Label htmlFor="room-picker">Анги</Label>
+        <Popover open={openRoom} onOpenChange={setOpenRoom}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              disabled={!value || availableRooms.length === 0}
+              className="justify-between border-border/20 bg-black/50 hover:bg-black text-white/80 hover:text-white/80"
+            >
+              {room || <span className="text-muted-foreground">Сонгох...</span>}
+              <MdOutlineMeetingRoom />
+            </Button>
+          </PopoverTrigger>
+
+          <PopoverContent className="w-auto border-[#323743FF] bg-[black] text-white">
+            <div className="flex flex-col gap-0.5 text-sm">
+              {availableRooms.map((r) => (
+                <button
+                  key={r}
+                  onClick={() => {
+                    setRoom(r);
+                    setTime("");
+                    setOpenRoom(false);
+                  }}
+                >
+                  <p className="hover:bg-white hover:text-black rounded-md p-1">
+                    {r}
+                  </p>
+                </button>
+              ))}
+            </div>
+          </PopoverContent>
+        </Popover>
+
+        {availableRooms.length === 0 && (
+          <span className="text-xs text-muted-foreground">Анги байхгүй</span>
+        )}
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <Label htmlFor="time-picker">Эхлэх цаг</Label>
+        <Popover open={openTime} onOpenChange={setOpenTime}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              disabled={!room || availableTimes.length === 0}
+              className="justify-between border-border/20 bg-black/50 hover:bg-black text-white/80 hover:text-white/80"
+            >
+              {time || <span className="text-muted-foreground">Сонгох...</span>}
               <Clock />
             </Button>
           </PopoverTrigger>
 
-          <PopoverContent className="w-full h-fit py-5 px-5 rounded-3xl border-[#323743FF] bg-black">
-            <div className="flex flex-col gap-0.5 text-white text-sm">
-              {(isWeekend ? weekendTimes : weekdayTimes).map((t, index) => (
+          <PopoverContent className="w-auto h-fit border-[#323743FF] bg-black text-white">
+            <div className="flex flex-col gap-0.5 text-sm">
+              {availableTimes.map((t) => (
                 <button
-                  key={index}
+                  key={t}
                   onClick={() => {
-                    setTime(t), setIsOpen(false);
+                    setTime(t);
+                    setOpenTime(false);
                   }}
-                  className="px-2 py-1"
                 >
-                  {t}
+                  <p className="hover:bg-white hover:text-black rounded-md p-1">
+                    {t}
+                  </p>
                 </button>
               ))}
             </div>

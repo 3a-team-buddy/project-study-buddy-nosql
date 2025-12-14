@@ -8,3 +8,4 @@ export * from "./radio-group";
 export * from "./dialog";
 export * from "./skeleton";
 export * from "./separator";
+export * from "./slider";
