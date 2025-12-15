@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { CreateSessionType, JoinedStudentType } from "@/lib/types";
-import { Button } from "@/components/ui";
+import { Button, Textarea } from "@/components/ui";
 import {
   InviteBtnDialog,
   JoinBtn,
@@ -12,6 +12,18 @@ import {
   SESSION_STATUS_MN_MAP,
   SESSION_TYPE_MN_MAP,
 } from "@/lib/constants/sessionLabels";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { PiHeartStraightBreakFill } from "react-icons/pi";
+import { RiPokerHeartsFill } from "react-icons/ri";
+import { BsHearts } from "react-icons/bs";
 
 export const SessionCard = ({
   session,
@@ -22,6 +34,8 @@ export const SessionCard = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [joinedStudents, setJoinedStudents] = useState<JoinedStudentType[]>([]);
+  const [sessionRate, setSessionRate] = useState<string>("");
+  const [review, setReview] = useState<string>("");
 
   const handleSessionCardDetail = async () => {
     setOpen((prev) => !prev);
@@ -75,11 +89,12 @@ export const SessionCard = ({
     <div className="flex flex-col gap-3">
       <div className="w-full rounded-2xl px-6 py-4 bg-linear-to-b from-[#1E2648]/90 to-[#122136]/20 flex gap-3 justify-between items-center relative">
         <Button
+          asChild
           onClick={handleSessionCardDetail}
           variant="ghost"
           className="text-base leading-5 hover:bg-white/4 text-white/80 hover:text-white rounded-full flex-1 justify-start cursor-pointer"
         >
-          <div className="flex justify-between items-center gap-5">
+          <div className="flex justify-between items-center gap-5 relative">
             {session.sessionTopicTitle}
             <p>{session.assignedTutor?.mockUserName.split(" ")[0]}</p>
 
@@ -87,6 +102,67 @@ export const SessionCard = ({
               {formatToMonthDay(session.value)}
               <p>{session.time}</p>
             </div>
+            {!completed ? (
+              <div className="flex gap-1 text-xs text-gray-400 text-start animate-pulse">
+                {formatToMonthDay(session.value)}
+                <div>{session.time}</div>
+              </div>
+            ) : (
+              <>
+                <Dialog>
+                  <DialogTrigger>
+                    <Button className="text-sm text-orange-400 text-start animate-pulse bg-transparent hover:bg-transparent absolute z-50 left-25 bottom-0.5">
+                      Үнэлгээ
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle className="flex justify-between p-2 items-center">
+                        <div>{session.sessionTopicTitle}</div>
+                        <div className="flex gap-2 text-sm ">
+                          {session.value} {session.time}
+                        </div>
+                      </DialogTitle>
+                      <div className="flex flex-col gap-4 text-gray-500">
+                        <div className=" flex gap-20 items-center">
+                          <p>Давтлага үнэлэх: </p>
+                          <div className="flex gap-10 justify-center text-black">
+                            <Button className="bg-transparent hover:bg-transparent text-black">
+                              <PiHeartStraightBreakFill />
+                            </Button>
+                            <Button className="bg-transparent hover:bg-transparent text-black">
+                              <RiPokerHeartsFill />
+                            </Button>
+                            <Button className="bg-transparent hover:bg-transparent text-black">
+                              <BsHearts />
+                            </Button>
+                          </div>
+                        </div>
+                        <div className=" flex gap-20 items-center">
+                          <p>Ментор үнэлэх: </p>
+                          <div className="flex gap-10 justify-center ml-2 ">
+                            <Button className="bg-transparent hover:bg-transparent text-black">
+                              <PiHeartStraightBreakFill />
+                            </Button>
+                            <Button className="bg-transparent hover:bg-transparent text-black">
+                              <RiPokerHeartsFill />
+                            </Button>
+                            <Button className="bg-transparent hover:bg-transparent text-black">
+                              <BsHearts />
+                            </Button>
+                          </div>
+                        </div>
+                        <div className=" flex flex-col gap-4">
+                          <p>Сэтгэгдэл үлдээх: </p>
+                          <Textarea />
+                        </div>
+                      </div>
+                    </DialogHeader>
+                  </DialogContent>
+                  <DialogClose />
+                </Dialog>
+              </>
+            )}
           </div>
         </Button>
 
