@@ -17,7 +17,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
 const SessionPage = () => {
   const [sessionTopicTitle, setSessionTopicTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [minMember, setMinMember] = useState<number>(3);
+  const [minMember, setMinMember] = useState<number>(2);
   const [maxMember, setMaxMember] = useState<number>(0);
   const [date, setDate] = useState<Date | undefined>();
   const [value, setValue] = useState<string>("");

@@ -23,7 +23,7 @@ export const MemberLimitSelector = ({
           <Label className="text-white/70">Дээд лимит : {maxMember}</Label>
         </div>
         <Slider
-          min={3}
+          min={2}
           max={30}
           step={1}
           value={[minMember, maxMember]}
