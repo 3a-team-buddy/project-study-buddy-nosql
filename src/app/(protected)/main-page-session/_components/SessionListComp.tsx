@@ -7,10 +7,20 @@ import {
   SessionListSkeleton,
 } from "@/app/(protected)/main-page-session/_components";
 import { CreateSessionType, SessionListType } from "@/lib/types";
+import { CubeReflectionMapping } from "three";
 
 export const SessionListComp = () => {
   const { createdSessions, joinedSessions, otherSessions, isLoading } =
     useSession();
+
+  // const date = updatedSession.value;
+  // const time = updatedSession.time;
+
+  // const date = createdSessions.
+  // const current = new Date();
+  // const currentDate = current.toString();
+  // console.log({ createdSessions });
+  // console.log({ currentDate }, "dates");
 
   const sessionLists: {
     title: string;
