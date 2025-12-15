@@ -116,7 +116,9 @@ export const DateRoomTimePicker = ({
   return (
     <div className="w-full flex justify-between">
       <div className="flex flex-col gap-3">
-        <Label htmlFor="date-picker">Он сар өдөр</Label>
+        <Label htmlFor="date-picker" className="text-base">
+          Он сар өдөр
+        </Label>
         <Popover open={openDate} onOpenChange={setOpenDate}>
           <PopoverTrigger asChild>
             <Button
@@ -161,7 +163,9 @@ export const DateRoomTimePicker = ({
       </div>
 
       <div className="flex flex-col gap-3">
-        <Label htmlFor="room-picker">Анги</Label>
+        <Label htmlFor="room-picker" className="text-base">
+          Анги
+        </Label>
         <Popover open={openRoom} onOpenChange={setOpenRoom}>
           <PopoverTrigger asChild>
             <Button
@@ -200,7 +204,9 @@ export const DateRoomTimePicker = ({
       </div>
 
       <div className="flex flex-col gap-3">
-        <Label htmlFor="time-picker">Эхлэх цаг</Label>
+        <Label htmlFor="time-picker" className="text-base">
+          Эхлэх цаг
+        </Label>
         <Popover open={openTime} onOpenChange={setOpenTime}>
           <PopoverTrigger asChild>
             <Button

@@ -77,7 +77,7 @@ export const SessionTypeSelector = ({
 
   return (
     <div className="flex flex-col gap-3">
-      <Label>Давтлагын хэлбэр</Label>
+      <Label className="text-base">Давтлагын хэлбэр</Label>
       <RadioGroup
         value={selectedSessionType}
         onValueChange={handleChangeSessionType}
@@ -87,7 +87,7 @@ export const SessionTypeSelector = ({
           <RadioGroupItem
             value="tutor-led"
             id="tutor-led"
-            className="bg-white rounded-full"
+            className="bg-white rounded-full cursor-pointer"
           />
           <Label htmlFor="tutor-led" className="text-white/70">
             Ментортой
@@ -100,7 +100,7 @@ export const SessionTypeSelector = ({
           <RadioGroupItem
             value="self-led"
             id="self-led"
-            className="bg-white rounded-full"
+            className="bg-white rounded-full cursor-pointer"
           />
           <Label htmlFor="self-led" className="text-white/70">
             Бие даан
@@ -116,8 +116,7 @@ export const SessionTypeSelector = ({
               value={tutorLedInputValue}
               onChange={(e) => setTutorLedInputValue(e.target.value)}
               placeholder="Менторын имэйл хаягийг бичнэ үү..."
-              className="border-border/20 bg-black/50 py-2 text-sm text-white/80 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed
-          disabled:opacity-50"
+              className="border-border/20 bg-black/50 hover:bg-black text-sm text-white/80"
             />
 
             <datalist id="tutors">
@@ -129,13 +128,15 @@ export const SessionTypeSelector = ({
               variant={"outline"}
               onClick={addSelectedTutors}
               disabled={selectedTutors.length > 2 || !tutorLedInputValue}
-              className="bg-transparent hover:bg-accent/50 border-border/20 text-white/80 hover:text-white"
+              className="bg-transparent hover:bg-accent/50 border-border/20 text-white/80 hover:text-white cursor-pointer"
             >
               Нэмэх
             </Button>
           </div>
           {selectedTutors.length > 2 && (
-            <div className="text-xs text-orange-500">*Дээд тал нь 3 ментор</div>
+            <div className="text-xs text-orange-500">
+              *Дээд тал нь 3 ментор оруулах
+            </div>
           )}
         </div>
       )}

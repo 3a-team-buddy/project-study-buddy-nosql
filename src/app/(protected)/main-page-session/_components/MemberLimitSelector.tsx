@@ -16,7 +16,7 @@ export const MemberLimitSelector = ({
 }) => {
   return (
     <div className="w-full flex flex-col gap-3">
-      <Label>Сурагчдын тоо</Label>
+      <Label className="text-base">Сурагчдын тоо</Label>
       <div className="flex flex-col gap-3">
         <div className="flex justify-between">
           <Label className="text-white/70">Доод лимит : {minMember}</Label>
