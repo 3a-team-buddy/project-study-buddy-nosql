@@ -13,7 +13,24 @@ import {
 } from "@/components/ui";
 import { CreateSessionType } from "@/lib/types";
 
-const schedules = ["13:00", "14:00", "15:00", "16:00", "17:00"];
+const schedules = [
+  "09:30",
+  "09:40",
+  "09:50",
+  "10:00",
+  "10:10",
+  "10:20",
+  "10:30",
+  "10:40",
+  "10:50",
+  "11:00",
+  "12:00",
+  "13:00",
+  "14:00",
+  "15:00",
+  "16:00",
+  "17:00",
+];
 const rooms = ["301", "302", "303", "304", "305"];
 
 export const DateRoomTimePicker = ({
@@ -89,7 +106,7 @@ export const DateRoomTimePicker = ({
   if (isWeekend) {
     availableTimes = availableTimes.filter((t) => t <= "16:00");
   } else {
-    availableTimes = availableTimes.filter((t) => t >= "14:00");
+    availableTimes = availableTimes.filter((t) => t >= "09:30");
   }
 
   useEffect(() => {
@@ -124,9 +141,9 @@ export const DateRoomTimePicker = ({
               month={month}
               onMonthChange={setMonth}
               disabled={[
-                (day) => day < today,
-                (day) => day.toDateString() === today.toDateString(),
-                (day) => day.toDateString() === tomorrow.toDateString(),
+                // (day) => day < today,
+                // (day) => day.toDateString() === today.toDateString(),
+                // (day) => day.toDateString() === tomorrow.toDateString(),
                 (day) => fullyBookedDates.includes(formatDate(day)),
               ]}
               onSelect={(date) => {
