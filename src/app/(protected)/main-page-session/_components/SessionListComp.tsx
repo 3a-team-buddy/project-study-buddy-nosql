@@ -7,6 +7,7 @@ import {
   SessionListSkeleton,
 } from "@/app/(protected)/main-page-session/_components";
 import { CreateSessionType, SessionListType } from "@/lib/types";
+import { CubeReflectionMapping } from "three";
 
 export const SessionListComp = () => {
   const { createdSessions, joinedSessions, otherSessions, isLoading } =

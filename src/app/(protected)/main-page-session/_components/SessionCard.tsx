@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CreateSessionType, JoinedStudentType } from "@/lib/types";
 import { Button } from "@/components/ui";
 import {
@@ -20,11 +20,11 @@ export const SessionCard = ({
   session: CreateSessionType;
   sessionListType: "created" | "joined" | "other";
 }) => {
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
   const [joinedStudents, setJoinedStudents] = useState<JoinedStudentType[]>([]);
 
   const handleSessionCardDetail = async () => {
-    setOpen(!open);
+    setOpen((prev) => !prev);
 
     const result = await fetch("/api/get-joined-students", {
       method: "POST",
@@ -43,12 +43,40 @@ export const SessionCard = ({
     });
   }
 
+  const [currentTime, setCurrentTime] = useState(Date.now());
+
+  useEffect(() => {
+    const interval = setInterval(() => setCurrentTime(Date.now()), 60_000);
+    return () => clearInterval(interval);
+  }, []);
+
+  function getSessionStatusFlags(date: string, time: string) {
+    const sessionDate = new Date(date);
+    const [hours, minutes] = time.split(":").map(Number);
+    sessionDate.setHours(hours, minutes, 0, 0);
+
+    const now = Date.now();
+    const sessionStart = sessionDate.getTime();
+    const sessionEnd = sessionStart + 60 * 60 * 1000;
+
+    return {
+      ongoing: now >= sessionStart && now < sessionEnd,
+      completed: now >= sessionEnd,
+    };
+  }
+
+  // Usage
+  const { ongoing, completed } = getSessionStatusFlags(
+    session.value,
+    session.time
+  );
+
   return (
     <div className="flex flex-col gap-3">
-      <div className="w-full rounded-2xl px-6 py-4 bg-linear-to-b from-[#1E2648]/90 to-[#122136]/20 flex gap-3 justify-between items-center relative ">
+      <div className="w-full rounded-2xl px-6 py-4 bg-linear-to-b from-[#1E2648]/90 to-[#122136]/20 flex gap-3 justify-between items-center relative">
         <Button
           onClick={handleSessionCardDetail}
-          variant={"ghost"}
+          variant="ghost"
           className="text-base leading-5 hover:bg-white/4 text-white/80 hover:text-white rounded-full flex-1 justify-start cursor-pointer"
         >
           <div className="flex justify-between items-center gap-5">
@@ -63,7 +91,11 @@ export const SessionCard = ({
         <div className="flex gap-4 items-center">
           <span
             className={`text-sm font-medium cursor-pointer ${
-              session.status === "WAITING"
+              ongoing
+                ? "text-blue-400 hover:text-blue-300"
+                : completed
+                ? "text-orange-400 hover:text-orange-300"
+                : session.status === "WAITING"
                 ? "text-amber-200 hover:text-amber-100"
                 : session.status === "ACCEPTED"
                 ? "text-green-400 hover:text-green-300"
@@ -72,7 +104,11 @@ export const SessionCard = ({
                 : ""
             }`}
           >
-            {SESSION_STATUS_MN_MAP[session.status]}
+            {ongoing
+              ? "Үргэлжилж буй"
+              : completed
+              ? "Дууссан"
+              : SESSION_STATUS_MN_MAP[session.status]}
           </span>
 
           {(sessionListType === "created" || sessionListType === "joined") && (
@@ -90,10 +126,12 @@ export const SessionCard = ({
           >
             {SESSION_TYPE_MN_MAP[session.selectedSessionType]}
           </p>
-          {sessionListType === "other" ? <JoinBtn session={session} /> : ""}
+
+          {sessionListType === "other" && <JoinBtn session={session} />}
           <InviteBtnDialog session={session} />
         </div>
       </div>
+
       {open && (
         <SessionCardDetails
           session={session}
