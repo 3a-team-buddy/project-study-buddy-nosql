@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { CreateSessionType, JoinedStudentType } from "@/lib/types";
-import { Button, Textarea } from "@/components/ui";
+import { Button, Label, Textarea } from "@/components/ui";
 import {
   InviteBtnDialog,
   JoinBtn,
@@ -17,10 +17,11 @@ import {
   DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/components/ui";
 import { PiHeartStraightBreakFill } from "react-icons/pi";
 import { RiPokerHeartsFill } from "react-icons/ri";
 import { BsHearts } from "react-icons/bs";
@@ -84,80 +85,24 @@ export const SessionCard = ({
     ? getSessionStatusFlags(session.value, session.time)
     : { ongoing: false, completed: false };
 
+  const canRate = completed && sessionListType === "created";
+
   return (
     <div className="flex flex-col gap-3">
-      <div className="w-full rounded-2xl px-6 py-4 bg-linear-to-b from-[#1E2648]/90 to-[#122136]/20 flex gap-3 justify-between items-center relative">
+      <div className="w-full rounded-2xl px-6 py-4 bg-linear-to-b from-[#1E2648]/90 to-[#122136]/20 flex gap-3 justify-between items-center">
         <Button
           asChild
           onClick={handleSessionCardDetail}
           variant="ghost"
           className="text-base leading-5 hover:bg-white/4 text-white/80 hover:text-white rounded-full flex-1 justify-start cursor-pointer"
         >
-          <div className="flex justify-between items-center gap-5 relative">
-            <span>{session.sessionTopicTitle}</span>
+          <div className="flex justify-between items-center gap-5">
+            <p>{session.sessionTopicTitle}</p>
 
-            {!completed ? (
-              <div className="flex gap-1 text-xs text-gray-400 text-start animate-pulse">
-                <span>{formatToMonthDay(session.value)}</span>
-                <span>{session.time}</span>
-              </div>
-            ) : (
-              <>
-                <Dialog>
-                  <DialogTrigger>
-                    <Button className="text-sm text-orange-400 text-start animate-pulse bg-transparent hover:bg-transparent absolute z-50 right-93 bottom-1/15">
-                      Үнэлгээ
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle className="flex justify-between p-2 items-center">
-                        <div>{session.sessionTopicTitle}</div>
-                        <div className="flex gap-2 text-sm ">
-                          {session.value} {session.time}
-                        </div>
-                      </DialogTitle>
-                      <DialogDescription></DialogDescription>
-                      <div className="flex flex-col gap-4 text-gray-500">
-                        <div className=" flex gap-20 items-center">
-                          <p>Давтлага үнэлэх: </p>
-                          <div className="flex gap-10 justify-center text-black">
-                            <Button className="bg-transparent hover:bg-transparent text-black">
-                              <PiHeartStraightBreakFill />
-                            </Button>
-                            <Button className="bg-transparent hover:bg-transparent text-black">
-                              <RiPokerHeartsFill />
-                            </Button>
-                            <Button className="bg-transparent hover:bg-transparent text-black">
-                              <BsHearts />
-                            </Button>
-                          </div>
-                        </div>
-                        <div className=" flex gap-20 items-center">
-                          <p>Ментор үнэлэх: </p>
-                          <div className="flex gap-10 justify-center ml-2 ">
-                            <Button className="bg-transparent hover:bg-transparent text-black">
-                              <PiHeartStraightBreakFill />
-                            </Button>
-                            <Button className="bg-transparent hover:bg-transparent text-black">
-                              <RiPokerHeartsFill />
-                            </Button>
-                            <Button className="bg-transparent hover:bg-transparent text-black">
-                              <BsHearts />
-                            </Button>
-                          </div>
-                        </div>
-                        <div className=" flex flex-col gap-4">
-                          <p>Сэтгэгдэл үлдээх: </p>
-                          <Textarea />
-                        </div>
-                      </div>
-                    </DialogHeader>
-                  </DialogContent>
-                  <DialogClose />
-                </Dialog>
-              </>
-            )}
+            <p className="flex gap-1 text-xs text-gray-400 text-start animate-pulse">
+              <span>{formatToMonthDay(session.value)}</span>
+              <span>{session.time}</span>
+            </p>
           </div>
         </Button>
 
@@ -183,6 +128,83 @@ export const SessionCard = ({
               ? "Дууссан"
               : SESSION_STATUS_MN_MAP[session.status]}
           </span>
+
+          {canRate && (
+            <Dialog>
+              <DialogTrigger>
+                <Button className="text-sm text-orange-400 hover:text-orange-300 animate-pulse bg-transparent hover:bg-transparent cursor-pointer">
+                  Үнэлгээ
+                </Button>
+              </DialogTrigger>
+
+              <DialogContent className="p-8 gap-5 border-0 rounded-2xl">
+                <DialogHeader>
+                  <DialogTitle className="flex justify-around items-center">
+                    <Label className="text-lg">
+                      {session.sessionTopicTitle}
+                    </Label>
+                    <div className="flex gap-2 text-sm ">
+                      {session.value} {session.time}
+                    </div>
+                  </DialogTitle>
+                  <DialogDescription aria-hidden />
+                </DialogHeader>
+
+                <div className="flex flex-col gap-5 text-gray-500">
+                  <div className="flex gap-20 items-center">
+                    <Label className="text-base">Давтлага үнэлэх: </Label>
+                    <div className="flex gap-10 justify-center text-black">
+                      <Button className="bg-transparent hover:bg-transparent text-black cursor-pointer">
+                        <PiHeartStraightBreakFill />
+                      </Button>
+                      <Button className="bg-transparent hover:bg-transparent text-black cursor-pointer">
+                        <RiPokerHeartsFill />
+                      </Button>
+                      <Button className="bg-transparent hover:bg-transparent text-black cursor-pointer">
+                        <BsHearts />
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className=" flex gap-20 items-center">
+                    <Label className="text-base">Ментор үнэлэх: </Label>
+                    <div className="flex gap-10 justify-center ml-2">
+                      <Button className="bg-transparent hover:bg-transparent text-black cursor-pointer">
+                        <PiHeartStraightBreakFill />
+                      </Button>
+                      <Button className="bg-transparent hover:bg-transparent text-black cursor-pointer">
+                        <RiPokerHeartsFill />
+                      </Button>
+                      <Button className="bg-transparent hover:bg-transparent text-black cursor-pointer">
+                        <BsHearts />
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className=" flex flex-col gap-1">
+                    <Label className="text-base">Сэтгэгдэл үлдээх: </Label>
+                    <Textarea />
+                  </div>
+                </div>
+
+                <DialogFooter className="sm:justify-end">
+                  <DialogClose asChild>
+                    <Button variant="secondary" className="cursor-pointer">
+                      Хаах
+                    </Button>
+                  </DialogClose>
+
+                  <Button
+                    onClick={() => handleRate(session._id)}
+                    className="cursor-pointer"
+                  >
+                    Үнэлгээ өгөх
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+              <DialogClose />
+            </Dialog>
+          )}
 
           {(sessionListType === "created" || sessionListType === "joined") && (
             <p className="text-sm font-medium text-white/80 hover:text-white cursor-pointer">

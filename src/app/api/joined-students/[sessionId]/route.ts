@@ -63,7 +63,7 @@ export async function POST(
 
       if (type === "self-led") {
         await Session.findByIdAndUpdate(updatedSession._id, {
-          status: "accepted",
+          status: "ACCEPTED",
         });
         await sendJoinedStudentsNotifySelfEmail(updatedSession);
       }

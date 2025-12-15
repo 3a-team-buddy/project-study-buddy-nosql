@@ -89,10 +89,10 @@ export const InviteBtnDialogContent = ({
   };
 
   return (
-    <DialogContent className="px-8 py-6 gap-10 border-0 rounded-2xl">
+    <DialogContent className="p-8 gap-10 border-0 rounded-2xl">
       <DialogHeader>
         <DialogTitle>Суралцагч урих</DialogTitle>
-        <DialogDescription />
+        <DialogDescription aria-hidden />
       </DialogHeader>
 
       <div className="flex flex-col gap-2">
