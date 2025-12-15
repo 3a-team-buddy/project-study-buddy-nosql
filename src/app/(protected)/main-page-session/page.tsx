@@ -6,7 +6,7 @@ import { useSession } from "@/app/_hooks/use-session";
 import {
   CreateSessionBtn,
   CreateSessionHeading,
-  DateAndTimePicker,
+  DateRoomTimePicker,
   MemberLimitSelector,
   SessionListComp,
   SessionTypeSelector,
@@ -16,10 +16,11 @@ import {
 const SessionPage = () => {
   const [sessionTopicTitle, setSessionTopicTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [minMember, setMinMember] = useState<number>(0);
+  const [minMember, setMinMember] = useState<number>(5);
   const [maxMember, setMaxMember] = useState<number>(0);
   const [date, setDate] = useState<Date | undefined>();
   const [value, setValue] = useState<string>("");
+  const [room, setRoom] = useState<string>("");
   const [time, setTime] = useState<string>("");
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
@@ -31,7 +32,7 @@ const SessionPage = () => {
         <SessionListComp />
       </div>
 
-      <div className="max-w-[480px] w-full h-fit flex flex-col gap-8 rounded-2xl px-8 py-6 bg-linear-to-b from-[#1E2648]/50 to-[#122136]/50 backdrop-blur-3xl border border-white/10 shadow-2xl sticky top-36">
+      <div className="max-w-[480px] w-full h-fit flex flex-col gap-10 rounded-2xl px-8 py-6 bg-linear-to-b from-[#1E2648]/50 to-[#122136]/50 backdrop-blur-3xl border border-white/10 shadow-2xl sticky top-36">
         <CreateSessionHeading />
 
         <StudySessionTitleAndDescription
@@ -40,23 +41,26 @@ const SessionPage = () => {
           description={description}
           setDescription={setDescription}
         />
-        <div className="w-full flex gap-8">
-          <MemberLimitSelector
-            minMember={minMember}
-            setMinMember={setMinMember}
-            maxMember={maxMember}
-            setMaxMember={setMaxMember}
-          />
-          <DateAndTimePicker
-            value={value}
-            setValue={setValue}
-            time={time}
-            setTime={setTime}
-            date={date}
-            setDate={setDate}
-            allSessions={allSessions}
-          />
-        </div>
+
+        <MemberLimitSelector
+          minMember={minMember}
+          setMinMember={setMinMember}
+          maxMember={maxMember}
+          setMaxMember={setMaxMember}
+        />
+
+        <DateRoomTimePicker
+          value={value}
+          setValue={setValue}
+          room={room}
+          setRoom={setRoom}
+          time={time}
+          setTime={setTime}
+          date={date}
+          setDate={setDate}
+          allSessions={allSessions}
+        />
+
         <SessionTypeSelector
           selectedSessionType={selectedSessionType}
           setSelectedSessionType={setSelectedSessionType}
@@ -74,6 +78,8 @@ const SessionPage = () => {
           setMaxMember={setMaxMember}
           value={value}
           setValue={setValue}
+          room={room}
+          setRoom={setRoom}
           time={time}
           setTime={setTime}
           selectedSessionType={selectedSessionType}

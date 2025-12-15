@@ -6,39 +6,41 @@ import {
   SessionCard,
   SessionListSkeleton,
 } from "@/app/(protected)/main-page-session/_components";
+import { CreateSessionType, SessionListType } from "@/lib/types";
 
 export const SessionListComp = () => {
   const { createdSessions, joinedSessions, otherSessions, isLoading } =
     useSession();
 
-  const sessionLists = [
+  const sessionLists: {
+    title: string;
+    type: SessionListType;
+    sessions: CreateSessionType[];
+  }[] = [
     {
-      name: "Created Sessions",
+      title: "Created Sessions",
+      type: "created",
       sessions: createdSessions,
     },
     {
-      name: "Joined Sessions",
+      title: "Joined Sessions",
+      type: "joined",
       sessions: joinedSessions,
     },
     {
-      name: "More Sessions to join",
+      title: "More Sessions to join",
+      type: "other",
       sessions: otherSessions,
     },
   ];
-
-  const getSessionType = (name: string) => {
-    if (name === "Created Sessions") return "created";
-    if (name === "Joined Sessions") return "joined";
-    return "other";
-  };
 
   return (
     <div className="flex-1">
       <div className="flex flex-col gap-10">
         {sessionLists.map((sessionList) => (
-          <div key={sessionList.name} className="flex flex-col gap-3">
+          <div key={sessionList.title} className="flex flex-col gap-3">
             <div className="text-xl flex-1 leading-7 font-semibold">
-              {sessionList.name}
+              {sessionList.title}
             </div>
 
             {isLoading ? (
@@ -49,18 +51,18 @@ export const SessionListComp = () => {
                   <SessionCard
                     key={session._id}
                     session={session}
-                    sessionListType={getSessionType(sessionList.name)}
+                    sessionListType={sessionList.type}
                   />
                 ))}
               </div>
             ) : (
               <div className="rounded-2xl px-8 py-6 bg-linear-to-b from-[#1E2648]/40 to-[#122136]/40 shadow-xl">
                 <p className="text-sm opacity-70 text-center">
-                  {sessionList.name === "Created Sessions" &&
+                  {sessionList.type === "created" &&
                     "You haven't created any sessions yet."}
-                  {sessionList.name === "Joined Sessions" &&
+                  {sessionList.type === "joined" &&
                     "You haven't joined any sessions yet."}
-                  {sessionList.name === "More Sessions to join" &&
+                  {sessionList.type === "other" &&
                     "No more sessions are available to join."}
                 </p>
               </div>

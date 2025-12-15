@@ -48,7 +48,7 @@ export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
         {session.studentCount?.length}
         <span>/{session.maxMember}</span>
       </div>
-      <div>JOIN</div>
+      <div>Нэгдэх</div>
     </Button>
   );
 };

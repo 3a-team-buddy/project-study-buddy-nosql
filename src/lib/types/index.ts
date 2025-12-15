@@ -1,3 +1,5 @@
+import { SessionTypeKey, StatusKey } from "../constants/sessionLabels";
+
 export type MockTopicType = {
   _id: string;
   mockTitle: string;
@@ -29,11 +31,12 @@ export type CreateSessionType = {
   minMember: number;
   maxMember: number;
   value: string;
+  room?: string;
   time: string;
-  selectedSessionType: string;
+  selectedSessionType: SessionTypeKey;
   creatorId: MockUserType;
   studentCount?: string[];
-  status: string;
+  status: StatusKey;
   assignedTutor?: MockUserType;
   createdAt?: string;
   updatedAt?: string;
@@ -65,31 +68,32 @@ export type SelectedStudentType = {
   email: string;
 };
 
-export interface CreateSessionType1 {
-  _id: string;
-  sessionTopicTitle: string;
-  description: string;
-  value: string; // date
-  time: string;
-  selectedSessionType: string;
-  status?: "WAITING" | "ACCEPTED" | string;
-  studentCount?: string[];
-  maxMember: number;
-  assignedTutor?: {
-    name: string;
-    image: string;
-  };
-}
+export type SessionListType = "created" | "joined" | "other";
+// export interface CreateSessionType1 {
+//   _id: string;
+//   sessionTopicTitle: string;
+//   description: string;
+//   value: string; // date
+//   time: string;
+//   selectedSessionType: string;
+//   status?: "WAITING" | "ACCEPTED" | string;
+//   studentCount?: string[];
+//   maxMember: number;
+//   assignedTutor?: {
+//     name: string;
+//     image: string;
+//   };
+// }
 
-export interface JoinedStudentType1 {
-  _id: string;
-  studentId: {
-    mockUserName: string;
-    mockUserImage: string;
-  };
-}
+// export interface JoinedStudentType1 {
+//   _id: string;
+//   studentId: {
+//     mockUserName: string;
+//     mockUserImage: string;
+//   };
+// }
 
-export interface SessionCardData extends CreateSessionType {
-  id: string;
-  category: "Created Sessions" | "Joined Sessions" | "More Sessions";
-}
+// export interface SessionCardData extends CreateSessionType {
+//   id: string;
+//   category: "Created Sessions" | "Joined Sessions" | "More Sessions";
+// }

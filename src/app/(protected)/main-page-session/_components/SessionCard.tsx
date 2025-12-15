@@ -8,6 +8,10 @@ import {
   JoinBtn,
   SessionCardDetails,
 } from "@/app/(protected)/main-page-session/_components";
+import {
+  SESSION_STATUS_MN_MAP,
+  SESSION_TYPE_MN_MAP,
+} from "@/lib/constants/sessionLabels";
 
 export const SessionCard = ({
   session,
@@ -57,25 +61,26 @@ export const SessionCard = ({
         </Button>
 
         <div className="flex gap-4 items-center">
+          <span
+            className={`text-sm font-medium cursor-pointer ${
+              session.status === "WAITING"
+                ? "text-amber-200 hover:text-amber-100"
+                : session.status === "ACCEPTED"
+                ? "text-green-400 hover:text-green-300"
+                : session.status === "CANCELED"
+                ? "text-gray-500 hover:text-gray-400"
+                : ""
+            }`}
+          >
+            {SESSION_STATUS_MN_MAP[session.status]}
+          </span>
+
           {(sessionListType === "created" || sessionListType === "joined") && (
-            <span
-              className={`text-sm font-medium cursor-pointer ${
-                session.status === "WAITING"
-                  ? "text-amber-200 hover:text-amber-100"
-                  : session.status === "ACCEPTED"
-                  ? "text-green-400 hover:text-green-300"
-                  : session.status === "CANCELED"
-                  ? "text-gray-500 hover:text-gray-400"
-                  : ""
-              }`}
-            >
-              {session.status && session.status.toLowerCase()}
-            </span>
+            <p className="text-sm font-medium text-white/80 hover:text-white cursor-pointer">
+              {session.studentCount?.length}/{session.maxMember}
+            </p>
           )}
 
-          <p className="text-sm font-medium text-white/80 hover:text-white cursor-pointer">
-            {session.studentCount?.length}/{session.maxMember}
-          </p>
           <p
             className={`text-sm cursor-pointer ${
               session.selectedSessionType === "TUTOR-LED"
@@ -83,7 +88,7 @@ export const SessionCard = ({
                 : "text-purple-500 hover:text-purple-400"
             }`}
           >
-            {session.selectedSessionType.toLowerCase()}
+            {SESSION_TYPE_MN_MAP[session.selectedSessionType]}
           </p>
           {sessionListType === "other" ? <JoinBtn session={session} /> : ""}
           <InviteBtnDialog session={session} />

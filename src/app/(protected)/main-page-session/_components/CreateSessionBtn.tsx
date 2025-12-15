@@ -17,6 +17,8 @@ export const CreateSessionBtn = ({
   setMaxMember,
   value,
   setValue,
+  room,
+  setRoom,
   time,
   setTime,
   selectedSessionType,
@@ -34,6 +36,8 @@ export const CreateSessionBtn = ({
   setMaxMember: Dispatch<React.SetStateAction<number>>;
   value: string;
   setValue: Dispatch<React.SetStateAction<string>>;
+  room: string;
+  setRoom: Dispatch<React.SetStateAction<string>>;
   time: string;
   setTime: Dispatch<React.SetStateAction<string>>;
   selectedSessionType: string;
@@ -55,6 +59,7 @@ export const CreateSessionBtn = ({
         !minMember ||
         !maxMember ||
         !value ||
+        !room ||
         !time ||
         !selectedSessionType ||
         !selectedTutors ||
@@ -76,6 +81,7 @@ export const CreateSessionBtn = ({
           minMember,
           maxMember,
           value,
+          room,
           time,
           selectedSessionType,
           selectedTutors,
@@ -92,6 +98,7 @@ export const CreateSessionBtn = ({
       setMinMember(0);
       setMaxMember(0);
       setValue("");
+      setRoom("");
       setTime("");
       setSelectedSessionType("");
       setSelectedTutors([]);
@@ -110,7 +117,7 @@ export const CreateSessionBtn = ({
       onClick={handleCreateSession}
       className="w-full rounded-full bg-[#2563EB] hover:bg-[#1d4ed8] cursor-pointer"
     >
-      Create Session
+      Давтлага оруулах
     </Button>
   );
 };

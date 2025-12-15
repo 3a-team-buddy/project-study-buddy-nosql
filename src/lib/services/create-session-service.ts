@@ -14,6 +14,7 @@ export const createNewSession = async (
   minMember: number,
   maxMember: number,
   value: string,
+  room: string,
   time: string,
   selectedSessionType: string,
   creatorId: mongoose.Types.ObjectId
@@ -25,6 +26,7 @@ export const createNewSession = async (
     minMember,
     maxMember,
     value,
+    room,
     time,
     selectedSessionType,
     creatorId,

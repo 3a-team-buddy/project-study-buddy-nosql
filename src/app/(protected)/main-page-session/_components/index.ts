@@ -1,6 +1,6 @@
 export * from "./CreateSessionBtn";
 export * from "./CreateSessionHeading";
-export * from "./DateAndTimePicker";
+export * from "./DateRoomTimePicker";
 export * from "./MemberLimitSelector";
 export * from "./SessionListComp";
 export * from "./SessionTypeSelector";

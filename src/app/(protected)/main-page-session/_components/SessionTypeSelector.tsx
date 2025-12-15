@@ -77,7 +77,7 @@ export const SessionTypeSelector = ({
 
   return (
     <div className="flex flex-col gap-3">
-      <Label>Session Type</Label>
+      <Label>Давтлагын хэлбэр</Label>
       <RadioGroup
         value={selectedSessionType}
         onValueChange={handleChangeSessionType}
@@ -87,16 +87,24 @@ export const SessionTypeSelector = ({
           <RadioGroupItem
             value="tutor-led"
             id="tutor-led"
-            className="bg-white"
+            className="bg-white rounded-full"
           />
-          <Label htmlFor="tutor-led">Tutor-led</Label>
+          <Label htmlFor="tutor-led" className="text-white/70">
+            Ментортой
+          </Label>
         </div>
         <div
           className="flex items-center space-x-2"
           onClick={handleSelfLedMode}
         >
-          <RadioGroupItem value="self-led" id="self-led" className="bg-white" />
-          <Label htmlFor="self-led">Self-led</Label>
+          <RadioGroupItem
+            value="self-led"
+            id="self-led"
+            className="bg-white rounded-full"
+          />
+          <Label htmlFor="self-led" className="text-white/70">
+            Бие даан
+          </Label>
         </div>
       </RadioGroup>
 
@@ -107,7 +115,7 @@ export const SessionTypeSelector = ({
               list="tutors"
               value={tutorLedInputValue}
               onChange={(e) => setTutorLedInputValue(e.target.value)}
-              placeholder="Type your tutors here..."
+              placeholder="Менторын имэйл хаягийг бичнэ үү..."
               className="border-border/20 bg-black/50 py-2 text-sm text-white/80 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed
           disabled:opacity-50"
             />
@@ -123,11 +131,11 @@ export const SessionTypeSelector = ({
               disabled={selectedTutors.length > 2 || !tutorLedInputValue}
               className="bg-transparent hover:bg-accent/50 border-border/20 text-white/80 hover:text-white"
             >
-              Add
+              Нэмэх
             </Button>
           </div>
           {selectedTutors.length > 2 && (
-            <div className="text-xs text-orange-500">* Max: 3 tutors</div>
+            <div className="text-xs text-orange-500">*Дээд тал нь 3 ментор</div>
           )}
         </div>
       )}
