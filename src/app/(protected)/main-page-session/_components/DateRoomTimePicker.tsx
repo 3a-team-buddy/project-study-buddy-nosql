@@ -14,19 +14,19 @@ import {
 import { CreateSessionType } from "@/lib/types";
 
 const schedules = [
-  "14:10",
-  "14:15",
-  "14:20",
-  "14:25",
-  "14:30",
-  "14:35",
-  "14:40",
-  "14:45",
-  "14:50",
-  "14:55",
-  "13:00",
-  "14:00",
-  "15:00",
+  // "14:10",
+  // "14:15",
+  // "14:20",
+  // "14:25",
+  // "14:30",
+  // "14:35",
+  // "14:40",
+  // "14:45",
+  // "14:50",
+  // "14:55",
+  // "13:00",
+  // "14:00",
+  // "15:00",
   "16:00",
   "17:00",
 ];
@@ -157,13 +157,13 @@ export const DateRoomTimePicker = ({
                 // (day) => day.toDateString() === tomorrow.toDateString(),
                 (day) => fullyBookedDates.includes(formatDate(day)),
               ]}
-              onSelect={(date) => {
-                if (!date) return;
-                setDate(date);
-                setValue(formatDate(date));
+              onDayClick={(day) => {
+                // if (!date) return;
+                setDate(day);
+                setValue(formatDate(day));
                 setRoom("");
                 setTime("");
-                checkWeekend(date);
+                checkWeekend(day);
                 setOpenDate(false);
               }}
             />
