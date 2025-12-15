@@ -16,7 +16,7 @@ import {
 const SessionPage = () => {
   const [sessionTopicTitle, setSessionTopicTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [minMember, setMinMember] = useState<number>(5);
+  const [minMember, setMinMember] = useState<number>(3);
   const [maxMember, setMaxMember] = useState<number>(0);
   const [date, setDate] = useState<Date | undefined>();
   const [value, setValue] = useState<string>("");
