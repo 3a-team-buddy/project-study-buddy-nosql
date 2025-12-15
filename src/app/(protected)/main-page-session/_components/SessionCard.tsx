@@ -84,7 +84,7 @@ export const SessionCard = ({
     session.value,
     session.time
   );
-
+  console.log(session.assignedTutor, "EIJHEOIUHEOI");
   return (
     <div className="flex flex-col gap-3">
       <div className="w-full rounded-2xl px-6 py-4 bg-linear-to-b from-[#1E2648]/90 to-[#122136]/20 flex gap-3 justify-between items-center relative">
@@ -96,6 +96,12 @@ export const SessionCard = ({
         >
           <div className="flex justify-between items-center gap-5 relative">
             {session.sessionTopicTitle}
+            <p>{session.assignedTutor?.mockUserName.split(" ")[0]}</p>
+
+            <div className="flex gap-1 text-xs text-gray-400 text-start animate-pulse">
+              {formatToMonthDay(session.value)}
+              <p>{session.time}</p>
+            </div>
             {!completed ? (
               <div className="flex gap-1 text-xs text-gray-400 text-start animate-pulse">
                 {formatToMonthDay(session.value)}
