@@ -70,28 +70,6 @@ export async function GET(request: NextRequest) {
     // const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
     // await ably.channels.get("session").publish("session-updated", session);
 
-    const date = updatedSession.value;
-    const time = updatedSession.time;
-    const sessionDate = new Date(`${date} ${time}`);
-
-    const current = new Date();
-
-    const month = current.getMonth() + 1;
-    const day = current.getDate();
-    const hours = current.getHours();
-    const minutes = current.getMinutes();
-
-    const currentDate = `${month}/${day} ${hours}:${minutes}`;
-    console.log({ currentDate }, "dates");
-
-    if (
-      sessionDate.getFullYear() === current.getFullYear() &&
-      sessionDate.getMonth() === current.getMonth() &&
-      sessionDate.getDate() === current.getDate()
-    ) {
-      updatedSession.status = "ONGOING";
-      await updatedSession.save();
-    }
     return NextResponse.redirect(
       `${process.env.NEXT_PUBLIC_BASE_URL}/tutor/accepted`
     );

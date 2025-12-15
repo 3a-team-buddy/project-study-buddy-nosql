@@ -14,8 +14,8 @@ export const SESSION_STATUS_MN_MAP: { [key in StatusKey]: string } = {
   ACCEPTED: "Баталгаажсан",
   CANCELED: "Цуцлагдсан",
   DELETED: "Устсан",
-  ONGOING: "ҮРГЭЛЖИЖ БУЙ",
-  COMPLETED: "ДУУССАН",
+  ONGOING: "Үргэлжилж буй",
+  COMPLETED: "Дууссан",
 };
 
 export const SESSION_TYPE = ["TUTOR-LED", "SELF-LED"] as const;

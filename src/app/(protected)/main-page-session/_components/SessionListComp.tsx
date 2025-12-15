@@ -13,15 +13,6 @@ export const SessionListComp = () => {
   const { createdSessions, joinedSessions, otherSessions, isLoading } =
     useSession();
 
-  // const date = updatedSession.value;
-  // const time = updatedSession.time;
-
-  // const date = createdSessions.
-  // const current = new Date();
-  // const currentDate = current.toString();
-  // console.log({ createdSessions });
-  // console.log({ currentDate }, "dates");
-
   const sessionLists: {
     title: string;
     type: SessionListType;
