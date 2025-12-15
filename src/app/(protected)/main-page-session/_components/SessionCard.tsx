@@ -87,6 +87,8 @@ export const SessionCard = ({
 
   const canRate = completed && sessionListType === "created";
 
+  const handleRate = (sessionId: string) => {};
+
   return (
     <div className="flex flex-col gap-3">
       <div className="w-full rounded-2xl px-6 py-4 bg-linear-to-b from-[#1E2648]/90 to-[#122136]/20 flex gap-3 justify-between items-center">
