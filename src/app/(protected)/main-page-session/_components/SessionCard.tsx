@@ -79,7 +79,6 @@ export const SessionCard = ({
     };
   }
 
-  // Usage
   const { ongoing, completed } = getSessionStatusFlags(
     session.value,
     session.time
@@ -123,6 +122,7 @@ export const SessionCard = ({
                           {session.value} {session.time}
                         </div>
                       </DialogTitle>
+                      <DialogDescription></DialogDescription>
                       <div className="flex flex-col gap-4 text-gray-500">
                         <div className=" flex gap-20 items-center">
                           <p>Давтлага үнэлэх: </p>
