@@ -35,7 +35,9 @@ export const StudySessionTitleAndDescription = ({
   return (
     <div className="w-full flex flex-col gap-10">
       <div className="flex flex-col gap-3">
-        <Label htmlFor="topic-title-input">Давтлагын сэдэв</Label>
+        <Label htmlFor="topic-title-input" className="text-base">
+          Давтлагын сэдэв
+        </Label>
         <Input
           id="topic-title-input"
           type="text"
@@ -54,7 +56,9 @@ export const StudySessionTitleAndDescription = ({
       </div>
 
       <div className="flex flex-col gap-3">
-        <Label htmlFor="description-textarea">Агуулга</Label>
+        <Label htmlFor="description-textarea" className="text-base">
+          Агуулга
+        </Label>
         <Textarea
           id="description-textarea"
           value={description}
