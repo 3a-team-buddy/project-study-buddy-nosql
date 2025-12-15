@@ -95,7 +95,6 @@ export const SessionCard = ({
         >
           <div className="flex justify-between items-center gap-5 relative">
             <span>{session.sessionTopicTitle}</span>
-            <span>{session.assignedTutor?.mockUserName?.split(" ")[0]}</span>
 
             {!completed ? (
               <div className="flex gap-1 text-xs text-gray-400 text-start animate-pulse">
@@ -106,7 +105,7 @@ export const SessionCard = ({
               <>
                 <Dialog>
                   <DialogTrigger>
-                    <Button className="text-sm text-orange-400 text-start animate-pulse bg-transparent hover:bg-transparent absolute z-50 left-25 bottom-0.5">
+                    <Button className="text-sm text-orange-400 text-start animate-pulse bg-transparent hover:bg-transparent absolute z-50 right-93 bottom-1/15">
                       Үнэлгээ
                     </Button>
                   </DialogTrigger>
@@ -200,6 +199,12 @@ export const SessionCard = ({
           >
             {SESSION_TYPE_MN_MAP[session.selectedSessionType]}
           </p>
+
+          {session.selectedSessionType === "TUTOR-LED" && (
+            <span className="text-sm">
+              {session.assignedTutor?.mockUserName?.split(" ")[0]}
+            </span>
+          )}
 
           {sessionListType === "other" && <JoinBtn session={session} />}
           <InviteBtnDialog session={session} />

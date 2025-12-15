@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui";
 import { BsFillPeopleFill } from "react-icons/bs";
@@ -9,6 +9,19 @@ import { useAuth } from "@clerk/nextjs";
 export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
   const { getToken } = useAuth();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const date = session.value;
+  const time = session.time;
+  const sessionDateTime = new Date(`${date} ${time}`);
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNow(new Date());
+    }, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const isExpired = now > sessionDateTime;
 
   const joinedStudentHandler = async (sessionId: string) => {
     try {
@@ -37,18 +50,24 @@ export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
 
   return (
     <Button
-      disabled={session.studentCount?.length === session.maxMember || isLoading}
+      disabled={
+        session.studentCount?.length === session.maxMember ||
+        isLoading ||
+        isExpired
+      }
       onClick={() => {
         joinedStudentHandler(session._id);
       }}
       className="rounded-full bg-[#2563EB] hover:bg-[#1d4ed8] gap-1 cursor-pointer text-white/80 hover:text-white disabled:cursor-not-allowed disabled:bg-white/40"
     >
       <BsFillPeopleFill />
-      <div>
-        {session.studentCount?.length}
-        <span>/{session.maxMember}</span>
-      </div>
-      <div>Нэгдэх</div>
+      {!isExpired && (
+        <p className="flex gap-1">
+          {session.studentCount?.length}
+          <span>/{session.maxMember}</span>
+          <span>Нэгдэх</span>
+        </p>
+      )}
     </Button>
   );
 };

@@ -18,17 +18,17 @@ export const SessionListComp = () => {
     sessions: CreateSessionType[];
   }[] = [
     {
-      title: "Миний үүсгэсэн давтлагууд",
+      title: "Үүсгэсэн давтлагууд",
       type: "created",
       sessions: createdSessions,
     },
     {
-      title: "Миний нэгдсэн давтлагууд",
+      title: "Миний давтлагууд",
       type: "joined",
       sessions: joinedSessions,
     },
     {
-      title: "Нэгдэх боломжтой давтлагууд",
+      title: "Бусад давтлагууд",
       type: "other",
       sessions: otherSessions,
     },

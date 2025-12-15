@@ -36,7 +36,7 @@ export const StudySessionTitleAndDescription = ({
     <div className="w-full flex flex-col gap-10">
       <div className="flex flex-col gap-3">
         <Label htmlFor="topic-title-input" className="text-base">
-          Давтлагын сэдэв
+          Давтах сэдэв
         </Label>
         <Input
           id="topic-title-input"
