@@ -14,16 +14,16 @@ import {
 import { CreateSessionType } from "@/lib/types";
 
 const schedules = [
-  "13:10",
-  "13:15",
-  "13:20",
-  "13:25",
-  "13:30",
-  "13:35",
-  "13:40",
-  "13:45",
-  "13:50",
-  "13:55",
+  "14:10",
+  "14:15",
+  "14:20",
+  "14:25",
+  "14:30",
+  "14:35",
+  "14:40",
+  "14:45",
+  "14:50",
+  "14:55",
   "13:00",
   "14:00",
   "15:00",
@@ -58,6 +58,7 @@ export const DateRoomTimePicker = ({
   const [openRoom, setOpenRoom] = useState<boolean>(false);
   const [openTime, setOpenTime] = useState<boolean>(false);
   const [month, setMonth] = useState<Date | undefined>(date);
+  const [calendarKey, setCalendarKey] = useState<number>(0);
 
   const today = new Date();
   const tomorrow = new Date();
@@ -118,7 +119,15 @@ export const DateRoomTimePicker = ({
         <Label htmlFor="date-picker" className="text-base">
           Он сар өдөр
         </Label>
-        <Popover open={openDate} onOpenChange={setOpenDate}>
+        <Popover
+          open={openDate}
+          onOpenChange={(open) => {
+            setOpenDate(open);
+            if (open) {
+              setCalendarKey((prev) => prev + 1);
+            }
+          }}
+        >
           <PopoverTrigger asChild>
             <Button
               variant="outline"
@@ -133,6 +142,7 @@ export const DateRoomTimePicker = ({
 
           <PopoverContent className="w-auto overflow-hidden p-0 border-[#323743FF] bg-[black] text-white">
             <Calendar
+              key={calendarKey}
               className="bg-[#0F2343] cursor-pointer"
               mode="single"
               captionLayout="dropdown"
