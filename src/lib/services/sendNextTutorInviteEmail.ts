@@ -15,9 +15,6 @@ export async function sendNextTutorInviteEmail(
 
   if (!nextTutor) return;
 
-  const sessionReward = await Session.findById(updatedSession._id);
-  if (!sessionReward) return;
-
   const accept = `${
     process.env.NEXT_PUBLIC_BASE_URL
   }/api/tutor-email-response?sessionId=${encodeURIComponent(
@@ -53,7 +50,9 @@ export async function sendNextTutorInviteEmail(
     📅 <strong>Date:</strong> ${updatedSession.value}<br/>
     ⏰ <strong>Starts At:</strong> ${updatedSession.time}<br/>
     👥 <strong>Joined Students:</strong> ${updatedSession.studentCount?.length}+
-    🎁 <strong>Reward:</strong> ${sessionReward.selectedReward}
+    🎁 <strong>Reward:</strong> ${updatedSession.selectedReward}
+    🎁 <strong>Reward: reward haachchiv</strong> 
+
     </p>
 
     <div style="margin-top: 40px;">
