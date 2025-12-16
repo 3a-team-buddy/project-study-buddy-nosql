@@ -47,7 +47,6 @@ export async function sendNextTutorInviteEmail(
     📅 <strong>Date:</strong> ${updatedSession.value}<br/>
     ⏰ <strong>Starts At:</strong> ${updatedSession.time}<br/>
     👥 <strong>Joined Students:</strong> ${updatedSession.studentCount?.length}+
-    </p>
     🎁 <strong>Reward:</strong> ${updatedSession.selectedReward}
     </p>
 
