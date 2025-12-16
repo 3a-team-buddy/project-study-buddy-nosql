@@ -9,48 +9,56 @@ import { useAuth } from "@clerk/nextjs";
 export const EditSaveChangesBtn = ({
   session,
   sessionTopicTitle,
-  setSessionTopicTitle,
   description,
-  setDescription,
   minMember,
-  setMinMember,
   maxMember,
-  setMaxMember,
   value,
-  setValue,
   time,
-  setTime,
   selectedSessionType,
-  setSelectedSessionType,
   selectedTutors,
-  setSelectedTutors,
+  room,
 }: {
+  room: string;
   session: CreateSessionType;
   sessionTopicTitle: string;
-  setSessionTopicTitle: Dispatch<React.SetStateAction<string>>;
   description: string;
-  setDescription: Dispatch<React.SetStateAction<string>>;
   minMember: number;
-  setMinMember: Dispatch<React.SetStateAction<number>>;
   maxMember: number;
-  setMaxMember: Dispatch<React.SetStateAction<number>>;
   value: string;
-  setValue: Dispatch<React.SetStateAction<string>>;
   time: string;
-  setTime: Dispatch<React.SetStateAction<string>>;
   selectedSessionType: string;
-  setSelectedSessionType: Dispatch<React.SetStateAction<string>>;
   selectedTutors: SelectedTutorType[];
-  setSelectedTutors: Dispatch<React.SetStateAction<SelectedTutorType[]>>;
 }) => {
+  const [main, setMain] = useState();
   const { getToken } = useAuth();
   const [loading, setLoading] = useState(false);
+  const sessionId = session._id;
+  const getAllSelectedSessionType = async () => {
+    const result = await fetch("/api/get-tutor", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sessionId: sessionId,
+      }),
+    });
+
+    if (!result.ok) {
+      toast.error("Failed !");
+    }
+
+    const { data } = await result.json();
+    if (data === undefined || null) {
+      toast.error("Failed to get tutors ");
+    }
+    console.log({ data });
+  };
 
   const handleUpdateSession = async () => {
     setLoading(true);
     const token = await getToken();
-
+    getAllSelectedSessionType();
     if (
+      !room ||
       !session ||
       !sessionTopicTitle ||
       !description ||
@@ -69,6 +77,7 @@ export const EditSaveChangesBtn = ({
     const id = session._id;
 
     const updatedData = {
+      room,
       sessionTopicTitle,
       description,
       minMember,

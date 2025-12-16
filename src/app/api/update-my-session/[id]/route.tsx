@@ -3,6 +3,8 @@ import connectDB from "@/lib/mongodb";
 import { Session } from "@/lib/models/Session";
 import { checkAuth } from "../../check-create-user/route";
 import { MockUser } from "@/lib/models/MockUser";
+import { SelectedTutor } from "@/lib/models/SelectedTutor";
+import { createSelectedTutor } from "@/lib/services/selected-tutors-service";
 
 export async function PUT(
   request: NextRequest,
@@ -44,8 +46,7 @@ export async function PUT(
       !maxMember ||
       !value ||
       !time ||
-      !selectedSessionType ||
-      !selectedTutors
+      !selectedSessionType
     ) {
       return NextResponse.json(
         { message: "All fields are required!" },
@@ -87,7 +88,17 @@ export async function PUT(
       },
       { new: true }
     );
+
     console.log({ updatedSession });
+
+    const createdSessionId = updatedSession._id;
+    const createdSessionType = updatedSession.selectedSessionType;
+
+    await SelectedTutor.deleteMany({ createdSessionId: id });
+    if (createdSessionType === "TUTOR-LED") {
+      await createSelectedTutor(selectedTutors, createdSessionId);
+    }
+
     if (!updatedSession) {
       return NextResponse.json(
         { message: "Session not found" },

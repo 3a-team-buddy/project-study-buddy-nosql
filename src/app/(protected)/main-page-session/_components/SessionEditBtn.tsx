@@ -13,9 +13,9 @@ import { Label } from "@/components/ui/label";
 import { CreateSessionType, SelectedTutorType } from "@/lib/types";
 import { MemberLimitSelector } from "./MemberLimitSelector";
 import { useSession } from "@/app/_hooks/use-session";
-import { Tutor } from "./Tutor";
 import { EditSaveChangesBtn } from "./EditSaveChangesBtn";
 import { DateRoomTimePicker } from "./DateRoomTimePicker";
+import { SessionTypeSelector } from "./SessionTypeSelector";
 export function SessionEditBtn({ session }: { session: CreateSessionType }) {
   const [sessionTopicTitle, setSessionTopicTitle] = useState(
     session.sessionTopicTitle
@@ -25,7 +25,7 @@ export function SessionEditBtn({ session }: { session: CreateSessionType }) {
   const [maxMember, setMaxMember] = useState(session.maxMember);
   const [date, setDate] = useState<Date | undefined>();
   const [value, setValue] = useState<string>(session.value);
-  const [room, setRoom] = useState<string>("");
+  const [room, setRoom] = useState<string>(`${session.room}`);
   const [time, setTime] = useState<string>(session.time);
   const [selectedSessionType, setSelectedSessionType] = useState<string>(
     session.selectedSessionType
@@ -33,11 +33,11 @@ export function SessionEditBtn({ session }: { session: CreateSessionType }) {
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
 
   const { allSessions } = useSession();
-
+  console.log({ session });
   return (
     <div>
       <form>
-        <DialogContent className="w-fit h-fit text-white bg-[#09121f]">
+        <DialogContent className="w-[600px] h-fit text-white bg-[#09121f]">
           <DialogHeader>
             <DialogTitle>Edit My Session</DialogTitle>
           </DialogHeader>
@@ -61,14 +61,15 @@ export function SessionEditBtn({ session }: { session: CreateSessionType }) {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 mt-10">
+            <div className=" mt-10 mb-10">
               <MemberLimitSelector
                 minMember={minMember}
                 setMinMember={setMinMember}
                 maxMember={maxMember}
                 setMaxMember={setMaxMember}
               />
-
+            </div>
+            <div className="flex flex-col gap-10 mb-10">
               <DateRoomTimePicker
                 value={value}
                 setValue={setValue}
@@ -80,14 +81,13 @@ export function SessionEditBtn({ session }: { session: CreateSessionType }) {
                 setDate={setDate}
                 allSessions={allSessions}
               />
+              <SessionTypeSelector
+                selectedSessionType={selectedSessionType}
+                setSelectedSessionType={setSelectedSessionType}
+                selectedTutors={selectedTutors}
+                setSelectedTutors={setSelectedTutors}
+              />
             </div>
-
-            <Tutor
-              selectedSessionType={selectedSessionType}
-              setSelectedSessionType={setSelectedSessionType}
-              selectedTutors={selectedTutors}
-              setSelectedTutors={setSelectedTutors}
-            />
           </div>
 
           <DialogFooter>
@@ -100,21 +100,14 @@ export function SessionEditBtn({ session }: { session: CreateSessionType }) {
             <EditSaveChangesBtn
               session={session}
               sessionTopicTitle={sessionTopicTitle}
-              setSessionTopicTitle={setSessionTopicTitle}
               description={description}
-              setDescription={setDescription}
               minMember={minMember}
-              setMinMember={setMinMember}
               maxMember={maxMember}
-              setMaxMember={setMaxMember}
+              room={room}
               value={value}
-              setValue={setValue}
               time={time}
-              setTime={setTime}
               selectedSessionType={selectedSessionType}
-              setSelectedSessionType={setSelectedSessionType}
               selectedTutors={selectedTutors}
-              setSelectedTutors={setSelectedTutors}
             />
           </DialogFooter>
         </DialogContent>
