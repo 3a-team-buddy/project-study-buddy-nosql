@@ -1,5 +1,6 @@
 import { transporter } from "../mailer";
 import { SelectedTutor } from "../models/SelectedTutor";
+import { Session } from "../models/Session";
 import { CreateSessionType } from "../types";
 
 export async function sendNextTutorInviteEmail(
@@ -14,6 +15,9 @@ export async function sendNextTutorInviteEmail(
 
   if (!nextTutor) return;
 
+  const sessionReward = await Session.findById(updatedSession._id);
+  if (!sessionReward) return;
+
   const accept = `${
     process.env.NEXT_PUBLIC_BASE_URL
   }/api/tutor-email-response?sessionId=${encodeURIComponent(
@@ -24,6 +28,8 @@ export async function sendNextTutorInviteEmail(
   }/api/tutor-email-response?sessionId=${encodeURIComponent(
     updatedSession._id
   )}&tutorId=${encodeURIComponent(nextTutor._id)}&response=decline`;
+
+  console.log("reward in function:", updatedSession.selectedReward);
 
   await transporter.sendMail({
     from: "Study Buddy <oyunmyagmar.g@gmail.com>",
@@ -47,7 +53,7 @@ export async function sendNextTutorInviteEmail(
     📅 <strong>Date:</strong> ${updatedSession.value}<br/>
     ⏰ <strong>Starts At:</strong> ${updatedSession.time}<br/>
     👥 <strong>Joined Students:</strong> ${updatedSession.studentCount?.length}+
-    🎁 <strong>Reward:</strong> ${updatedSession.selectedReward}
+    🎁 <strong>Reward:</strong> ${sessionReward.selectedReward}
     </p>
 
     <div style="margin-top: 40px;">
