@@ -33,30 +33,11 @@ export const EditSaveChangesBtn = ({
   const { getToken } = useAuth();
   const [loading, setLoading] = useState(false);
   const sessionId = session._id;
-  const getAllSelectedSessionType = async () => {
-    const result = await fetch("/api/get-tutor", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: sessionId,
-      }),
-    });
-
-    if (!result.ok) {
-      toast.error("Failed !");
-    }
-
-    const { data } = await result.json();
-    if (data === undefined || null) {
-      toast.error("Failed to get tutors ");
-    }
-    console.log({ data });
-  };
 
   const handleUpdateSession = async () => {
     setLoading(true);
     const token = await getToken();
-    getAllSelectedSessionType();
+
     if (
       !room ||
       !session ||

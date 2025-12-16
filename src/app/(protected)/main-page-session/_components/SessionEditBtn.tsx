@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui";
 import { Textarea } from "@/components/ui";
 import {
@@ -16,6 +16,7 @@ import { useSession } from "@/app/_hooks/use-session";
 import { EditSaveChangesBtn } from "./EditSaveChangesBtn";
 import { DateRoomTimePicker } from "./DateRoomTimePicker";
 import { SessionTypeSelector } from "./SessionTypeSelector";
+import { toast } from "sonner";
 export function SessionEditBtn({ session }: { session: CreateSessionType }) {
   const [sessionTopicTitle, setSessionTopicTitle] = useState(
     session.sessionTopicTitle
@@ -31,6 +32,33 @@ export function SessionEditBtn({ session }: { session: CreateSessionType }) {
     session.selectedSessionType
   );
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
+  useEffect(() => {
+    getAllSelectedSessionType();
+  }, []);
+  const sessionId = session._id;
+  const getAllSelectedSessionType = async () => {
+    const result = await fetch("/api/get-tutor", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sessionId: sessionId,
+      }),
+    });
+
+    if (!result.ok) {
+      toast.error("Failed !");
+    }
+
+    const text = await result.text();
+
+    if (!text) {
+      toast.error("Empty response from server");
+      return;
+    }
+
+    const { data } = JSON.parse(text);
+    console.log({ data });
+  };
 
   const { allSessions } = useSession();
   console.log({ session });
@@ -91,11 +119,15 @@ export function SessionEditBtn({ session }: { session: CreateSessionType }) {
           </div>
 
           <DialogFooter>
-            <DialogClose asChild className="w-[421px] gap-3">
-              <Button className="text-black w-1/2" variant="outline">
-                Cancel
-              </Button>
-            </DialogClose>
+            {/* <DialogClose asChild className="w-[421px] gap-3"> */}
+            <Button
+              onClick={getAllSelectedSessionType}
+              className="text-black w-1/2"
+              variant="outline"
+            >
+              Cancel
+            </Button>
+            {/* </DialogClose> */}
 
             <EditSaveChangesBtn
               session={session}
