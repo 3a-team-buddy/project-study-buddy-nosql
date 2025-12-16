@@ -17,6 +17,7 @@ import { EditSaveChangesBtn } from "./EditSaveChangesBtn";
 import { DateRoomTimePicker } from "./DateRoomTimePicker";
 import { SessionTypeSelector } from "./SessionTypeSelector";
 import { toast } from "sonner";
+import { SessionTypeSelectorEditBtn } from "./SessionTypeSelectorEditBtn";
 export function SessionEditBtn({ session }: { session: CreateSessionType }) {
   const [sessionTopicTitle, setSessionTopicTitle] = useState(
     session.sessionTopicTitle
@@ -31,6 +32,7 @@ export function SessionEditBtn({ session }: { session: CreateSessionType }) {
   const [selectedSessionType, setSelectedSessionType] = useState<string>(
     session.selectedSessionType
   );
+  console.log({ selectedSessionType });
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
   useEffect(() => {
     getAllSelectedSessionType();
@@ -57,7 +59,8 @@ export function SessionEditBtn({ session }: { session: CreateSessionType }) {
     }
 
     const { data } = JSON.parse(text);
-    console.log({ data });
+
+    setSelectedTutors(data);
   };
 
   const { allSessions } = useSession();
@@ -109,7 +112,7 @@ export function SessionEditBtn({ session }: { session: CreateSessionType }) {
                 setDate={setDate}
                 allSessions={allSessions}
               />
-              <SessionTypeSelector
+              <SessionTypeSelectorEditBtn
                 selectedSessionType={selectedSessionType}
                 setSelectedSessionType={setSelectedSessionType}
                 selectedTutors={selectedTutors}
@@ -119,15 +122,15 @@ export function SessionEditBtn({ session }: { session: CreateSessionType }) {
           </div>
 
           <DialogFooter>
-            {/* <DialogClose asChild className="w-[421px] gap-3"> */}
-            <Button
-              onClick={getAllSelectedSessionType}
-              className="text-black w-1/2"
-              variant="outline"
-            >
-              Cancel
-            </Button>
-            {/* </DialogClose> */}
+            <DialogClose asChild className="w-[421px] gap-3">
+              <Button
+                onClick={getAllSelectedSessionType}
+                className="text-black w-1/2"
+                variant="outline"
+              >
+                Cancel
+              </Button>
+            </DialogClose>
 
             <EditSaveChangesBtn
               session={session}
