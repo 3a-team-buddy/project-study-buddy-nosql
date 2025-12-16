@@ -26,8 +26,6 @@ export async function sendNextTutorInviteEmail(
     updatedSession._id
   )}&tutorId=${encodeURIComponent(nextTutor._id)}&response=decline`;
 
-  console.log("reward in function:", updatedSession);
-
   await transporter.sendMail({
     from: "Study Buddy <oyunmyagmar.g@gmail.com>",
     to: nextTutor.tutorId?.mockUserEmail,
@@ -51,8 +49,6 @@ export async function sendNextTutorInviteEmail(
     ⏰ <strong>Starts At:</strong> ${updatedSession.time}<br/>
     👥 <strong>Joined Students:</strong> ${updatedSession.studentCount?.length}+<br/>
     🎁 <strong>Reward:</strong> ${updatedSession.selectedReward}<br/>
-    🎁 <strong>Reward: reward haachchiv</strong> 
-
     </p>
 
     <div style="margin-top: 40px;">
