@@ -182,7 +182,7 @@ export const SessionTypeSelector = ({
                 id="coffee"
                 className="bg-white rounded-full cursor-pointer"
               />
-              <Label htmlFor="coffee" className="text-xl">
+              <Label htmlFor="coffee" className="text-2xl">
                 ☕️
               </Label>
             </div>
@@ -192,7 +192,7 @@ export const SessionTypeSelector = ({
                 id="cake"
                 className="bg-white rounded-full cursor-pointer"
               />
-              <Label htmlFor="cake" className="text-xl">
+              <Label htmlFor="cake" className="text-2xl">
                 🍰
               </Label>
             </div>
@@ -202,8 +202,8 @@ export const SessionTypeSelector = ({
                 id="money"
                 className="bg-white rounded-full cursor-pointer"
               />
-              <Label htmlFor="money" className="text-xl">
-                💰
+              <Label htmlFor="money" className="text-2xl">
+                💸
               </Label>
             </div>
           </RadioGroup>
