@@ -38,6 +38,7 @@ export type CreateSessionType = {
   studentCount?: string[];
   status: StatusKey;
   assignedTutor?: MockUserType;
+  selectedReward: string;
   createdAt?: string;
   updatedAt?: string;
 };

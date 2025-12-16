@@ -19,6 +19,7 @@ type SessionSchemaType = {
     | "ONGOING"
     | "COMPLETED";
   assignedTutor?: mongoose.Types.ObjectId | null;
+  selectedReward: "COFFEE" | "CAKE" | "MONEY";
 };
 
 const SessionSchema = new Schema(
@@ -54,6 +55,11 @@ const SessionSchema = new Schema(
       type: Schema.ObjectId,
       ref: "MockUser",
       default: null,
+    },
+    selectedReward: {
+      type: String,
+      enum: ["COFFEE", "CAKE", "MONEY"],
+      required: true,
     },
   },
   {
