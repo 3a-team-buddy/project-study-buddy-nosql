@@ -144,6 +144,7 @@ export const SessionTypeSelector = ({
           )}
         </div>
       )}
+
       {selectedTutors && (
         <div>
           {selectedTutors.map((tutor, index) => {
@@ -167,6 +168,7 @@ export const SessionTypeSelector = ({
           })}
         </div>
       )}
+
       {selectedSessionType === "tutor-led" && (
         <div className="flex flex-col gap-5 mt-4">
           <Label className="text-base">Урамшуулал сонгоно уу</Label>

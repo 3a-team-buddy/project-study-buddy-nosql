@@ -35,6 +35,7 @@ export const createNewSession = async (
     status: "WAITING",
     assignedTutor: null,
     selectedReward,
+    isRated: false,
   });
 
   await newSession.save();

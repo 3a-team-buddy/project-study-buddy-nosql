@@ -24,13 +24,6 @@ export async function POST(request: NextRequest) {
   const { sessionId, selectedSessionRating, selectedTutorRating, feedback } =
     body;
 
-  console.log({
-    sessionId,
-    selectedSessionRating,
-    selectedTutorRating,
-    feedback,
-  });
-
   if (!sessionId || !selectedSessionRating || !selectedTutorRating) {
     return NextResponse.json(
       { message: "All fields are required!" },

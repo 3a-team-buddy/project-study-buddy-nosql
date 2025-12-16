@@ -1,4 +1,5 @@
 import { Rating } from "../models/Rating";
+import { Session } from "../models/Session";
 import connectDB from "../mongodb";
 import mongoose from "mongoose";
 
@@ -19,5 +20,8 @@ export const createRating = async (
   });
 
   await newRating.save();
+
+  await Session.findByIdAndUpdate(sessionId, { isRated: true });
+
   return newRating;
 };

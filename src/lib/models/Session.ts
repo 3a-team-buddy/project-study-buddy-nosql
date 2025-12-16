@@ -20,6 +20,7 @@ type SessionSchemaType = {
     | "COMPLETED";
   assignedTutor?: mongoose.Types.ObjectId | null;
   selectedReward: "COFFEE" | "CAKE" | "MONEY";
+  isRated: boolean;
 };
 
 const SessionSchema = new Schema(
@@ -61,6 +62,7 @@ const SessionSchema = new Schema(
       enum: ["COFFEE", "CAKE", "MONEY"],
       required: true,
     },
+    isRated: { type: Boolean, default: false },
   },
   {
     timestamps: true,

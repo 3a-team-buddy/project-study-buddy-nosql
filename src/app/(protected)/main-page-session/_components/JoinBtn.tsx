@@ -6,22 +6,15 @@ import { CreateSessionType } from "@/lib/types";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/nextjs";
 
-export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
+export const JoinBtn = ({
+  session,
+  isExpired,
+}: {
+  session: CreateSessionType;
+  isExpired: boolean;
+}) => {
   const { getToken } = useAuth();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const date = session.value;
-  const time = session.time;
-  const sessionDateTime = new Date(`${date} ${time}`);
-  const [now, setNow] = useState(new Date());
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setNow(new Date());
-    }, 60000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const isExpired = now > sessionDateTime;
 
   const joinedStudentHandler = async (sessionId: string) => {
     try {

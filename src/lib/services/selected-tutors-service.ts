@@ -43,11 +43,10 @@ export const createSelectedTutor = async (
       return SelectedTutor.create({
         tutorId: matchedTutorId,
         createdSessionId,
-        invitationStatus: "WAITING",
         order: index + 1,
+        invitationStatus: "WAITING",
       });
     })
   );
-
   return createdSelectedTutor;
 };
