@@ -25,6 +25,8 @@ export const CreateSessionBtn = ({
   setSelectedSessionType,
   selectedTutors,
   setSelectedTutors,
+  selectedReward,
+  setSelectedReward,
 }: {
   sessionTopicTitle: string;
   setSessionTopicTitle: Dispatch<React.SetStateAction<string>>;
@@ -44,6 +46,8 @@ export const CreateSessionBtn = ({
   setSelectedSessionType: Dispatch<React.SetStateAction<string>>;
   selectedTutors: SelectedTutorType[];
   setSelectedTutors: Dispatch<React.SetStateAction<SelectedTutorType[]>>;
+  selectedReward: string;
+  setSelectedReward: Dispatch<React.SetStateAction<string>>;
 }) => {
   const { getToken } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -63,7 +67,8 @@ export const CreateSessionBtn = ({
         !time ||
         !selectedSessionType ||
         !selectedTutors ||
-        !token
+        !token ||
+        !selectedReward
       ) {
         toast.warning("All fields are required!");
         return;
@@ -85,6 +90,7 @@ export const CreateSessionBtn = ({
           time,
           selectedSessionType,
           selectedTutors,
+          selectedReward,
         }),
       });
 
@@ -102,6 +108,7 @@ export const CreateSessionBtn = ({
       setTime("");
       setSelectedSessionType("");
       setSelectedTutors([]);
+      setSelectedReward("");
     } catch (error) {
       console.error("Error", error);
       toast.error("Server error!");

@@ -16,11 +16,15 @@ export const SessionTypeSelector = ({
   setSelectedSessionType,
   selectedTutors,
   setSelectedTutors,
+  selectedReward,
+  setSelectedReward,
 }: {
   selectedSessionType: string;
   setSelectedSessionType: Dispatch<React.SetStateAction<string>>;
   selectedTutors: SelectedTutorType[];
   setSelectedTutors: Dispatch<React.SetStateAction<SelectedTutorType[]>>;
+  selectedReward: string;
+  setSelectedReward: Dispatch<React.SetStateAction<string>>;
 }) => {
   const [tutorLedInputValue, setTutorLedInputValue] = useState<string>("");
   const { teachers } = useTeacher();
@@ -161,6 +165,48 @@ export const SessionTypeSelector = ({
               </div>
             );
           })}
+        </div>
+      )}
+      {selectedSessionType === "tutor-led" && (
+        <div className="flex flex-col gap-5 mt-4">
+          <Label className="text-base">Урамшуулал сонгоно уу</Label>
+
+          <RadioGroup
+            className="flex justify-around text-white/80"
+            value={selectedReward}
+            onValueChange={(value) => setSelectedReward(value)}
+          >
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem
+                value="coffee"
+                id="coffee"
+                className="bg-white rounded-full cursor-pointer"
+              />
+              <Label htmlFor="coffee" className="text-xl">
+                ☕️
+              </Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem
+                value="cake"
+                id="cake"
+                className="bg-white rounded-full cursor-pointer"
+              />
+              <Label htmlFor="cake" className="text-xl">
+                🍰
+              </Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem
+                value="money"
+                id="money"
+                className="bg-white rounded-full cursor-pointer"
+              />
+              <Label htmlFor="money" className="text-xl">
+                💰
+              </Label>
+            </div>
+          </RadioGroup>
         </div>
       )}
     </div>

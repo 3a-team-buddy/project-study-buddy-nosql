@@ -25,6 +25,8 @@ const SessionPage = () => {
   const [time, setTime] = useState<string>("");
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
+  const [selectedReward, setSelectedReward] = useState<string>("");
+
   const { allSessions } = useSession();
 
   return (
@@ -75,6 +77,8 @@ const SessionPage = () => {
                 setSelectedSessionType={setSelectedSessionType}
                 selectedTutors={selectedTutors}
                 setSelectedTutors={setSelectedTutors}
+                selectedReward={selectedReward}
+                setSelectedReward={setSelectedReward}
               />
               <CreateSessionBtn
                 sessionTopicTitle={sessionTopicTitle}
@@ -95,6 +99,8 @@ const SessionPage = () => {
                 setSelectedSessionType={setSelectedSessionType}
                 selectedTutors={selectedTutors}
                 setSelectedTutors={setSelectedTutors}
+                selectedReward={selectedReward}
+                setSelectedReward={setSelectedReward}
               />
             </div>
           </TabsContent>
