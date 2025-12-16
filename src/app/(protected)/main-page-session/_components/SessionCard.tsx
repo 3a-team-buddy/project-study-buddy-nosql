@@ -2,7 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import { CreateSessionType, JoinedStudentType } from "@/lib/types";
-import { Button, Label, Textarea } from "@/components/ui";
+import {
+  Button,
+  Label,
+  RadioGroup,
+  RadioGroupItem,
+  Textarea,
+} from "@/components/ui";
 import {
   InviteBtnDialog,
   JoinBtn,
@@ -22,9 +28,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui";
-import { PiHeartStraightBreakFill } from "react-icons/pi";
-import { RiPokerHeartsFill } from "react-icons/ri";
-import { BsHearts } from "react-icons/bs";
+import { toast } from "sonner";
+import { useAuth } from "@clerk/nextjs";
 
 export const SessionCard = ({
   session,
@@ -35,8 +40,12 @@ export const SessionCard = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [joinedStudents, setJoinedStudents] = useState<JoinedStudentType[]>([]);
-  const [sessionRate, setSessionRate] = useState<string>("");
-  const [review, setReview] = useState<string>("");
+  const [selectedSessionRating, setSelectedSessionRating] =
+    useState<string>("");
+  const [selectedTutorRating, setSelectedTutorRating] = useState<string>("");
+  const [feedback, setFeedback] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const { getToken } = useAuth();
 
   const handleSessionCardDetail = async () => {
     setOpen((prev) => !prev);
@@ -71,7 +80,7 @@ export const SessionCard = ({
     sessionDate.setHours(hours, minutes, 0, 0);
 
     const sessionStart = sessionDate.getTime();
-    const sessionEnd = sessionStart + 60 * 60 * 1000;
+    const sessionEnd = sessionStart + 5 * 60 * 1000;
 
     return {
       ongoing: currentTime >= sessionStart && currentTime < sessionEnd,
@@ -87,7 +96,34 @@ export const SessionCard = ({
 
   const canRate = completed && sessionListType === "created";
 
-  const handleRate = (sessionId: string) => {};
+  const handleSessionFeedback = async (sessionId: string) => {
+    setLoading(true);
+    const token = await getToken();
+
+    const res = await fetch("/api/feedback", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        sessionId,
+        selectedSessionRating,
+        selectedTutorRating,
+        feedback,
+      }),
+    });
+
+    if (!res.ok) {
+      toast.error("Session rating failed!");
+    }
+
+    toast.success("Session rating done successfully!");
+    setSelectedSessionRating("");
+    setSelectedTutorRating("");
+    setFeedback("");
+    setLoading(false);
+  };
 
   return (
     <div className="flex flex-col gap-3">
@@ -131,82 +167,104 @@ export const SessionCard = ({
               : SESSION_STATUS_MN_MAP[session.status]}
           </span>
 
-          {canRate && (
-            <Dialog>
-              <DialogTrigger>
-                <Button className="text-sm text-orange-400 hover:text-orange-300 animate-pulse bg-transparent hover:bg-transparent cursor-pointer">
-                  Үнэлгээ
-                </Button>
-              </DialogTrigger>
+          {/* {canRate && ( */}
+          <Dialog>
+            <DialogTrigger>
+              <Button className="text-sm text-orange-400 hover:text-orange-300 animate-pulse bg-transparent hover:bg-transparent cursor-pointer">
+                Үнэлгээ
+              </Button>
+            </DialogTrigger>
 
-              <DialogContent className="p-8 gap-5 border-0 rounded-2xl">
-                <DialogHeader>
-                  <DialogTitle className="flex justify-around items-center">
-                    <Label className="text-lg">
-                      {session.sessionTopicTitle}
-                    </Label>
-                    <div className="flex gap-2 text-sm ">
-                      {session.value} {session.time}
-                    </div>
-                  </DialogTitle>
-                  <DialogDescription aria-hidden />
-                </DialogHeader>
-
-                <div className="flex flex-col gap-5 text-gray-500">
-                  <div className="flex gap-20 items-center">
-                    <Label className="text-base">Давтлага үнэлэх: </Label>
-                    <div className="flex gap-10 justify-center text-black">
-                      <Button className="bg-transparent hover:bg-transparent text-black cursor-pointer">
-                        <PiHeartStraightBreakFill />
-                      </Button>
-                      <Button className="bg-transparent hover:bg-transparent text-black cursor-pointer">
-                        <RiPokerHeartsFill />
-                      </Button>
-                      <Button className="bg-transparent hover:bg-transparent text-black cursor-pointer">
-                        <BsHearts />
-                      </Button>
-                    </div>
+            <DialogContent className="p-8 gap-5 border-0 rounded-2xl">
+              <DialogHeader>
+                <DialogTitle className="flex justify-around items-center">
+                  <Label className="text-lg">{session.sessionTopicTitle}</Label>
+                  <div className="flex gap-2 text-sm ">
+                    {session.value} {session.time}
                   </div>
+                </DialogTitle>
+                <DialogDescription aria-hidden />
+              </DialogHeader>
 
-                  <div className=" flex gap-20 items-center">
-                    <Label className="text-base">Ментор үнэлэх: </Label>
-                    <div className="flex gap-10 justify-center ml-2">
-                      <Button className="bg-transparent hover:bg-transparent text-black cursor-pointer">
-                        <PiHeartStraightBreakFill />
-                      </Button>
-                      <Button className="bg-transparent hover:bg-transparent text-black cursor-pointer">
-                        <RiPokerHeartsFill />
-                      </Button>
-                      <Button className="bg-transparent hover:bg-transparent text-black cursor-pointer">
-                        <BsHearts />
-                      </Button>
-                    </div>
-                  </div>
-
-                  <div className=" flex flex-col gap-1">
-                    <Label className="text-base">Сэтгэгдэл үлдээх: </Label>
-                    <Textarea />
+              <div className="flex flex-col gap-5 text-gray-500">
+                <div className="flex gap-20 items-center">
+                  <Label className="text-base">Давтлага үнэлэх: </Label>
+                  <div>
+                    <RadioGroup
+                      value={selectedSessionRating}
+                      onValueChange={(value) => setSelectedSessionRating(value)}
+                      className="flex justify-around"
+                    >
+                      <div className="flex items-center gap-3">
+                        <RadioGroupItem value="normal" id="r1" />
+                        <Label htmlFor="r1">💙</Label>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <RadioGroupItem value="good" id="r2" />
+                        <Label htmlFor="r2">🩷</Label>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <RadioGroupItem value="excellent" id="r3" />
+                        <Label htmlFor="r3">💖</Label>
+                      </div>
+                    </RadioGroup>
                   </div>
                 </div>
 
-                <DialogFooter className="sm:justify-end">
-                  <DialogClose asChild>
-                    <Button variant="secondary" className="cursor-pointer">
-                      Хаах
-                    </Button>
-                  </DialogClose>
+                <div className=" flex gap-20 items-center">
+                  <Label className="text-base">Ментор үнэлэх: </Label>
+                  <div>
+                    <RadioGroup
+                      value={selectedTutorRating}
+                      onValueChange={(value) => setSelectedTutorRating(value)}
+                      className="flex justify-around"
+                    >
+                      <div className="flex items-center gap-3">
+                        <RadioGroupItem value="normal" id="r1" />
+                        <Label htmlFor="r1">💙</Label>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <RadioGroupItem value="good" id="r2" />
+                        <Label htmlFor="r2">🩷</Label>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <RadioGroupItem value="excellent" id="r3" />
+                        <Label htmlFor="r3">💖</Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
+                </div>
 
-                  <Button
-                    onClick={() => handleRate(session._id)}
-                    className="cursor-pointer"
-                  >
-                    Үнэлгээ өгөх
+                <div className=" flex flex-col gap-1">
+                  <Label className="text-base">Сэтгэгдэл үлдээх: </Label>
+                  <Textarea
+                    value={feedback}
+                    onChange={(e) => setFeedback(e.target.value)}
+                    placeholder="Энд сэтгэгдлээ бичнэ үү...
+                    "
+                  />
+                </div>
+              </div>
+
+              <DialogFooter className="sm:justify-end">
+                <DialogClose asChild>
+                  <Button variant="secondary" className="cursor-pointer">
+                    Хаах
                   </Button>
-                </DialogFooter>
-              </DialogContent>
-              <DialogClose />
-            </Dialog>
-          )}
+                </DialogClose>
+
+                <Button
+                  disabled={loading}
+                  onClick={() => handleSessionFeedback(session._id)}
+                  className="cursor-pointer"
+                >
+                  Үнэлгээ өгөх
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+            <DialogClose />
+          </Dialog>
+          {/* )} */}
 
           {(sessionListType === "created" || sessionListType === "joined") && (
             <p className="text-sm font-medium text-white/80 hover:text-white cursor-pointer">
