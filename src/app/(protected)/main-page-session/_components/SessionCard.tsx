@@ -13,9 +13,6 @@ import {
   SESSION_STATUS_MN_MAP,
   SESSION_TYPE_MN_MAP,
 } from "@/lib/constants/sessionLabels";
-
-import { toast } from "sonner";
-import { useAuth } from "@clerk/nextjs";
 import { useSessionExpired } from "@/app/_hooks/use-session-expired";
 
 export const SessionCard = ({
@@ -77,13 +74,7 @@ export const SessionCard = ({
     : { ongoing: false, completed: false };
 
   const canRate = completed && sessionListType === "created";
-  console.log("date:", session.value);
-  console.log("time:", session.time);
-  console.log(
-    "sessionDateTime:",
-    new Date(`${session.value}T${session.time}00`)
-  );
-  console.log("now:", new Date());
+
   return (
     <div className="flex flex-col gap-3">
       <div className="w-full rounded-2xl px-6 py-4 bg-linear-to-b from-[#1E2648]/90 to-[#122136]/20 flex gap-3 justify-between items-center">
@@ -98,13 +89,11 @@ export const SessionCard = ({
               {session.sessionTopicTitle}
             </p>
 
-            {/* {!completed && ( */}
             <p className="flex gap-1 text-xs text-gray-400 text-start animate-pulse">
               <span>{formatToMonthDay(session.value)}</span>
               <span>{session.time}</span>
               <span>@{session.room}</span>
             </p>
-            {/* )} */}
           </div>
         </Button>
 
@@ -135,25 +124,21 @@ export const SessionCard = ({
 
           {(sessionListType === "created" || sessionListType === "joined") && (
             <p className="text-sm font-medium text-white/80 hover:text-white cursor-pointer">
-              {!ongoing && (
-                <span>
-                  {session.studentCount?.length}/{session.maxMember}
-                </span>
-              )}
+              <span>
+                {session.studentCount?.length}/{session.maxMember}
+              </span>
             </p>
           )}
 
-          {
-            <p
-              className={`text-sm cursor-pointer ${
-                session.selectedSessionType === "TUTOR-LED"
-                  ? "text-purple-300 hover:text-purple-200"
-                  : "text-purple-500 hover:text-purple-400"
-              }`}
-            >
-              {SESSION_TYPE_MN_MAP[session.selectedSessionType]}
-            </p>
-          }
+          <p
+            className={`text-sm cursor-pointer ${
+              session.selectedSessionType === "TUTOR-LED"
+                ? "text-purple-300 hover:text-purple-200"
+                : "text-purple-500 hover:text-purple-400"
+            }`}
+          >
+            {SESSION_TYPE_MN_MAP[session.selectedSessionType]}
+          </p>
 
           {session.selectedSessionType === "TUTOR-LED" && (
             <span className="text-sm">
