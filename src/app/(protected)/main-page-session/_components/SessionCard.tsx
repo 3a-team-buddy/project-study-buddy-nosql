@@ -13,7 +13,7 @@ import {
   SESSION_STATUS_MN_MAP,
   SESSION_TYPE_MN_MAP,
 } from "@/lib/constants/sessionLabels";
-import { useSessionExpired } from "@/app/_hooks/use-session-expired";
+import { useSessionDuetime } from "@/app/_hooks/use-session-duetime";
 
 export const SessionCard = ({
   session,
@@ -24,7 +24,8 @@ export const SessionCard = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [joinedStudents, setJoinedStudents] = useState<JoinedStudentType[]>([]);
-  const { isExpired } = useSessionExpired(session.value, session.time);
+  const { isDuetime } = useSessionDuetime(session.value, session.time);
+  console.log({ isDuetime });
 
   const handleSessionCardDetail = async () => {
     setOpen((prev) => !prev);
@@ -146,10 +147,11 @@ export const SessionCard = ({
             </span>
           )}
 
-          {sessionListType === "other" && (
-            <JoinBtn session={session} isExpired={isExpired} />
+          {!isDuetime && sessionListType === "other" && (
+            <JoinBtn session={session} />
           )}
-          <InviteBtnDialog session={session} isExpired={isExpired} />
+
+          {!isDuetime && <InviteBtnDialog session={session} />}
         </div>
       </div>
 
@@ -158,7 +160,6 @@ export const SessionCard = ({
           session={session}
           sessionListType={sessionListType}
           joinedStudents={joinedStudents}
-          isExpired={isExpired}
         />
       )}
     </div>

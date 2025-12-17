@@ -6,7 +6,7 @@ const TutorAcceptedPage = () => {
       <Main
         title="Thank You!"
         description="You have accepted the request to tutor."
-        footerText="We've notified the students 🎄"
+        footerText="All joined students have been notified 🎄"
       />
     </div>
   );

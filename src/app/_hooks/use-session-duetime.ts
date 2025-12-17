@@ -1,12 +1,12 @@
 "use client";
 
-import { isSessionExpired } from "@/lib/session-time-expired";
+import { isSessionDuetime } from "@/lib/session-duetime";
 import { useEffect, useState } from "react";
 
-export const useSessionExpired = (
+export const useSessionDuetime = (
   date: string,
   time: string,
-  intervalMs: number = 60000
+  intervalMs: number = 60_000
 ) => {
   const [now, setNow] = useState(new Date());
 
@@ -18,5 +18,5 @@ export const useSessionExpired = (
     return () => clearInterval(interval);
   }, [intervalMs]);
 
-  return { isExpired: isSessionExpired(date, time, now), now };
+  return { isDuetime: isSessionDuetime(date, time, now), now };
 };

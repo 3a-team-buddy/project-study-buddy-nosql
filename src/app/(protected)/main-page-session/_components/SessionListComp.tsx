@@ -29,7 +29,7 @@ export const SessionListComp = () => {
     },
 
     {
-      title: "Үүсгэсэн давтлагууд",
+      title: "Миний үүсгэсэн давтлагууд",
       type: "created",
       sessions: createdSessions,
     },

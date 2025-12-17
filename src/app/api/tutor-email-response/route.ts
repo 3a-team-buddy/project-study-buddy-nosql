@@ -35,6 +35,13 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  if (!tutor.tutorId) {
+    return NextResponse.json(
+      { message: "Tutor user not found!" },
+      { status: 500 }
+    );
+  }
+
   if (tutor.invitationStatus === "ACCEPTED") {
     return NextResponse.redirect(
       `${process.env.NEXT_PUBLIC_BASE_URL}/tutor/accepted`

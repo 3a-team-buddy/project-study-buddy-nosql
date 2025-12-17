@@ -1,6 +1,5 @@
 import { transporter } from "../mailer";
 import { SelectedTutor } from "../models/SelectedTutor";
-import { Session } from "../models/Session";
 import { CreateSessionType } from "../types";
 
 export async function sendNextTutorInviteEmail(
@@ -47,6 +46,7 @@ export async function sendNextTutorInviteEmail(
     <strong>Study Content:</strong> ${updatedSession.description}<br/>
     📅 <strong>Date:</strong> ${updatedSession.value}<br/>
     ⏰ <strong>Starts At:</strong> ${updatedSession.time}<br/>
+    🚪 <strong>Class#:</strong> ${updatedSession.room}<br/>
     👥 <strong>Joined Students:</strong> ${updatedSession.studentCount?.length}+<br/>
     🎁 <strong>Reward:</strong> ${updatedSession.selectedReward}<br/>
     </p>

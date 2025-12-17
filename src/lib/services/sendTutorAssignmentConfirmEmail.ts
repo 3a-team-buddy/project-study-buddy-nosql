@@ -1,13 +1,19 @@
+import { error } from "console";
 import { transporter } from "../mailer";
-import { CreateSessionType, SelectedTutorType } from "../types";
+import { CreateSessionType, SelectedTutorPopulatedType } from "../types";
 
 export async function sendTutorAssignmentConfirmEmail(
   updatedSession: CreateSessionType,
-  tutor: SelectedTutorType
+  tutor: SelectedTutorPopulatedType
 ) {
+  if (!tutor?.tutorId?.mockUserEmail) {
+    console.error("Tutor email missing", error);
+    return;
+  }
+
   await transporter.sendMail({
     from: "Study Buddy <oyunmyagmar.g@gmail.com>",
-    to: tutor.mockUserEmail,
+    to: tutor.tutorId.mockUserEmail,
     subject: "Tutor Assignment Confirmation",
     html: `
           <div style="padding: 20px; line-height: 1.6; color: #333;">

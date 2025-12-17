@@ -10,3 +10,4 @@ export * from "./skeleton";
 export * from "./separator";
 export * from "./slider";
 export * from "./tabs";
+export * from "./tooltip";

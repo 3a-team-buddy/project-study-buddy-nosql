@@ -7,7 +7,6 @@ import { sendNextTutorInviteEmail } from "@/lib/services/sendNextTutorInviteEmai
 import { sendJoinedStudentsNotifySelfEmail } from "@/lib/services/sendJoinedStudentsNotifySelfEmail";
 import { checkAuth } from "../../check-create-user/route";
 import { Session } from "@/lib/models/Session";
-import { isSessionExpired } from "@/lib/session-time-expired";
 
 export async function POST(
   request: NextRequest,
@@ -56,11 +55,7 @@ export async function POST(
     const updatedCount = updatedSession.studentCount.length;
     const minMem = updatedSession.minMember;
 
-    if (
-      updatedCount === minMem
-      //  &&
-      // !isSessionExpired(updatedSession.value, updatedSession.time)
-    ) {
+    if (updatedCount === minMem) {
       const type = updatedSession.selectedSessionType?.toLowerCase();
 
       if (type === "tutor-led") {

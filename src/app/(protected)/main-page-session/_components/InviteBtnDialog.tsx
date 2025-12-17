@@ -1,35 +1,40 @@
 "use client";
 
 import React, { useState } from "react";
-import { Dialog, DialogTrigger, Button } from "@/components/ui";
+import {
+  Dialog,
+  DialogTrigger,
+  Button,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui";
 import { BsLink } from "react-icons/bs";
 import { InviteBtnDialogContent } from "@/app/(protected)/main-page-session/_components";
 import { CreateSessionType } from "@/lib/types";
+import { FaRegShareFromSquare } from "react-icons/fa6";
 
-export function InviteBtnDialog({
-  session,
-  isExpired,
-}: {
-  session: CreateSessionType;
-  isExpired: boolean;
-}) {
+export function InviteBtnDialog({ session }: { session: CreateSessionType }) {
   const [openInvite, setOpenInvite] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   return (
     <Dialog open={openInvite} onOpenChange={setOpenInvite}>
       <DialogTrigger asChild>
-        <Button
-          disabled={
-            isExpired || session.studentCount?.length === session.maxMember
-          }
-          className={`rounded-full bg-[#2563EB17] hover:bg-[#2563EB33] gap-1 cursor-pointer font-bold text-[#1d4ed8] hover:text-[#2563EB] ${
-            isExpired ? "hidden" : "inline-flex"
-          }`}
-        >
-          <BsLink />
-          <p>Урих</p>
-        </Button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              disabled={session.studentCount?.length === session.maxMember}
+              className={`rounded-full bg-[#2563EB17] hover:bg-[#2563EB33] gap-1 cursor-pointer font-bold text-[#1d4ed8] hover:text-[#2563EB]
+              }`}
+            >
+              <FaRegShareFromSquare />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Урих Холбоос</p>
+          </TooltipContent>
+        </Tooltip>
       </DialogTrigger>
 
       <InviteBtnDialogContent

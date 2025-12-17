@@ -6,13 +6,7 @@ import { CreateSessionType } from "@/lib/types";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/nextjs";
 
-export const JoinBtn = ({
-  session,
-  isExpired,
-}: {
-  session: CreateSessionType;
-  isExpired: boolean;
-}) => {
+export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
   const { getToken } = useAuth();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -40,29 +34,22 @@ export const JoinBtn = ({
       setIsLoading(false);
     }
   };
-  console.log({ isExpired });
 
   return (
-    <div>
-      {isExpired && (
-        <Button
-          disabled={
-            session.studentCount?.length === session.maxMember || isLoading
-          }
-          onClick={() => {
-            joinedStudentHandler(session._id);
-          }}
-          className="rounded-full bg-[#2563EB] hover:bg-[#1d4ed8] gap-1 cursor-pointer text-white/80 hover:text-white disabled:cursor-not-allowed disabled:bg-white/40"
-        >
-          <BsFillPeopleFill />
+    <Button
+      disabled={session.studentCount?.length === session.maxMember || isLoading}
+      onClick={() => {
+        joinedStudentHandler(session._id);
+      }}
+      className="rounded-full bg-[#2563EB] hover:bg-[#1d4ed8] gap-1 cursor-pointer text-white/80 hover:text-white disabled:cursor-not-allowed disabled:bg-white/40"
+    >
+      <BsFillPeopleFill />
 
-          <p className="flex gap-1">
-            {session.studentCount?.length}
-            <span>/{session.maxMember}</span>
-            <span>Нэгдэх</span>
-          </p>
-        </Button>
-      )}
-    </div>
+      <p className="flex gap-1">
+        {session.studentCount?.length}
+        <span>/{session.maxMember}</span>
+        <span>Нэгдэх</span>
+      </p>
+    </Button>
   );
 };
