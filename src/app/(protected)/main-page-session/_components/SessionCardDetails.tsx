@@ -17,10 +17,12 @@ export const SessionCardDetails = ({
   session,
   sessionListType,
   joinedStudents,
+  isExpired,
 }: {
   session: CreateSessionType;
   sessionListType: "created" | "joined" | "other" | undefined;
   joinedStudents: JoinedStudentType[];
+  isExpired: boolean;
 }) => {
   return (
     <div className="flex flex-col gap-10 px-10 py-5 bg-linear-to-b from-[#1E2648]/50 to-[#122136]/50 rounded-2xl">
@@ -48,7 +50,7 @@ export const SessionCardDetails = ({
       ) : sessionListType === "joined" ? (
         <SessionLeaveBtn session={session} />
       ) : (
-        <JoinBtn session={session} />
+        <JoinBtn session={session} isExpired={isExpired} />
       )}
     </div>
   );

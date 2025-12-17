@@ -138,7 +138,7 @@ export const SessionCard = ({
               : SESSION_STATUS_MN_MAP[session.status]}
           </span>
 
-          {!canRate && <SessionRatingDialog session={session} />}
+          {canRate && <SessionRatingDialog session={session} />}
           {!completed &&
             (sessionListType === "created" || sessionListType === "joined") && (
               <p className="text-sm font-medium text-white/80 hover:text-white cursor-pointer">
@@ -177,6 +177,7 @@ export const SessionCard = ({
           session={session}
           sessionListType={sessionListType}
           joinedStudents={joinedStudents}
+          isExpired={isExpired}
         />
       )}
     </div>
