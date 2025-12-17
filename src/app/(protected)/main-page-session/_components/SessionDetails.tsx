@@ -25,7 +25,7 @@ export const SessionDetails = ({ session }: { session: CreateSessionType }) => {
           <span className="font-semibold text-purple-300 hover:text-purple-200">
             {session.time}
           </span>
-          <span className="text-xs">Үргэлжлэх хугацаа (1 hour)</span>
+          <span className="text-xs">Үргэлжлэх хугацаа (1 цаг)</span>
         </p>
         <p className="flex items-center gap-2">
           <FaDoorOpen /> Анги:

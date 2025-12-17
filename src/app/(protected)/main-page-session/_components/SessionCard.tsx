@@ -73,7 +73,8 @@ export const SessionCard = ({
     ? getSessionStatusFlags(session.value, session.time)
     : { ongoing: false, completed: false };
 
-  const canRate = completed && sessionListType === "created";
+  const canRate =
+    completed && sessionListType === "created" && !session.isRated;
 
   return (
     <div className="flex flex-col gap-3">

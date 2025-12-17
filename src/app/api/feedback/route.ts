@@ -1,7 +1,9 @@
+import Ably from "ably";
 import { createRating } from "@/lib/services/create-rating";
 import { NextRequest, NextResponse } from "next/server";
 import { checkAuth } from "../check-create-user/route";
 import { MockUser } from "@/lib/models/MockUser";
+import { Session } from "@/lib/models/Session";
 
 export async function POST(request: NextRequest) {
   const result = await checkAuth();
@@ -27,7 +29,7 @@ export async function POST(request: NextRequest) {
   if (!sessionId || !selectedSessionRating || !selectedTutorRating) {
     return NextResponse.json(
       { message: "All fields are required!" },
-      { status: 401 }
+      { status: 400 }
     );
   }
 
@@ -45,6 +47,11 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
+
+  await Session.findByIdAndUpdate(sessionId, { isRated: true });
+
+  const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
+  await ably.channels.get("sessions").publish("session-rated", { sessionId });
 
   return NextResponse.json({ message: "Rating saved successfully!" });
 }

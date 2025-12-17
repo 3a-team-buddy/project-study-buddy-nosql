@@ -30,7 +30,7 @@ export const SessionRatingDialog = ({
   const [selectedTutorRating, setSelectedTutorRating] = useState<string>("");
   const [feedback, setFeedback] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-
+  const [open, setOpen] = useState<boolean>(false);
   const { getToken } = useAuth();
 
   const handleSessionFeedback = async (sessionId: string) => {
@@ -56,15 +56,16 @@ export const SessionRatingDialog = ({
       setLoading(false);
     }
 
-    toast.success("Үнэлгээ өгсөнд баярлалаа!");
+    toast.success("Үнэлгээ өгсөнд баярлалаа! Түүхэнд хадгалагдсан");
     setSelectedSessionRating("");
     setSelectedTutorRating("");
     setFeedback("");
     setLoading(false);
+    setOpen(false);
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <Button className="text-sm text-orange-400 hover:text-orange-300 animate-pulse bg-transparent hover:bg-transparent cursor-pointer">
           Үнэлгээ

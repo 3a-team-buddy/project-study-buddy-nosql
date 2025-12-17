@@ -18,4 +18,3 @@ export * from "./SessionDetails";
 export * from "./ParticipantsList";
 export * from "./ParticipantsSkeleton";
 export * from "./InviteBtnDialogContent";
-export * from "./SessionSection";

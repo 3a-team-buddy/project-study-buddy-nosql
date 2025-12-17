@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { Dashboard, Header } from "../_components-main-page";
+import { Header } from "../_components-main-page";
 import { useUser, useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/ui/spinner";

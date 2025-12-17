@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { Button } from "@/components/ui";
 import { UserButton } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { Panda } from "lucide-react";
