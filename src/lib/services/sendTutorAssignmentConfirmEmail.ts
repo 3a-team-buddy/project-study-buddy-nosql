@@ -27,7 +27,10 @@ export async function sendTutorAssignmentConfirmEmail(
     
           <p>
           You have <strong>accepted</strong> to tutor study session
-          <strong>"${updatedSession.sessionTopicTitle}"</strong> scheduled on <strong>${updatedSession.value}</strong> at <strong>${updatedSession.time}.</strong><br/>
+          <strong>"${updatedSession.sessionTopicTitle}"</strong> scheduled
+           on <strong>${updatedSession.value}</strong>
+            at <strong>${updatedSession.time}</strong>
+             in <strong>class#${updatedSession.room}</strong>.<br/>
           All joined students have been notified.
           </p>
     
