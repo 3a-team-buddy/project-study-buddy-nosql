@@ -143,12 +143,10 @@ export default function Component() {
       <div className="absolute top-8/20 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center z-10">
         <p className="mb-8 opacity-70">Together - Learn - Leap</p>
         <h1 className="text-6xl font-bold mb-8 max-w-4xl mx-auto">
-          Study-Buddy Project
+          Study-Buddy Төсөл
         </h1>
         <div className="flex gap-2 justify-center">
-          <h2 className="text-xl mb-10 text-center">
-            Create a study sessions with your academy buddies
-          </h2>
+          <h2 className="text-xl mb-10 text-center">Хамтдаа Суралцъя Хөгжье</h2>
         </div>
 
         <button

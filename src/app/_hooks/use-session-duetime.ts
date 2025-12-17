@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 export const useSessionDuetime = (
   date: string,
   time: string,
-  intervalMs: number = 60_000
+  intervalMs: number = 60000
 ) => {
   const [now, setNow] = useState(new Date());
 

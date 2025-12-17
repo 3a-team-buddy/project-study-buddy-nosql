@@ -25,7 +25,6 @@ export const SessionCard = ({
   const [open, setOpen] = useState(false);
   const [joinedStudents, setJoinedStudents] = useState<JoinedStudentType[]>([]);
   const { isDuetime } = useSessionDuetime(session.value, session.time);
-  console.log({ isDuetime });
 
   const handleSessionCardDetail = async () => {
     setOpen((prev) => !prev);

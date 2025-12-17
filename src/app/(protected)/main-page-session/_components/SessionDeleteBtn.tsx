@@ -44,7 +44,7 @@ export const SessionDeleteBtn = ({
       className="w-1/2 rounded-full cursor-pointer"
       onClick={() => deleteSession(session._id)}
     >
-      Delete Session
+      Устгах
     </Button>
   );
 };

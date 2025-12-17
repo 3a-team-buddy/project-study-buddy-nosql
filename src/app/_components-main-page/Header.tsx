@@ -18,18 +18,7 @@ export const Header = () => {
             className="flex gap-2 items-center cursor-pointer"
           >
             <Panda size={32} className="text-white" />
-            <p className="text-white">Buddy-Buddy Team</p>
-          </div>
-
-          <div className="flex gap-2">
-            <Button
-              onClick={() => router.push("/card-chunks")}
-              size={"lg"}
-              variant={"ghost"}
-              className="bg-transparent px-4 cursor-pointer hover:bg-transparent text-transparent hover:text-white-transparent border-0"
-            >
-              Study Buddy
-            </Button>
+            <p className="text-white">Buddy-Buddy Баг</p>
           </div>
         </div>
         <div className="flex items-center gap-4">

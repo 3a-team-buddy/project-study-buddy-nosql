@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 
-import { Button } from "@/components/ui";
-import { BsFillPeopleFill } from "react-icons/bs";
+import {
+  Button,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui";
 import { CreateSessionType } from "@/lib/types";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/nextjs";
+import { FaPeoplePulling } from "react-icons/fa6";
+import { MdGroupAdd } from "react-icons/md";
 
 export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
   const { getToken } = useAuth();
@@ -27,7 +33,7 @@ export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
         toast.error("Failed to join!");
       }
 
-      toast.success("Joined successfully!");
+      toast.success("Амжилттай нэгдлээ!");
     } catch (error) {
       console.error("error", error);
     } finally {
@@ -36,20 +42,27 @@ export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
   };
 
   return (
-    <Button
-      disabled={session.studentCount?.length === session.maxMember || isLoading}
-      onClick={() => {
-        joinedStudentHandler(session._id);
-      }}
-      className="rounded-full bg-[#2563EB] hover:bg-[#1d4ed8] gap-1 cursor-pointer text-white/80 hover:text-white disabled:cursor-not-allowed disabled:bg-white/40"
-    >
-      <BsFillPeopleFill />
-
-      <p className="flex gap-1">
-        {session.studentCount?.length}
-        <span>/{session.maxMember}</span>
-        <span>Нэгдэх</span>
-      </p>
-    </Button>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          disabled={
+            session.studentCount?.length === session.maxMember || isLoading
+          }
+          onClick={() => {
+            joinedStudentHandler(session._id);
+          }}
+          className="rounded-full bg-[#2563EB] hover:bg-[#1d4ed8] gap-1 cursor-pointer text-white/80 hover:text-white disabled:cursor-not-allowed disabled:bg-white/40"
+        >
+          <MdGroupAdd />
+          <p className="flex gap-1">
+            {session.studentCount?.length}
+            <span>/{session.maxMember}</span>
+          </p>
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>Нэгдэх</p>
+      </TooltipContent>
+    </Tooltip>
   );
 };
