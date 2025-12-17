@@ -40,27 +40,29 @@ export const JoinBtn = ({
       setIsLoading(false);
     }
   };
+  console.log({ isExpired });
 
   return (
-    <Button
-      disabled={
-        session.studentCount?.length === session.maxMember ||
-        isLoading ||
-        isExpired
-      }
-      onClick={() => {
-        joinedStudentHandler(session._id);
-      }}
-      className="rounded-full bg-[#2563EB] hover:bg-[#1d4ed8] gap-1 cursor-pointer text-white/80 hover:text-white disabled:cursor-not-allowed disabled:bg-white/40"
-    >
-      <BsFillPeopleFill />
-      {!isExpired && (
-        <p className="flex gap-1">
-          {session.studentCount?.length}
-          <span>/{session.maxMember}</span>
-          <span>Нэгдэх</span>
-        </p>
+    <div>
+      {isExpired && (
+        <Button
+          disabled={
+            session.studentCount?.length === session.maxMember || isLoading
+          }
+          onClick={() => {
+            joinedStudentHandler(session._id);
+          }}
+          className="rounded-full bg-[#2563EB] hover:bg-[#1d4ed8] gap-1 cursor-pointer text-white/80 hover:text-white disabled:cursor-not-allowed disabled:bg-white/40"
+        >
+          <BsFillPeopleFill />
+
+          <p className="flex gap-1">
+            {session.studentCount?.length}
+            <span>/{session.maxMember}</span>
+            <span>Нэгдэх</span>
+          </p>
+        </Button>
       )}
-    </Button>
+    </div>
   );
 };

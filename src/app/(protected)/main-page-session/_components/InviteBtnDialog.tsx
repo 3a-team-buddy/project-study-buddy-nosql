@@ -23,10 +23,12 @@ export function InviteBtnDialog({
           disabled={
             isExpired || session.studentCount?.length === session.maxMember
           }
-          className="rounded-full bg-[#2563EB17] hover:bg-[#2563EB33] gap-1 cursor-pointer font-bold text-[#1d4ed8] hover:text-[#2563EB]"
+          className={`rounded-full bg-[#2563EB17] hover:bg-[#2563EB33] gap-1 cursor-pointer font-bold text-[#1d4ed8] hover:text-[#2563EB] ${
+            isExpired ? "hidden" : "inline-flex"
+          }`}
         >
           <BsLink />
-          {!isExpired && <p>Урих</p>}
+          <p>Урих</p>
         </Button>
       </DialogTrigger>
 

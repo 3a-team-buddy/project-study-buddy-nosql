@@ -28,6 +28,7 @@ export async function sendJoinedStudentsNotifySelfEmail(
           <p>Session: <strong>${updatedSession.sessionTopicTitle}</strong></p>
           <p>Date: <strong>${updatedSession.value}</strong></p>
           <p>Time: <strong>${updatedSession.time}</strong></p>
+          <p>Room: <strong>${updatedSession.room}</strong></p>
           <p>Your joined session is confirmed.</p>
         `,
       })

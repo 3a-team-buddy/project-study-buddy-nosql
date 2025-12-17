@@ -39,6 +39,7 @@ export type CreateSessionType = {
   status: StatusKey;
   assignedTutor?: MockUserType;
   selectedReward: string;
+  isRated: boolean;
   createdAt?: string;
   updatedAt?: string;
 };

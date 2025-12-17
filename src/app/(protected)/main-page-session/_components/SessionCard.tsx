@@ -16,6 +16,7 @@ import {
 
 import { toast } from "sonner";
 import { useAuth } from "@clerk/nextjs";
+import { useSessionExpired } from "@/app/_hooks/use-session-expired";
 
 export const SessionCard = ({
   session,
@@ -26,21 +27,7 @@ export const SessionCard = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [joinedStudents, setJoinedStudents] = useState<JoinedStudentType[]>([]);
-
-  //
-  const date = session.value;
-  const time = session.time;
-  const sessionDateTime = new Date(`${date} ${time}`);
-  const [now, setNow] = useState(new Date());
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setNow(new Date());
-    }, 60000);
-    return () => clearInterval(interval);
-  }, []);
-  const isExpired = now > sessionDateTime;
-  //
+  const { isExpired } = useSessionExpired(session.value, session.time);
 
   const handleSessionCardDetail = async () => {
     setOpen((prev) => !prev);
@@ -90,7 +77,13 @@ export const SessionCard = ({
     : { ongoing: false, completed: false };
 
   const canRate = completed && sessionListType === "created";
-
+  console.log("date:", session.value);
+  console.log("time:", session.time);
+  console.log(
+    "sessionDateTime:",
+    new Date(`${session.value}T${session.time}00`)
+  );
+  console.log("now:", new Date());
   return (
     <div className="flex flex-col gap-3">
       <div className="w-full rounded-2xl px-6 py-4 bg-linear-to-b from-[#1E2648]/90 to-[#122136]/20 flex gap-3 justify-between items-center">
@@ -105,13 +98,13 @@ export const SessionCard = ({
               {session.sessionTopicTitle}
             </p>
 
-            {!completed && (
-              <p className="flex gap-1 text-xs text-gray-400 text-start animate-pulse">
-                <span>{formatToMonthDay(session.value)}</span>
-                <span>{session.time}</span>
-                <span>@{session.room}</span>
-              </p>
-            )}
+            {/* {!completed && ( */}
+            <p className="flex gap-1 text-xs text-gray-400 text-start animate-pulse">
+              <span>{formatToMonthDay(session.value)}</span>
+              <span>{session.time}</span>
+              <span>@{session.room}</span>
+            </p>
+            {/* )} */}
           </div>
         </Button>
 
@@ -139,17 +132,18 @@ export const SessionCard = ({
           </span>
 
           {canRate && <SessionRatingDialog session={session} />}
-          {!completed &&
-            (sessionListType === "created" || sessionListType === "joined") && (
-              <p className="text-sm font-medium text-white/80 hover:text-white cursor-pointer">
-                {!ongoing && (
-                  <span>
-                    {session.studentCount?.length}/{session.maxMember}
-                  </span>
-                )}
-              </p>
-            )}
-          {!completed && (
+
+          {(sessionListType === "created" || sessionListType === "joined") && (
+            <p className="text-sm font-medium text-white/80 hover:text-white cursor-pointer">
+              {!ongoing && (
+                <span>
+                  {session.studentCount?.length}/{session.maxMember}
+                </span>
+              )}
+            </p>
+          )}
+
+          {
             <p
               className={`text-sm cursor-pointer ${
                 session.selectedSessionType === "TUTOR-LED"
@@ -159,12 +153,14 @@ export const SessionCard = ({
             >
               {SESSION_TYPE_MN_MAP[session.selectedSessionType]}
             </p>
-          )}
-          {!completed && session.selectedSessionType === "TUTOR-LED" && (
+          }
+
+          {session.selectedSessionType === "TUTOR-LED" && (
             <span className="text-sm">
               {session.assignedTutor?.mockUserName?.split(" ")[0]}
             </span>
           )}
+
           {sessionListType === "other" && (
             <JoinBtn session={session} isExpired={isExpired} />
           )}

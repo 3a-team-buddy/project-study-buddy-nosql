@@ -7,6 +7,7 @@ import { sendNextTutorInviteEmail } from "@/lib/services/sendNextTutorInviteEmai
 import { sendJoinedStudentsNotifySelfEmail } from "@/lib/services/sendJoinedStudentsNotifySelfEmail";
 import { checkAuth } from "../../check-create-user/route";
 import { Session } from "@/lib/models/Session";
+import { isSessionExpired } from "@/lib/session-time-expired";
 
 export async function POST(
   request: NextRequest,
@@ -19,6 +20,7 @@ export async function POST(
     if (!result) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
+
     const { userClerkId } = result;
     const user = await MockUser.findOne(
       {
@@ -54,7 +56,11 @@ export async function POST(
     const updatedCount = updatedSession.studentCount.length;
     const minMem = updatedSession.minMember;
 
-    if (updatedCount === minMem) {
+    if (
+      updatedCount === minMem
+      //  &&
+      // !isSessionExpired(updatedSession.value, updatedSession.time)
+    ) {
       const type = updatedSession.selectedSessionType?.toLowerCase();
 
       if (type === "tutor-led") {
@@ -79,14 +85,14 @@ export async function POST(
     });
 
     return NextResponse.json(
-      { updatedSession, message: "Joined successfully" },
+      { message: "Joined successfully" },
       { status: 200 }
     );
   } catch (error) {
     console.error("Error while joining the session!", error);
     return NextResponse.json(
       {
-        message: "Unable to join session due to a server error!",
+        message: "Unable to join session due to server error!",
         error,
       },
       { status: 500 }
