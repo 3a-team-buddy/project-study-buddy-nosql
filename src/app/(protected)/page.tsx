@@ -141,7 +141,7 @@ export default function Component() {
       className={`relative w-full m-auto h-screen bg-linear-to-b from-[#1E2648]/20 to-[#122136]/70 text-white overflow-hidden ${manrope.className}`}
     >
       <div className="absolute top-8/20 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center z-10">
-        <p className="mb-8 opacity-70">Together - Learn - Leap</p>
+        <p className="mb-8 opacity-70">Хамтдаа - Суралцъя - Хөгжье</p>
         <h1 className="text-6xl font-bold mb-8 max-w-4xl mx-auto">
           Study-Buddy Төсөл
         </h1>
