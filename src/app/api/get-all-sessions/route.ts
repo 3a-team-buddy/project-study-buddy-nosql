@@ -30,17 +30,24 @@ export async function GET() {
 
     const createdSessions = await Session.find({ creatorId: userId })
       .populate("assignedTutor", "mockUserName")
-      .lean();
+      .populate("ratings")
+      .lean({ virtuals: true });
 
     const joinedSessions = await Session.find({
       studentCount: userId.toString(),
       creatorId: { $ne: userId },
-    }).populate("assignedTutor", "mockUserName");
+    })
+      .populate("assignedTutor", "mockUserName")
+      .populate("ratings")
+      .lean({ virtuals: true });
 
     const otherSessions = await Session.find({
       creatorId: { $ne: userId },
       studentCount: { $nin: [userId.toString()] },
-    }).populate("assignedTutor", "mockUserName");
+    })
+      .populate("assignedTutor", "mockUserName")
+      .populate("ratings")
+      .lean({ virtuals: true });
 
     const allSessions = await getAllSessions();
 

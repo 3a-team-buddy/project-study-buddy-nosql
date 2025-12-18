@@ -111,7 +111,9 @@ const SessionPage = () => {
                 .map((session) => (
                   <div key={session._id}>
                     <div className="text-white">
-                      {session.sessionTopicTitle}
+                      <p>{session.sessionTopicTitle}</p>
+
+                      <p>{session.assignedTutor?.mockUserName}</p>
                     </div>
                   </div>
                 ))}

@@ -31,7 +31,7 @@ const RatingSchema = new Schema(
   { timestamps: true, versionKey: false }
 );
 
-RatingSchema.index({ sessionId: 1, userId: 1 }, { unique: true });
+RatingSchema.index({ sessionId: 1, creatorId: 1 }, { unique: true });
 
 export const Rating =
   mongoose.models.Rating ||

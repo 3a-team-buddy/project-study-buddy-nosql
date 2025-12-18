@@ -70,6 +70,13 @@ const SessionSchema = new Schema(
   }
 );
 
+SessionSchema.virtual("rating", {
+  ref: "Rating",
+  localField: "_id",
+  foreignField: "sessionId",
+  justOne: true,
+});
+
 export const Session =
   mongoose.models.Session ||
   mongoose.model<SessionSchemaType>("Session", SessionSchema);

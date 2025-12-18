@@ -5,7 +5,11 @@ import mongoose from "mongoose";
 export const getAllSessions = async () => {
   await connectDB();
 
-  return await Session.find().sort({ createdAt: -1 });
+  return await Session.find()
+    .populate("assignedTutor", "mockUserName")
+    .populate("ratings")
+    .sort({ createdAt: -1 })
+    .lean({ virtuals: true });
 };
 
 export const createNewSession = async (
