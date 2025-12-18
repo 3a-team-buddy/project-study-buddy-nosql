@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui";
 import { Textarea } from "@/components/ui";
 import {
@@ -13,9 +13,11 @@ import { Label } from "@/components/ui/label";
 import { CreateSessionType, SelectedTutorType } from "@/lib/types";
 import { MemberLimitSelector } from "./MemberLimitSelector";
 import { useSession } from "@/app/_hooks/use-session";
-import { Tutor } from "./Tutor";
 import { EditSaveChangesBtn } from "./EditSaveChangesBtn";
 import { DateRoomTimePicker } from "./DateRoomTimePicker";
+import { SessionTypeSelector } from "./SessionTypeSelector";
+import { toast } from "sonner";
+
 export function SessionEditBtn({ session }: { session: CreateSessionType }) {
   const [sessionTopicTitle, setSessionTopicTitle] = useState(
     session.sessionTopicTitle
@@ -25,19 +27,48 @@ export function SessionEditBtn({ session }: { session: CreateSessionType }) {
   const [maxMember, setMaxMember] = useState(session.maxMember);
   const [date, setDate] = useState<Date | undefined>();
   const [value, setValue] = useState<string>(session.value);
-  const [room, setRoom] = useState<string>("");
+  const [room, setRoom] = useState<string>(`${session.room}`);
   const [time, setTime] = useState<string>(session.time);
   const [selectedSessionType, setSelectedSessionType] = useState<string>(
     session.selectedSessionType
   );
+
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
+  useEffect(() => {
+    getAllSelectedSessionType();
+  }, []);
+  const sessionId = session._id;
+  const getAllSelectedSessionType = async () => {
+    const result = await fetch("/api/get-tutor", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sessionId: sessionId,
+      }),
+    });
+
+    if (!result.ok) {
+      toast.error("Failed !");
+    }
+
+    const text = await result.text();
+
+    if (!text) {
+      toast.error("Empty response from server");
+      return;
+    }
+
+    const { data } = JSON.parse(text);
+
+    setSelectedTutors(data);
+  };
 
   const { allSessions } = useSession();
 
   return (
     <div>
       <form>
-        <DialogContent className="w-fit h-fit text-white bg-[#09121f]">
+        <DialogContent className="w-[600px] h-fit text-white bg-[#09121f]">
           <DialogHeader>
             <DialogTitle>Edit My Session</DialogTitle>
           </DialogHeader>
@@ -61,14 +92,15 @@ export function SessionEditBtn({ session }: { session: CreateSessionType }) {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 mt-10">
+            <div className=" mt-10 mb-10">
               <MemberLimitSelector
                 minMember={minMember}
                 setMinMember={setMinMember}
                 maxMember={maxMember}
                 setMaxMember={setMaxMember}
               />
-
+            </div>
+            <div className="flex flex-col gap-10 mb-10">
               <DateRoomTimePicker
                 value={value}
                 setValue={setValue}
@@ -80,19 +112,22 @@ export function SessionEditBtn({ session }: { session: CreateSessionType }) {
                 setDate={setDate}
                 allSessions={allSessions}
               />
+              <SessionTypeSelector
+                selectedSessionType={selectedSessionType}
+                setSelectedSessionType={setSelectedSessionType}
+                selectedTutors={selectedTutors}
+                setSelectedTutors={setSelectedTutors}
+              />
             </div>
-
-            <Tutor
-              selectedSessionType={selectedSessionType}
-              setSelectedSessionType={setSelectedSessionType}
-              selectedTutors={selectedTutors}
-              setSelectedTutors={setSelectedTutors}
-            />
           </div>
 
           <DialogFooter>
             <DialogClose asChild className="w-[421px] gap-3">
-              <Button className="text-black w-1/2" variant="outline">
+              <Button
+                onClick={getAllSelectedSessionType}
+                className="text-black w-1/2"
+                variant="outline"
+              >
                 Cancel
               </Button>
             </DialogClose>
@@ -100,21 +135,14 @@ export function SessionEditBtn({ session }: { session: CreateSessionType }) {
             <EditSaveChangesBtn
               session={session}
               sessionTopicTitle={sessionTopicTitle}
-              setSessionTopicTitle={setSessionTopicTitle}
               description={description}
-              setDescription={setDescription}
               minMember={minMember}
-              setMinMember={setMinMember}
               maxMember={maxMember}
-              setMaxMember={setMaxMember}
+              room={room}
               value={value}
-              setValue={setValue}
               time={time}
-              setTime={setTime}
               selectedSessionType={selectedSessionType}
-              setSelectedSessionType={setSelectedSessionType}
               selectedTutors={selectedTutors}
-              setSelectedTutors={setSelectedTutors}
             />
           </DialogFooter>
         </DialogContent>
