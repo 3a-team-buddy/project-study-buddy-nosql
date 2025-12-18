@@ -13,7 +13,27 @@ import {
 } from "@/components/ui";
 import { CreateSessionType } from "@/lib/types";
 
-const schedules = ["13:00", "14:00", "15:00", "16:00", "17:00"];
+const schedules = [
+  "18:20",
+  "18:25",
+  "18:30",
+  "18:35",
+  "18:40",
+  "18:45",
+  "18:50",
+  "18:55",
+  "19:00",
+  "19:05",
+  "19:10",
+  "19:15",
+  "19:20",
+  "19:25",
+  "13:00",
+  "14:00",
+  "15:00",
+  "16:00",
+  "17:00",
+];
 const rooms = ["301", "302", "303", "304", "305"];
 
 export const DateRoomTimePicker = ({
