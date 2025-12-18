@@ -96,11 +96,12 @@ export const SessionCard = ({
               {session.sessionTopicTitle}
             </p>
 
-            <p className="flex gap-1 text-xs text-gray-400 text-start">
+            <p className="flex gap-1 text-xs text-gray-600 text-start">
               <span>{formatToMonthDay(session.value)}</span>
               <span>{session.time}</span>
-              <span>@{session.room}</span>
-              <span className={`${isToday ? "animate-pulse" : ""}`}>
+              <span
+                className={`text-gray-400 ${isToday ? "animate-pulse" : ""}`}
+              >
                 {label}
               </span>
             </p>

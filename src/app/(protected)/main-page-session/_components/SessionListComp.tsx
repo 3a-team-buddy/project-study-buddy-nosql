@@ -3,6 +3,7 @@
 import React from "react";
 import { useSession } from "@/app/_hooks/use-session";
 import {
+  FilteredSessionCard,
   SessionCard,
   SessionListSkeleton,
 } from "@/app/(protected)/main-page-session/_components";
@@ -49,7 +50,7 @@ export const SessionListComp = () => {
             ) : sessionList.sessions?.length ? (
               <div className="flex flex-col gap-3">
                 {sessionList.sessions?.map((session) => (
-                  <SessionCard
+                  <FilteredSessionCard
                     key={session._id}
                     session={session}
                     sessionListType={sessionList.type}
