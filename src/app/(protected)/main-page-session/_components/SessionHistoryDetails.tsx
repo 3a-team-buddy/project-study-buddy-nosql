@@ -45,9 +45,8 @@ const SessionHistoryDetails = ({
               const isOpen = openSessionReview === session._id;
 
               return (
-                <div className="flex flex-col">
+                <div className="flex flex-col" key={session._id}>
                   <Button
-                    key={session._id}
                     onClick={() => handleReviewDetail(session._id)}
                     className="justify-start cursor-pointer flex-1  items-start bg-linear-to-b from-[#171d36] to-[#0f1927]"
                   >
