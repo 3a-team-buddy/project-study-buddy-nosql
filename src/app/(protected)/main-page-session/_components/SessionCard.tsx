@@ -96,11 +96,12 @@ export const SessionCard = ({
               {session.sessionTopicTitle}
             </p>
 
-            <p className="flex gap-1 text-xs text-gray-400 text-start">
+            <p className="flex gap-1 text-xs text-gray-600 text-start">
               <span>{formatToMonthDay(session.value)}</span>
               <span>{session.time}</span>
-              <span>@{session.room}</span>
-              <span className={`${isToday ? "animate-pulse" : ""}`}>
+              <span
+                className={`text-gray-400 ${isToday ? "animate-pulse" : ""}`}
+              >
                 {label}
               </span>
             </p>
@@ -129,8 +130,7 @@ export const SessionCard = ({
               ? "Дууссан"
               : SESSION_STATUS_MN_MAP[session.status]}
           </span>
-
-          {canRate && <SessionRatingDialog session={session} />}
+          {canRate ? <SessionRatingDialog session={session} /> : ""}
 
           {(sessionListType === "created" || sessionListType === "joined") && (
             <p className="text-sm font-medium text-white/80 hover:text-white cursor-pointer">
@@ -158,7 +158,6 @@ export const SessionCard = ({
           {!isDuetime && sessionListType === "other" && (
             <JoinBtn session={session} />
           )}
-
           {!isDuetime && <InviteBtnDialog session={session} />}
         </div>
       </div>

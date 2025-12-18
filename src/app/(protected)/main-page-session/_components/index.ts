@@ -19,3 +19,4 @@ export * from "./ParticipantsList";
 export * from "./ParticipantsSkeleton";
 export * from "./InviteBtnDialogContent";
 export * from "./SessionHistoryDetails";
+export * from "./FilteredSessionCard";

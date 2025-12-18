@@ -53,7 +53,7 @@ export const JoinBtn = ({ session }: { session: CreateSessionType }) => {
           }}
           className="rounded-full bg-[#2563EB] hover:bg-[#1d4ed8] gap-1 cursor-pointer text-white/80 hover:text-white disabled:cursor-not-allowed disabled:bg-white/40"
         >
-          <MdGroupAdd />
+          <MdGroupAdd size={24} />
           <p className="flex gap-1">
             {session.studentCount?.length}
             <span>/{session.maxMember}</span>

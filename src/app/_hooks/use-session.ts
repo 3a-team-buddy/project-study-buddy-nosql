@@ -233,18 +233,11 @@ export const useSession = () => {
           );
 
         return {
+          ...prev,
+          createdSessions: update(prev.createdSessions),
+          joinedSessions: update(prev.joinedSessions),
+          otherSessions: update(prev.otherSessions),
           allSessions: update(prev.allSessions),
-
-          createdSessions: update(prev.createdSessions).filter(
-            (s) => !(s.status === "COMPLETED" && s.isRated)
-          ),
-          joinedSessions: update(prev.joinedSessions).filter(
-            (s) => !(s.status === "COMPLETED" && s.isRated)
-          ),
-          otherSessions: update(prev.otherSessions).filter(
-            (s) => !(s.status === "COMPLETED" && s.isRated)
-          ),
-          userId: null,
         };
       });
     };
