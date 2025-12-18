@@ -46,7 +46,7 @@ const SessionPage = () => {
         <Tabs defaultValue="Давтлага" className="w-full h-full">
           <TabsList>
             <TabsTrigger value="Давтлага" className="cursor-pointer">
-              Давтлага товлох
+              Давтлага үүсгэх
             </TabsTrigger>
             <TabsTrigger value="Түүх" className="cursor-pointer">
               Түүх харах

@@ -107,7 +107,7 @@ export const SessionTypeSelector = ({
             className="bg-white rounded-full cursor-pointer"
           />
           <Label htmlFor="self-led" className="text-white/70">
-            Бие даан
+            Бие даах
           </Label>
         </div>
       </RadioGroup>
@@ -171,7 +171,7 @@ export const SessionTypeSelector = ({
 
       {selectedSessionType === "tutor-led" && (
         <div className="flex flex-col gap-5 mt-4">
-          <Label className="text-base">Урамшуулал сонгоно уу</Label>
+          <Label className="text-base">Урамшуулал сонгох</Label>
 
           <RadioGroup
             className="flex justify-around text-white/80"

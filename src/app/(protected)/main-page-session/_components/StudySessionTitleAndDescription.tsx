@@ -44,7 +44,7 @@ export const StudySessionTitleAndDescription = ({
           list="mock-topic-suggestions"
           value={sessionTopicTitle}
           onChange={handleSessionTopicTitleChange}
-          placeholder="Давтах сэдвээ оруулна уу..."
+          placeholder="Cэдвээ оруулна уу..."
           className="border-border/20 bg-black/50 hover:bg-black"
         />
 
