@@ -10,8 +10,7 @@ export async function POST(req: NextRequest) {
     );
   }
   const data = await getAllSelectedTutors(sessionId);
-  console.log({ sessionId });
-  console.log({ data });
+
   if (!data) {
     return NextResponse.json(
       { message: "Failed to get selected tutors!" },

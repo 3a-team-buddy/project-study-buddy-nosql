@@ -17,7 +17,7 @@ import { EditSaveChangesBtn } from "./EditSaveChangesBtn";
 import { DateRoomTimePicker } from "./DateRoomTimePicker";
 import { SessionTypeSelector } from "./SessionTypeSelector";
 import { toast } from "sonner";
-import { SessionTypeSelectorEditBtn } from "./SessionTypeSelectorEditBtn";
+
 export function SessionEditBtn({ session }: { session: CreateSessionType }) {
   const [sessionTopicTitle, setSessionTopicTitle] = useState(
     session.sessionTopicTitle
@@ -32,7 +32,7 @@ export function SessionEditBtn({ session }: { session: CreateSessionType }) {
   const [selectedSessionType, setSelectedSessionType] = useState<string>(
     session.selectedSessionType
   );
-  console.log({ selectedSessionType });
+
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
   useEffect(() => {
     getAllSelectedSessionType();
@@ -64,7 +64,7 @@ export function SessionEditBtn({ session }: { session: CreateSessionType }) {
   };
 
   const { allSessions } = useSession();
-  console.log({ session });
+
   return (
     <div>
       <form>
@@ -112,7 +112,7 @@ export function SessionEditBtn({ session }: { session: CreateSessionType }) {
                 setDate={setDate}
                 allSessions={allSessions}
               />
-              <SessionTypeSelectorEditBtn
+              <SessionTypeSelector
                 selectedSessionType={selectedSessionType}
                 setSelectedSessionType={setSelectedSessionType}
                 selectedTutors={selectedTutors}

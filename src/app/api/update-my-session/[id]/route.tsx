@@ -89,8 +89,6 @@ export async function PUT(
       { new: true }
     );
 
-    console.log({ updatedSession });
-
     const createdSessionId = updatedSession._id;
     const createdSessionType = updatedSession.selectedSessionType;
 
