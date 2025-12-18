@@ -143,17 +143,19 @@ export default function Component() {
       <div className="absolute top-8/20 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center z-10">
         <p className="mb-8 opacity-70">Хамтдаа - Суралцъя - Хөгжье</p>
         <h1 className="text-6xl font-bold mb-8 max-w-4xl mx-auto">
-          Study-Buddy Төсөл
+          Хамтдаа Давтъя
         </h1>
         <div className="flex gap-2 justify-center">
-          <h2 className="text-xl mb-10 text-center">Хамтдаа Суралцъя Хөгжье</h2>
+          <h2 className="text-2xl mb-10 text-center opacity-60">
+            Давтлага зохион байгуулж, хамтдаа суралцан хөгжих платформ
+          </h2>
         </div>
 
         <button
           onClick={() => router.push("/main-page-session")}
-          className="bg-white text-black font-bold py-3 px-6 rounded-md hover:bg-gray-200 transition duration-300 cursor-pointer"
+          className="bg-white text-black font-bold py-3 px-12 rounded-md hover:bg-gray-200 transition duration-300 cursor-pointer"
         >
-          Study Buddy
+          Эхлэх
         </button>
       </div>
 
