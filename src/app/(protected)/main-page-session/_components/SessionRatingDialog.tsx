@@ -71,7 +71,7 @@ export const SessionRatingDialog = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="text-sm text-orange-400 hover:text-orange-300 animate-pulse bg-transparent hover:bg-transparent cursor-pointer">
+        <Button className="text-sm px-0 text-orange-400 hover:text-orange-300 animate-pulse bg-transparent hover:bg-transparent cursor-pointer">
           <Tooltip>
             <TooltipTrigger asChild>
               <div className="flex gap-0.5">
@@ -88,71 +88,75 @@ export const SessionRatingDialog = ({
 
       <DialogContent className="p-8 gap-5 border-0 rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="flex justify-around items-center">
-            <Label className="text-lg">{session.sessionTopicTitle}</Label>
-            <div className="flex gap-2 text-sm ">
-              {session.value} {session.time}
-            </div>
+          <DialogTitle className="flex justify-around items-end">
+            <Label className="text-lg">
+              {session.sessionTopicTitle}
+              <p className="text-sm">
+                /{session.value}
+                <span>{session.time}/</span>
+              </p>
+            </Label>
           </DialogTitle>
           <DialogDescription aria-hidden />
         </DialogHeader>
 
-        <div className="flex flex-col gap-5 text-gray-500">
+        <div className="flex flex-col gap-5">
           <div className="flex gap-20 items-center">
-            <Label className="text-base">Давтлага үнэлэх: </Label>
+            <Label className="text-black/70">Давтлага үнэлэх:</Label>
+
             <div>
               <RadioGroup
                 value={selectedSessionRating}
                 onValueChange={(value) => setSelectedSessionRating(value)}
                 className="flex justify-around"
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1">
                   <RadioGroupItem value="normal" id="r1" />
                   <Label htmlFor="r1">💙</Label>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1">
                   <RadioGroupItem value="good" id="r2" />
                   <Label htmlFor="r2">🩷</Label>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1">
                   <RadioGroupItem value="excellent" id="r3" />
-                  <Label htmlFor="r3">💖</Label>
+                  <Label htmlFor="r3">💖💖</Label>
                 </div>
               </RadioGroup>
             </div>
           </div>
 
-          <div className=" flex gap-20 items-center">
-            <Label className="text-base">Ментор үнэлэх: </Label>
+          <div className="flex gap-22 items-center">
+            <Label className="text-black/70">Ментор үнэлэх:</Label>
             <div>
               <RadioGroup
                 value={selectedTutorRating}
                 onValueChange={(value) => setSelectedTutorRating(value)}
                 className="flex justify-around"
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1">
                   <RadioGroupItem value="normal" id="r1" />
                   <Label htmlFor="r1">💙</Label>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1">
                   <RadioGroupItem value="good" id="r2" />
                   <Label htmlFor="r2">🩷</Label>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1">
                   <RadioGroupItem value="excellent" id="r3" />
-                  <Label htmlFor="r3">💖</Label>
+                  <Label htmlFor="r3">💖💖</Label>
                 </div>
               </RadioGroup>
             </div>
           </div>
 
-          <div className=" flex flex-col gap-1">
-            <Label className="text-base">Сэтгэгдэл үлдээх: </Label>
+          <div className="flex flex-col gap-1">
+            <Label className="text-black/70">Сэтгэгдэл үлдээх:</Label>
             <Textarea
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
-              placeholder="Энд сэтгэгдлээ бичнэ үү...
-                    "
+              placeholder="Энд сэтгэгдлээ бичнэ үү..."
+              className="text-xs text-black/70 placeholder:text-xs placeholder-text-black/70"
             />
           </div>
         </div>

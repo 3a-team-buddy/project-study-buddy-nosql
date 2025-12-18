@@ -130,8 +130,7 @@ export const SessionCard = ({
               ? "Дууссан"
               : SESSION_STATUS_MN_MAP[session.status]}
           </span>
-
-          {canRate && <SessionRatingDialog session={session} />}
+          {canRate ? <SessionRatingDialog session={session} /> : ""}
 
           {(sessionListType === "created" || sessionListType === "joined") && (
             <p className="text-sm font-medium text-white/80 hover:text-white cursor-pointer">
@@ -159,7 +158,6 @@ export const SessionCard = ({
           {!isDuetime && sessionListType === "other" && (
             <JoinBtn session={session} />
           )}
-
           {!isDuetime && <InviteBtnDialog session={session} />}
         </div>
       </div>

@@ -117,6 +117,7 @@ const SessionPage = () => {
                 ?.filter((s) => s.isRated && s.status === "COMPLETED")
                 .map((session) => (
                   <Button
+                    key={session._id}
                     onClick={() => setOpen(!open)}
                     className="justify-start cursor-pointer"
                   >
