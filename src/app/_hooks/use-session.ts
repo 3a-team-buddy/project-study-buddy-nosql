@@ -221,16 +221,34 @@ export const useSession = () => {
       }));
     };
 
+    const handleRated = (message: Ably.Message) => {
+      if (message.name !== "session-rated") return;
+
+      const { sessionId, status, isRated } = message.data;
+
+      setSessions((prev) => ({
+        ...prev,
+        createdSessions: prev.createdSessions.filter(
+          (s) => s._id !== sessionId
+        ),
+        allSessions: prev.allSessions.map((s) =>
+          s._id === sessionId ? { ...s, status, isRated } : s
+        ),
+      }));
+    };
+
     channel.subscribe("session-created", handleCreated);
     channel.subscribe("session-joined", handleJoined);
     channel.subscribe("student-removed", handleRemoved);
     channel.subscribe("session-deleted", handleDeleted);
+    channel.subscribe("session-rated", handleRated);
 
     return () => {
       channel.unsubscribe("session-created", handleCreated);
       channel.unsubscribe("session-joined", handleJoined);
       channel.unsubscribe("student-removed", handleRemoved);
       channel.unsubscribe("session-deleted", handleDeleted);
+      channel.unsubscribe("session-rated", handleRated);
     };
   }, []);
 

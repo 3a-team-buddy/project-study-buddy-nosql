@@ -48,10 +48,19 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  await Session.findByIdAndUpdate(sessionId, { isRated: true });
+  await Session.findByIdAndUpdate(sessionId, {
+    isRated: true,
+    status: "COMPLETED",
+  });
 
   const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
-  await ably.channels.get("sessions").publish("session-rated", { sessionId });
+  await ably.channels
+    .get("sessions")
+    .publish("session-rated", {
+      sessionId,
+      status: "COMPLETED",
+      isRated: true,
+    });
 
   return NextResponse.json({ message: "Rating saved successfully!" });
 }

@@ -15,10 +15,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
 } from "@/components/ui";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/nextjs";
 import { CreateSessionType } from "@/lib/types";
+import { ThumbsDown, ThumbsUp } from "lucide-react";
 
 export const SessionRatingDialog = ({
   session,
@@ -66,9 +70,19 @@ export const SessionRatingDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button className="text-sm text-orange-400 hover:text-orange-300 animate-pulse bg-transparent hover:bg-transparent cursor-pointer">
-          Үнэлгээ
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="flex gap-0.5">
+                <ThumbsUp />
+                <ThumbsDown />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Үнэлгээ өгөх</p>
+            </TooltipContent>
+          </Tooltip>
         </Button>
       </DialogTrigger>
 

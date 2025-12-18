@@ -21,20 +21,20 @@ export function InviteBtnDialog({ session }: { session: CreateSessionType }) {
   return (
     <Dialog open={openInvite} onOpenChange={setOpenInvite}>
       <DialogTrigger asChild>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              disabled={session.studentCount?.length === session.maxMember}
-              className={`rounded-full bg-[#2563EB17] hover:bg-[#2563EB33] gap-1 cursor-pointer font-bold text-[#1d4ed8] hover:text-[#2563EB]
+        <Button
+          disabled={session.studentCount?.length === session.maxMember}
+          className={`rounded-full bg-[#2563EB17] hover:bg-[#2563EB33] gap-1 cursor-pointer font-bold text-[#1d4ed8] hover:text-[#2563EB]
               }`}
-            >
+        >
+          <Tooltip>
+            <TooltipTrigger asChild>
               <FaRegShareFromSquare />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Урих Холбоос</p>
-          </TooltipContent>
-        </Tooltip>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Урих Холбоос</p>
+            </TooltipContent>
+          </Tooltip>
+        </Button>
       </DialogTrigger>
 
       <InviteBtnDialogContent

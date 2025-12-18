@@ -106,9 +106,13 @@ const SessionPage = () => {
           </TabsContent>
           <TabsContent value="Түүх">
             <div className="max-w-[480px] w-full h-fit flex flex-col gap-10 rounded-2xl px-8 py-6 bg-linear-to-b from-[#1E2648]/50 to-[#122136]/50 backdrop-blur-3xl border border-white/10 shadow-2xl sticky top-36">
-              {Array.from({ length: 4 }).map((_, i) => (
-                <div key={i}>Change your password here.</div>
-              ))}
+              {allSessions
+                .filter((s) => s.isRated && s.status === "COMPLETED")
+                .map((session) => (
+                  <div>
+                    <div>{session.isRated}</div>
+                  </div>
+                ))}
             </div>
           </TabsContent>
         </Tabs>
