@@ -1,17 +1,23 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CreateSessionType, JoinedStudentType } from "@/lib/types";
-import { Button } from "@/components/ui";
+import {
+  Button,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui";
 import {
   InviteBtnDialog,
   JoinBtn,
   SessionCardDetails,
+  SessionRatingDialog,
 } from "@/app/(protected)/main-page-session/_components";
-import {
-  SESSION_STATUS_MN_MAP,
-  SESSION_TYPE_MN_MAP,
-} from "@/lib/constants/sessionLabels";
+import { SESSION_STATUS_MN_MAP } from "@/lib/constants/sessionLabels";
+import { useSessionDuetime } from "@/app/_hooks/use-session-duetime";
+import { TutorIcon } from "@/app/_components-main-page/icons/TutorIcon";
+import { SelfIcon } from "@/app/_components-main-page/icons/SelfIcon";
 
 export const SessionCard = ({
   session,
@@ -20,11 +26,12 @@ export const SessionCard = ({
   session: CreateSessionType;
   sessionListType: "created" | "joined" | "other";
 }) => {
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
   const [joinedStudents, setJoinedStudents] = useState<JoinedStudentType[]>([]);
+  const { isDuetime } = useSessionDuetime(session.value, session.time);
 
   const handleSessionCardDetail = async () => {
-    setOpen(!open);
+    setOpen((prev) => !prev);
 
     const result = await fetch("/api/get-joined-students", {
       method: "POST",
@@ -43,27 +50,66 @@ export const SessionCard = ({
     });
   }
 
+  const [currentTime, setCurrentTime] = useState(Date.now());
+
+  useEffect(() => {
+    const interval = setInterval(() => setCurrentTime(Date.now()), 60_000);
+    return () => clearInterval(interval);
+  }, []);
+
+  function getSessionStatusFlags(date: string, time: string) {
+    const sessionDate = new Date(date);
+    const [hours, minutes] = time.split(":").map(Number);
+    sessionDate.setHours(hours, minutes, 0, 0);
+
+    const sessionStart = sessionDate.getTime();
+    const sessionEnd = sessionStart + 60 * 60 * 1000;
+
+    return {
+      ongoing: currentTime >= sessionStart && currentTime < sessionEnd,
+      completed: currentTime >= sessionEnd,
+    };
+  }
+
+  const isAccepted = session.status === "ACCEPTED";
+
+  const { ongoing, completed } = isAccepted
+    ? getSessionStatusFlags(session.value, session.time)
+    : { ongoing: false, completed: false };
+
+  const canRate =
+    completed && sessionListType === "created" && !session.isRated;
+
   return (
     <div className="flex flex-col gap-3">
-      <div className="w-full rounded-2xl px-6 py-4 bg-linear-to-b from-[#1E2648]/90 to-[#122136]/20 flex gap-3 justify-between items-center relative ">
+      <div className="w-full rounded-2xl px-6 py-4 bg-linear-to-b from-[#1E2648]/90 to-[#122136]/20 flex gap-3 justify-between items-center">
         <Button
+          asChild
           onClick={handleSessionCardDetail}
-          variant={"ghost"}
+          variant="ghost"
           className="text-base leading-5 hover:bg-white/4 text-white/80 hover:text-white rounded-full flex-1 justify-start cursor-pointer"
         >
           <div className="flex justify-between items-center gap-5">
-            {session.sessionTopicTitle}
-            <div className="flex gap-1 text-xs text-gray-400 text-start animate-pulse">
-              {formatToMonthDay(session.value)}
-              <div>{session.time}</div>
-            </div>
+            <p className="bg-[#2563EB] hover:bg-[#1d4ed8] px-3 py-2 rounded-full text-xl">
+              {session.sessionTopicTitle}
+            </p>
+
+            <p className="flex gap-1 text-xs text-gray-400 text-start animate-pulse">
+              <span>{formatToMonthDay(session.value)}</span>
+              <span>{session.time}</span>
+              <span>@{session.room}</span>
+            </p>
           </div>
         </Button>
 
         <div className="flex gap-4 items-center">
           <span
             className={`text-sm font-medium cursor-pointer ${
-              session.status === "WAITING"
+              ongoing
+                ? "text-blue-400 hover:text-blue-300"
+                : completed
+                ? "text-orange-400 hover:text-orange-300"
+                : session.status === "WAITING"
                 ? "text-amber-200 hover:text-amber-100"
                 : session.status === "ACCEPTED"
                 ? "text-green-400 hover:text-green-300"
@@ -72,28 +118,52 @@ export const SessionCard = ({
                 : ""
             }`}
           >
-            {SESSION_STATUS_MN_MAP[session.status]}
+            {ongoing
+              ? "Үргэлжилж буй"
+              : completed
+              ? "Дууссан"
+              : SESSION_STATUS_MN_MAP[session.status]}
           </span>
+
+          {canRate && <SessionRatingDialog session={session} />}
 
           {(sessionListType === "created" || sessionListType === "joined") && (
             <p className="text-sm font-medium text-white/80 hover:text-white cursor-pointer">
-              {session.studentCount?.length}/{session.maxMember}
+              <span>
+                {session.studentCount?.length}/{session.maxMember}
+              </span>
             </p>
           )}
 
-          <p
-            className={`text-sm cursor-pointer ${
-              session.selectedSessionType === "TUTOR-LED"
-                ? "text-purple-300 hover:text-purple-200"
-                : "text-purple-500 hover:text-purple-400"
-            }`}
-          >
-            {SESSION_TYPE_MN_MAP[session.selectedSessionType]}
-          </p>
-          {sessionListType === "other" ? <JoinBtn session={session} /> : ""}
-          <InviteBtnDialog session={session} />
+          <Tooltip>
+            <TooltipTrigger asChild>
+              {session.selectedSessionType === "TUTOR-LED" ? (
+                <TutorIcon className="w-5 h-5 text-purple-300 hover:text-purple-200" />
+              ) : (
+                <SelfIcon className="w-5 h-5 text-purple-500 hover:text-purple-400" />
+              )}
+            </TooltipTrigger>
+            <TooltipContent>
+              {session.selectedSessionType === "TUTOR-LED"
+                ? "Ментортой"
+                : "Бие даасан"}
+            </TooltipContent>
+          </Tooltip>
+
+          {session.selectedSessionType === "TUTOR-LED" && (
+            <span className="text-sm">
+              {session.assignedTutor?.mockUserName?.split(" ")[0]}
+            </span>
+          )}
+
+          {!isDuetime && sessionListType === "other" && (
+            <JoinBtn session={session} />
+          )}
+
+          {!isDuetime && <InviteBtnDialog session={session} />}
         </div>
       </div>
+
       {open && (
         <SessionCardDetails
           session={session}

@@ -50,6 +50,7 @@ export async function sendJoinedStudentsTutorSessionConfirmEmail(
               <strong>Study Content:</strong> ${updatedSession.description}<br/>
               📅 <strong>Date:</strong> ${updatedSession.value}<br/>
               ⏰ <strong>Starts At:</strong> ${updatedSession.time}<br/>
+              🚪 <strong>Class#:</strong> ${updatedSession.room}<br/>
               👥 <strong>Joined Students:</strong> ${updatedSession.studentCount?.length}+<br/>
               🎓 <strong>Tutor:</strong> ${tutorName}
               </p>

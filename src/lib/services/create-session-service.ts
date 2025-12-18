@@ -17,7 +17,8 @@ export const createNewSession = async (
   room: string,
   time: string,
   selectedSessionType: string,
-  creatorId: mongoose.Types.ObjectId
+  creatorId: mongoose.Types.ObjectId,
+  selectedReward: string
 ) => {
   await connectDB();
   const newSession = new Session({
@@ -33,6 +34,8 @@ export const createNewSession = async (
     studentCount: [],
     status: "WAITING",
     assignedTutor: null,
+    selectedReward,
+    isRated: false,
   });
 
   await newSession.save();

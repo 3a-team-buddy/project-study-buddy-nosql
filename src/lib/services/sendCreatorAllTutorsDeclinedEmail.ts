@@ -25,7 +25,10 @@ export async function sendCreatorAllTutorsDeclinedEmail(
       <p>
       Unfortunately,<br/> 
       All invited tutors have <strong>declined</strong> your request for the session 
-      <strong>"${updatedSession.sessionTopicTitle}"</strong> scheduled on <strong>${updatedSession.value}</strong> at <strong>${updatedSession.time}</strong>.
+      <strong>"${updatedSession.sessionTopicTitle}"</strong> scheduled 
+      on <strong>${updatedSession.value}</strong> 
+      at <strong>${updatedSession.time}</strong> 
+      in <strong>class#${updatedSession.room}</strong>.
       </p>
 
       <div style="margin-top: 40px;">

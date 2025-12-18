@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { SessionTypeKey, StatusKey } from "../constants/sessionLabels";
 
 export type MockTopicType = {
@@ -38,6 +39,8 @@ export type CreateSessionType = {
   studentCount?: string[];
   status: StatusKey;
   assignedTutor?: MockUserType;
+  selectedReward: string;
+  isRated?: boolean;
   createdAt?: string;
   updatedAt?: string;
 };
@@ -69,31 +72,17 @@ export type SelectedStudentType = {
 };
 
 export type SessionListType = "created" | "joined" | "other";
-// export interface CreateSessionType1 {
-//   _id: string;
-//   sessionTopicTitle: string;
-//   description: string;
-//   value: string; // date
-//   time: string;
-//   selectedSessionType: string;
-//   status?: "WAITING" | "ACCEPTED" | string;
-//   studentCount?: string[];
-//   maxMember: number;
-//   assignedTutor?: {
-//     name: string;
-//     image: string;
-//   };
-// }
 
-// export interface JoinedStudentType1 {
-//   _id: string;
-//   studentId: {
-//     mockUserName: string;
-//     mockUserImage: string;
-//   };
-// }
-
-// export interface SessionCardData extends CreateSessionType {
-//   id: string;
-//   category: "Created Sessions" | "Joined Sessions" | "More Sessions";
-// }
+export type SelectedTutorPopulatedType = {
+  _id: Types.ObjectId;
+  tutorId: {
+    _id: Types.ObjectId;
+    mockUserName: string;
+    mockUserEmail: string;
+  };
+  createdSessionId: Types.ObjectId;
+  order: number;
+  invitationStatus: "WAITING" | "SENT" | "ACCEPTED" | "DECLINED";
+  createdAt: Date;
+  updatedAt: Date;
+};

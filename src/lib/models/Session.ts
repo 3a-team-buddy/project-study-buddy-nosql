@@ -11,8 +11,16 @@ type SessionSchemaType = {
   selectedSessionType: "TUTOR-LED" | "SELF-LED";
   creatorId: mongoose.Types.ObjectId;
   studentCount?: string[];
-  status: "WAITING" | "ACCEPTED" | "CANCELED" | "DELETED";
+  status:
+    | "WAITING"
+    | "ACCEPTED"
+    | "CANCELED"
+    | "DELETED"
+    | "ONGOING"
+    | "COMPLETED";
   assignedTutor?: mongoose.Types.ObjectId | null;
+  selectedReward: "COFFEE" | "CAKE" | "MONEY";
+  isRated: boolean;
 };
 
 const SessionSchema = new Schema(
@@ -33,7 +41,14 @@ const SessionSchema = new Schema(
     studentCount: { type: [String], default: [] },
     status: {
       type: String,
-      enum: ["WAITING", "ACCEPTED", "CANCELED", "DELETED"],
+      enum: [
+        "WAITING",
+        "ACCEPTED",
+        "CANCELED",
+        "DELETED",
+        "ONGOING",
+        "COMPLETED",
+      ],
       default: "WAITING",
       required: true,
     },
@@ -42,6 +57,12 @@ const SessionSchema = new Schema(
       ref: "MockUser",
       default: null,
     },
+    selectedReward: {
+      type: String,
+      enum: ["COFFEE", "CAKE", "MONEY"],
+      required: true,
+    },
+    isRated: { type: Boolean, default: false },
   },
   {
     timestamps: true,

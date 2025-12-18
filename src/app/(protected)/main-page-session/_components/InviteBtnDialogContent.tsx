@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { Dispatch, useState } from "react";
 import {
   DialogClose,
   DialogContent,
@@ -18,21 +18,26 @@ import { CreateSessionType, SelectedStudentType } from "@/lib/types";
 
 export const InviteBtnDialogContent = ({
   session,
+  setOpenInvite,
+  setLoading,
+  loading,
 }: {
   session: CreateSessionType;
+  setOpenInvite: Dispatch<React.SetStateAction<boolean>>;
+  setLoading: Dispatch<React.SetStateAction<boolean>>;
+  loading: boolean;
 }) => {
   const [emailInputValue, setEmailInputValue] = useState<string>("");
   const [selectedStudents, setSelectedStudents] = useState<
     SelectedStudentType[]
   >([]);
-  const [loading, setLoading] = useState<boolean>(false);
 
   const link = "https://project-study-buddy-nosql.vercel.app/";
 
   const handleAddStudentEmail = () => {
     if (!emailInputValue) return;
     if (!emailInputValue.includes("@")) {
-      toast.warning("Имэйл буруу байна");
+      toast.warning("Имэйл буруу байна!");
       return;
     }
 
@@ -80,6 +85,7 @@ export const InviteBtnDialogContent = ({
 
       toast.success("Урилгын холбоос амжилттай илгээгдлээ!");
       setSelectedStudents([]);
+      setOpenInvite(false);
     } catch (error) {
       console.error("Error", error);
       toast.error("Серверийн алдаа!");
@@ -89,10 +95,10 @@ export const InviteBtnDialogContent = ({
   };
 
   return (
-    <DialogContent className="px-8 py-6 gap-10 border-0 rounded-2xl">
+    <DialogContent className="p-8 gap-10 border-0 rounded-2xl">
       <DialogHeader>
         <DialogTitle>Суралцагч урих</DialogTitle>
-        <DialogDescription />
+        <DialogDescription aria-hidden />
       </DialogHeader>
 
       <div className="flex flex-col gap-2">
@@ -102,7 +108,7 @@ export const InviteBtnDialogContent = ({
             type="email"
             value={emailInputValue}
             onChange={(e) => setEmailInputValue(e.target.value)}
-            placeholder="Сурагчийн имэйл оруулна уу..."
+            placeholder="Имэйл оруулна уу..."
             className="border border-black/70"
           />
           <Button
@@ -122,7 +128,6 @@ export const InviteBtnDialogContent = ({
               <Label>{student.email}</Label>
               <Button
                 variant="ghost"
-                disabled={loading}
                 onClick={() => deleteSelectedStudent(student.email)}
                 className="cursor-pointer"
               >
@@ -146,6 +151,7 @@ export const InviteBtnDialogContent = ({
         </DialogClose>
 
         <Button
+          disabled={loading}
           onClick={() => handleSendInviteLink(session._id)}
           className="cursor-pointer"
         >

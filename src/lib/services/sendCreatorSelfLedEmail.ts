@@ -31,6 +31,7 @@ export async function sendCreatorSelfLedEmail(session: CreateSessionType) {
             <strong>Study Content:</strong> ${session.description}<br/>
             📅 <strong>Date:</strong> ${session.value}<br/>
             ⏰ <strong>Starts At:</strong> ${session.time}<br/>
+            🚪 <strong>Class#:</strong> ${session.room}<br/>
             👥 <strong>Joined Students:</strong> ${session.studentCount?.length}+
             </p>
             

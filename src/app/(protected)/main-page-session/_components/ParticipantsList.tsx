@@ -24,7 +24,7 @@ export const ParticipantsList = ({
     <div className="flex flex-col gap-3">
       <div className="flex justify-between items-center">
         <Label className="text-base text-white/80 hover:text-white font-semibold">
-          Participants
+          Гишүүд
         </Label>
         <Button
           variant={"secondary"}
@@ -53,7 +53,7 @@ export const ParticipantsList = ({
                     size={11}
                     className="text-amber-200 fill-amber-200 font-medium hover:text-amber-100"
                   />
-                  Creator
+                  Санаачлагч
                 </div>
               )}
             </div>
@@ -63,39 +63,3 @@ export const ParticipantsList = ({
     </div>
   );
 };
-
-// export const ParticipantsList = ({
-//   session,
-//   joinedStudents = [],
-// }: {
-//   session: CreateSessionType;
-//   joinedStudents?: JoinedStudentType[];
-// }) => {
-//   const { isLoading } = useSession();
-
-//   return (
-//     <div className="flex flex-col gap-3">
-//       <div className="text-sm leading-5 text-white/60 flex flex-col gap-2">
-//         {joinedStudents.map((joinedStudent, i) => (
-//           <div key={joinedStudent._id} className="flex gap-2 items-center">
-//             <img
-//               src={joinedStudent.studentId.mockUserImage}
-//               className="w-6 h-6 rounded-full bg-slate-900"
-//               alt=""
-//             />
-//             <div>{joinedStudent.studentId.mockUserName}</div>
-//             {i === 0 && (
-//               <div className="flex gap-0.5 text-xs items-center text-amber-200">
-//                 <Star
-//                   size={11}
-//                   className="text-amber-200 fill-amber-200 font-medium"
-//                 />
-//                 Creator
-//               </div>
-//             )}
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };

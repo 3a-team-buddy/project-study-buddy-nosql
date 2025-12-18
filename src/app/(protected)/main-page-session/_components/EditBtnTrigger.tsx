@@ -11,7 +11,7 @@ export const EditBtnTrigger = ({ session }: { session: CreateSessionType }) => {
             variant="outline"
             className="w-1/2 text-accent-foreground cursor-pointer rounded-full"
           >
-            Edit
+            Өөрчлөлт хийх
           </Button>
         </DialogTrigger>
         <SessionEditBtn session={session} />

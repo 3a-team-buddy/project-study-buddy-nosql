@@ -44,7 +44,7 @@ export const SessionLeaveBtn = ({
       onClick={() => leaveSession(session._id)}
       className="w-full rounded-full cursor-pointer"
     >
-      Leave Session
+      Гарах
     </Button>
   );
 };

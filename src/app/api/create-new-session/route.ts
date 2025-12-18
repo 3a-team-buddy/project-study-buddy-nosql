@@ -37,6 +37,7 @@ export async function POST(request: NextRequest) {
       time,
       selectedSessionType,
       selectedTutors,
+      selectedReward,
     } = body;
 
     if (
@@ -48,7 +49,8 @@ export async function POST(request: NextRequest) {
       !room ||
       !time ||
       !selectedSessionType ||
-      !selectedTutors
+      !selectedTutors ||
+      !selectedReward
     ) {
       return NextResponse.json(
         { message: "All fields are required!" },
@@ -59,6 +61,7 @@ export async function POST(request: NextRequest) {
     const uppercasedSessionType = selectedSessionType
       .toUpperCase()
       .replace(" ", "-");
+    const uppercasedRewardType = selectedReward.toUpperCase();
 
     const createdSession = await createNewSession(
       sessionTopicTitle,
@@ -69,7 +72,8 @@ export async function POST(request: NextRequest) {
       room,
       time,
       uppercasedSessionType,
-      creatorId
+      creatorId,
+      uppercasedRewardType
     );
 
     if (!createdSession) {

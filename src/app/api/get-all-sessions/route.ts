@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 import { MockUser } from "@/lib/models/MockUser";
 import { Session } from "@/lib/models/Session";
 import { getAllSessions } from "@/lib/services/create-session-service";
-import Ably from "ably";
 
 export async function GET() {
   try {
@@ -29,17 +28,19 @@ export async function GET() {
 
     const userId = user._id;
 
-    const createdSessions = await Session.find({ creatorId: userId }).lean();
+    const createdSessions = await Session.find({ creatorId: userId })
+      .populate("assignedTutor", "mockUserName")
+      .lean();
 
     const joinedSessions = await Session.find({
       studentCount: userId.toString(),
       creatorId: { $ne: userId },
-    });
+    }).populate("assignedTutor", "mockUserName");
 
     const otherSessions = await Session.find({
       creatorId: { $ne: userId },
       studentCount: { $nin: [userId.toString()] },
-    });
+    }).populate("assignedTutor", "mockUserName");
 
     const allSessions = await getAllSessions();
 

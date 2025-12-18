@@ -23,8 +23,10 @@ export async function sendCreatorCanceledEmail(session: CreateSessionType) {
             
             <p>
             Unfortunately, your joined session<br/> 
-            <strong>"${session.sessionTopicTitle}"</strong> scheduled on 
-            <strong>${session.value}</strong> at <strong>${session.time}</strong> has been <strong>cancelled</strong>.
+            <strong>"${session.sessionTopicTitle}"</strong> scheduled 
+            on <strong>${session.value}</strong> 
+            at <strong>${session.time}</strong> 
+            in <strong>class#${session.room}</strong> has been <strong>cancelled</strong>.
             </p>
             
             <p style="color: #555;">

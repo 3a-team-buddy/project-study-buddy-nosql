@@ -1,22 +1,47 @@
 "use client";
 
-import React from "react";
-import { Dialog, DialogTrigger, Button } from "@/components/ui";
-import { BsLink } from "react-icons/bs";
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogTrigger,
+  Button,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui";
 import { InviteBtnDialogContent } from "@/app/(protected)/main-page-session/_components";
 import { CreateSessionType } from "@/lib/types";
+import { FaRegShareFromSquare } from "react-icons/fa6";
 
 export function InviteBtnDialog({ session }: { session: CreateSessionType }) {
+  const [openInvite, setOpenInvite] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
   return (
-    <Dialog>
+    <Dialog open={openInvite} onOpenChange={setOpenInvite}>
       <DialogTrigger asChild>
-        <Button className="rounded-full bg-[#2563EB17] hover:bg-[#2563EB33] gap-1 cursor-pointer font-bold text-[#1d4ed8] hover:text-[#2563EB]">
-          <BsLink />
-          <div>Урих</div>
+        <Button
+          disabled={session.studentCount?.length === session.maxMember}
+          className={`rounded-full bg-[#2563EB17] hover:bg-[#2563EB33] gap-1 cursor-pointer font-bold text-[#1d4ed8] hover:text-[#2563EB]
+              }`}
+        >
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <FaRegShareFromSquare />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Урих Холбоос</p>
+            </TooltipContent>
+          </Tooltip>
         </Button>
       </DialogTrigger>
 
-      <InviteBtnDialogContent session={session} />
+      <InviteBtnDialogContent
+        session={session}
+        setOpenInvite={setOpenInvite}
+        setLoading={setLoading}
+        loading={loading}
+      />
     </Dialog>
   );
 }

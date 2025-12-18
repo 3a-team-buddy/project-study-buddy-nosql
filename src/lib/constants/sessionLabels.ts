@@ -3,6 +3,8 @@ export const SESSION_STATUS = [
   "ACCEPTED",
   "CANCELED",
   "DELETED",
+  "ONGOING",
+  "COMPLETED",
 ] as const;
 
 export type StatusKey = (typeof SESSION_STATUS)[number];
@@ -12,6 +14,8 @@ export const SESSION_STATUS_MN_MAP: { [key in StatusKey]: string } = {
   ACCEPTED: "Баталгаажсан",
   CANCELED: "Цуцлагдсан",
   DELETED: "Устсан",
+  ONGOING: "Үргэлжилж буй",
+  COMPLETED: "Дууссан",
 };
 
 export const SESSION_TYPE = ["TUTOR-LED", "SELF-LED"] as const;

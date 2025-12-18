@@ -14,17 +14,19 @@ import {
 import { CreateSessionType } from "@/lib/types";
 
 const schedules = [
-  "09:30",
-  "09:40",
-  "09:50",
   "10:00",
+  "10:05",
   "10:10",
+  "10:15",
   "10:20",
+  "10:25",
   "10:30",
+  "10:35",
   "10:40",
+  "10:45",
   "10:50",
-  "11:00",
-  "12:00",
+  "10:55",
+
   "13:00",
   "14:00",
   "15:00",
@@ -59,6 +61,7 @@ export const DateRoomTimePicker = ({
   const [openRoom, setOpenRoom] = useState<boolean>(false);
   const [openTime, setOpenTime] = useState<boolean>(false);
   const [month, setMonth] = useState<Date | undefined>(date);
+  const [calendarKey, setCalendarKey] = useState<number>(0);
 
   const today = new Date();
   const tomorrow = new Date();
@@ -116,8 +119,18 @@ export const DateRoomTimePicker = ({
   return (
     <div className="w-full flex justify-between">
       <div className="flex flex-col gap-3">
-        <Label htmlFor="date-picker">Он сар өдөр</Label>
-        <Popover open={openDate} onOpenChange={setOpenDate}>
+        <Label htmlFor="date-picker" className="text-base">
+          Он сар өдөр
+        </Label>
+        <Popover
+          open={openDate}
+          onOpenChange={(open) => {
+            setOpenDate(open);
+            if (open) {
+              setCalendarKey((prev) => prev + 1);
+            }
+          }}
+        >
           <PopoverTrigger asChild>
             <Button
               variant="outline"
@@ -132,6 +145,7 @@ export const DateRoomTimePicker = ({
 
           <PopoverContent className="w-auto overflow-hidden p-0 border-[#323743FF] bg-[black] text-white">
             <Calendar
+              key={calendarKey}
               className="bg-[#0F2343] cursor-pointer"
               mode="single"
               captionLayout="dropdown"
@@ -146,13 +160,13 @@ export const DateRoomTimePicker = ({
                 // (day) => day.toDateString() === tomorrow.toDateString(),
                 (day) => fullyBookedDates.includes(formatDate(day)),
               ]}
-              onSelect={(date) => {
-                if (!date) return;
-                setDate(date);
-                setValue(formatDate(date));
+              onDayClick={(day) => {
+                // if (!date) return;
+                setDate(day);
+                setValue(formatDate(day));
                 setRoom("");
                 setTime("");
-                checkWeekend(date);
+                checkWeekend(day);
                 setOpenDate(false);
               }}
             />
@@ -161,7 +175,9 @@ export const DateRoomTimePicker = ({
       </div>
 
       <div className="flex flex-col gap-3">
-        <Label htmlFor="room-picker">Анги</Label>
+        <Label htmlFor="room-picker" className="text-base">
+          Анги
+        </Label>
         <Popover open={openRoom} onOpenChange={setOpenRoom}>
           <PopoverTrigger asChild>
             <Button
@@ -200,7 +216,9 @@ export const DateRoomTimePicker = ({
       </div>
 
       <div className="flex flex-col gap-3">
-        <Label htmlFor="time-picker">Эхлэх цаг</Label>
+        <Label htmlFor="time-picker" className="text-base">
+          Эхлэх цаг
+        </Label>
         <Popover open={openTime} onOpenChange={setOpenTime}>
           <PopoverTrigger asChild>
             <Button

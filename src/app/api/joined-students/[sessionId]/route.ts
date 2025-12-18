@@ -19,6 +19,7 @@ export async function POST(
     if (!result) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
+
     const { userClerkId } = result;
     const user = await MockUser.findOne(
       {
@@ -63,7 +64,7 @@ export async function POST(
 
       if (type === "self-led") {
         await Session.findByIdAndUpdate(updatedSession._id, {
-          status: "accepted",
+          status: "ACCEPTED",
         });
         await sendJoinedStudentsNotifySelfEmail(updatedSession);
       }
@@ -79,14 +80,14 @@ export async function POST(
     });
 
     return NextResponse.json(
-      { updatedSession, message: "Joined successfully" },
+      { message: "Joined successfully" },
       { status: 200 }
     );
   } catch (error) {
     console.error("Error while joining the session!", error);
     return NextResponse.json(
       {
-        message: "Unable to join session due to a server error!",
+        message: "Unable to join session due to server error!",
         error,
       },
       { status: 500 }

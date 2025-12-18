@@ -13,6 +13,7 @@ export * from "./SessionCardDetails";
 export * from "./SessionDeleteBtn";
 export * from "./SessionEditBtn";
 export * from "./SessionLeaveBtn";
+export * from "./SessionRatingDialog";
 export * from "./SessionDetails";
 export * from "./ParticipantsList";
 export * from "./ParticipantsSkeleton";

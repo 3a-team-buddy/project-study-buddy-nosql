@@ -18,19 +18,20 @@ export const SessionListComp = () => {
     sessions: CreateSessionType[];
   }[] = [
     {
-      title: "Created Sessions",
-      type: "created",
-      sessions: createdSessions,
+      title: "Давтлагууд",
+      type: "other",
+      sessions: otherSessions,
     },
     {
-      title: "Joined Sessions",
+      title: "Миний давтлагууд",
       type: "joined",
       sessions: joinedSessions,
     },
+
     {
-      title: "More Sessions to join",
-      type: "other",
-      sessions: otherSessions,
+      title: "Миний үүсгэсэн давтлагууд",
+      type: "created",
+      sessions: createdSessions,
     },
   ];
 
@@ -58,12 +59,9 @@ export const SessionListComp = () => {
             ) : (
               <div className="rounded-2xl px-8 py-6 bg-linear-to-b from-[#1E2648]/40 to-[#122136]/40 shadow-xl">
                 <p className="text-sm opacity-70 text-center">
-                  {sessionList.type === "created" &&
-                    "You haven't created any sessions yet."}
-                  {sessionList.type === "joined" &&
-                    "You haven't joined any sessions yet."}
-                  {sessionList.type === "other" &&
-                    "No more sessions are available to join."}
+                  {sessionList.type === "created" && "Хоосон байна."}
+                  {sessionList.type === "joined" && "Хоосон байна."}
+                  {sessionList.type === "other" && "Хоосон байна."}
                 </p>
               </div>
             )}
