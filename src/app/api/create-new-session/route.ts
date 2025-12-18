@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
     const ably = new Ably.Rest({ key: process.env.ABLY_API_KEY });
     await ably.channels
       .get("sessions")
-      .publish({ name: "session-created", data: { updatedSession } });
+      .publish("session-created", updatedSession);
 
     return NextResponse.json(
       { message: "New session created successfully" },
