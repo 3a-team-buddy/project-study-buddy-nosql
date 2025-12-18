@@ -9,7 +9,6 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui";
-import { BsLink } from "react-icons/bs";
 import { InviteBtnDialogContent } from "@/app/(protected)/main-page-session/_components";
 import { CreateSessionType } from "@/lib/types";
 import { FaRegShareFromSquare } from "react-icons/fa6";

@@ -2,18 +2,22 @@
 
 import React, { useEffect, useState } from "react";
 import { CreateSessionType, JoinedStudentType } from "@/lib/types";
-import { Button } from "@/components/ui";
+import {
+  Button,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui";
 import {
   InviteBtnDialog,
   JoinBtn,
   SessionCardDetails,
   SessionRatingDialog,
 } from "@/app/(protected)/main-page-session/_components";
-import {
-  SESSION_STATUS_MN_MAP,
-  SESSION_TYPE_MN_MAP,
-} from "@/lib/constants/sessionLabels";
+import { SESSION_STATUS_MN_MAP } from "@/lib/constants/sessionLabels";
 import { useSessionDuetime } from "@/app/_hooks/use-session-duetime";
+import { TutorIcon } from "@/app/_components-main-page/icons/TutorIcon";
+import { SelfIcon } from "@/app/_components-main-page/icons/SelfIcon";
 
 export const SessionCard = ({
   session,
@@ -131,15 +135,20 @@ export const SessionCard = ({
             </p>
           )}
 
-          <p
-            className={`text-sm cursor-pointer ${
-              session.selectedSessionType === "TUTOR-LED"
-                ? "text-purple-300 hover:text-purple-200"
-                : "text-purple-500 hover:text-purple-400"
-            }`}
-          >
-            {SESSION_TYPE_MN_MAP[session.selectedSessionType]}
-          </p>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              {session.selectedSessionType === "TUTOR-LED" ? (
+                <TutorIcon className="w-5 h-5 text-purple-300 hover:text-purple-200" />
+              ) : (
+                <SelfIcon className="w-5 h-5 text-purple-500 hover:text-purple-400" />
+              )}
+            </TooltipTrigger>
+            <TooltipContent>
+              {session.selectedSessionType === "TUTOR-LED"
+                ? "Ментортой"
+                : "Бие даасан"}
+            </TooltipContent>
+          </Tooltip>
 
           {session.selectedSessionType === "TUTOR-LED" && (
             <span className="text-sm">
