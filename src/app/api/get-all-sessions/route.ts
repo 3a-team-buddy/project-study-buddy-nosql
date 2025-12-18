@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 import { MockUser } from "@/lib/models/MockUser";
 import { Session } from "@/lib/models/Session";
 import { getAllSessions } from "@/lib/services/create-session-service";
-import Ably from "ably";
 
 export async function GET() {
   try {

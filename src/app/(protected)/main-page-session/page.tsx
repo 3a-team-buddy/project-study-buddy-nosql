@@ -109,7 +109,7 @@ const SessionPage = () => {
               {allSessions
                 .filter((s) => s.isRated && s.status === "COMPLETED")
                 .map((session) => (
-                  <div>
+                  <div key={session._id}>
                     <div>{session.isRated}</div>
                   </div>
                 ))}
