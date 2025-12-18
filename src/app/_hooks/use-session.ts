@@ -226,15 +226,27 @@ export const useSession = () => {
 
       const { sessionId, status, isRated } = message.data;
 
-      setSessions((prev) => ({
-        ...prev,
-        createdSessions: prev.createdSessions.filter(
-          (s) => s._id !== sessionId
-        ),
-        allSessions: prev.allSessions.map((s) =>
-          s._id === sessionId ? { ...s, status, isRated } : s
-        ),
-      }));
+      setSessions((prev) => {
+        const update = (sessions: CreateSessionType[]) =>
+          sessions.map((s) =>
+            s._id === sessionId ? { ...s, status, isRated } : s
+          );
+
+        return {
+          allSessions: update(prev.allSessions),
+
+          createdSessions: update(prev.createdSessions).filter(
+            (s) => !(s.status === "COMPLETED" && s.isRated)
+          ),
+          joinedSessions: update(prev.joinedSessions).filter(
+            (s) => !(s.status === "COMPLETED" && s.isRated)
+          ),
+          otherSessions: update(prev.otherSessions).filter(
+            (s) => !(s.status === "COMPLETED" && s.isRated)
+          ),
+          userId: null,
+        };
+      });
     };
 
     channel.subscribe("session-created", handleCreated);

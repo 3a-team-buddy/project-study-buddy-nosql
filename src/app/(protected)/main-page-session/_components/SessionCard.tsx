@@ -18,6 +18,7 @@ import { SESSION_STATUS_MN_MAP } from "@/lib/constants/sessionLabels";
 import { useSessionDuetime } from "@/app/_hooks/use-session-duetime";
 import { TutorIcon } from "@/app/_components-main-page/icons/TutorIcon";
 import { SelfIcon } from "@/app/_components-main-page/icons/SelfIcon";
+import { getRemainingDay } from "@/lib/get-remaining-days";
 
 export const SessionCard = ({
   session,
@@ -29,6 +30,7 @@ export const SessionCard = ({
   const [open, setOpen] = useState(false);
   const [joinedStudents, setJoinedStudents] = useState<JoinedStudentType[]>([]);
   const { isDuetime } = useSessionDuetime(session.value, session.time);
+  const { label, isToday, isExpired } = getRemainingDay(session.value);
 
   const handleSessionCardDetail = async () => {
     setOpen((prev) => !prev);
@@ -90,14 +92,17 @@ export const SessionCard = ({
           className="text-base leading-5 hover:bg-white/4 text-white/80 hover:text-white rounded-full flex-1 justify-start cursor-pointer"
         >
           <div className="flex justify-between items-center gap-5">
-            <p className="bg-[#2563EB] hover:bg-[#1d4ed8] px-3 py-2 rounded-full text-xl">
+            <p className="px-3 py-2 rounded-full text-xl">
               {session.sessionTopicTitle}
             </p>
 
-            <p className="flex gap-1 text-xs text-gray-400 text-start animate-pulse">
+            <p className="flex gap-1 text-xs text-gray-400 text-start">
               <span>{formatToMonthDay(session.value)}</span>
               <span>{session.time}</span>
               <span>@{session.room}</span>
+              <span className={`${isToday ? "animate-pulse" : ""}`}>
+                {label}
+              </span>
             </p>
           </div>
         </Button>
@@ -138,23 +143,17 @@ export const SessionCard = ({
           <Tooltip>
             <TooltipTrigger asChild>
               {session.selectedSessionType === "TUTOR-LED" ? (
-                <TutorIcon className="w-5 h-5 text-purple-300 hover:text-purple-200" />
+                <TutorIcon className="w-4 h-4 text-purple-300 hover:text-purple-200 cursor-pointer" />
               ) : (
-                <SelfIcon className="w-5 h-5 text-purple-500 hover:text-purple-400" />
+                <SelfIcon className="w-4 h-4 text-gray-500 hover:text-gray-400 cursor-pointer" />
               )}
             </TooltipTrigger>
             <TooltipContent>
               {session.selectedSessionType === "TUTOR-LED"
-                ? "Ментортой"
+                ? `Ментор ${session.assignedTutor?.mockUserName}`
                 : "Бие даасан"}
             </TooltipContent>
           </Tooltip>
-
-          {session.selectedSessionType === "TUTOR-LED" && (
-            <span className="text-sm">
-              {session.assignedTutor?.mockUserName?.split(" ")[0]}
-            </span>
-          )}
 
           {!isDuetime && sessionListType === "other" && (
             <JoinBtn session={session} />

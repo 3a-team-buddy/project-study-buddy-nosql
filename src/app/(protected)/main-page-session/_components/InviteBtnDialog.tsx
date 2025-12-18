@@ -8,6 +8,7 @@ import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
+  TooltipProvider,
 } from "@/components/ui";
 import { InviteBtnDialogContent } from "@/app/(protected)/main-page-session/_components";
 import { CreateSessionType } from "@/lib/types";
@@ -19,22 +20,24 @@ export function InviteBtnDialog({ session }: { session: CreateSessionType }) {
 
   return (
     <Dialog open={openInvite} onOpenChange={setOpenInvite}>
-      <DialogTrigger asChild>
-        <Button
-          disabled={session.studentCount?.length === session.maxMember}
-          className={`rounded-full bg-[#2563EB17] hover:bg-[#2563EB33] gap-1 cursor-pointer font-bold text-[#1d4ed8] hover:text-[#2563EB]
+      <TooltipProvider delayDuration={150}>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DialogTrigger asChild>
+              <Button
+                disabled={session.studentCount?.length === session.maxMember}
+                className={`rounded-full bg-[#2563EB17] hover:bg-[#2563EB33] gap-1 cursor-pointer font-bold text-[#1d4ed8] hover:text-[#2563EB]
               }`}
-        >
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <FaRegShareFromSquare />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Урих Холбоос</p>
-            </TooltipContent>
-          </Tooltip>
-        </Button>
-      </DialogTrigger>
+              >
+                <FaRegShareFromSquare />
+              </Button>
+            </DialogTrigger>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Урих Холбоос</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
 
       <InviteBtnDialogContent
         session={session}
