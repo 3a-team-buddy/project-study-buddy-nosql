@@ -19,6 +19,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui";
+import SessionHistoryDetails from "./_components/SessionHistoryDetails";
 
 const SessionPage = () => {
   const [sessionTopicTitle, setSessionTopicTitle] = useState<string>("");
@@ -32,7 +33,6 @@ const SessionPage = () => {
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
   const [selectedReward, setSelectedReward] = useState<string>("");
-  const [open, setOpen] = useState<boolean>(false);
 
   const { allSessions } = useSession();
 
@@ -112,26 +112,10 @@ const SessionPage = () => {
             </div>
           </TabsContent>
           <TabsContent value="Түүх">
-            <div className="max-w-[480px] w-full h-fit text-white flex flex-col gap-2 rounded-2xl px-8 py-6 bg-linear-to-b from-[#1E2648]/50 to-[#122136]/50 backdrop-blur-3xl border border-white/10 shadow-2xl sticky top-36">
-              {allSessions
-                ?.filter((s) => s.isRated && s.status === "COMPLETED")
-                .map((session) => (
-                  <Button
-                    onClick={() => setOpen(!open)}
-                    className="justify-start cursor-pointer"
-                  >
-                    <div key={session._id}>{session.sessionTopicTitle}</div>
-                    {open && (
-                      <div>
-                        <p>{session.value}</p>
-                        <p>{session.time}</p>
-                        <p>{session?.rating?.selectedSessionRating}</p>
-                        <p>{session?.rating?.selectedTutorRating}</p>
-                        <p>{session?.rating?.feedback}</p>
-                      </div>
-                    )}
-                  </Button>
-                ))}
+            <div className=" min-w-120 h-fit text-white flex-1  gap-2 rounded-2xl px-8 py-6 bg-linear-to-b from-[#1E2648]/50 to-[#122136]/50 backdrop-blur-3xl border border-white/10 shadow-2xl sticky top-36">
+              <div>
+                <SessionHistoryDetails allSessions={allSessions} />
+              </div>
             </div>
           </TabsContent>
         </Tabs>

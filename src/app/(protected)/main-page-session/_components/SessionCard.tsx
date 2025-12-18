@@ -27,14 +27,14 @@ export const SessionCard = ({
   session: CreateSessionType;
   sessionListType: "created" | "joined" | "other";
 }) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [joinedStudents, setJoinedStudents] = useState<JoinedStudentType[]>([]);
   const { isDuetime } = useSessionDuetime(session.value, session.time);
   const { label, isToday, isExpired } = getRemainingDay(session.value);
 
   const handleSessionCardDetail = async () => {
-    setOpen((prev) => !prev);
-
+    // setOpen((prev) => !prev);
+    setOpen(!open);
     const result = await fetch("/api/get-joined-students", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -83,7 +83,7 @@ export const SessionCard = ({
     completed && sessionListType === "created" && !session.isRated;
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-1">
       <div className="w-full rounded-2xl px-6 py-4 bg-linear-to-b from-[#1E2648]/90 to-[#122136]/20 flex gap-3 justify-between items-center">
         <Button
           asChild
