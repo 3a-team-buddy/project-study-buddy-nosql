@@ -29,6 +29,8 @@ export async function GET() {
 
     const userId = user._id;
 
+    new Rating();
+
     const createdSessions = await Session.find({ creatorId: userId })
       .populate("assignedTutor", "mockUserName")
       .populate("rating")

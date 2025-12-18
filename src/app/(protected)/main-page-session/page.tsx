@@ -12,7 +12,13 @@ import {
   SessionTypeSelector,
   StudySessionTitleAndDescription,
 } from "./_components";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
+import {
+  Button,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui";
 
 const SessionPage = () => {
   const [sessionTopicTitle, setSessionTopicTitle] = useState<string>("");
@@ -26,6 +32,7 @@ const SessionPage = () => {
   const [selectedSessionType, setSelectedSessionType] = useState<string>("");
   const [selectedTutors, setSelectedTutors] = useState<SelectedTutorType[]>([]);
   const [selectedReward, setSelectedReward] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
 
   const { allSessions } = useSession();
 
@@ -105,19 +112,25 @@ const SessionPage = () => {
             </div>
           </TabsContent>
           <TabsContent value="Түүх">
-            <div className="max-w-[480px] w-full h-fit text-white flex flex-col gap-10 rounded-2xl px-8 py-6 bg-linear-to-b from-[#1E2648]/50 to-[#122136]/50 backdrop-blur-3xl border border-white/10 shadow-2xl sticky top-36">
+            <div className="max-w-[480px] w-full h-fit text-white flex flex-col gap-2 rounded-2xl px-8 py-6 bg-linear-to-b from-[#1E2648]/50 to-[#122136]/50 backdrop-blur-3xl border border-white/10 shadow-2xl sticky top-36">
               {allSessions
                 ?.filter((s) => s.isRated && s.status === "COMPLETED")
                 .map((session) => (
-                  <div key={session._id}>
-                    <div className="text-white">
-                      <p>{session.sessionTopicTitle}</p>
-
-                      <p>{session?.rating?.selectedSessionRating}</p>
-                      <p>{session?.rating?.selectedTutorRating}</p>
-                      <p>{session?.rating?.feedback}</p>
-                    </div>
-                  </div>
+                  <Button
+                    onClick={() => setOpen(!open)}
+                    className="justify-start cursor-pointer"
+                  >
+                    <div key={session._id}>{session.sessionTopicTitle}</div>
+                    {open && (
+                      <div>
+                        <p>{session.value}</p>
+                        <p>{session.time}</p>
+                        <p>{session?.rating?.selectedSessionRating}</p>
+                        <p>{session?.rating?.selectedTutorRating}</p>
+                        <p>{session?.rating?.feedback}</p>
+                      </div>
+                    )}
+                  </Button>
                 ))}
             </div>
           </TabsContent>
