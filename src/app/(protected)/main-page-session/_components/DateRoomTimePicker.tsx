@@ -82,7 +82,7 @@ export const DateRoomTimePicker = ({
 
   const fullyBookedDates: string[] = [];
 
-  allSessions.forEach((s) => {
+  allSessions?.forEach((s) => {
     const sameDay = allSessions.filter((x) => x.value === s.value);
 
     if (sameDay.length === rooms.length * schedules.length) {
@@ -93,15 +93,15 @@ export const DateRoomTimePicker = ({
   });
 
   const availableRooms = rooms.filter((r) => {
-    const sessionOfRoom = allSessions.filter(
+    const sessionOfRoom = allSessions?.filter(
       (s) => s.value === value && s.room === r
     );
 
-    return sessionOfRoom.length < schedules.length;
+    return sessionOfRoom?.length < schedules.length;
   });
 
   let availableTimes = schedules.filter((t) => {
-    return !allSessions.some(
+    return !allSessions?.some(
       (s) => s.value === value && s.room === room && s.time === t
     );
   });

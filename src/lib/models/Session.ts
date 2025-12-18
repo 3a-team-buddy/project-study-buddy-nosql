@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import { Rating } from "@/lib/models/Rating";
 
 type SessionSchemaType = {
   sessionTopicTitle: string;
@@ -67,6 +68,8 @@ const SessionSchema = new Schema(
   {
     timestamps: true,
     versionKey: false,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 

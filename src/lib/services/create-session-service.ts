@@ -7,7 +7,7 @@ export const getAllSessions = async () => {
 
   return await Session.find()
     .populate("assignedTutor", "mockUserName")
-    .populate("ratings")
+    .populate("rating")
     .sort({ createdAt: -1 })
     .lean({ virtuals: true });
 };

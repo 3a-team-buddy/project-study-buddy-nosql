@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { MockUser } from "@/lib/models/MockUser";
 import { Session } from "@/lib/models/Session";
 import { getAllSessions } from "@/lib/services/create-session-service";
+import { Rating } from "@/lib/models/Rating";
 
 export async function GET() {
   try {
@@ -30,7 +31,7 @@ export async function GET() {
 
     const createdSessions = await Session.find({ creatorId: userId })
       .populate("assignedTutor", "mockUserName")
-      .populate("ratings")
+      .populate("rating")
       .lean({ virtuals: true });
 
     const joinedSessions = await Session.find({
@@ -38,7 +39,7 @@ export async function GET() {
       creatorId: { $ne: userId },
     })
       .populate("assignedTutor", "mockUserName")
-      .populate("ratings")
+      .populate("rating")
       .lean({ virtuals: true });
 
     const otherSessions = await Session.find({
@@ -46,7 +47,7 @@ export async function GET() {
       studentCount: { $nin: [userId.toString()] },
     })
       .populate("assignedTutor", "mockUserName")
-      .populate("ratings")
+      .populate("rating")
       .lean({ virtuals: true });
 
     const allSessions = await getAllSessions();

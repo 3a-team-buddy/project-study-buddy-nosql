@@ -47,10 +47,10 @@ export const useSession = () => {
 
     setSessions({
       createdSessions: data?.createdSessions,
-      joinedSessions: data.joinedSessions,
-      otherSessions: data.otherSessions,
-      allSessions: data.allSessions,
-      userId: data.userId,
+      joinedSessions: data?.joinedSessions,
+      otherSessions: data?.otherSessions,
+      allSessions: data?.allSessions,
+      userId: data?.userId,
     });
 
     setIsLoading(false);

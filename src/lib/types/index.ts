@@ -41,6 +41,9 @@ export type CreateSessionType = {
   assignedTutor?: MockUserType;
   selectedReward: string;
   isRated?: boolean;
+
+  rating?: RatingType;
+
   createdAt?: string;
   updatedAt?: string;
 };
@@ -83,6 +86,17 @@ export type SelectedTutorPopulatedType = {
   createdSessionId: Types.ObjectId;
   order: number;
   invitationStatus: "WAITING" | "SENT" | "ACCEPTED" | "DECLINED";
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+export type RatingType = {
+  _id: string;
+  sessionId: string;
+  selectedSessionRating: "NORMAL" | "GOOD" | "EXCELLENT";
+  selectedTutorRating: "NORMAL" | "GOOD" | "EXCELLENT";
+  feedback?: string;
+  creatorId: MockUserType;
+  createdAt?: string;
+  updatedAt?: string;
 };
