@@ -13,25 +13,7 @@ import {
 } from "@/components/ui";
 import { CreateSessionType } from "@/lib/types";
 
-const schedules = [
-  "17:10",
-  "17:20",
-  "17:30",
-  "17:40",
-  "17:50",
-  "18:00",
-  "18:10",
-  "18:20",
-  "18:30",
-  "18:40",
-  "18:50",
-
-  "13:00",
-  "14:00",
-  "15:00",
-  "16:00",
-  "17:00",
-];
+const schedules = ["13:00", "14:00", "15:00", "16:00", "17:00"];
 const rooms = ["301", "302", "303", "304", "305"];
 
 export const DateRoomTimePicker = ({
@@ -108,7 +90,7 @@ export const DateRoomTimePicker = ({
   if (isWeekend) {
     availableTimes = availableTimes.filter((t) => t <= "16:00");
   } else {
-    availableTimes = availableTimes.filter((t) => t >= "09:30");
+    availableTimes = availableTimes.filter((t) => t >= "13:00");
   }
 
   useEffect(() => {
