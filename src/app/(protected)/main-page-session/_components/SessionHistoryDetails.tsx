@@ -50,7 +50,7 @@ const SessionHistoryDetails = ({
                     onClick={() => handleReviewDetail(session._id)}
                     className="justify-start cursor-pointer flex-1  items-start bg-linear-to-b from-[#171d36] to-[#0f1927]"
                   >
-                    {session.sessionTopicTitle}
+                    {session?.sessionTopicTitle}
                   </Button>
                   {isOpen && (
                     <div className="flex flex-col gap-3 mt-1 px-10 py-5 bg-linear-to-b from-[#161b30] to-[#23549e] rounded-xl text-sm">
