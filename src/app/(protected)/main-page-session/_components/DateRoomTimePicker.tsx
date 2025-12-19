@@ -14,14 +14,6 @@ import {
 import { CreateSessionType } from "@/lib/types";
 
 const schedules = [
-  "9:50",
-  "9:55",
-  "10:00",
-  "10:05",
-  "10:10",
-  "10:15",
-  "10:20",
-  "10:25",
   "10:30",
   "10:35",
   "10:40",
@@ -127,7 +119,7 @@ export const DateRoomTimePicker = ({
   if (isWeekend) {
     availableTimes = availableTimes.filter((t) => t <= "16:00");
   } else {
-    availableTimes = availableTimes.filter((t) => t >= "13:00");
+    availableTimes = availableTimes.filter((t) => t >= "10:30");
   }
 
   useEffect(() => {
