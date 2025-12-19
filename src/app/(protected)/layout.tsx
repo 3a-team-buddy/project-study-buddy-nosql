@@ -49,7 +49,7 @@ export default function RootLayout({
   }
 
   return (
-    <div className="h-full w-screen bg-black">
+    <div className="w-fit h-full sm:w-screen bg-black">
       <Header />
       <div>
         <div className="flex gap-6">{children}</div>

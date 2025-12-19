@@ -37,7 +37,7 @@ export const SessionListComp = () => {
   ];
 
   return (
-    <div className="flex-1">
+    <div className="flex-1 sm:p-0 px-8">
       <div className="flex flex-col gap-10">
         {sessionLists.map((sessionList) => (
           <div key={sessionList.title} className="flex flex-col gap-3">
