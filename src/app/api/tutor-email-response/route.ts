@@ -7,6 +7,7 @@ import { sendJoinedStudentsTutorSessionConfirmEmail } from "@/lib/services/sendJ
 import { sendTutorAssignmentConfirmEmail } from "@/lib/services/sendTutorAssignmentConfirmEmail";
 import { sendNextTutorInviteEmail } from "@/lib/services/sendNextTutorInviteEmail";
 import { sendCreatorAllTutorsDeclinedEmail } from "@/lib/services/sendCreatorAllTutorsDeclinedEmail";
+import Ably from "ably";
 
 export async function GET(request: NextRequest) {
   await connectDB();
@@ -70,6 +71,18 @@ export async function GET(request: NextRequest) {
     updatedSession.assignedTutor = tutor.tutorId._id;
     await updatedSession.save();
 
+    const ably = new Ably.Rest({
+      key: process.env.ABLY_API_KEY,
+    });
+    await ably.channels.get("sessions").publish({
+      name: "session-rated",
+      data: {
+        sessionId: updatedSession._id.toString(),
+        status: "ACCEPTED",
+        isRated: false,
+      },
+    });
+
     await sendJoinedStudentsTutorSessionConfirmEmail(updatedSession);
 
     await sendTutorAssignmentConfirmEmail(updatedSession, tutor);
@@ -90,6 +103,18 @@ export async function GET(request: NextRequest) {
   }
 
   const nextTutorSent = await sendNextTutorInviteEmail(updatedSession);
+
+  const ably = new Ably.Rest({
+    key: process.env.ABLY_API_KEY,
+  });
+  await ably.channels.get("sessions").publish({
+    name: "session-rated",
+    data: {
+      sessionId: updatedSession._id.toString(),
+      status: updatedSession.status, // still pending
+      isRated: false,
+    },
+  });
 
   if (!nextTutorSent) {
     const creator = await MockUser.findById(

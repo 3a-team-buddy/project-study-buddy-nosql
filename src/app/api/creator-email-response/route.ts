@@ -3,6 +3,7 @@ import connectDB from "@/lib/mongodb";
 import { sendCreatorCanceledEmail } from "@/lib/services/sendCreatorCanceledEmail";
 import { sendCreatorSelfLedEmail } from "@/lib/services/sendCreatorSelfLedEmail";
 import { NextRequest, NextResponse } from "next/server";
+import Ably from "ably";
 
 export async function GET(request: NextRequest) {
   await connectDB();
@@ -31,6 +32,18 @@ export async function GET(request: NextRequest) {
     session.status = "CANCELED";
     await session.save();
 
+    const ably = new Ably.Rest({
+      key: process.env.ABLY_API_KEY,
+    });
+    await ably.channels.get("sessions").publish({
+      name: "session-rated", // client subscribe хийж байгаа name
+      data: {
+        sessionId: session._id.toString(),
+        status: "CANCELED",
+        isRated: false,
+      },
+    });
+
     await sendCreatorCanceledEmail(session);
 
     return NextResponse.redirect(
@@ -42,6 +55,18 @@ export async function GET(request: NextRequest) {
     session.selectedSessionType = "SELF-LED";
     session.status = "ACCEPTED";
     await session.save();
+
+    const ably = new Ably.Rest({
+      key: process.env.ABLY_API_KEY,
+    });
+    await ably.channels.get("sessions").publish({
+      name: "session-rated",
+      data: {
+        sessionId: session._id.toString(),
+        status: "ACCEPTED",
+        isRated: false,
+      },
+    });
 
     await sendCreatorSelfLedEmail(session);
 
