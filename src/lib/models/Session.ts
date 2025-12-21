@@ -20,7 +20,7 @@ type SessionSchemaType = {
     | "ONGOING"
     | "COMPLETED";
   assignedTutor?: mongoose.Types.ObjectId | null;
-  selectedReward: "COFFEE" | "CAKE" | "MONEY";
+  selectedReward?: "COFFEE" | "CAKE" | "MONEY";
   isRated: boolean;
 };
 
@@ -61,7 +61,9 @@ const SessionSchema = new Schema(
     selectedReward: {
       type: String,
       enum: ["COFFEE", "CAKE", "MONEY"],
-      required: true,
+      required: function () {
+        return this.selectedSessionType === "TUTOR-LED";
+      },
     },
     isRated: { type: Boolean, default: false },
   },

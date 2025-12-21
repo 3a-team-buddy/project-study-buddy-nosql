@@ -33,7 +33,6 @@ export const SessionCard = ({
   const { label, isToday, isExpired } = getRemainingDay(session.value);
 
   const handleSessionCardDetail = async () => {
-    // setOpen((prev) => !prev);
     setOpen(!open);
     const result = await fetch("/api/get-joined-students", {
       method: "POST",

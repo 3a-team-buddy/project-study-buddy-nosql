@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import {
   Button,
@@ -9,7 +9,6 @@ import {
 import { CreateSessionType } from "@/lib/types";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/nextjs";
-import { FaPeoplePulling } from "react-icons/fa6";
 import { MdGroupAdd } from "react-icons/md";
 
 export const JoinBtn = ({ session }: { session: CreateSessionType }) => {

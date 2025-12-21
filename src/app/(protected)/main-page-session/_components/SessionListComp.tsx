@@ -4,7 +4,6 @@ import React from "react";
 import { useSession } from "@/app/_hooks/use-session";
 import {
   FilteredSessionCard,
-  SessionCard,
   SessionListSkeleton,
 } from "@/app/(protected)/main-page-session/_components";
 import { CreateSessionType, SessionListType } from "@/lib/types";

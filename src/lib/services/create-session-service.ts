@@ -22,9 +22,14 @@ export const createNewSession = async (
   time: string,
   selectedSessionType: string,
   creatorId: mongoose.Types.ObjectId,
-  selectedReward: string
+  selectedReward?: string | null
 ) => {
   await connectDB();
+
+  const rewardToSave =
+    selectedSessionType === "TUTOR-LED" && selectedReward
+      ? selectedReward.toUpperCase()
+      : null;
   const newSession = new Session({
     sessionTopicTitle,
     description,
@@ -38,7 +43,7 @@ export const createNewSession = async (
     studentCount: [],
     status: "WAITING",
     assignedTutor: null,
-    selectedReward,
+    selectedReward: rewardToSave,
     isRated: false,
   });
 

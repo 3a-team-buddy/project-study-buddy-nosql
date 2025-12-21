@@ -33,7 +33,15 @@ export const SessionTypeSelector = ({
     setSelectedSessionType(value);
   };
 
+  const handleSelfLedMode = () => {
+    setSelectedTutors([]);
+    setSelectedReward("");
+    setSelectedSessionType("self-led");
+  };
+
   const addSelectedTutors = () => {
+    if (!tutorLedInputValue) return;
+
     const newSelectedTutors = [
       ...selectedTutors,
       {
@@ -68,10 +76,6 @@ export const SessionTypeSelector = ({
     if (orderedRemainedTutors) {
       setSelectedTutors(orderedRemainedTutors);
     }
-  };
-
-  const handleSelfLedMode = () => {
-    setSelectedTutors([]);
   };
 
   const notChosenTutors = selectedTutors.map((tutor) => tutor.mockUserEmail);

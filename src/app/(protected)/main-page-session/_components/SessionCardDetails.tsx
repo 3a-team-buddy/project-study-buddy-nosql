@@ -8,7 +8,6 @@ import {
   ParticipantsList,
   SessionDeleteBtn,
   SessionDetails,
-  SessionEditBtn,
   SessionLeaveBtn,
 } from "@/app/(protected)/main-page-session/_components";
 import { EditBtnTrigger } from "./EditBtnTrigger";

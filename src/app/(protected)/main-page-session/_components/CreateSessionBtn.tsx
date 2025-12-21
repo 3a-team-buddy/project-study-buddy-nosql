@@ -68,7 +68,8 @@ export const CreateSessionBtn = ({
         !selectedSessionType ||
         !selectedTutors ||
         !token ||
-        !selectedReward
+        (selectedSessionType === "tutor-led" &&
+          (!selectedReward || selectedTutors.length === 0))
       ) {
         toast.warning("All fields are required!");
         return;

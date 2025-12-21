@@ -12,13 +12,7 @@ import {
   SessionTypeSelector,
   StudySessionTitleAndDescription,
 } from "./_components";
-import {
-  Button,
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
 import SessionHistoryDetails from "./_components/SessionHistoryDetails";
 
 const SessionPage = () => {
